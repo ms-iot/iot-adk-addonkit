@@ -32,7 +32,7 @@
     <MSFeatureGroups />
     <OEM>
       <!-- Optional Device Drivers -->
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBM.GPIO.cab">
+      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.BYT.GPIO.cab">
         <FeatureIDs>
           <FeatureID>MBM_GPIO_DRIVER</FeatureID>
         </FeatureIDs>
