@@ -17,7 +17,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 
 * [IoT Core OS Packages](https://www.microsoft.com/en-us/download/details.aspx?id=55031)
 * [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit#winADK)
-* [Windows Driver Kit - WDK](https://go.microsoft.com/fwlink/p/?LinkId=526733)
+* [Windows Driver Kit - WDK](https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit)
 * [Windows 10 IoT Core Dashboard](https://developer.microsoft.com/windows/iot/docs/iotdashboard)
 
 ## BSPs
