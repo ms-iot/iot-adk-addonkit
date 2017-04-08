@@ -40,11 +40,11 @@ if /I [%1] == [All] (
     echo Building all provisioning packages
     call buildprovpkg.cmd all
 
-    echo Signing all binaries
+    REM echo Signing binaries in %COMMON_DIR%
     REM call signbinaries.cmd ppkg %COMMON_DIR%
-    REM signing bsp only, not ppkgs
-    call signbinaries.cmd bsp %SRC_DIR%
-    
+    echo Signing binaries in %PKGSRC_DIR%
+    call signbinaries.cmd bsp %PKGSRC_DIR%
+
     echo Building all packages under %COMMON_DIR%\Packages
     dir %COMMON_DIR%\Packages\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt
 
@@ -55,13 +55,10 @@ if /I [%1] == [All] (
 
     call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt %2
 
-    echo Building all bsp packages under %BSPSRC_DIR%
-    dir %BSPSRC_DIR%\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt
-
-    call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt %2
-
-    echo Building FeatureMerger
-    call buildfm.cmd all
+    REM Comment the below line to force re-signing of the bsp drivers
+    set SIGNFILES=NONE
+    echo Building all bsps
+    call buildbsp all %2
 
 ) else if /I [%1] == [Clean] (
     call buildprovpkg.cmd clean
@@ -81,20 +78,25 @@ if /I [%1] == [All] (
             dir "%COMMON_DIR%\Packages\%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt
         ) else if exist "%1" (
             REM Enabling support for multiple .pkg.xml files in one directory.
-            dir "%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt
+            dir "%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
         ) else (
             REM Check if its in BSP path
             cd /D "%BSPSRC_DIR%"
-            dir "%1" /S /B > %PKGLOG_DIR%\packagedir.txt 2>nul
-            set /P RESULT=<%PKGLOG_DIR%\packagedir.txt
-            if not defined RESULT (
-                echo Error : %1 not found
-                goto Usage
+            if exist "%1" (
+                echo.%1 is a bsp folder. Invoking buildbsp
+                call buildbsp.cmd %1 %2
             ) else (
-                if !RESULT! NEQ "" (
-                   echo Signing all binaries in !RESULT!
-                   call signbinaries.cmd bsp !RESULT!
-                   dir "!RESULT!\*.pkg.xml" /S /B > %PKGLOG_DIR%\packagelist.txt
+                dir "%1" /S /B > %PKGLOG_DIR%\packagedir.txt 2>nul
+                set /P RESULT=<%PKGLOG_DIR%\packagedir.txt
+                if not defined RESULT (
+                    echo.%CLRRED%Error : %1 not found.%CLREND%
+                    goto Usage
+                ) else (
+                    if !RESULT! NEQ "" (
+                       echo Signing all binaries in !RESULT!
+                       call signbinaries.cmd bsp !RESULT!
+                       dir "!RESULT!\*.pkg.xml" /S /B > %PKGLOG_DIR%\packagelist.txt
+                    )
                 )
             )
         )
@@ -118,10 +120,13 @@ REM Processes the file list, calls createpkg for each item in the list
 REM
 REM -------------------------------------------------------------------------------
 :SUB_PROCESSLIST
-
-for /f "delims=" %%i in (%1) do (
-   echo. Processing %%~nxi
-   call createpkg.cmd %%i %2 > %PKGLOG_DIR%\%%~ni.log
-   if not errorlevel 0 ( echo. Error : Failed to create package. See %PKGLOG_DIR%\%%~ni.log )
+if %~z1 gtr 0 (
+    for /f "delims=" %%i in (%1) do (
+       echo. Processing %%~nxi
+       call createpkg.cmd %%i %2 > %PKGLOG_DIR%\%%~ni.log
+       if not errorlevel 0 ( echo.%CLRRED%Error : Failed to create package. See %PKGLOG_DIR%\%%~ni.log%CLREND%)
+    )
+) else (
+    echo.%CLRRED%Error: No package definition files found.%CLREND%
 )
 exit /b

@@ -25,7 +25,7 @@ for %%A in (%SUPPORTED_ARCH%) do (
 )
 
 if not defined FOUND (
-    echo.Error: %1 not supported
+    echo.%CLRRED%Error: %1 not supported%CLREND%
     goto USAGE
 ) else (
     echo Configuring for %1 architecture
