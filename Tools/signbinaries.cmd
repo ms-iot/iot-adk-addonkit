@@ -25,7 +25,7 @@ if [%2] == [] goto Usage
 if not exist "%2" goto Usage
 
 if /I [%SIGNFILES%] == [NONE] (
-    echo. SIGNFILES set to NONE. Signing skipped.
+    echo. %CLRYEL%SIGNFILES set to NONE. Signing skipped.%CLREND%
     exit /b 0
 )
 
@@ -49,7 +49,7 @@ for %%A in (%SIGNFILES%) do (
             call sign.cmd %%i >> %PKGLOG_DIR%\signbinaries.log
         )
     ) else (
-        echo.   No %%A files
+        echo.   %CLRYEL%No %%A files.%CLREND%
     )
 )
 endlocal
