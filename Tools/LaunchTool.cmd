@@ -1,5 +1,9 @@
 @echo off
 
+set CLRRED=[91m
+set CLRYEL=[93m
+set CLREND=[0m
+
 REM Set IOTADK_ROOT
 set IOTADK_ROOT=%~dp0
 REM Getting rid of the \Tools\ at the end
@@ -18,7 +22,7 @@ REG QUERY "HKLM\Software\Microsoft\Windows Kits\Installed Roots" /v %KitsRootReg
 
 if %wowRegKeyPathFound% EQU 0 (
   if %regKeyPathFound% EQU 0 (
-    echo KitsRoot not found, can't set common path for Deployment Tools
+    echo.%CLRRED%Error:No Windows Kits found. Install ADK.%CLREND%
     pause
     exit /b 
   ) else (
@@ -39,7 +43,7 @@ if exist "%KITPATH%\DandISetEnv.bat" (
     call "%KITPATH%\DandISetEnv.bat"
 ) else (
     echo.
-    echo.Error : ADK not found. Please install ADK.
+    echo.%CLRRED%Error : ADK not found. Please install ADK.%CLREND%
     echo.
     pause
     exit /b
@@ -75,7 +79,7 @@ if exist "%KITSROOT%\MSPackages" (
 ) else (
     set KIT_VERSION=NotFound
     set COREKIT_VER=NotFound
-    echo.Warning : Core kit packages not found. Image creation will fail.
+    echo.%CLRYEL%Warning : Core kit packages not found. Image creation will fail.%CLREND%
 )
 if defined KIT_VERSION (
     for /f "tokens=2,* delims=." %%A in ("%KIT_VERSION%") do ( set COREKIT_VER=%%B )
