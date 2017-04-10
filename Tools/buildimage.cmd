@@ -68,5 +68,5 @@ exit /b
 :CALL_CREATEIMAGE
 echo Creating %1 %2 Image, see %BLD_DIR%\%1_%2.log for progress
 call createimage.cmd %1 %2 > %BLD_DIR%\%1_%2.log
-if errorlevel 1 ( echo. Error : Build failed. See Log for details )
+if errorlevel 1 ( echo.%CLRRED%Error : Build failed. See Log for details%CLREND% )
 exit /b 0

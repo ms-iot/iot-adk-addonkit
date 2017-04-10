@@ -76,6 +76,6 @@ if exist "%COMMON_PKG%\%1\customizations.xml" (
 
 echo. Processing %1
 call createprovpkg.cmd %CUSTOMXMLPATH%\customizations.xml %CUSTOMXMLPATH%\%PPKGNAME%.ppkg > %PKGLOG_DIR%\%PPKGNAME%.prov.log
-if errorlevel 1 ( echo. Error : Failed to create %PPKGNAME%.ppkg. See %PKGLOG_DIR%\%PPKGNAME%.prov.log )
+if errorlevel 1 ( echo.%CLRRED%Error : Failed to create %PPKGNAME%.ppkg. See %PKGLOG_DIR%\%PPKGNAME%.prov.log%CLREND% )
 
 exit /b
