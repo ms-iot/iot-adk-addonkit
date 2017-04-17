@@ -57,7 +57,7 @@ if /I [%1] == [All] (
 
     REM Comment the below line to force re-signing of the bsp drivers
     set SIGNFILES=NONE
-    echo Building all bsps
+    echo Building all bsps without re-signing
     call buildbsp all %2
 
 ) else if /I [%1] == [Clean] (
@@ -83,7 +83,8 @@ if /I [%1] == [All] (
             REM Check if its in BSP path
             cd /D "%BSPSRC_DIR%"
             if exist "%1" (
-                echo.%1 is a bsp folder. Invoking buildbsp
+                echo.%1 is a bsp folder. Invoking buildbsp without re-signing
+                set SIGNFILES=NONE
                 call buildbsp.cmd %1 %2
             ) else (
                 dir "%1" /S /B > %PKGLOG_DIR%\packagedir.txt 2>nul

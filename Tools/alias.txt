@@ -1,0 +1,20 @@
+i2p=inf2pkg $*
+a2p=appx2pkg $*
+x86=setenv x86
+x64=setenv x64
+arm=setenv arm
+bi=buildimage $*
+bp=buildpkg $*
+bpp=buildprovpkg $*
+bfm=buildfm $*
+nap=newappxpkg $*
+ndp=newdrvpkg $*
+ncp=newcommonpkg $*
+np=newproduct $*
+bsp=cd %BSPSRC_DIR%
+pkg=cd %PKGSRC_DIR%
+tools=cd %TOOLS_DIR%
+prod=cd %SRC_DIR%\Products
+bld=cd %BLD_DIR%
+clean=echo off $T buildpkg clean $T buildimage clean $T echo on
+

@@ -66,13 +66,13 @@ if exist "%KITSROOT%\MSPackages" (
     REM Get version number of the Corekit packages installed
     reg query "HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_ARM_Packages.x86.10" /v Version > %IOTADK_ROOT%\corekitversion.txt 2>nul
     if errorlevel 1 (
-	    reg query "HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_x86_Packages.x86.10" /v Version > %IOTADK_ROOT%\corekitversion.txt 2>nul
-		if errorlevel 1 (
+        reg query "HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_x86_Packages.x86.10" /v Version > %IOTADK_ROOT%\corekitversion.txt 2>nul
+        if errorlevel 1 (
            REM MSPackages present without this registry key - Assuming older version of packages.
            set COREKIT_VER=10586.0
-		)
+        )
     )
-	if not defined COREKIT_VER (
+    if not defined COREKIT_VER (
         for /F "skip=2 tokens=3" %%r in (%IOTADK_ROOT%\corekitversion.txt) do ( set KIT_VERSION=%%r )
     )
     del %IOTADK_ROOT%\corekitversion.txt
@@ -90,6 +90,7 @@ TITLE IoTCoreShell
 REM Change to Working directory
 cd /D %IOTADK_ROOT%\Tools
 call setOEM.cmd
+doskey /macrofile=alias.txt
 
 echo IOTADK_ROOT : %IOTADK_ROOT%
 echo WDK_VERSION : %WDK_VERSION%
