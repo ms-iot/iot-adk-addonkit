@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-16"?>
+<Task version="1.5" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+    <RegistrationInfo>
+    <URI>\Microsoft\Windows\IoT\DeviceEncryption</URI>
+    </RegistrationInfo>
+    <Principals>
+    <Principal id="LocalSystem">
+        <UserId>S-1-5-18</UserId>
+    </Principal>
+    </Principals>
+    <Settings>
+    <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
+    <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <IdleSettings>
+        <StopOnIdleEnd>false</StopOnIdleEnd>
+        <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <UseUnifiedSchedulingEngine>true</UseUnifiedSchedulingEngine>
+    </Settings>
+    <Triggers>
+    <WnfStateChangeTrigger>
+        <StateName>7518BCA3391E8B41</StateName>
+    </WnfStateChangeTrigger>
+    <WnfStateChangeTrigger>
+        <StateName>7508BCA32A1E890D</StateName>
+    </WnfStateChangeTrigger>
+    <WnfStateChangeTrigger>
+        <StateName>750CBCA3290B9641</StateName>
+    </WnfStateChangeTrigger>
+    <WnfStateChangeTrigger>
+        <StateName>7510BCA3391E8B41</StateName>
+    </WnfStateChangeTrigger>
+    </Triggers>
+    <Actions Context="LocalSystem">
+    <Exec>
+        <Command>%windir%\system32\SecTask.exe</Command>
+        <Arguments>-enable</Arguments>
+    </Exec>
+    </Actions>
+</Task>

@@ -25,6 +25,27 @@
         </FeatureIDs>
       </PackageFile>
 
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.BitLocker.cab">
+        <FeatureIDs>
+          <FeatureID>Sec_BitLocker</FeatureID>
+          <FeatureID>Sec_LockDown</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.SecureBoot.cab">
+        <FeatureIDs>
+          <FeatureID>Sec_SecureBoot</FeatureID>
+          <FeatureID>Sec_LockDown</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.DeviceGuard.cab">
+        <FeatureIDs>
+          <FeatureID>Sec_DeviceGuard</FeatureID>
+          <FeatureID>Sec_LockDown</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      
       <!-- Packages with Product specific contents included -->
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.Cmd.cab">
         <FeatureIDs>
