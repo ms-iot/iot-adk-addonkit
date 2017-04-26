@@ -3,7 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
-  <Description>Windows 10 IoT Core 8016sbc Retail FFU generation for arm.fre with build number 20150812-1709 by wesign</Description>
+  <Description>Windows 10 IoT Core 8016sbc Retail FFU </Description>
   <SOC>QC8016</SOC>
   <SV>Qualcomm</SV>
   <Device>8016sbc</Device>
@@ -41,9 +41,8 @@
       <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>    
       <Feature>IOT_CP210x_MAKERDRIVER</Feature>
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
-      <!-- Following two required for Appx Installation -->
+      <Feature>IOT_GENERIC_POP</Feature>  
       <Feature>IOT_UAP_OOBE</Feature>
-      <Feature>IOT_APP_TOOLKIT</Feature>
       <!-- Sample Apps, remove this when you introduce OEM Apps -->
       <Feature>IOT_BERTHA</Feature>
       <Feature>IOT_ALLJOYN_APP</Feature>
@@ -52,8 +51,6 @@
       <!-- Include BSP Features -->
       <Feature>QC_UEFI_PRODUCTION</Feature>   
       <Feature>SBC</Feature>
-      <Feature>QCDB410C_DEVICE_TARGETINGINFO</Feature>
-      <Feature>QCDB410C_DEVICE_INFO</Feature>
       <!-- Include OEM features -->
       <Feature>OEM_CustomCmd</Feature>
       <Feature>OEM_ProvAuto</Feature>  
