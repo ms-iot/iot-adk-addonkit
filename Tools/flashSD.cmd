@@ -21,8 +21,9 @@ if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
 if [%2] == [] goto Usage
 if [%3] == [] goto Usage
+if not defined FFUNAME ( set FFUNAME=Flash)
 
-set IMG_FILE=%BLD_DIR%\%1\%2\Flash.ffu
+set IMG_FILE=%BLD_DIR%\%1\%2\%FFUNAME%.ffu
 if exist "%IMG_FILE%" (
     echo Running Dism : %1 on PhysicalDrive%3
     call dism /apply-image /imagefile:"%IMG_FILE%" /ApplyDrive:\\.\PhysicalDrive%3 /SkipPlatformCheck
