@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OEMInput
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
+  <Description>Windows 10 IoT Core 8016sbc Test FFU generation</Description>
+  <SOC>QC8016</SOC>
+  <SV>Qualcomm</SV>
+  <Device>8016sbc</Device>
+  <ReleaseType>Test</ReleaseType>
+  <BuildType>fre</BuildType>
+  <SupportedLanguages>
+    <UserInterface>
+      <Language>en-us</Language>
+    </UserInterface>
+    <Keyboard>
+      <Language>en-us</Language>
+    </Keyboard>
+    <Speech>
+      <Language>en-us</Language>
+    </Speech>
+  </SupportedLanguages>
+  <BootUILanguage>en-us</BootUILanguage>
+  <BootLocale>en-us</BootLocale>
+  <Resolutions>
+    <Resolution>1024x768</Resolution>
+  </Resolutions>
+  <AdditionalFMs>
+    <!-- Including BSP feature manifest -->
+    <AdditionalFM>%BLD_DIR%\MergedFMs\QCDB410CFM.xml</AdditionalFM>
+    <AdditionalFM>%BLD_DIR%\MergedFMs\QCDB410CTestFM.xml</AdditionalFM>
+    <!-- Including OEM feature manifest -->
+    <AdditionalFM>%BLD_DIR%\MergedFMs\OEMCommonFM.xml</AdditionalFM>
+    <AdditionalFM>%BLD_DIR%\MergedFMs\OEMFM.xml</AdditionalFM>
+    <!-- Including the test features -->
+    <AdditionalFM>%AKROOT%\FMFiles\arm\IoTUAPNonProductionPartnerShareFM.xml</AdditionalFM>
+  </AdditionalFMs>
+  <Features>
+    <Microsoft>
+      <Feature>IOT_EFIESP_TEST</Feature>
+      <Feature>IOT_KDUSB_SETTINGS</Feature>
+      <Feature>IOT_EFIESP_BCD</Feature>
+      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
+      <Feature>IOT_HWN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_GENERIC_POP</Feature>
+      <Feature>IOT_APPLICATIONS</Feature>
+      <Feature>IOT_UAP_OOBE</Feature>
+      <Feature>IOT_TOOLKIT</Feature>
+      <Feature>IOT_WDTF</Feature>
+      <Feature>IOT_SSH</Feature>
+      <Feature>IOT_SIREP</Feature>
+      <Feature>IOT_WEBB_EXTN</Feature>
+      <Feature>IOT_UMDFDBG_SETTINGS</Feature>
+      <Feature>IOT_NETCMD</Feature>
+      <Feature>IOT_POWERSHELL</Feature>
+      <Feature>IOT_DIRECTX_TOOLS</Feature>
+      <Feature>IOT_ALLJOYN_APP</Feature>
+      <Feature>IOT_ENABLE_TESTSIGNING</Feature>
+      <Feature>IOT_DISABLE_UMCI</Feature>
+      <Feature>IOT_CRT140</Feature>
+      <Feature>IOT_BERTHA</Feature>
+      <Feature>IOT_APP_TOOLKIT</Feature>
+      <Feature>IOT_CP210x_MAKERDRIVER</Feature>
+      <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
+      <Feature>IOT_POWER_SETTINGS</Feature>
+    </Microsoft>
+    <OEM>
+      <Feature>QC_UEFI_TEST</Feature>
+      <Feature>SBC</Feature>
+      <!-- Include OEM features -->
+      <Feature>OEM_CustomCmd</Feature>
+      <Feature>OEM_ProvAuto</Feature>
+      <Feature>Sec_BitLocker</Feature>
+      <Feature>Sec_SecureBoot</Feature>
+      <Feature>Sec_DeviceGuard</Feature>
+    </OEM>
+  </Features>
+  <Product>Windows 10 IoT Core</Product>
+</OEMInput>
