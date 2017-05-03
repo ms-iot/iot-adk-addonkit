@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  Owner="$(OEMNAME)"
+  Component="Security"
+  SubComponent="BitLocker"
+  OwnerType="OEM"
+  ReleaseType="Production"
+  Platform="Any"
+  xmlns="urn:Microsoft.WindowsPhone/PackageSchema.v8.00">
+  <Components>
+    <OSComponent>
+      <Files>
+        <!-- Bitlocker files -->
+        <File Source="DETask.xml" DestinationDir="$(runtime.root)\IoTSec" />
+        <File Source="setup.bitlocker.cmd" DestinationDir="$(runtime.root)\IoTSec" />
+      </Files>
+
+      <RegKeys>
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\SystemCertificates\FVE" />
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\SystemCertificates\FVE\Certificates" />
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\SystemCertificates\FVE\Certificates\92E6B75CE698D274452FB28CD20B6A55242B995D">
+          <RegValue Name="Blob" Type="REG_BINARY" Value="03,00,00,00,01,00,00,00,14,00,00,00,92,e6,b7,5c,e6,98,d2,74,45,2f,b2,8c,d2,0b,6a,55,24,2b,99,5d,20,00,00,00,01,00,00,00,3d,04,00,00,30,82,04,39,30,82,02,21,a0,03,02,01,02,02,10,40,7f,03,26,2e,95,95,87,4e,37,88,db,90,7b,b7,71,30,0d,06,09,2a,86,48,86,f7,0d,01,01,0b,05,00,30,22,31,20,30,1e,06,03,55,04,03,13,17,4f,45,4d,20,50,72,6f,64,75,63,74,69,6f,6e,20,50,43,41,20,32,30,31,36,30,1e,17,0d,31,36,31,30,32,37,30,31,30,31,34,35,5a,17,0d,33,39,31,32,33,31,32,33,35,39,35,39,5a,30,22,31,20,30,1e,06,03,55,04,03,13,17,4f,45,4d,20,44,61,74,61,20,52,65,63,6f,76,65,72,79,20,41,67,65,6e,74,30,82,01,22,30,0d,06,09,2a,86,48,86,f7,0d,01,01,01,05,00,03,82,01,0f,00,30,82,01,0a,02,82,01,01,00,ac,9a,67,01,73,0d,04,87,51,42,03,70,c5,e5,46,2c,01,31,aa,a3,1f,b3,ba,0b,26,8a,eb,4f,9c,99,be,91,69,50,35,d6,e0,a8,40,2c,57,dd,b6,24,37,2b,a7,55,8b,a6,e6,ff,9f,39,fa,26,90,67,08,06,f3,50,d4,55,08,b1,6a,a0,3c,3c,a9,73,e5,1d,c4,dc,29,b5,b2,2b,19,d7,3a,04,6a,51,21,57,c5,35,23,cd,7c,97,3f,61,f9,3d,e8,a8,2a,6f,62,b8,f3,cc,22,9c,49,f6,39,34,21,c4,69,28,a7,55,ff,5c,9a,b1,b3,5b,66,de,7f,80,34,cd,2d,44,36,16,aa,c8,ff,ed,90,1a,54,21,3b,bf,e0,b9,6a,dc,89,21,0a,65,87,6f,32,55,0f,0e,11,21,08,b0,04,6c,95,c0,7c,aa,4e,ba,d2,9f,0d,d0,a0,64,b0,cf,f1,df,a9,2a,66,39,2a,7c,c0,eb,32,e6,5c,4e,30,23,0b,ed,59,bb,8e,cc,cf,88,1c,5b,3c,db,70,e5,17,a2,05,e7,0c,16,30,26,1c,43,b6,34,86,ce,f4,be,d4,e0,96,6e,ee,f9,91,93,0c,ad,b8,90,f5,b5,35,d1,69,86,a8,d5,69,a0,e2,44,ed,87,66,e7,ce,e6,ba,01,02,03,01,00,01,a3,6b,30,69,30,0c,06,03,55,1d,13,01,01,ff,04,02,30,00,30,15,06,03,55,1d,25,04,0e,30,0c,06,0a,2b,06,01,04,01,82,37,43,01,02,30,42,06,03,55,1d,01,04,3b,30,39,80,10,d9,b8,50,1f,56,b5,13,a4,d7,3f,50,93,e7,f8,9d,54,a1,13,30,11,31,0f,30,0d,06,03,55,04,03,13,06,4f,45,4d,20,43,41,82,10,42,89,e7,0d,a6,fb,0c,8d,42,fc,7b,6d,cd,8b,83,3a,30,0d,06,09,2a,86,48,86,f7,0d,01,01,0b,05,00,03,82,02,01,00,4d,17,ef,af,a8,c2,70,cb,33,6d,5c,ae,53,7e,3c,84,3f,77,fe,c5,af,f4,00,23,05,d8,1b,a9,4a,b4,83,80,da,82,a9,84,02,b9,c6,08,78,b8,1b,41,6f,24,7f,50,21,b1,5f,fc,3d,ba,dd,1e,a4,4b,a3,d3,72,80,4a,17,87,63,a0,32,99,4e,7d,d1,a4,18,01,9a,0f,5c,e3,82,8d,ce,17,19,b1,65,a1,9f,8c,a5,b6,14,9d,42,f6,d8,25,39,3b,26,c0,a1,90,db,f0,87,78,4e,95,55,e2,5a,de,16,b1,63,60,06,64,d0,01,21,6d,20,2a,7e,07,51,7c,b6,01,c9,b6,f9,26,94,45,aa,1d,d1,c3,dc,e5,f3,0d,54,5d,40,cf,a0,4f,45,b5,93,bc,7e,38,a3,59,cc,99,86,30,13,50,9c,e7,60,bc,1b,fe,a2,bc,c2,1f,b5,47,65,7b,3d,e6,77,81,a5,3f,76,c2,3e,20,d0,24,ee,f6,9f,fa,02,e3,55,51,c5,03,a5,ff,43,cc,6c,7f,01,ef,ec,a6,8e,80,13,70,78,2c,1c,ca,54,a3,95,31,3e,35,aa,79,a9,82,6b,ea,01,bc,f0,9a,a1,2f,04,be,fb,83,77,e0,37,02,db,40,bf,55,36,4a,3a,1f,47,ed,ab,ce,10,93,3a,bb,71,f7,78,25,3c,e3,b7,e3,7a,1a,67,38,9d,05,20,44,62,a5,3a,a6,f1,7c,00,ff,a8,83,04,02,82,c6,87,a8,e7,e5,11,f1,ac,bf,09,2f,22,5d,d6,7f,da,13,ab,1c,18,11,cf,3d,4d,40,9f,32,9a,ee,a8,8a,b3,61,f9,44,c3,79,81,ac,29,5c,28,25,1d,e8,31,7a,1b,0d,50,07,ec,a7,9e,a4,00,9a,00,cc,6e,cd,dd,7f,59,6b,db,ce,c2,8d,2e,27,b5,f9,90,9c,c9,bd,dd,b9,92,e4,d6,97,19,55,29,d4,ae,56,4e,c7,43,21,c0,9f,f0,24,99,0c,0e,39,85,e9,9f,ba,47,8c,9b,be,93,a7,b9,49,0e,96,a7,5f,ef,2f,7e,ae,30,88,4f,a7,85,c8,1c,47,9e,b5,a2,00,a7,1e,01,aa,d7,91,24,5d,f3,1a,ea,8f,f7,a2,6e,9a,fc,ba,58,84,09,e7,60,22,e2,8a,cf,e6,c8,f0,42,da,6f,96,9f,b1,43,ce,ff,94,0c,e2,26,98,d1,b8,18,72,2f,22,1f,28,dc,60,21,96,0f,5b,4a,b5,72,f1,79,fb,58,bc,7b,0f,1f,1a,bb,7d,b9,6c,7d,6f,9a,3c,ba,c2,10,0f,be,58,f5,94,80,3d,b5" />
+        </RegKey>
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\SystemCertificates\FVE\CRLs" />
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\SystemCertificates\FVE\CTLs" />
+        <RegKey KeyName="$(hklm.software)\Policies\Microsoft\FVE">
+          <RegValue Name="OSManageDRA" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="FDVManageDRA" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="RDVManageDRA" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="IdentificationField" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="IdentificationFieldString" Value="BitLocker" Type="REG_SZ" />
+          <RegValue Name="SecondaryIdentificationField" Value="BitLocker" Type="REG_SZ" />
+          <RegValue Name="SelfSignedCertificates" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="RDVDeviceBinding" Value="00000001" Type="REG_DWORD" />
+          <RegValue Name="OSEnablePrebootInputProtectorsOnSlates" Value="00000001" Type="REG_DWORD" />
+        </RegKey>
+      </RegKeys>
+    </OSComponent>
+  </Components>
+</Package>

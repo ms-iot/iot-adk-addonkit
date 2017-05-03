@@ -3,6 +3,7 @@
 set CLRRED=[91m
 set CLRYEL=[93m
 set CLREND=[0m
+set CLRZ=[0m
 
 REM Set IOTADK_ROOT
 set IOTADK_ROOT=%~dp0

@@ -28,13 +28,14 @@ if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
 
 if not exist "%BLD_DIR%\%2\%3" ( goto Usage )
-if not exist "%BLD_DIR%\%2\%3\Flash.FFU" (
-    echo. FFU file not found. Build the image before exporting.
+if not defined FFUNAME ( set FFUNAME=Flash)
+if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.FFU" (
+    echo. %CLRRED% %BLD_DIR%\%2\%3\%FFUNAME%.FFU not found. Build the image before exporting.%CLREND%
     exit /b 1
 )
 
-if not exist "%BLD_DIR%\%2\%3\Flash.UpdateInput.xml" (
-    echo. Flash.UpdateInput.xml not found. Build the image before exporting.
+if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.UpdateInput.xml" (
+    echo. %FFUNAME%.UpdateInput.xml not found. Build the image before exporting.
     exit /b 1
 )
 if not exist "%1" ( mkdir "%1" )
@@ -50,7 +51,7 @@ if /I [%4] == [MS] (
 )
 if exist ("%1\packagelist.txt") del "%1\packagelist.txt"
 
-for /f "tokens=1,2,3 delims=<,> skip=5" %%A in (%BLD_DIR%\%2\%3\Flash.UpdateInput.xml) do (
+for /f "tokens=1,2,3 delims=<,> skip=5" %%A in (%BLD_DIR%\%2\%3\%FFUNAME%.UpdateInput.xml) do (
     if [%%C] == [] (
         REM echo. Nothing to do.
     ) else (
@@ -71,6 +72,8 @@ for /f "tokens=1,2,3 delims=<,> skip=5" %%A in (%BLD_DIR%\%2\%3\Flash.UpdateInpu
     )
 )
 copy "%IOTADK_ROOT%\Templates\installupdates.cmd" %1\installupdates.cmd >nul
+echo. Exporting BSP DB
+copy "%BLD_DIR%\%2\%3\%FFUNAME%.BSPDB.xml" %1 >nul
 endlocal
 exit /b
 

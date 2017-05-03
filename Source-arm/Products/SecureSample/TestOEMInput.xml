@@ -3,7 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
-  <Description>Windows 10 IoT Core 8016sbc Test FFU</Description>
+  <Description>Windows 10 IoT Core 8016sbc Test FFU generation</Description>
   <SOC>QC8016</SOC>
   <SV>Qualcomm</SV>
   <Device>8016sbc</Device>
@@ -43,7 +43,7 @@
       <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
       <Feature>IOT_HWN_CLASS_EXTENSION</Feature>
       <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
-      <Feature>IOT_GENERIC_POP</Feature> 
+      <Feature>IOT_GENERIC_POP</Feature>
       <Feature>IOT_APPLICATIONS</Feature>
       <Feature>IOT_UAP_OOBE</Feature>
       <Feature>IOT_TOOLKIT</Feature>
@@ -71,6 +71,9 @@
       <!-- Include OEM features -->
       <Feature>OEM_CustomCmd</Feature>
       <Feature>OEM_ProvAuto</Feature>
+      <Feature>Sec_BitLocker</Feature>
+      <Feature>Sec_SecureBoot</Feature>
+      <Feature>Sec_DeviceGuard</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

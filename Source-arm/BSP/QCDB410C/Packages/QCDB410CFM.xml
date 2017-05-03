@@ -4,7 +4,9 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <BasePackages>
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" FeatureIdentifierPackage="true"/>
+    <!-- System Information package for providing system details , required for DM enrollment etc -->
+    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
+    <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" FeatureIdentifierPackage="true"/-->
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcUrsFilter.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QHEE.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSEE.cab" />
@@ -92,7 +94,7 @@
     <Microsoft />
     <MSFeatureGroups />
     <OEM>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceInfo.cab" FeatureIdentifierPackage="true">
+      <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceInfo.cab" FeatureIdentifierPackage="true">
         <FeatureIDs>
           <FeatureID>QCDB410C_DEVICE_INFO</FeatureID>
         </FeatureIDs>
@@ -101,7 +103,7 @@
         <FeatureIDs>
           <FeatureID>QCDB410C_DEVICE_TARGETINGINFO</FeatureID>
         </FeatureIDs>
-      </PackageFile>
+      </PackageFile-->
       <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab" FeatureIdentifierPackage="true">
         <FeatureIDs>
           <FeatureID>QC_UEFI_PRODUCTION</FeatureID>

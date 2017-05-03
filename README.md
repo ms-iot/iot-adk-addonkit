@@ -22,7 +22,20 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 
 ## BSPs
 
-See [Windows 10 IoT Core BSPs](https://developer.microsoft.com/en-us/windows/iot/docs/bsp) 
+See [Windows 10 IoT Core BSPs](https://developer.microsoft.com/en-us/windows/iot/docs/bsp)
+
+## Source Links
+
+* Security.Bitlocker, Security.SecureBoot and Security.DeviceGuard
+    * Source : [ms-iot/security/TurnkeySecurity](https://github.com/ms-iot/security/tree/master/TurnkeySecurity)
+    * Documentation : [SecureBoot, Bitlocker and DeviceGuard](https://developer.microsoft.com/en-us/windows/iot/docs/turnkeysecurity)
+* Appx.IoTCoreDefaultApp
+    * Source : [ms-iot/samples/IoTCoreDefaultApp](https://github.com/ms-iot/samples/tree/develop/IoTCoreDefaultApp)
+    * Documentation : [IoTCoreDefaultApp](https://developer.microsoft.com/en-us/windows/iot/samples/iotdefaultapp)
+* Appx.IoTCoreOnboardingTask
+    * Source : [ms-iot/samples/IoTOnBoarding](https://github.com/ms-iot/samples/tree/develop/IotOnboarding)
+    * Documentation : [IoTOnBoarding](https://developer.microsoft.com/en-us/windows/iot/samples/iotonboarding)
+
 
 # Branch Overview
 
@@ -36,7 +49,4 @@ This branch contains the active development contents, mostly addressing the upco
 
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).
 * [10586_v1.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v1.0) for Windows 10 IoT Core Release 1511 (version 10.0.10586.x).
- 
-  
-  
 

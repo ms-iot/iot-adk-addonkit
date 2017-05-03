@@ -31,6 +31,7 @@ set PRODUCT=%1
 set PRODSRC_DIR=%SRC_DIR%\Products\%PRODUCT%
 set PRODBLD_DIR=%BLD_DIR%\%1\%2
 
+if not defined FFUNAME ( set FFUNAME=Flash)
 if not defined MSPACKAGE ( set "MSPACKAGE=%KITSROOT%MSPackages" )
 set IMGAPP_CUST=
 
@@ -50,16 +51,16 @@ if exist %PRODSRC_DIR%\oemcustomization.cmd (
 
 if exist %PRODSRC_DIR%\prov\customizations.xml (
     call createprovpkg.cmd %PRODSRC_DIR%\prov\customizations.xml %PRODSRC_DIR%\prov\%PRODUCT%Prov.ppkg
-	call buildpkg.cmd Provisioning.Auto
+    call buildpkg.cmd Provisioning.Auto
 )
 
 if exist %PRODSRC_DIR%\imagecustomizations.xml (
-	set IMGAPP_CUST=/OEMCustomizationXML:"%PRODSRC_DIR%\imagecustomizations.xml" /OEMVersion:"%BSP_VERSION%"
+    set IMGAPP_CUST=/OEMCustomizationXML:"%PRODSRC_DIR%\imagecustomizations.xml" /OEMVersion:"%BSP_VERSION%"
 )
 
 echo Creating Image...
 REM call ImageApp with the specified parameters
-call ImageApp "%PRODBLD_DIR%\Flash.ffu" "%PRODSRC_DIR%\%2OEMInput.xml" "%MSPACKAGE%" /CPUType:%BSP_ARCH% %IMGAPP_CUST%
+call ImageApp "%PRODBLD_DIR%\%FFUNAME%.ffu" "%PRODSRC_DIR%\%2OEMInput.xml" "%MSPACKAGE%" /CPUType:%BSP_ARCH% %IMGAPP_CUST%
 
 if %ERRORLEVEL% neq 0 goto Error
 
