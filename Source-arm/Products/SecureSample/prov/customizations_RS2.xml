@@ -3,7 +3,7 @@
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
     <ID>{f3581b3b-04c5-4a33-bd35-afc2d7cb7d2e}</ID>
     <Name>SecureSampleProv</Name>
-    <Version>1.0.0.0</Version>
+    <Version>1.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>
@@ -15,10 +15,10 @@
             <ComputerName>ContosoSecureSample</ComputerName>
           </ComputerAccount>
         </Accounts>
+        <ApplicationManagement>
+          <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
+        </ApplicationManagement>
         <Policies>
-          <ApplicationManagement>
-            <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
-          </ApplicationManagement>
           <Security>
             <AllowAddProvisioningPackage>Yes</AllowAddProvisioningPackage>
             <AllowRemoveProvisioningPackage>Yes</AllowRemoveProvisioningPackage>

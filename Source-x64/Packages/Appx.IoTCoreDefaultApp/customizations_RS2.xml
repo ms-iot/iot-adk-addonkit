@@ -3,18 +3,16 @@
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
     <ID>{23ca65e3-8640-491f-9009-8a254025cd29}</ID>
     <Name>IoTCoreDefaultAppProv</Name>
-    <Version>1.1.0.0</Version>
+    <Version>1.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>
   <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
     <Customizations>
       <Common>
-        <Policies>    
-            <ApplicationManagement>
-                <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-            </ApplicationManagement>
-        </Policies>
+        <ApplicationManagement>
+          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+        </ApplicationManagement>
         <Certificates>
           <RootCertificates>
             <RootCertificate CertificateName="IoTCoreDefaultApp_1.1.0.0_x64" Name="IoTCoreDefaultApp_1.1.0.0_x64"> 

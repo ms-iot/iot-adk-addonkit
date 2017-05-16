@@ -81,7 +81,7 @@ echo. Creating package xml files
 call appx2pkg.cmd %1 %STARTUP% %COMP_NAME%.%SUB_NAME%
 REM Copy the files to the package directory
 move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
-move "%FILE_PATH%\customizations.xml" "%NEWPKG_DIR%\customizations.xml" >nul
+move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%NEWPKG_DIR%\%CUSTOMIZATIONS%.xml" >nul
 if exist "%FILE_PATH%\Dependencies\%ARCH%" (
     mkdir "%NEWPKG_DIR%\Dependencies\%ARCH%"
     copy "%FILE_PATH%\Dependencies\%ARCH%\*.appx" "%NEWPKG_DIR%\Dependencies\%ARCH%\" >nul

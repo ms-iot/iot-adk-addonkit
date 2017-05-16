@@ -65,10 +65,10 @@ if not defined RELEASE_DIR (
 echo Creating %INPUT_FILE% Package with version %PKG_VER% for %PRODUCT%
 
 REM check if customizations.xml is present, if so create provisioning package
-if exist "customizations.xml" (
+if exist "%CUSTOMIZATIONS%.xml" (
     if not exist "%INPUT%.ppkg" (
         echo  Creating %INPUT%.ppkg...
-        call createprovpkg.cmd customizations.xml %INPUT%.ppkg
+        call createprovpkg.cmd %CUSTOMIZATIONS%.xml %INPUT%.ppkg
    )
 )
 

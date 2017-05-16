@@ -62,6 +62,9 @@ REM Check for WDK Presence
 if exist "%KITSROOT%\CoreSystem" (
     dir /B /AD "%KITSROOT%CoreSystem" > %IOTADK_ROOT%\wdkversion.txt
     set /P WDK_VERSION=<%IOTADK_ROOT%\wdkversion.txt
+    (
+        for /f "tokens=3 delims=." %%A in ("%WDK_VERSION%") do ( set WDK_VERSION=%%A )
+    )
     del %IOTADK_ROOT%\wdkversion.txt
 ) else (
     set WDK_VERSION=NotFound

@@ -2,7 +2,10 @@
 <FeatureManifest 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
+  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" 
+  Revision="1"   
+  SchemaVersion="1.2"   
+>  
   <BasePackages>
     <!-- System Information package for providing system details , required for DM enrollment etc -->
     <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
@@ -27,7 +30,6 @@
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.BCryptCipher_KM.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.HalExtQCTimer.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ipc_router.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WifiNotifierSrvc.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.pil.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcadc.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcListenSoundModel.cab" />
@@ -62,7 +64,6 @@
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ssm.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan_caps.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WMRil.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QCSI.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.direct3dum11.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdx11compiler.cab" />
@@ -80,9 +81,7 @@
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSOCKET.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TouchDetectionDriver.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TrEE.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan_ihv.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcLTECoexMgr.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdrvlog.cab" />
   </BasePackages>
   <OEMDevicePlatformPackages>
     <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab" FeatureIdentifierPackage="true" />
@@ -104,12 +103,12 @@
           <FeatureID>QCDB410C_DEVICE_TARGETINGINFO</FeatureID>
         </FeatureIDs>
       </PackageFile-->
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab" FeatureIdentifierPackage="true">
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab" >
         <FeatureIDs>
           <FeatureID>QC_UEFI_PRODUCTION</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab" FeatureIdentifierPackage="true">
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab" >
         <FeatureIDs>
           <FeatureID>SBC</FeatureID>
         </FeatureIDs>

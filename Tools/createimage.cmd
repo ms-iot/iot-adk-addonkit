@@ -49,8 +49,8 @@ if exist %PRODSRC_DIR%\oemcustomization.cmd (
     call buildpkg.cmd Custom.Cmd
 )
 
-if exist %PRODSRC_DIR%\prov\customizations.xml (
-    call createprovpkg.cmd %PRODSRC_DIR%\prov\customizations.xml %PRODSRC_DIR%\prov\%PRODUCT%Prov.ppkg
+if exist %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml (
+    call createprovpkg.cmd %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml %PRODSRC_DIR%\prov\%PRODUCT%Prov.ppkg
     call buildpkg.cmd Provisioning.Auto
 )
 
