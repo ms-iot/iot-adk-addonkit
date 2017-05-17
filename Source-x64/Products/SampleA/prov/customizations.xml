@@ -3,7 +3,7 @@
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
     <ID>{bbbc2321-fe88-4f21-8d5f-14928041cec2}</ID>
     <Name>SampleAProv</Name>
-    <Version>1.0</Version>
+    <Version>1.0.0.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>

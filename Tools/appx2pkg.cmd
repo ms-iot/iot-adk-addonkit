@@ -37,7 +37,13 @@ for /f "tokens=1,2,3 delims=:,!, " %%i in (%FILE_PATH%\appx_info.txt) do (
         set ENTRY=%%k
     )
 )
-if not defined PROV_VERSION ( set PROV_VERSION=1.0)
+
+if not defined PROV_VERSION if /i "%ADK_VERSION%" LSS "16190" (
+     set PROV_VERSION=1.0
+) else (
+    set PROV_VERSION=%APPX_Version%
+)
+
 if not defined PROV_RANK ( set PROV_RANK=0)
 
 echo. Provisioning package version : %PROV_VERSION%
@@ -89,8 +95,8 @@ echo. Authoring %COMP_NAME%.%SUB_NAME%.pkg.xml
 if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (del "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" )
 call :CREATE_PKGFILE
 
-echo. Authoring customizations.xml
-if exist "%FILE_PATH%\customizations.xml" (del "%FILE_PATH%\customizations.xml" )
+echo. Authoring %CUSTOMIZATIONS%.xml
+if exist "%FILE_PATH%\%CUSTOMIZATIONS%.xml" (del "%FILE_PATH%\%CUSTOMIZATIONS%.xml" )
 REM Get a new GUID for the Provisioning config file
 powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
 set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
@@ -153,10 +159,17 @@ call :PRINT_TO_CUSTFILE "  </PackageConfig>"
 call :PRINT_TO_CUSTFILE "  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">"
 call :PRINT_TO_CUSTFILE "    <Customizations>"
 call :PRINT_TO_CUSTFILE "      <Common>"
-call :PRINT_TO_CUSTFILE "        <ApplicationManagement>"
-call :PRINT_TO_CUSTFILE "          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
-call :PRINT_TO_CUSTFILE "        </ApplicationManagement>"
-
+if /i "%ADK_VERSION%" LSS "16190" (
+    call :PRINT_TO_CUSTFILE "        <ApplicationManagement>"
+    call :PRINT_TO_CUSTFILE "          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
+    call :PRINT_TO_CUSTFILE "        </ApplicationManagement>"
+) else (
+    call :PRINT_TO_CUSTFILE "        <Policies>"
+    call :PRINT_TO_CUSTFILE "          <ApplicationManagement>"
+    call :PRINT_TO_CUSTFILE "            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
+    call :PRINT_TO_CUSTFILE "          </ApplicationManagement>"
+    call :PRINT_TO_CUSTFILE "        </Policies>"
+)
 REM Printing Certificates
 for %%B in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zB gtr 0 (
     call :PRINT_TO_CUSTFILE "        <Certificates>"
@@ -175,14 +188,14 @@ REM Print startup configuration
 if [%STARTUP%] == [fga] (
     call :PRINT_TO_CUSTFILE "        <StartupApp>"
     call :PRINT_TO_CUSTFILE "          <Default>"
-    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\customizations.xml"
+    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
     call :PRINT_TO_CUSTFILE "          </Default>"
     call :PRINT_TO_CUSTFILE "        </StartupApp>"
 ) else if [%STARTUP%] == [bgt] (
     call :PRINT_TO_CUSTFILE "        <StartupBackgroundTasks>"
     call :PRINT_TO_CUSTFILE "          <ToAdd>"
     call :PRINT_TO_CUSTFILE "            <Add PackageName="
-    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\customizations.xml"
+    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
     call :PRINT_TO_CUSTFILE "            ></Add>"
     call :PRINT_TO_CUSTFILE "          </ToAdd>"
     call :PRINT_TO_CUSTFILE "        </StartupBackgroundTasks>"
@@ -224,5 +237,5 @@ exit /b
 
 :PRINT_TO_CUSTFILE
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT! >> "%FILE_PATH%\customizations.xml"
+echo !TEXT! >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
 exit /b

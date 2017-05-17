@@ -3,18 +3,16 @@
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0"> 
     <ID>{6fb9864b-c85f-467c-8101-d2cf6007728a}</ID> 
     <Name>IoTOnboardingTaskProv</Name> 
-    <Version>1.0.0.0</Version> 
+    <Version>1.0</Version> 
     <OwnerType>OEM</OwnerType> 
     <Rank>0</Rank> 
   </PackageConfig> 
   <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning"> 
     <Customizations> 
       <Common>
-        <Policies>    
-            <ApplicationManagement>
-                <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-            </ApplicationManagement>
-        </Policies>
+        <ApplicationManagement>
+          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+        </ApplicationManagement>  
         <Certificates> 
           <RootCertificates> 
             <RootCertificate CertificateName="IoTOnboardingTask_1.0.0.0_ARM" Name="IoTOnboardingTask_1.0.0.0_ARM"> 
