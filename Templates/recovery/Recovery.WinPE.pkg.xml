@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <Package xmlns="urn:Microsoft.WindowsPhone/PackageSchema.v8.00"
+    Owner="$(OEMNAME)"
+    OwnerType="OEM"
+    ReleaseType="Production"
+    Platform="$(BSPARCH)"
+    Component="Recovery"
+    SubComponent="WinPE"
+    Partition="MMOS"
+    BinaryPartition="false" >
+    <Components>
+       <OSComponent>
+         <Files>
+            <File
+                DestinationDir="$(runtime.root)"
+                Name="winpe.wim"
+                Source="winpe.wim"
+                />
+            <File
+                DestinationDir="$(runtime.root)"
+                Name="startrecovery.cmd"
+                Source="startrecovery.cmd"
+                />
+        </Files>
+       </OSComponent>
+    </Components>
+ </Package>

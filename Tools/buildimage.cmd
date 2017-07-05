@@ -9,7 +9,6 @@ echo    All............... All Products under \Products directory are built
 echo    Clean............. Cleans the output directory
 echo        One of the above should be specified
 echo    BuildType......... Optional, Retail/Test, if not specified both types are built
-echo    [version]................. Optional, Package version. If not specified, it uses BSP_VERSION
 echo    [/?]...................... Displays this usage string.
 echo    Example:
 echo        buildimage SampleA Test
@@ -33,6 +32,7 @@ REM Input validation
 if [%1] == [/?] goto Usage
 if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
+if not [%2] == [] ( if /I not [%2] == [Retail] ( if /I not [%2] == [Test] goto Usage ) )
 
 if /I [%1] == [All] (
     echo Creating Images for all products under Products

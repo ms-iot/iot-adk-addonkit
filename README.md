@@ -10,6 +10,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
     * [Windows ADK IoT Core Add-Ons Overview](https://go.microsoft.com/fwlink/p/?LinkId=735029)
     * [IoT Core Add-Ons command-line options](https://msdn.microsoft.com/windows/hardware/commercialize/manufacture/iot/iot-core-adk-addons-command-line-options)
     * [IoT Core feature list](https://msdn.microsoft.com/windows/hardware/commercialize/manufacture/iot/iot-core-feature-list)
+    * [Channel9 Video on Manufacturing Guide](https://channel9.msdn.com/events/Build/2017/B8085)
 * [Learn how to build on Windows 10 IoT Core](https://developer.microsoft.com/windows/iot/Docs)
     * [Windows Device Portal](https://developer.microsoft.com/windows/iot/docs/deviceportal)
 

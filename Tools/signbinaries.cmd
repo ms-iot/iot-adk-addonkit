@@ -36,21 +36,22 @@ if /i [%1] == [all] (
 ) else (
     set SIGNFILES=%1
 )
-if exist "%PKGLOG_DIR%\signbinaries.log" (del "%PKGLOG_DIR%\signbinaries.log")
+if exist "%2\signbinaries.log" (del "%2\signbinaries.log")
 
 echo.Processing %2
 for %%A in (%SIGNFILES%) do (
     echo. [%%A files]
-    dir /s /b %2\*.%%A > %PKGLOG_DIR%\filelist.txt 2>nul
+    dir /s /b %2\*.%%A > %2\filelist.txt 2>nul
 
-    for %%Q in (%PKGLOG_DIR%\filelist.txt) do if %%~zQ gtr 0 (
-        for /f "delims=" %%i in (%PKGLOG_DIR%\filelist.txt) do (
+    for %%Q in (%2\filelist.txt) do if %%~zQ gtr 0 (
+        for /f "delims=" %%i in (%2\filelist.txt) do (
             echo.   Signing %%i
-            call sign.cmd %%i >> %PKGLOG_DIR%\signbinaries.log
+            call sign.cmd %%i >> %2\signbinaries.log
         )
     ) else (
         echo.   %CLRYEL%No %%A files.%CLREND%
     )
+    del "%2\filelist.txt" >nul
 )
 endlocal
 exit /b 0

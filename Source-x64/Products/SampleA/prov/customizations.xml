@@ -11,6 +11,9 @@
     <Customizations>
       <Common>
         <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
           <Connectivity>
             <AllowBluetooth>Yes</AllowBluetooth>
             <AllowNFC>Yes</AllowNFC>

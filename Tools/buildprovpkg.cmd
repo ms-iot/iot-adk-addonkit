@@ -48,6 +48,7 @@ if /I [%1] == [All] (
     del /S /Q %COMMON_DIR%\*.ppkg %COMMON_DIR%\*.cat >nul 2>nul
     del /S /Q %PKGSRC_DIR%\*.ppkg %PKGSRC_DIR%\*.cat >nul 2>nul
     del /S /Q %PRODUCTS_DIR%\*.ppkg %PRODUCTS_DIR%\*.cat >nul 2>nul
+    del /S /Q "%HOMEDRIVE%%HOMEPATH%\Documents\Windows Imaging and Configuration Designer (WICD)\Common\*.log" >nul 2>nul
     echo.All provisioning files cleaned.
 ) else (
     call :SUB_PROCESSLIST %1 Report

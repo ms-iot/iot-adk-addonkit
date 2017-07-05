@@ -37,6 +37,7 @@ set PATH=%KITSROOT%tools\bin\i386;%PATH%
 set AKROOT=%KITSROOT%
 set WPDKCONTENTROOT=%KITSROOT%
 set PKG_CONFIG_XML=%KITSROOT%Tools\bin\i386\pkggen.cfg.xml
+set WINPE_ROOT=%KITSROOT%Assessment and Deployment Kit\Windows Preinstallation Environment
 
 set ARCH=%1
 set BSP_ARCH=%1

@@ -6,10 +6,11 @@ REM This script creates the folder structure and copies the template files for a
 goto START
 
 :Usage
-echo Usage: newappxpkg filename.appx [fga/bgt/none] [CompName.SubCompName]
+echo Usage: newappxpkg filename.appx [fga/bgt/none] [CompName.SubCompName] [skipcert]
 echo    filename.appx........... Required, Input appx package. Expects dependencies in a sub folder
 echo    fga/bgt/none............ Required, Startup ForegroundApp / Startup BackgroundTask / No startup
-echo    CompName.SubCompName.... Optional, default is Appx.filename
+echo    CompName.SubCompName.... Optional, default is Appx.AppxName; Mandatory if you want to specify skipcert
+echo    skipcert................ Optional, specify this to skip adding cert information to pkg xml file
 echo    [/?]............ Displays this usage string.
 echo    Example:
 echo        newappxpkg C:\test\MainAppx_1.0.0.0_arm.appx fga Appx.Main
@@ -57,6 +58,7 @@ if not [%3] == [] (
         set COMP_NAME=%%i
         set SUB_NAME=%%j
     )
+    if /I [%4] == [skipcert] ( set SKIPCERT=1)
 )
 
 if not defined SRC_DIR (
@@ -78,9 +80,10 @@ mkdir "%NEWPKG_DIR%"
 
 REM Create Appx Package using template files
 echo. Creating package xml files
-call appx2pkg.cmd %1 %STARTUP% %COMP_NAME%.%SUB_NAME%
+call appx2pkg.cmd %1 %STARTUP% %COMP_NAME%.%SUB_NAME% %4
 REM Copy the files to the package directory
 move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
+move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
 move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%NEWPKG_DIR%\%CUSTOMIZATIONS%.xml" >nul
 if exist "%FILE_PATH%\Dependencies\%ARCH%" (
     mkdir "%NEWPKG_DIR%\Dependencies\%ARCH%"
@@ -95,7 +98,9 @@ if exist "%FILE_PATH%\Dependencies\%ARCH%" (
     copy "%FILE_PATH%\*%ARCH%*.appx" "%NEWPKG_DIR%\" >nul 2>nul
 )
 
-copy "%FILE_PATH%\*.cer" "%NEWPKG_DIR%\" >nul 2>nul
+if not defined SKIPCERT (
+    copy "%FILE_PATH%\*.cer" "%NEWPKG_DIR%\" >nul 2>nul
+)
 copy "%FILE_PATH%\*License*.xml" "%NEWPKG_DIR%\" >nul 2>nul
 copy "%FILE_PATH%\%FILE_NAME%.appx" "%NEWPKG_DIR%\%FILE_NAME%.appx" >nul
 

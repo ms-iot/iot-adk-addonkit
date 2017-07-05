@@ -10,6 +10,9 @@
   <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
     <Customizations>
       <Common>
+        <ApplicationManagement>
+          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+        </ApplicationManagement>
         <Policies>
           <Connectivity>
             <AllowBluetooth>Yes</AllowBluetooth>

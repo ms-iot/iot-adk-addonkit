@@ -10,13 +10,14 @@
   <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
     <Customizations>
       <Common>
-        <Accounts>
+        <!--<Accounts>
           <ComputerAccount>
-            <ComputerName>{OEMNAME}{Product}</ComputerName>
+            <ComputerName>{Product}</ComputerName>
           </ComputerAccount>
-        </Accounts>
+        </Accounts>-->
         <ApplicationManagement>
           <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
+          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
         </ApplicationManagement>
         <Policies>
           <Security>

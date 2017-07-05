@@ -1,5 +1,5 @@
 :: Run setenv before running this script
-:: This script creates the driver package 
+:: This script creates the driver package
 @echo off
 
 goto START
@@ -11,7 +11,7 @@ echo    CompName.SubCompName.... Optional, default is Drivers.filename; Mandator
 echo    BSPName................. Optional, if specified, the driver package will be at BSPName\Packages directory
 echo    [/?]............ Displays this usage string.
 echo    Example:
-echo        newdrvpkg C:\test\testdrv.inf 
+echo        newdrvpkg C:\test\testdrv.inf
 echo        newdrvpkg C:\test\testdrv.inf Drivers.TestDriver
 echo        newdrvpkg C:\test\testdrv.inf ModelA.TestDriver ModelA
 
@@ -67,6 +67,7 @@ if /I [%FILE_TYPE%] == [.inf] (
     REM copy the files to the package directory
     echo. Copying files to package directory
     move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
+    move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
     copy "%FILE_PATH%\%FILE_NAME%.inf" "%NEWPKG_DIR%\%FILE_NAME%.inf" >nul
     cd /D %FILE_PATH%
     for /f "useback tokens=1,* delims=@" %%i in ("%FILE_PATH%\inf_filelist.txt") do (

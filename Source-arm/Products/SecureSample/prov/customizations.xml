@@ -12,12 +12,13 @@
       <Common>
         <Accounts>
           <ComputerAccount>
-            <ComputerName>ContosoSecureSample</ComputerName>
+            <ComputerName>ContosoSecure</ComputerName>
           </ComputerAccount>
         </Accounts>
         <Policies>
           <ApplicationManagement>
             <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
           </ApplicationManagement>
           <Security>
             <AllowAddProvisioningPackage>Yes</AllowAddProvisioningPackage>

@@ -25,14 +25,14 @@ if %wowRegKeyPathFound% EQU 0 (
   if %regKeyPathFound% EQU 0 (
     echo.%CLRRED%Error:No Windows Kits found. Install ADK.%CLREND%
     pause
-    exit /b 
+    exit /b
   ) else (
     set regKeyPath=HKLM\Software\Microsoft\Windows Kits\Installed Roots
   )
 ) else (
     set regKeyPath=HKLM\Software\Wow6432Node\Microsoft\Windows Kits\Installed Roots
 )
-  
+
 for /F "skip=2 tokens=2*" %%i in ('REG QUERY "%regKeyPath%" /v %KitsRootRegValueName%') do (SET KITPATH=%%jAssessment and Deployment Kit\Deployment Tools)
 REM Cleanup local variables
 set regKeyPathFound=
@@ -62,10 +62,11 @@ REM Check for WDK Presence
 if exist "%KITSROOT%\CoreSystem" (
     dir /B /AD "%KITSROOT%CoreSystem" > %IOTADK_ROOT%\wdkversion.txt
     set /P WDK_VERSION=<%IOTADK_ROOT%\wdkversion.txt
-    (
-        for /f "tokens=3 delims=." %%A in ("%WDK_VERSION%") do ( set WDK_VERSION=%%A )
-    )
     del %IOTADK_ROOT%\wdkversion.txt
+)
+
+if defined WDK_VERSION (
+    for /f "tokens=3 delims=." %%A in ("%WDK_VERSION%") do ( set WDK_VERSION=%%A )
 ) else (
     set WDK_VERSION=NotFound
 )
@@ -89,7 +90,6 @@ if exist "%KITSROOT%\MSPackages" (
     )
     del %IOTADK_ROOT%\corekitversion.txt
 ) else (
-    set KIT_VERSION=NotFound
     set COREKIT_VER=NotFound
     echo.%CLRYEL%Warning : Core kit packages not found. Image creation will fail.%CLREND%
 )
@@ -105,6 +105,7 @@ REM Change to Working directory
 cd /D %IOTADK_ROOT%\Tools
 call setOEM.cmd
 doskey /macrofile=alias.txt
+set IOT_ADDON_VERSION=4.0_dev
 
 echo IOTADK_ROOT : %IOTADK_ROOT%
 echo ADK_VERSION : %ADK_VERSION%

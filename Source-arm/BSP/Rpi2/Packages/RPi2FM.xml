@@ -56,6 +56,7 @@
       </PackageFile>
       <PackageFile Path="%BSPPKG_DIR%" Name="%OEM_NAME%.RPi.bcmgpio.cab">
         <FeatureIDs>
+          <FeatureID>RPI2_GPIO_DRIVER</FeatureID>
           <FeatureID>RPI2_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
@@ -109,6 +110,7 @@
       <PackageFile Path="%MSPKG_DIR%" Name="RASPBERRYPI.RPi.BtwSerialH5Bus.cab">
         <FeatureIDs>
           <FeatureID>RPI_BTWSERIALH5BUS_DRIVER</FeatureID>
+          <FeatureID>RPI3_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
     </OEM>

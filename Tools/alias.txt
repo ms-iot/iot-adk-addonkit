@@ -11,10 +11,10 @@ nap=newappxpkg $*
 ndp=newdrvpkg $*
 ncp=newcommonpkg $*
 np=newproduct $*
-bsp=cd %BSPSRC_DIR%
-pkg=cd %PKGSRC_DIR%
-tools=cd %TOOLS_DIR%
-prod=cd %SRC_DIR%\Products
-bld=cd %BLD_DIR%
+bsp=cd /D %BSPSRC_DIR%
+pkg=cd /D %PKGSRC_DIR%
+tools=cd /D %TOOLS_DIR%
+prod=cd /D %SRC_DIR%\Products
+bld=cd /D %BLD_DIR%
 clean=echo off $T buildpkg clean $T buildimage clean $T echo on
 
