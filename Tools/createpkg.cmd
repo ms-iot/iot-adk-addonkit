@@ -62,7 +62,8 @@ if [%EXTN%] == [.pkg.xml] (
 )
 
 if not defined PRODUCT (
-    set PRODUCT=SampleA
+    REM Pick the first one as the product.
+    for /f %%a in ('dir /B /O-N %SRC_DIR%\Products') do ( set PRODUCT=%%a)
 )
 
 if not defined RELEASE_DIR (

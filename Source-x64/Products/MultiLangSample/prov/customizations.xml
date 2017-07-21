@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WindowsCustomizations>
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
-    <ID>{GUID}</ID>
-    <Name>{Product}Prov</Name>
+    <ID>{7c719f11-71ab-4c2c-8f74-5a95b8709ec5}</ID>
+    <Name>MultiLangSampleProv</Name>
     <Version>1.0.0.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
@@ -12,7 +12,7 @@
       <Common>
         <!--Accounts>
           <ComputerAccount>
-            <ComputerName>{Product}</ComputerName>
+            <ComputerName>MultiLangSample</ComputerName>
           </ComputerAccount>
         </Accounts-->
         <Policies>
@@ -20,7 +20,7 @@
             <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
             <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
           </ApplicationManagement>
-          <!--Security>
+          <Security>
             <AllowAddProvisioningPackage>Yes</AllowAddProvisioningPackage>
             <AllowRemoveProvisioningPackage>Yes</AllowRemoveProvisioningPackage>
             <RequireDeviceEncryption>No</RequireDeviceEncryption>
@@ -39,7 +39,7 @@
             <DeferQualityUpdatesPeriodInDays>0</DeferQualityUpdatesPeriodInDays>
             <DetectionFrequency>22</DetectionFrequency>
             <RequireDeferUpgrade>Do not pause updates</RequireDeferUpgrade>
-          </Update-->
+          </Update>
         </Policies>
       </Common>
     </Customizations>

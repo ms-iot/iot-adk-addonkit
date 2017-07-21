@@ -30,7 +30,7 @@
             <ActiveHoursEnd>17</ActiveHoursEnd>
             <ActiveHoursMaxRange>18</ActiveHoursMaxRange>
             <ActiveHoursStart>8</ActiveHoursStart>
-            <AllowAutoUpdate>Auto-install and restart without end-user control</AllowAutoUpdate>
+            <AllowAutoUpdate>Auto-install and restart</AllowAutoUpdate>
             <AllowMUUpdateService>No</AllowMUUpdateService>
             <AllowNonMicrosoftSignedUpdate>Yes</AllowNonMicrosoftSignedUpdate>
             <AllowUpdateService>Yes</AllowUpdateService>

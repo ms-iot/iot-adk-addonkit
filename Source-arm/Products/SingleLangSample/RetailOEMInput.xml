@@ -1,33 +1,34 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <OEMInput
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
-  <Description>Contoso Windows 10 IoT Core Retail FFU with MBMx64 BSP</Description>
-  <SOC>MBMx64</SOC>
-  <SV>Intel</SV>
-  <Device>MBMx64</Device>
+  <Description>Contoso Windows 10 IoT Core Retail FFU with RPi2 BSP</Description>
+  <SOC>RPi2</SOC>
+  <SV>RASPBERRY PI</SV>
+  <Device>RPi2</Device>
   <ReleaseType>Production</ReleaseType>
   <BuildType>fre</BuildType>
   <SupportedLanguages>
     <UserInterface>
-      <Language>en-us</Language>
+      <Language>en-US</Language>
+      <Language>fr-FR</Language>
     </UserInterface>
     <Keyboard>
-      <Language>en-us</Language>
+      <Language>fr-FR</Language>
     </Keyboard>
     <Speech>
-      <Language>en-us</Language>
+      <Language>fr-FR</Language>
     </Speech>
   </SupportedLanguages>
-  <BootUILanguage>en-us</BootUILanguage>
-  <BootLocale>en-us</BootLocale>
+  <BootUILanguage>fr-FR</BootUILanguage>
+  <BootLocale>fr-FR</BootLocale>
   <Resolutions>
     <Resolution>1024x768</Resolution>
   </Resolutions>
   <AdditionalFMs>
     <!-- Including BSP feature manifest -->
-    <AdditionalFM>%BLD_DIR%\MergedFMs\MBMx64FM.xml</AdditionalFM>
+    <AdditionalFM>%BLD_DIR%\MergedFMs\RPi2FM.xml</AdditionalFM>
     <!-- Including OEM feature manifest -->
     <AdditionalFM>%BLD_DIR%\MergedFMs\OEMCommonFM.xml</AdditionalFM>
     <AdditionalFM>%BLD_DIR%\MergedFMs\OEMFM.xml</AdditionalFM>
@@ -35,20 +36,29 @@
   <Features>
     <Microsoft>
       <Feature>IOT_EFIESP</Feature>
-      <Feature>IOT_EFIESP_BCD</Feature>
+      <Feature>IOT_EFIESP_BCD_MBR</Feature>
       <Feature>IOT_DMAP_DRIVER</Feature>
+      <Feature>IOT_CP210x_MAKERDRIVER</Feature>
+      <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
       <Feature>IOT_GENERIC_POP</Feature>
-      <Feature>IOT_POWER_SETTINGS</Feature>
       <!-- Following two required for Appx Installation -->
       <Feature>IOT_UAP_OOBE</Feature>
       <Feature>IOT_APP_TOOLKIT</Feature>
       <!-- Sample Apps, remove this when you introduce OEM Apps -->
       <Feature>IOT_BERTHA</Feature>
       <Feature>IOT_ALLJOYN_APP</Feature>
+      <Feature>IOT_SHELL_HOTKEY_SUPPORT</Feature>
+      <Feature>IOT_SHELL_ONSCREEN_KEYBOARD</Feature>
+      <Feature>IOT_APPLICATIONS</Feature>
+      <Feature>IOT_CORTANA</Feature>
+      <Feature>IOT_POWER_SETTINGS</Feature>
+      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_SPEECHDATA_FR_FR</Feature>
     </Microsoft>
     <OEM>
       <!-- Include BSP Features -->
-      <Feature>MBMx64_DRIVERS</Feature>
+      <Feature>RPI2_DRIVERS</Feature>
+      <Feature>RPI3_DRIVERS</Feature>
       <!-- Include OEM features -->
       <Feature>OEM_CustomCmd</Feature>
       <Feature>OEM_ProvAuto</Feature>

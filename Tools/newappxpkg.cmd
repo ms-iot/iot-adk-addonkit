@@ -81,29 +81,10 @@ mkdir "%NEWPKG_DIR%"
 REM Create Appx Package using template files
 echo. Creating package xml files
 call appx2pkg.cmd %1 %STARTUP% %COMP_NAME%.%SUB_NAME% %4
-REM Copy the files to the package directory
-move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
-move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
-move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%NEWPKG_DIR%\%CUSTOMIZATIONS%.xml" >nul
-if exist "%FILE_PATH%\Dependencies\%ARCH%" (
-    mkdir "%NEWPKG_DIR%\Dependencies\%ARCH%"
-    copy "%FILE_PATH%\Dependencies\%ARCH%\*.appx" "%NEWPKG_DIR%\Dependencies\%ARCH%\" >nul
-) else if exist "%FILE_PATH%\Dependencies" (
-    mkdir "%NEWPKG_DIR%\Dependencies"
-    copy "%FILE_PATH%\Dependencies\*.appx" "%NEWPKG_DIR%\Dependencies\" >nul 2>nul
-) else if exist "%FILE_PATH%\%ARCH%" (
-    mkdir "%NEWPKG_DIR%\%ARCH%"
-    copy "%FILE_PATH%\%ARCH%\*.appx" "%NEWPKG_DIR%\%ARCH%\" >nul 2>nul
-) else (
-    copy "%FILE_PATH%\*%ARCH%*.appx" "%NEWPKG_DIR%\" >nul 2>nul
-)
+REM Move the files to the package directory
+move "%FILE_PATH%\Package\*" "%NEWPKG_DIR%\" >nul 2>nul
 
-if not defined SKIPCERT (
-    copy "%FILE_PATH%\*.cer" "%NEWPKG_DIR%\" >nul 2>nul
-)
-copy "%FILE_PATH%\*License*.xml" "%NEWPKG_DIR%\" >nul 2>nul
-copy "%FILE_PATH%\%FILE_NAME%.appx" "%NEWPKG_DIR%\%FILE_NAME%.appx" >nul
-
+rmdir %FILE_PATH%\Package >nul 2>nul
 
 echo %NEWPKG_DIR% ready
 goto End

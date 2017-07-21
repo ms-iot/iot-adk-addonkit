@@ -30,6 +30,13 @@ if not [%~x1] == [.appx] goto Usage
 set LONG_NAME=%~n1
 set FILE_NAME=%~n1
 set "FILE_PATH=%~dp1"
+set OUTPUT_PATH=%FILE_PATH%\Package
+if not exist %OUTPUT_PATH% (
+    mkdir %OUTPUT_PATH%
+)
+for /f "tokens=1 delims=_" %%i in ("%FILE_NAME%") do (
+    set SHORT_FILE_NAME=%%i
+)
 
 call %TOOLS_DIR%\GetAppxInfo.exe "%1" > "%FILE_PATH%\appx_info.txt" 2>nul
 for /f "tokens=1,2,3 delims=:,!, " %%i in (%FILE_PATH%\appx_info.txt) do (
@@ -47,9 +54,13 @@ if not defined PROV_VERSION if /i "%ADK_VERSION%" LSS "16190" (
 )
 
 if not defined PROV_RANK ( set PROV_RANK=0)
+if not defined PROV_PATH ( 
+    set PROV_PATH="$(runtime.windows)\Provisioning\Packages"
+)
 
 echo. Provisioning package version : %PROV_VERSION%
 echo.                      rank    : %PROV_RANK%
+echo.                      path    : %PROV_PATH%
 
 for %%A in (%STARTUP_OPTIONS%) do (
     if [%%A] == [%2] (
@@ -63,9 +74,7 @@ if not defined STARTUP (
 
 if [%3] == [] (
     set COMP_NAME=Appx
-    for /f "tokens=1 delims=_" %%i in ("%FILE_NAME%") do (
-        set SUB_NAME=%%i
-    )
+    set SUB_NAME=%SHORT_FILE_NAME%
 ) else (
     for /f "tokens=1,2 delims=." %%i in ("%3") do (
         set COMP_NAME=%%i
@@ -92,6 +101,7 @@ if exist "%FILE_PATH%\Dependencies\%ARCH%" (
 
 if not defined SKIPCERT (
     dir /b "%FILE_PATH%\*.cer" > "%FILE_PATH%\appx_cerlist.txt" 2>nul
+    copy "%FILE_PATH%\*.cer" "%OUTPUT_PATH%\" >nul 2>nul
 )
 
 dir /b "%FILE_PATH%\*License*.xml" > "%FILE_PATH%\appx_license.txt" 2>nul
@@ -102,7 +112,7 @@ if defined LICENSE_FILE (
             set LICENSE_ID=%%j
         )
     )
-    echo.  LicenseProductID : !LICENSE_ID!
+    echo. LicenseProductID : !LICENSE_ID!
 )
 
 echo. Authoring %COMP_NAME%.%SUB_NAME%.pkg.xml
@@ -113,6 +123,25 @@ if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (
     call convertpkg.cmd "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
 )
 
+set SRC_INFO_FILE=%OUTPUT_PATH%\SourceDetails.txt
+echo Source Appx: %FILE_PATH%%FILE_NAME%.appx>> "%SRC_INFO_FILE%"
+echo Dependencies :>> "%SRC_INFO_FILE%"
+
+REM Renaming files to shorten the names
+for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
+    for /f "useback tokens=1,* delims=_" %%A in ("%FILE_PATH%\appx_deplist.txt") do (
+        if [%%B] == [] (
+            copy "%FILE_PATH%%DEP_PATH%\%%A" "%OUTPUT_PATH%\%%A" >nul 2>nul
+            echo.%%A>>"%FILE_PATH%\appx_deplist_trim.txt"
+            echo.%FILE_PATH%%DEP_PATH%\%%A>>"%SRC_INFO_FILE%"
+        ) else (
+            copy "%FILE_PATH%%DEP_PATH%\%%A_%%B" "%OUTPUT_PATH%\%%A.appx" >nul 2>nul
+            echo.%%A.appx>>"%FILE_PATH%\appx_deplist_trim.txt"
+            echo.%FILE_PATH%%DEP_PATH%\%%A_%%B>>"%SRC_INFO_FILE%"
+        )
+    )
+)
+
 echo. Authoring %CUSTOMIZATIONS%.xml
 if exist "%FILE_PATH%\%CUSTOMIZATIONS%.xml" (del "%FILE_PATH%\%CUSTOMIZATIONS%.xml" )
 REM Get a new GUID for the Provisioning config file
@@ -121,11 +150,25 @@ set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
 del %PRODSRC_DIR%\uuid.txt
 call :CREATE_CUSTFILE
 
+copy "%FILE_PATH%\%FILE_NAME%.appx" "%OUTPUT_PATH%\%SHORT_FILE_NAME%.appx" >nul 2>nul
+move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%OUTPUT_PATH%\%CUSTOMIZATIONS%.xml" >nul 2>nul
+move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
+
+if defined LICENSE_FILE (
+    copy %FILE_PATH%\%LICENSE_FILE% %OUTPUT_PATH%\%SHORT_FILE_NAME%_License.ms-windows-store-license >nul 2>nul
+    echo License : %FILE_PATH%%LICENSE_FILE%>> "%SRC_INFO_FILE%"
+)
+
 if not defined SKIPCERT (
+    echo Certificates : >> "%SRC_INFO_FILE%"
+    type "%FILE_PATH%\appx_cerlist.txt" >> "%SRC_INFO_FILE%"
     del "%FILE_PATH%\appx_cerlist.txt"
 )
+
 del "%FILE_PATH%\appx_license.txt"
 del "%FILE_PATH%\appx_deplist.txt"
+del "%FILE_PATH%\appx_deplist_trim.txt"
 del "%FILE_PATH%\appx_info.txt"
 
 endlocal
@@ -141,8 +184,8 @@ call :PRINT_TEXT "   <Components>"
 call :PRINT_TEXT "      <OSComponent>"
 call :PRINT_TEXT "         <Files>"
 REM Printing script files inclusion
-call :PRINT_TEXT "            <File Source="%COMP_NAME%.%SUB_NAME%.ppkg" "
-echo                   DestinationDir="$(runtime.windows)\Provisioning\Packages" >> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
+call :PRINT_TEXT "            <File Source="%COMP_NAME%.%SUB_NAME%.ppkg""
+echo                   DestinationDir=%PROV_PATH%>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
 call :PRINT_TEXT "                  Name="%COMP_NAME%.%SUB_NAME%.ppkg" />"
 call :PRINT_TEXT "         </Files>"
 call :PRINT_TEXT "      </OSComponent>"
@@ -219,13 +262,13 @@ REM Printing APP Install
 call :PRINT_TO_CUSTFILE "        <UniversalAppInstall>"
 call :PRINT_TO_CUSTFILE "          <UserContextApp>"
 call :PRINT_TO_CUSTFILE "            <Application PackageFamilyName="%PACKAGE_FNAME%" Name="%PACKAGE_FNAME%">"
-call :PRINT_TO_CUSTFILE "              <ApplicationFile>%LONG_NAME%.appx</ApplicationFile>"
+call :PRINT_TO_CUSTFILE "              <ApplicationFile>%SHORT_FILE_NAME%.appx</ApplicationFile>"
 REM Printing Dependencies
-for %%B in ("%FILE_PATH%\appx_deplist.txt") do if %%~zB gtr 0 (
+for %%B in ("%FILE_PATH%\appx_deplist_trim.txt") do if %%~zB gtr 0 (
     call :PRINT_TO_CUSTFILE "              <DependencyAppxFiles>"
-    for /f "useback delims=" %%A in ("%FILE_PATH%\appx_deplist.txt") do (
-        if [%%A] NEQ [%LONG_NAME%.appx] (
-            call :PRINT_TO_CUSTFILE "                <Dependency Name="%%A">%DEP_PATH%\%%A</Dependency>"
+    for /f "useback delims=" %%A in ("%FILE_PATH%\appx_deplist_trim.txt") do (
+        if [%%A] NEQ [%SHORT_FILE_NAME%.appx] (
+            call :PRINT_TO_CUSTFILE "                <Dependency Name="%%A">%%A</Dependency>"
         )
     )
     call :PRINT_TO_CUSTFILE "              </DependencyAppxFiles>"
@@ -239,7 +282,8 @@ call :PRINT_TO_CUSTFILE "          </UserContextApp>"
 REM Print license file if present
 if defined LICENSE_FILE (
     call :PRINT_TO_CUSTFILE "          <UserContextAppLicense>"
-    call :PRINT_TO_CUSTFILE "            <LicenseInstall LicenseProductId=%LICENSE_ID% Name=%LICENSE_ID%>.\%LICENSE_FILE%</LicenseInstall>"
+    REM call :PRINT_TO_CUSTFILE "            <LicenseInstall LicenseProductId=%LICENSE_ID% Name=%LICENSE_ID%>.\%LICENSE_FILE%</LicenseInstall>"
+    call :PRINT_TO_CUSTFILE "            <LicenseInstall LicenseProductId=%LICENSE_ID% Name=%LICENSE_ID%>%SHORT_FILE_NAME%_License.ms-windows-store-license</LicenseInstall>"
     call :PRINT_TO_CUSTFILE "          </UserContextAppLicense>"
 ) else (
   echo. No License file. Skipping License section.
@@ -256,10 +300,10 @@ exit /b 0
 
 :PRINT_TEXT
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT! >> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
+echo !TEXT!>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
 exit /b
 
 :PRINT_TO_CUSTFILE
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT! >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
+echo !TEXT!>> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
 exit /b

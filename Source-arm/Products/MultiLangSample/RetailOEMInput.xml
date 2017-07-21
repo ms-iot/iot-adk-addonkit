@@ -11,13 +11,28 @@
   <BuildType>fre</BuildType>
   <SupportedLanguages>
     <UserInterface>
-      <Language>en-us</Language>
+      <Language>en-US</Language>
+      <Language>en-GB</Language> 
+      <Language>fr-CA</Language> 
+      <Language>es-MX</Language>
+      <Language>es-ES</Language> 
+      <Language>fr-FR</Language>
     </UserInterface>
     <Keyboard>
-      <Language>en-us</Language>
+      <Language>en-US</Language>
+      <Language>en-GB</Language> 
+      <Language>fr-CA</Language> 
+      <Language>es-MX</Language>
+      <Language>es-ES</Language> 
+      <Language>fr-FR</Language>
     </Keyboard>
     <Speech>
-      <Language>en-us</Language>
+      <Language>en-US</Language>
+      <Language>en-GB</Language> 
+      <Language>fr-CA</Language> 
+      <Language>es-MX</Language>
+      <Language>es-ES</Language> 
+      <Language>fr-FR</Language>
     </Speech>
   </SupportedLanguages>
   <BootUILanguage>en-us</BootUILanguage>
@@ -37,6 +52,8 @@
       <Feature>IOT_EFIESP</Feature>
       <Feature>IOT_EFIESP_BCD_MBR</Feature>
       <Feature>IOT_DMAP_DRIVER</Feature>
+      <Feature>IOT_CP210x_MAKERDRIVER</Feature>
+      <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
       <Feature>IOT_GENERIC_POP</Feature>
       <!-- Following two required for Appx Installation -->
       <Feature>IOT_UAP_OOBE</Feature>
@@ -44,7 +61,18 @@
       <!-- Sample Apps, remove this when you introduce OEM Apps -->
       <Feature>IOT_BERTHA</Feature>
       <Feature>IOT_ALLJOYN_APP</Feature>
-
+      <Feature>IOT_SHELL_HOTKEY_SUPPORT</Feature>
+      <Feature>IOT_SHELL_ONSCREEN_KEYBOARD</Feature>
+      <Feature>IOT_APPLICATIONS</Feature>
+      <Feature>IOT_CORTANA</Feature>
+      <Feature>IOT_POWER_SETTINGS</Feature>
+      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_SPEECHDATA_EN_CA</Feature>
+      <Feature>IOT_SPEECHDATA_ES_MX</Feature> 
+      <Feature>IOT_SPEECHDATA_FR_CA</Feature> 
+      <Feature>IOT_SPEECHDATA_EN_GB</Feature>
+      <Feature>IOT_SPEECHDATA_ES_ES</Feature>  
+      <Feature>IOT_SPEECHDATA_FR_FR</Feature> 
     </Microsoft>
     <OEM>
       <!-- Include BSP Features -->
