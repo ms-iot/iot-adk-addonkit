@@ -13,11 +13,6 @@
          <Files>
             <File
                 DestinationDir="$(runtime.root)"
-                Name="winpe.wim"
-                Source="winpe.wim"
-                />
-            <File
-                DestinationDir="$(runtime.root)"
                 Name="startrecovery.cmd"
                 Source="startrecovery.cmd"
                 />

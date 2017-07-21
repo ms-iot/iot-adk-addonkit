@@ -1,0 +1,4 @@
+sel dis 1
+sel par 28
+remove letter=x
+exit

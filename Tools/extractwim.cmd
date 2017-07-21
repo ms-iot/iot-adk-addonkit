@@ -30,6 +30,7 @@ if not defined SRC_DIR (
 if not defined FFUNAME ( set FFUNAME=Flash)
 set OUTPUTDIR=%BLD_DIR%\%1\%2
 set IMG_FILE=%BLD_DIR%\%1\%2\%FFUNAME%.ffu
+set IMG_RECOVERY_FILE=%BLD_DIR%\%1\%2\%FFUNAME%_Recovery.ffu
 echo Mounting %IMG_FILE% (this can take some time)..
 call wpimage mount "%IMG_FILE%" > %OUTPUTDIR%\mountlog.txt
 
@@ -43,15 +44,24 @@ for /f "tokens=3,4,* skip=9 delims= " %%i in (%OUTPUTDIR%\mountlog.txt) do (
 )
 
 echo Mounted at %MOUNT_PATH% as %DISK_DRIVE%..
+
+REM Capture EFIESP
+echo Extracting EFIESP wim
+diskpart < %~dp0diskpartAssignEFIESP.txt
+dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\efiesp.wim /CaptureDir:X:\ /Name:"\EFIESP"
+diskpart < %~dp0diskpartUnassignEFIESP.txt
 echo Extracting data wim
-dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DragonBoard DATA" /Compress:max
+dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max
 echo Extracting MainOS wim, this can take a while too..
-dism /Capture-Image /ImageFile:%OUTPUTDIR%\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"DragonBoard MainOS" /Compress:max
+dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"MainOS" /Compress:max
+
+copy %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\winpe.wim %MOUNT_PATH%\mmos
+
+echo %BSP_VERSION% > %MOUNT_PATH%\mmos\RecoveryImageVersion.txt
 
 echo Unmounting %DISK_DRIVE%
-wpimage dismount -physicaldrive %DISK_DRIVE%
+wpimage dismount -physicaldrive %DISK_DRIVE% -imagepath %IMG_RECOVERY_FILE%
 REM del %OUTPUTDIR%\mountlog.txt
-echo %BSP_VERSION% > %OUTPUTDIR%\version.txt
 
 goto End
 
