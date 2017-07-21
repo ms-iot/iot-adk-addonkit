@@ -60,6 +60,19 @@
         </FeatureIDs>
       </PackageFile>
 
+      <!-- Packages for building FFU with Recovery feature -->
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.GPT-BCD.cab">
+        <FeatureIDs>
+          <FeatureID>Recovery_GPT_ARM</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.GPT-BcdEdit.cab">
+        <FeatureIDs>
+          <FeatureID>Recovery_GPT_ARM</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
     </OEM>
     <OEMFeatureGroups/>
   </Features>

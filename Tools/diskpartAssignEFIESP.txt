@@ -1,0 +1,4 @@
+sel dis 1
+sel par 28
+assign letter=x
+exit

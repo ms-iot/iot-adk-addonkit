@@ -15,6 +15,13 @@ exit /b 1
 
 :START
 setlocal
+REM Input validation
+if [%1] == [/?] goto Usage
+if [%1] == [-?] goto Usage
+if [%1] == [] goto Usage
+if [%2] == [] goto Usage
+if /I not [%2] == [Retail] ( if /I not [%2] == [Test] goto Usage )
+
 if not defined PKGBLD_DIR (
     echo Environment not defined. Call setenv
     exit /b 1
@@ -29,14 +36,6 @@ if not exist "%IMG_FILE%" (
 )
 echo Extracting Wims
 call extractwim.cmd %1 %2
-
-copy %COMMON_DIR%\Packages\Recovery.Wimfiles\*.xml %OUTPUTDIR%\ >nul
-echo Building Recovery package
-call buildpkg %OUTPUTDIR%
-
-set FFUNAME=%FFUNAME%Recovery
-echo Building the RecoveryFFU
-call buildimage %1 %2
 
 endlocal
 exit /b

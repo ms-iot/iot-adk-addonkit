@@ -1,0 +1,127 @@
+﻿<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<BootConfigurationDatabase
+    xmlns="http://schemas.microsoft.com/phone/2011/10/BootConfiguration"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    IncludeDescriptions="true"
+    IncludeRegistryHeader="true"
+    >
+  <Objects>
+    <!-- IoT Recovery OS - WIM -->
+    <Object>
+      <FriendlyName>MMOS</FriendlyName>
+      <Elements>
+        <Element>
+          <DataType>
+            <WellKnownType>Description</WellKnownType>
+          </DataType>
+          <ValueType>
+            <StringValue>IoT Recovery OS (Boot from WIM)</StringValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>Inherit</WellKnownType>
+          </DataType>
+          <ValueType>
+            <ObjectListValue>
+              <StringValues>
+                <StringValue>Boot Loader Settings Group</StringValue>
+              </StringValues>
+            </ObjectListValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>System Root</WellKnownType>
+          </DataType>
+          <ValueType>
+            <StringValue>\windows</StringValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>Detect Kernel and HAL</WellKnownType>
+          </DataType>
+          <ValueType>
+            <BooleanValue>true</BooleanValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>WinPE Image</WellKnownType>
+          </DataType>
+          <ValueType>
+            <BooleanValue>true</BooleanValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>Boot Menu Policy</WellKnownType>
+          </DataType>
+          <ValueType>
+            <IntegerValue>0x01</IntegerValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>Application Path</WellKnownType>
+          </DataType>
+          <ValueType>
+            <StringValue>\windows\system32\boot\winload.efi</StringValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>PAE Policy</WellKnownType>
+          </DataType>
+          <ValueType>
+            <IntegerValue>0x01</IntegerValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>Boot Device</WellKnownType>
+          </DataType>
+          <ValueType>
+            <DeviceValue>
+              <RamdiskDevice>
+                <ParentDevice>
+                  <GPTDevice>
+                    <DiskId>{AE420040-13DD-41F2-AE7F-0DC35854C8D7}</DiskId>
+                    <Partition>
+                      <Name>MMOS</Name>
+                    </Partition>
+                  </GPTDevice>
+                </ParentDevice>
+                <FilePath>\winpe.wim</FilePath>
+                <RamdiskOptions>true</RamdiskOptions>
+              </RamdiskDevice>
+            </DeviceValue>
+          </ValueType>
+        </Element>
+        <Element>
+          <DataType>
+            <WellKnownType>OS Loader Type</WellKnownType>
+          </DataType>
+          <ValueType>
+            <DeviceValue>
+              <RamdiskDevice>
+                <ParentDevice>
+                  <GPTDevice>
+                    <DiskId>{AE420040-13DD-41F2-AE7F-0DC35854C8D7}</DiskId>
+                    <Partition>
+                      <Name>MMOS</Name>
+                    </Partition>
+                  </GPTDevice>
+                </ParentDevice>
+                <FilePath>\winpe.wim</FilePath>
+                <RamdiskOptions>true</RamdiskOptions>
+              </RamdiskDevice>
+            </DeviceValue>
+          </ValueType>
+        </Element>
+      </Elements>
+    </Object>
+  </Objects>
+</BootConfigurationDatabase>
