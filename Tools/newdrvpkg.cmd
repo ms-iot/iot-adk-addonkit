@@ -47,7 +47,19 @@ if not defined SRC_DIR (
     echo Environment not defined. Call setenv
     goto End
 )
-set NEWPKG_DIR=%SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%
+
+if defined USEUPDATE (
+    set NEWPKG_DIR=%SRC_DIR%\Updates\%USEUPDATE%\%COMP_NAME%.%SUB_NAME%
+) else (
+    set NEWPKG_DIR=%SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%
+    if not [%3] == [] (
+        if exist %SRC_DIR%\BSP\%3 (
+            set NEWPKG_DIR=%SRC_DIR%\BSP\%3\Packages\%COMP_NAME%.%SUB_NAME%
+        ) else (
+            echo %3 BSP not found. Driver package created at %NEWPKG_DIR%
+        )
+    )
+)
 
 :: Error Checks
 if /i exist %NEWPKG_DIR% (
@@ -66,7 +78,7 @@ if /I [%FILE_TYPE%] == [.inf] (
     call inf2pkg.cmd %1 %COMP_NAME%.%SUB_NAME%
     REM copy the files to the package directory
     echo. Copying files to package directory
-    move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
+REM     move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
     move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
     copy "%FILE_PATH%\%FILE_NAME%.inf" "%NEWPKG_DIR%\%FILE_NAME%.inf" >nul
     cd /D %FILE_PATH%
@@ -79,17 +91,8 @@ if /I [%FILE_TYPE%] == [.inf] (
     move "%FILE_PATH%\inf_filelist.txt" "%NEWPKG_DIR%\inf_filelist.txt" >nul
 )
 
-if not [%3] == [] (
-    if exist %SRC_DIR%\BSP\%3 (
-        move %NEWPKG_DIR% %SRC_DIR%\BSP\%3\Packages\ >nul
-        echo %SRC_DIR%\BSP\%3\Packages\%COMP_NAME%.%SUB_NAME% ready
-    ) else (
-        echo %3 BSP not found. Driver package created at %NEWPKG_DIR%
-    )
+echo %NEWPKG_DIR% ready
 
-) else (
-    echo %NEWPKG_DIR% ready
-)
 goto End
 
 :Error

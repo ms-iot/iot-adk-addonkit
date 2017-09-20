@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FeatureManifest
+    xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+  <BasePackages>
+    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.CUSConfig.OCPInfo.cab"/>
+  </BasePackages>
+
+  <Features>
+    <Microsoft />
+    <MSFeatureGroups />
+    <OEM>
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.CUSConfig.DeviceInfo.cab" >
+        <FeatureIDs>
+          <FeatureID>CUS_DEVICE_INFO</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+    </OEM>
+    <OEMFeatureGroups>
+        <FeatureGroup Constraint="OneAndOnlyOne">
+            <FeatureIDs>
+                <FeatureID>OEM_CUS_DEVICE_INFO</FeatureID>
+                <FeatureID>MS_IOT_DEFAULT_POP</FeatureID>
+            </FeatureIDs>
+        </FeatureGroup>
+    </OEMFeatureGroups>
+    <OEMConditionalFeatures>
+      <ConditionalFeature FeatureID="OEM_CUS_DEVICE_INFO" UpdateAction="NoUpdate" />
+    </OEMConditionalFeatures>
+  </Features>
+</FeatureManifest>

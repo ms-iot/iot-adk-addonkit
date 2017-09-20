@@ -40,11 +40,11 @@ if [%2] == [] (
 cd /D "%FILE_PATH%"
 call inf2pkg.cmd %FILE_NAME%.inf %COMP_NAME%.%SUB_NAME%
 
-echo. Processing %COMP_NAME%.%SUB_NAME%.pkg.xml
+echo. Processing %COMP_NAME%.%SUB_NAME%.wm.xml
 REM set "PKGBLD_DIR=%FILE_PATH%"
 
-call createpkg %COMP_NAME%.%SUB_NAME%.pkg.xml > %COMP_NAME%.%SUB_NAME%.pkg.log
-if not errorlevel 0 ( echo. Error : Failed to create package. See %FILE_PATH%%COMP_NAME%.%SUB_NAME%.pkg.log
+call createpkg %COMP_NAME%.%SUB_NAME%.wm.xml > %COMP_NAME%.%SUB_NAME%.wm.log
+if not errorlevel 0 ( echo. Error : Failed to create package. See %FILE_PATH%%COMP_NAME%.%SUB_NAME%.wm.log
 ) else (echo. Package created. See %PKGBLD_DIR%\%OEM_NAME%.%COMP_NAME%.%SUB_NAME%.cab )
 
 goto End

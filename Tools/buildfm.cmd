@@ -42,8 +42,8 @@ if /I [%1] ==[oem] (
     call :BUILDFM_BSP %2
 ) else if /I [%1] == [OCP] (
     if [%2] == [] goto Usage
-    if /i not exist %SRC_DIR%\Products\%2\OCPUpdate (
-        echo.%CLRRED%Error : %2\OCPUpdate does not exist%CLREND%
+    if /i not exist %SRC_DIR%\Products\%2\CUSConfig (
+        echo.%CLRRED%Error : %2\CUSConfig does not exist%CLREND%
         goto Usage
     )
     call :PKG_VERSION %3

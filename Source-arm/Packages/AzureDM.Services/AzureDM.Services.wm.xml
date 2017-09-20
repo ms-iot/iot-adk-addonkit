@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Services"
+    namespace="AzureDM"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).AzureDM.Services" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <files>
+        <file
+            destinationDir="$(runtime.system32)"
+            source="CommProxy.exe" />
+        <file
+            destinationDir="$(runtime.system32)"
+            source="SystemConfigurator.exe" />
+    </files>
+    <service
+        name="SystemConfigurator"
+        start="auto"
+        type="win32OwnProcess"
+        objectName="LocalSystem"
+        errorControl="normal"
+        displayName="AzureDM System Configurator"
+        description="Provides Device Management JSON Interface"
+        imagePath="c:\Windows\System32\SystemConfigurator.exe">
+        <failureActions
+            resetPeriod="86400">
+            <actions>
+                <action
+                    type="restartService"
+                    delay="1000" />
+                <action
+                    type="restartService"
+                    delay="1000" />
+                <action
+                    type="restartService"
+                    delay="1000" />
+                <action
+                    type="none"
+                    delay="0" />
+            </actions>
+        </failureActions>
+    </service>
+</identity>

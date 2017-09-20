@@ -8,7 +8,6 @@ assign letter="P" noerr
 sel vol 1
 remove all noerr
 assign letter "C" noerr
-format fs=NTFS quick label=MainOS override noerr
 
 sel vol 2
 remove all noerr
@@ -17,7 +16,6 @@ assign letter "R" noerr
 sel vol 3
 remove all noerr
 assign letter="D" noerr
-format fs=NTFS quick label=Data override noerr
 
 sel vol 4
 remove all noerr
