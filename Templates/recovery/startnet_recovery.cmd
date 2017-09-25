@@ -43,4 +43,3 @@ set UDRIVEBINARYBLOB=444D494F3A49443A%vol:~17,2%%vol:~15,2%%vol:~13,2%%vol:~11,2
 reg load "HKLM\RecoveryIoTSystem" %MAINOSDRIVE%:\windows\system32\config\system
 reg add "HKLM\RecoveryIoTSystem\MountedDevices" /v "\DosDevices\U:" /t REG_BINARY /f /d %UDRIVEBINARYBLOB%
 reg unload "HKLM\RecoveryIoTSystem"
-

@@ -18,6 +18,7 @@ exit /b 1
 
 :START
 setlocal
+pushd
 REM Input validation
 if [%1] == [/?] goto Usage
 if [%1] == [-?] goto Usage
@@ -79,6 +80,7 @@ if not exist %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\winpe.wim (
 )
 
 set IMG_RECOVERY_FILE=%OUTPUTDIR%\%FFUNAME%_Recovery.ffu
+cd /D %OUTPUTDIR%
 echo Mounting %IMG_FILE% (this can take some time)..
 call wpimage mount "%IMG_FILE%" > %OUTPUTDIR%\mountlog.txt
 
@@ -123,7 +125,7 @@ if /I [%WIMMODE%] == [Import] (
         echo Extracting EFIESP wim
         diskpart < %OUTPUTDIR%\diskpartassign.txt
         if exist X:\EFI (
-            dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\efiesp.wim /CaptureDir:X:\ /Name:"\EFIESP"
+            dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:X:\ /Name:"\EFIESP"
         ) else (
             echo.%CLRYEL%Warning:EFI_PAR_NR is incorrect. EFIESP wim is skipped%CLREND% 
         )
@@ -133,20 +135,25 @@ if /I [%WIMMODE%] == [Import] (
     )
 
     echo Extracting data wim
-    dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max
+    dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max
 
     echo Extracting MainOS wim, this can take a while too..
-    dism /Capture-Image /ImageFile:%MOUNT_PATH%\mmos\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"MainOS" /Compress:max
+    dism /Capture-Image /ImageFile:%OUTPUTDIR%\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"MainOS" /Compress:max
 
-    echo %BSP_VERSION% > %MOUNT_PATH%\mmos\RecoveryImageVersion.txt
+    echo %BSP_VERSION% > %OUTPUTDIR%\RecoveryImageVersion.txt
+    copy %OUTPUTDIR%\efiesp.wim %MOUNT_PATH%\mmos\EFIESP.wim >nul
+    copy %OUTPUTDIR%\data.wim %MOUNT_PATH%\mmos\MainOS.wim >nul
+    copy %OUTPUTDIR%\mainos.wim %MOUNT_PATH%\mmos\Data.wim >nul
+    copy %OUTPUTDIR%\RecoveryImageVersion.txt %MOUNT_PATH%\mmos\RecoveryImageVersion.txt >nul
+
     if /I [%WIMMODE%] == [Export] (
         REM Wimfiles provided. Copy the wim files from that directory
         echo. Exporting wim files to %WIMDIR%
         if not exist %WIMDIR% ( mkdir %WIMDIR% )
-        copy %MOUNT_PATH%\mmos\EFIESP.wim %WIMDIR% >nul
-        copy %MOUNT_PATH%\mmos\MainOS.wim %WIMDIR% >nul
-        copy %MOUNT_PATH%\mmos\Data.wim %WIMDIR% >nul
-        copy %MOUNT_PATH%\mmos\RecoveryImageVersion.txt %WIMDIR% >nul
+        copy %OUTPUTDIR%\EFIESP.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\MainOS.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\Data.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\RecoveryImageVersion.txt %WIMDIR% >nul
     )
 )
 echo Copying winpe.wim..
@@ -157,6 +164,7 @@ echo Unmounting %DISK_DRIVE%
 wpimage dismount -physicaldrive %DISK_DRIVE% -imagepath %IMG_RECOVERY_FILE% -nosign
 del %OUTPUTDIR%\mountlog.txt
 
+popd
 endlocal
 exit /b
 
@@ -164,5 +172,6 @@ exit /b
 echo Unmounting %DISK_DRIVE% without saving
 wpimage dismount -physicaldrive %DISK_DRIVE% 
 del %OUTPUTDIR%\mountlog.txt
+popd
 endlocal
 exit /b 1
