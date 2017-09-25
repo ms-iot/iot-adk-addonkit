@@ -14,7 +14,7 @@
             <regValue
                 name="AllowedExecutableFilesList"
                 type="REG_MULTI_SZ"
-                value="&amp;quot;$(runtime.system32)\CommProxy.exe\0&amp;quot;" />
+                value="$(runtime.system32)\CommProxy.exe\0" />
         </regKey>
     </regKeys>
 </identity>

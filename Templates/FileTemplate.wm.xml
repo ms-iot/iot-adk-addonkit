@@ -8,7 +8,7 @@
         targetPartition="MainOS"
         releaseType="Production"
         ownerType="OEM" />
-    <!--<regKeys>
+    <regKeys>
         <regKey
             keyName="$(hklm.software)\$(OEMNAME)\Test">
             <regValue
@@ -26,8 +26,8 @@
         </regKey>
         <regKey
             keyName="$(hklm.software)\$(OEMNAME)\EmptyKey" />
-    </regKeys>-->
-    <files>
+    </regKeys>
+    <!--<files>
         <file
             destinationDir="$(runtime.system32)"
             source="filename.txt" />
@@ -35,5 +35,5 @@
             destinationDir="$(runtime.bootDrive)\OEMInstall"
             source="filename2.txt"
             name="filename2.txt" />
-    </files>
+    </files> -->
 </identity>
