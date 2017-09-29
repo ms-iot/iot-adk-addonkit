@@ -143,8 +143,8 @@ for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
             echo.%%A>>"%FILE_PATH%\appx_deplist_trim.txt"
             echo.%FILE_PATH%%DEP_PATH%\%%A>>"%SRC_INFO_FILE%"
         ) else (
-            copy "%FILE_PATH%%DEP_PATH%\%%A_%%B" "%OUTPUT_PATH%\%%A.appx" >nul 2>nul
-            echo.%%A.appx>>"%FILE_PATH%\appx_deplist_trim.txt"
+            copy "%FILE_PATH%%DEP_PATH%\%%A_%%B" "%OUTPUT_PATH%\%%A.%FILE_TYPE%" >nul 2>nul
+            echo.%%A.%FILE_TYPE%>>"%FILE_PATH%\appx_deplist_trim.txt"
             echo.%FILE_PATH%%DEP_PATH%\%%A_%%B>>"%SRC_INFO_FILE%"
         )
     )
