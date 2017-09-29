@@ -53,7 +53,8 @@ set SIGN_WITH_TIMESTAMP=0
 
 
 REM Local project settings
-set MSPKG_DIR=%KITSROOT%MSPackages\Retail\%BSP_ARCH%\fre
+if not defined MSPACKAGE ( set "MSPACKAGE=%KITSROOT%MSPackages" )
+set MSPKG_DIR=%MSPACKAGE%\Retail\%BSP_ARCH%\fre
 set COMMON_DIR=%IOTADK_ROOT%\Common
 set SRC_DIR=%IOTADK_ROOT%\Source-%1
 set PKGSRC_DIR=%SRC_DIR%\Packages
@@ -68,14 +69,15 @@ REM Set the location of the BSP packages, currently set to the build folder. Ove
 if not defined BSPPKG_DIR (
     set BSPPKG_DIR=%PKGBLD_DIR%
 )
-
-REM Temporary fix to support RS2 ADK while migrating to next release
-if /i "%ADK_VERSION%" LSS "16190" (
-    set CUSTOMIZATIONS=customizations_RS2
-) else (
-    set CUSTOMIZATIONS=customizations
-    set UNIVERSAL_BSP=1
+set MIN_ADK_VERSION=16287
+REM Check ADK version 
+if /i "%ADK_VERSION%" LEQ "%MIN_ADK_VERSION%" (
+    echo.%CLRRED%Error: ADK version %ADK_VERSION% is not supported with this tools version. Requires version greater than %MIN_ADK_VERSION%%CLREND%
+    pause
+    exit /b 1
 )
+
+set CUSTOMIZATIONS=customizations
 
 call setversion.cmd
 

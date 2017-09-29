@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="WinPE"
+    namespace="Recovery"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Recovery.WinPE" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MMOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <files>
+        <file
+            destinationDir="$(runtime.bootDrive)"
+            name="winpe.wim"
+            source="winpe.wim" />
+        <file
+            destinationDir="$(runtime.bootDrive)"
+            name="startrecovery.cmd"
+            source="startrecovery.cmd" />
+    </files>
+</identity>

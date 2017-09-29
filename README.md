@@ -46,6 +46,9 @@ This branch supports the lastest Windows 10 IoT Core release available ( current
 ## Develop Branch
 This branch contains the active development contents, mostly addressing the upcoming release features.
 
+## wm.xml Branch
+This branch supports the latest wm.xml packaging and requires ADK version **16288** or higher and this does not support ADK 15063.
+
 ## Older Versions
 
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).

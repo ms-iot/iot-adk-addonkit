@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Version"
+    namespace="Registry"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Registry.Version" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <regKey
+            keyName="$(hklm.software)\$(OEMNAME)">
+            <regValue
+                name="Product"
+                type="REG_SZ"
+                value="$(PROD)" />
+            <regValue
+                name="Version"
+                type="REG_SZ"
+                value="$(BSPVER)" />
+            <regValue
+                name="BuildTime"
+                type="REG_SZ"
+                value="$(BUILDTIME)" />
+        </regKey>
+    </regKeys>
+</identity>

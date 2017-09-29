@@ -2,26 +2,16 @@ sel disk 0
 lis vol
 
 sel vol 0
-remove all noerr
-assign letter="P" noerr
-
-sel vol 1
-remove all noerr
-assign letter "C" noerr
-format fs=NTFS quick label=MainOS override noerr
+assign letter=P noerr
 
 sel vol 2
-remove all noerr
-assign letter "R" noerr
+assign letter=R noerr
 
 sel vol 3
-remove all noerr
-assign letter="D" noerr
-format fs=NTFS quick label=Data override noerr
+assign letter=D noerr
 
 sel vol 4
-remove all noerr
-assign letter="E" noerr
+assign letter=E noerr
 
 lis vol
 exit

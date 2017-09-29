@@ -1,0 +1,14 @@
+sel disk 0
+
+sel vol 1
+remove all dismount noerr
+assign letter=C noerr
+format fs=NTFS quick label="MainOS" override noerr
+
+sel vol 3
+remove all dismount noerr
+assign letter=D noerr
+format fs=NTFS quick label="Data" override noerr
+
+lis vol
+exit
