@@ -69,10 +69,10 @@ REM Set the location of the BSP packages, currently set to the build folder. Ove
 if not defined BSPPKG_DIR (
     set BSPPKG_DIR=%PKGBLD_DIR%
 )
-
+set MIN_ADK_VERSION=16287
 REM Check ADK version 
-if /i "%ADK_VERSION%" LSS "16261" (
-    echo.%CLRRED%Error: ADK version %ADK_VERSION% is not supported with this tools version. Require version greater than 16262%CLREND%
+if /i "%ADK_VERSION%" LEQ "%MIN_ADK_VERSION%" (
+    echo.%CLRRED%Error: ADK version %ADK_VERSION% is not supported with this tools version. Requires version greater than %MIN_ADK_VERSION%%CLREND%
     pause
     exit /b 1
 )
