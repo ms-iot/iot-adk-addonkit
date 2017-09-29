@@ -71,7 +71,10 @@
       <!-- Include OEM features -->
       <Feature>OEM_CustomCmd</Feature>
       <Feature>RECOVERY_BCD</Feature>
+      <Feature>CUSTOM_OOBEAPP</Feature>
       <Feature>OEM_ProvAuto</Feature>
+      <Feature>AZUREDM_SERVICES</Feature>
+      <Feature>AZUREDM_REGISTRY</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

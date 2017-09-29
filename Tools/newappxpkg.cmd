@@ -67,7 +67,12 @@ if not defined SRC_DIR (
     echo Environment not defined. Call setenv
     goto End
 )
-set "NEWPKG_DIR=%SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%"
+
+if defined USEUPDATE (
+    set "NEWPKG_DIR=%SRC_DIR%\Updates\%USEUPDATE%\%COMP_NAME%.%SUB_NAME%"
+) else (
+    set "NEWPKG_DIR=%SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%"
+)
 
 REM Error Checks
 if /i exist %NEWPKG_DIR% (

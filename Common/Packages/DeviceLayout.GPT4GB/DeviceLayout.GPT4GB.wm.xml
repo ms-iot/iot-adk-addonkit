@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="GPT4GB"
+    namespace="DeviceLayout"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).DeviceLayout.GPT4GB" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <files>
+        <file
+            destinationDir="$(runtime.windows)\ImageUpdate"
+            source="DeviceLayout.xml"
+            name="DeviceLayout.xml" />
+        <file
+            destinationDir="$(runtime.windows)\ImageUpdate"
+            source="OEMDevicePlatform.xml"
+            name="OEMDevicePlatform.xml" />
+    </files>
+</identity>

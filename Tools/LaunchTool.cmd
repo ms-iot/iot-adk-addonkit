@@ -106,7 +106,7 @@ REM Change to Working directory
 cd /D %IOTADK_ROOT%\Tools
 call setOEM.cmd
 doskey /macrofile=alias.txt
-set IOT_ADDON_VERSION=4.0_dev
+set IOT_ADDON_VERSION=4.0_wm
 
 echo IOTADK_ROOT : %IOTADK_ROOT%
 echo ADK_VERSION : %ADK_VERSION%

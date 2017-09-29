@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="GPIO"
+    namespace="CustomMBM"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).CustomMBM.GPIO" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <drivers>
+        <driver>
+            <inf
+                source="iaiogpio.inf" />
+            <files>
+                <file
+                    source="iaiogpio.sys"
+                    name="iaiogpio.sys" />
+            </files>
+        </driver>
+    </drivers>
+</identity>

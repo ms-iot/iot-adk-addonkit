@@ -45,7 +45,7 @@ md "%MOUNTDIR%"
 echo Copying WinPE from Install directory
 copy "%WINPE_ROOT%\%BSP_ARCH%\en-us\winpe.wim" "%WINPEDIR%" >nul
 copy "%IOTADK_ROOT%\Templates\recovery\startrecovery.cmd" %WINPEDIR%\startrecovery.cmd >nul
-copy "%IOTADK_ROOT%\Templates\recovery\Recovery.WinPE.pkg.xml" %WINPEDIR%\Recovery.WinPE.pkg.xml >nul
+copy "%IOTADK_ROOT%\Templates\recovery\Recovery.WinPE.wm.xml" %WINPEDIR%\Recovery.WinPE.wm.xml >nul
 echo Mounting WinPE at %MOUNTDIR%
 dism /mount-wim /wimfile:%WINPEDIR%\winpe.wim /index:1 /mountdir:%MOUNTDIR%
 
@@ -63,8 +63,10 @@ if [%BSP_ARCH%] == [arm] (
     )
 )
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\startnet.cmd" %MOUNTDIR%\windows\system32\startnet.cmd >nul
+copy "%IOTADK_ROOT%\Templates\recovery\startnet.cmd" %MOUNTDIR%\windows\system32\ >nul
+copy "%IOTADK_ROOT%\Templates\recovery\startnet_recovery.cmd" %MOUNTDIR%\windows\system32\ >nul
 copy "%IOTADK_ROOT%\Templates\recovery\diskpart_assign.txt" %MOUNTDIR%\windows\system32\ >nul
+copy "%IOTADK_ROOT%\Templates\recovery\diskpart_format.txt" %MOUNTDIR%\windows\system32\ >nul
 copy "%IOTADK_ROOT%\Templates\recovery\diskpart_remove.txt" %MOUNTDIR%\windows\system32\ >nul
 
 echo Saving and unmounting WinPE

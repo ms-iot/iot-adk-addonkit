@@ -31,7 +31,11 @@ if NOT DEFINED COMMON_DIR (
     echo Environment not defined. Call setenv
     goto End
 )
-SET NEWPKG_DIR=%COMMON_DIR%\Packages\%1
+if defined USEUPDATE (
+    set NEWPKG_DIR=%SRC_DIR%\Updates\%USEUPDATE%\%1
+) else (
+    set NEWPKG_DIR=%COMMON_DIR%\Packages\%1
+)
 
 :: Error Checks
 if /i EXIST %NEWPKG_DIR% (
@@ -48,7 +52,7 @@ echo Creating %1 package
 mkdir "%NEWPKG_DIR%"
 
 :: Create File/Registry package using template files
-powershell -Command "(gc %IOTADK_ROOT%\Templates\FileTemplate.pkg.xml) -replace 'COMPNAME', '%COMP_NAME%' -replace 'SUBNAME', '%SUB_NAME%' -replace 'PLFNAME', 'Common' | Out-File %NEWPKG_DIR%\%1.pkg.xml -Encoding utf8"
+powershell -Command "(gc %IOTADK_ROOT%\Templates\FileTemplate.wm.xml) -replace 'COMPNAME', '%COMP_NAME%' -replace 'SUBNAME', '%SUB_NAME%' -replace 'PLFNAME', 'Common' | Out-File %NEWPKG_DIR%\%1.wm.xml -Encoding utf8"
 
 
 echo %NEWPKG_DIR% ready

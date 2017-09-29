@@ -64,6 +64,7 @@ del "%OUTPUT_PATH%\input.inf"
 REM del "%OUTPUT_PATH%\inf_filelist.txt"
 if exist "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (
     call convertpkg.cmd "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+	del /q /f "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
 )
 popd
 endlocal
