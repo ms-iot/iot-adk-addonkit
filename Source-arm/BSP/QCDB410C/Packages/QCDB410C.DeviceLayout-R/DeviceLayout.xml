@@ -225,9 +225,10 @@
     <!-- Recovery Partition  -->
     <Partition>
       <Name>MMOS</Name>
+      <FileSystem>FAT32</FileSystem>
+      <TotalSectors>4096000</TotalSectors>
+      <!--MinFreeSectors>6553600</MinFreeSectors-->
       <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
-      <FileSystem>NTFS</FileSystem>
-      <TotalSectors>4915200</TotalSectors>
     </Partition>
     <Partition>
       <Name>Data</Name>

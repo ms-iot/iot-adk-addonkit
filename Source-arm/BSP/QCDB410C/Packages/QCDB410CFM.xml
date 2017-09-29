@@ -9,7 +9,7 @@
   <BasePackages>
     <!-- System Information package for providing system details , required for DM enrollment etc -->
     <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
-    <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" FeatureIdentifierPackage="true"/-->
+    <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" /-->
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcUrsFilter.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QHEE.cab" />
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSEE.cab" />
@@ -97,12 +97,12 @@
     <Microsoft />
     <MSFeatureGroups />
     <OEM>
-      <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceInfo.cab" FeatureIdentifierPackage="true">
+      <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceInfo.cab">
         <FeatureIDs>
           <FeatureID>QCDB410C_DEVICE_INFO</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceTargetingInfo.cab" FeatureIdentifierPackage="true">
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceTargetingInfo.cab">
         <FeatureIDs>
           <FeatureID>QCDB410C_DEVICE_TARGETINGINFO</FeatureID>
         </FeatureIDs>

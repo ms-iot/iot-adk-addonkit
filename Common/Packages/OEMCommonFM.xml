@@ -73,6 +73,18 @@
         </FeatureIDs>
       </PackageFile>
 
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.OOBEApp.cab">
+        <FeatureIDs>
+          <FeatureID>CUSTOM_OOBEAPP</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Registry.AzureDM.cab">
+        <FeatureIDs>
+          <FeatureID>AZUREDM_REGISTRY</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
     </OEM>
     <OEMFeatureGroups/>
   </Features>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="HotKey"
+    namespace="Settings"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Settings.HotKey" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <regKey
+            keyName="$(hklm.software)\Microsoft\Windows NT\CurrentVersion\Winlogon\IoTShellExtension\HotKeys">
+            <regValue
+                name="VK_LWIN"
+                type="REG_QWORD"
+                value="000000000000005B" />
+            <regValue
+                name="VK_RWIN"
+                type="REG_QWORD"
+                value="000000000000005C" />
+            <regValue
+                name="ALT_VK_RWIN"
+                type="REG_QWORD"
+                value="000000000001005C" />
+        </regKey>
+    </regKeys>
+</identity>

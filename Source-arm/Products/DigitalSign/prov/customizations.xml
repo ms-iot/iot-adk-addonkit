@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>{1565bfb4-3da7-44b4-a520-d0ec68fc264d}</ID>
+    <Name>DigitalSignProv</Name>
+    <Version>1.0.0.0</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <Accounts>
+          <ComputerAccount>
+            <ComputerName>DSIGN-%RAND:4%</ComputerName>
+          </ComputerAccount>
+        </Accounts>
+        <Policies>
+          <ApplicationManagement>
+            <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+          <!--Security>
+            <AllowAddProvisioningPackage>Yes</AllowAddProvisioningPackage>
+            <AllowRemoveProvisioningPackage>Yes</AllowRemoveProvisioningPackage>
+            <RequireDeviceEncryption>No</RequireDeviceEncryption>
+            <RequireProvisioningPackageSignature>No</RequireProvisioningPackageSignature>
+          </Security>
+          <Update>
+            <ActiveHoursEnd>17</ActiveHoursEnd>
+            <ActiveHoursMaxRange>18</ActiveHoursMaxRange>
+            <ActiveHoursStart>8</ActiveHoursStart>
+            <AllowAutoUpdate>Auto-install and restart without end-user control</AllowAutoUpdate>
+            <AllowMUUpdateService>No</AllowMUUpdateService>
+            <AllowNonMicrosoftSignedUpdate>Yes</AllowNonMicrosoftSignedUpdate>
+            <AllowUpdateService>Yes</AllowUpdateService>
+            <BranchReadinessLevel>Current Branch</BranchReadinessLevel>
+            <DeferFeatureUpdatesPeriodInDays>0</DeferFeatureUpdatesPeriodInDays>
+            <DeferQualityUpdatesPeriodInDays>0</DeferQualityUpdatesPeriodInDays>
+            <DetectionFrequency>22</DetectionFrequency>
+            <RequireDeferUpgrade>Do not pause updates</RequireDeferUpgrade>
+          </Update-->
+        </Policies>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>

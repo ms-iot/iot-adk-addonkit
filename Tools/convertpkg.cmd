@@ -40,40 +40,27 @@ if [%1] == [] goto Usage
 
 REM Add variables for pkg2wm
 set PKGGEN_VAR=_RELEASEDIR=$(_RELEASEDIR);PROD=$(PROD);PRJDIR=$(PRJDIR);COMDIR=$(COMDIR);BSPVER=$(BSPVER)
-set PKGGEN_VAR=%PKGGEN_VAR%;BSPARCH=$(BSPARCH);OEMNAME=$(OEMNAME)
+set PKGGEN_VAR=%PKGGEN_VAR%;BSPARCH=$(BSPARCH);OEMNAME=$(OEMNAME);BUILDTIME=$(BUILDTIME)
 REM if you encounter the following error, add the symbol here
 REM (PkgBldr.Common) : error : Undefined variable runtime.clipAppLicenseInstall
 set PKGGEN_VAR=%PKGGEN_VAR%;runtime.clipAppLicenseInstall=$(runtime.clipAppLicenseInstall)
 
 if /I [%1] == [All] (
 
-    echo Converting all packages under %COMMON_DIR%\Packages
-    dir %COMMON_DIR%\Packages\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt
-
+    dir %COMMON_DIR%\Packages\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
+    dir %SRC_DIR%\*.pkg.xml /S /b >> %PKGLOG_DIR%\packagelist.txt 2>nul
     call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt
-
-    echo Converting all packages under %PKGSRC_DIR%
-    dir %PKGSRC_DIR%\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt
-
-    call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt
-
-    echo Converting all packages under %BSPSRC_DIR%
-    dir %BSPSRC_DIR%\*.pkg.xml /S /b > %PKGLOG_DIR%\packagelist.txt
-
-    call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt
-) else if /I [%1] == [Clean] (
-    echo. Deleting all .wm.xml files
-    del /S /Q %IOTADK_ROOT%\*.wm.xml >nul 2>nul
+    
 ) else (
     if [%~x1] == [.xml] (
         echo %1 > %PKGLOG_DIR%\packagelist.txt
     ) else (
         if exist "%PKGSRC_DIR%\%1" (
             REM Enabling support for multiple .pkg.xml files in one directory.
-            dir "%PKGSRC_DIR%\%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt
+            dir "%PKGSRC_DIR%\%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
         ) else if exist "%COMMON_DIR%\Packages\%1" (
             REM Enabling support for multiple .pkg.xml files in one directory.
-            dir "%COMMON_DIR%\Packages\%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt
+            dir "%COMMON_DIR%\Packages\%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
         ) else if exist "%1" (
             REM Enabling support for multiple .pkg.xml files in one directory.
             dir "%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
@@ -87,7 +74,7 @@ if /I [%1] == [All] (
                 goto Usage
             ) else (
                 if !RESULT! NEQ "" (
-                   dir "!RESULT!\*.pkg.xml" /S /B > %PKGLOG_DIR%\packagelist.txt
+                   dir "!RESULT!\*.pkg.xml" /S /B > %PKGLOG_DIR%\packagelist.txt 2>nul
                 )
             )
         )
@@ -107,21 +94,20 @@ REM ----------------------------------------------------------------------------
 REM
 REM SUB_PROCESSLIST <filename>
 REM
-REM Processes the file list, calls createpkg for each item in the list
+REM Processes the file list, calls pkggen /convert:pkg2wm for each item in the list
 REM
 REM -------------------------------------------------------------------------------
 :SUB_PROCESSLIST
 
 if %~z1 gtr 0 (
     for /f "delims=" %%i in (%1) do (
-       echo. Processing %%~nxi
+       echo. Converting %%~nxi
        set NAME=%%~dpni
        set NAME=!NAME:~0,-4!
        REM echo Name: !NAME!
-       call pkggen.exe "%%i" /convert:pkg2wm /output:"!NAME!.wm.xml" /useLegacyName:true /foroempkg:true /variables:"%PKGGEN_VAR%"
+       call pkggen.exe "%%i" /convert:pkg2wm /output:"!NAME!.wm.xml" /useLegacyName:true /foroempkg:true /variables:"%PKGGEN_VAR%" >nul
        if not errorlevel 0 ( echo.%CLRRED%Error : Failed to create package. See %PKGLOG_DIR%\%%~ni.log%CLREND%)
     )
-) else (
-    echo.%CLRRED%Error: No package definition files found.%CLREND%
 )
+
 exit /b

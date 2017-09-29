@@ -29,7 +29,7 @@
     <Partition>
       <Name>MMOS</Name>
       <Type>0x07</Type>
-      <FileSystem>NTFS</FileSystem>
+      <FileSystem>FAT32</FileSystem>
       <TotalSectors>2457600</TotalSectors>
     </Partition>
 

@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="SUBNAME"
+    namespace="COMPNAME"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).COMPNAME.SUBNAME" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <regKey
+            keyName="$(hklm.software)\$(OEMNAME)\Test">
+            <regValue
+                name="StringValue"
+                type="REG_SZ"
+                value="Test string" />
+            <regValue
+                name="DWordValue"
+                type="REG_DWORD"
+                value="0x12AB34CD" />
+            <regValue
+                name="BinaryValue"
+                type="REG_BINARY"
+                value="12ABCDEF" />
+        </regKey>
+        <regKey
+            keyName="$(hklm.software)\$(OEMNAME)\EmptyKey" />
+    </regKeys>
+    <!--<files>
+        <file
+            destinationDir="$(runtime.system32)"
+            source="filename.txt" />
+        <file
+            destinationDir="$(runtime.bootDrive)\OEMInstall"
+            source="filename2.txt"
+            name="filename2.txt" />
+    </files> -->
+</identity>
