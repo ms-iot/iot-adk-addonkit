@@ -23,6 +23,11 @@ if [%1] == [] goto Usage
 set BSPCABS=%~dp0\FMCabList.txt
 set SRC_DIR=%1
 
+if not exist %SRC_DIR%\prebuilt (
+    echo Error: Provide the directory path of BSP containing \prebuilt folder
+    exit /b 1
+)
+
 if [%2] == [] (
     set DEST_DIR=%PKGBLD_DIR%
 ) else (
@@ -38,14 +43,20 @@ for /f "delims=" %%i in (%BSPCABS%) do (
 )
 
 for /f "delims=" %%i in (filelist.txt) do (
+    echo copying %%i..
     copy %%i %DEST_DIR% >nul 2>nul
 )
-
+echo copying Qualcomm.QC8916.OEMDevicePlatform.cab..
 copy %SRC_DIR%\prebuilt\8016\cabfiles\DevicePlatformID\8016\SBC\Qualcomm.QC8916.OEMDevicePlatform.cab %DEST_DIR% >nul 2>nul
+echo copying Qualcomm.QC8916.qcAlsCalibrationMTP.cab..
 copy %SRC_DIR%\prebuilt\8016\cabfiles\mtp\Qualcomm.QC8916.qcAlsCalibrationMTP.cab %DEST_DIR% >nul 2>nul
+echo copying Qualcomm.QC8916.qcAlsPrxAPDS9900.cab..
 copy %SRC_DIR%\prebuilt\8016\cabfiles\mtp\Qualcomm.QC8916.qcAlsPrxAPDS9900.cab %DEST_DIR% >nul 2>nul
+echo copying Qualcomm.QC8916.qcMagAKM8963.cab..
 copy %SRC_DIR%\prebuilt\8016\cabfiles\mtp\Qualcomm.QC8916.qcMagAKM8963.cab %DEST_DIR% >nul 2>nul
+echo copying Qualcomm.QC8916.qcTouchScreenRegsitry1080p.cab..
 copy %SRC_DIR%\prebuilt\8016\cabfiles\mtp\Qualcomm.QC8916.qcTouchScreenRegsitry1080p.cab %DEST_DIR% >nul 2>nul
+
 
 del filelist.txt
 endlocal
