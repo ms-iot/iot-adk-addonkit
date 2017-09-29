@@ -76,14 +76,27 @@ if defined USEUPDATE (
 
 REM Error Checks
 if /i exist %NEWPKG_DIR% (
-    echo Error : %COMP_NAME%.%SUB_NAME% already exists
-    goto End
+    echo Warning : %COMP_NAME%.%SUB_NAME% already exists
+    choice /T 5 /D Y /M "Do you want to overwrite"
+    if errorlevel 2 (
+        goto End 
+    )
 )
 
 REM Start processing command
 echo Creating %COMP_NAME%.%SUB_NAME% package
 
 mkdir "%NEWPKG_DIR%"
+
+if /i exist %SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME% (
+    echo %COMP_NAME%.%SUB_NAME% source package found
+    findstr /L "<ID>" %SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%\customizations.xml > %NEWPKG_DIR%\guid.txt
+    for /f "tokens=3 delims=<,>,{,}" %%i in (%NEWPKG_DIR%\guid.txt) do (
+        set NEWGUID=%%i
+    )
+    echo PPKG ID : !NEWGUID!
+    del %NEWPKG_DIR%\guid.txt >nul
+)
 
 REM Create Appx Package using template files
 echo. Creating package xml files
