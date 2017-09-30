@@ -88,7 +88,7 @@ echo Creating %COMP_NAME%.%SUB_NAME% package
 
 mkdir "%NEWPKG_DIR%"
 
-if /i exist %SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME% (
+if /i exist %SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%\customizations.xml (
     echo %COMP_NAME%.%SUB_NAME% source package found
     findstr /L "<ID>" %SRC_DIR%\Packages\%COMP_NAME%.%SUB_NAME%\customizations.xml > %NEWPKG_DIR%\guid.txt
     for /f "tokens=3 delims=<,>,{,}" %%i in (%NEWPKG_DIR%\guid.txt) do (
