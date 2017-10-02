@@ -142,8 +142,8 @@ if /I [%WIMMODE%] == [Import] (
 
     echo %BSP_VERSION% > %OUTPUTDIR%\RecoveryImageVersion.txt
     copy %OUTPUTDIR%\efiesp.wim %MOUNT_PATH%\mmos\EFIESP.wim >nul
-    copy %OUTPUTDIR%\data.wim %MOUNT_PATH%\mmos\MainOS.wim >nul
-    copy %OUTPUTDIR%\mainos.wim %MOUNT_PATH%\mmos\Data.wim >nul
+    copy %OUTPUTDIR%\mainos.wim %MOUNT_PATH%\mmos\MainOS.wim >nul
+    copy %OUTPUTDIR%\data.wim %MOUNT_PATH%\mmos\Data.wim >nul
     copy %OUTPUTDIR%\RecoveryImageVersion.txt %MOUNT_PATH%\mmos\RecoveryImageVersion.txt >nul
 
     if /I [%WIMMODE%] == [Export] (
