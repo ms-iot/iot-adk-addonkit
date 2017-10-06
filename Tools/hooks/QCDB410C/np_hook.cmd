@@ -10,7 +10,7 @@ if [%BSPNAME%] NEQ [QCDB410C] (
 )
 
 echo. Provide SMBIOS fields
-set SKU_NAME=%PRODUCT%1
+set SKU_NAME=%PRODUCT%SKU
 set FAMILY_NAME=%OEM_NAME%Family
 set BB_PRODNAME=QCDB410C
 choice /T 10 /D N /M "Do you want to provide SMBIOS data? "
