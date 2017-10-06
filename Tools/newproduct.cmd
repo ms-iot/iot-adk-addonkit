@@ -77,6 +77,12 @@ powershell -Command "(gc %IOTADK_ROOT%\Templates\%CUSTOMIZATIONS%.xml) -replace 
 REM Store BSP info for the product for later used
 echo BSP=%BSPNAME%> %PRODSRC_DIR%\prodconfig.txt
 
+REM Invoke BSP specific build hooks
+if exist %TOOLS_DIR%\hooks\%BSPNAME%\np_hook.cmd (
+    echo. Running %BSPNAME% specifics
+    call %TOOLS_DIR%\hooks\%BSPNAME%\np_hook.cmd
+)
+
 echo %1 product directories ready
 goto End
 

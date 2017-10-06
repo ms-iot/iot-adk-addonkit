@@ -46,6 +46,11 @@ if defined USEUPDATE (
     goto Usage
   )
 )
+REM Read the config info for BSP
+for /f "tokens=1,2 delims== " %%i in (%SRC_DIR%\Products\%PRODUCT%\prodconfig.txt) do (
+    set PROD_%%i=%%j
+)
+
 REM Start processing command
 echo Creating %1 %2 Image
 echo Build Start Time : %TIME%
@@ -61,6 +66,13 @@ if defined USEUPDATE (
 )
 
 echo Building Packages with product specific contents with version %PKG_VER%
+
+REM Invoke BSP specific build hooks
+if exist %TOOLS_DIR%\hooks\%PROD_BSP%\ci_hook.cmd (
+    echo. Running %PROD_BSP% specifics
+    call %TOOLS_DIR%\hooks\%PROD_BSP%\ci_hook.cmd
+)
+
 call buildpkg.cmd Registry.Version %PKG_VER%
 
 if exist %PRODSRC_DIR%\oemcustomization.cmd (
@@ -92,7 +104,7 @@ REM call DevNodeClean
 if "%ProgramW6432%"=="" (
    REM run x86
    call DeviceNodeCleanup.x86.exe
-) ELSE (
+) else (
    REM run x64
    call DeviceNodeCleanup.x64.exe
 )
