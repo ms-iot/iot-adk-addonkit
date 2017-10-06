@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Settings"
+    namespace="Custom"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Custom.Settings" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <!-- CrashControl Settings -->
+        <regKey keyName="$(hklm.software)\CurrentControlSet\Control\CrashControl">
+            <regValue name="AutoReboot" type="REG_DWORD" value="1" />
+            <regValue name="DisplayDisabled" type="REG_DWORD" value="1" />
+            <!-- Following are optional CrashDump is by default enabled
+            <regValue name="CrashDumpEnabled" type="REG_DWORD" value="1" />
+            <regValue name="DedicatedDumpFile" type="REG_SZ" value="C:\1.sys" />
+            <regValue name="DumpFile" type="REG_EXPAND_SZ" value="C:\1.dmp" /> 
+            <regValue name="DumpFileSize" type="REG_DWORD" value="200" />
+            -->
+        </regKey>
+        <!-- Forcing a system crash from the keyboard - for testing purpose only
+        <regKey keyName="$(hklm.system)\CurrentControlSet\Services\kbdhid\Parameters">
+            <regValue name="CrashOnCtrlScroll" type="REG_DWORD" value="0x01" />
+        </regKey>
+        -->
+    </regKeys>
+</identity>

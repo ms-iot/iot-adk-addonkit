@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="BCD"
+    namespace="Custom"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Custom.BCD" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="EFIESP"
+        releaseType="Production"
+        ownerType="OEM" />
+    <bcdStore
+        source=".\Custom.BCD.xml" />
+</identity>
