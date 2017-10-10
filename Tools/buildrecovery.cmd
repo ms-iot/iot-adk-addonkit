@@ -52,7 +52,7 @@ if not exist %SRC_DIR%\Products\%PRODUCT% (
 )
 
 if not exist %SRC_DIR%\Products\%PRODUCT%\prodconfig.txt (
-    echo %CLRRED%Error:Please create prodconfig.txt with BSP info.%CLREND%
+    echo %CLRRED%Error:Missing prodconfig.txt.%CLREND%
     goto Usage
 )
 
@@ -60,12 +60,28 @@ for /f "tokens=1,2 delims== " %%i in (%SRC_DIR%\Products\%PRODUCT%\prodconfig.tx
     set %%i=%%j
 )
 
-set OUTPUTDIR=%BLD_DIR%\%1\%2
+set OUTPUTDIR=%BLD_DIR%\%PRODUCT%\%2
 set IMG_FILE=%OUTPUTDIR%\%FFUNAME%.ffu
+
+for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\%PRODUCT%\%2OEMInput.xml') do (
+    set SOCNAME=%%i
+)
+
+echo. Processing %SOCNAME% device layout in %BSP% bsp...
+
+if not exist %BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv (
+    call partitioninfo.cmd %BSP% %SOCNAME%
+    if errorlevel 1 ( goto :Error )
+)
+
+for /f "tokens=1,2 delims=, " %%i in (%BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv) do (
+    REM echo PARID_%%i=%%j
+    set PARID_%%i=%%j
+)
 
 if not exist "%IMG_FILE%" (
     echo Building the base FFU
-    call buildimage %1 %2
+    call buildimage %PRODUCT% %2
 )
 
 if not exist "%IMG_FILE%" (
@@ -111,28 +127,24 @@ if /I [%WIMMODE%] == [Import] (
     
 ) else (
     REM wim files not provided. Extract the wim files from the FFU itself.
-    if defined EFI_PAR_NR (
-        echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartassign.txt
-        echo sel par %EFI_PAR_NR% >> %OUTPUTDIR%\diskpartassign.txt
-        echo assign letter=x >> %OUTPUTDIR%\diskpartassign.txt
-        echo exit >> %OUTPUTDIR%\diskpartassign.txt
+    echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartassign.txt
+    echo sel par %PARID_EFIESP% >> %OUTPUTDIR%\diskpartassign.txt
+    echo assign letter=x >> %OUTPUTDIR%\diskpartassign.txt
+    echo exit >> %OUTPUTDIR%\diskpartassign.txt
 
-        echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartunassign.txt
-        echo sel par %EFI_PAR_NR% >> %OUTPUTDIR%\diskpartunassign.txt
-        echo remove letter=x >> %OUTPUTDIR%\diskpartunassign.txt
-        echo exit >> %OUTPUTDIR%\diskpartunassign.txt
+    echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartunassign.txt
+    echo sel par %PARID_EFIESP% >> %OUTPUTDIR%\diskpartunassign.txt
+    echo remove letter=x >> %OUTPUTDIR%\diskpartunassign.txt
+    echo exit >> %OUTPUTDIR%\diskpartunassign.txt
 
-        echo Extracting EFIESP wim
-        diskpart < %OUTPUTDIR%\diskpartassign.txt
-        if exist X:\EFI (
-            dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:X:\ /Name:"\EFIESP"
-        ) else (
-            echo.%CLRYEL%Warning:EFI_PAR_NR is incorrect. EFIESP wim is skipped%CLREND% 
-        )
-        diskpart < %OUTPUTDIR%\diskpartunassign.txt
+    echo Extracting EFIESP wim
+    diskpart < %OUTPUTDIR%\diskpartassign.txt
+    if exist X:\EFI (
+        dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:X:\ /Name:"EFIESP"
     ) else (
-        echo.%CLRYEL%Warning: EFI partition number EFI_PAR_NR not specified in prodconfig.txt. Skipping EFIESP.wim%CLREND%
+        echo.%CLRYEL%Warning:PARID_EFIESP is incorrect. EFIESP wim is skipped%CLREND% 
     )
+    diskpart < %OUTPUTDIR%\diskpartunassign.txt
 
     echo Extracting data wim
     dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max

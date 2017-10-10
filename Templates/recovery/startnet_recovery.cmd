@@ -1,7 +1,6 @@
 REM startnet_recovery.cmd
 
 REM Format MainOS and Data partitions
-call diskpart /s diskpart_format.txt
 
 REM Define drive letters (assigned by diskpart script)
 set MAINOSDRIVE=C
@@ -16,7 +15,9 @@ REM This will reset BCD to defaults, so immediately reset recovery parameter in 
 bcdedit /store %EFIDRIVE%:\EFI\microsoft\boot\bcd /set {bootmgr} bootsequence {a5935ff2-32ba-4617-bf36-5ac314b3f9bf}
 
 REM Apply the MainOS and Data partition WIM files. The order below is important - do not change
+format /q /y /v:Data /fs:ntfs %DATADRIVE%:
 dism /apply-image /ImageFile:%RECOVERYDRIVE%:\data.wim /index:1 /ApplyDir:%DATADRIVE%:\ /Compact
+format /q /y /v:MainOS /fs:ntfs %MAINOSDRIVE%:
 dism /apply-image /ImageFile:%RECOVERYDRIVE%:\mainos.wim /index:1 /ApplyDir:%MAINOSDRIVE%:\ /Compact
 
 REM Restore Junctions for Data/DPP/MMOS partitions

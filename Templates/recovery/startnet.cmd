@@ -4,7 +4,6 @@ REM Launch UI to cover screen
 REM start recoverygui.exe
 
 echo IoT recovery initializing...
-wpeinit
 
 REM Assign drive letters
 call diskpart /s diskpart_assign.txt
