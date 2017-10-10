@@ -22,23 +22,26 @@ dism /apply-image /ImageFile:%RECOVERYDRIVE%:\mainos.wim /index:1 /ApplyDir:%MAI
 
 REM Restore Junctions for Data/DPP/MMOS partitions
 REM Only necessary when recovery WIMs not generated from same FFU
-mountvol %DATADRIVE%:\ /L > volumeguid_data
-set /p VOLUMEGUIDDATA=<volumeguid_data
-rmdir %MAINOSDRIVE%:\Data
-mklink /J %MAINOSDRIVE%:\Data %VOLUMEGUIDDATA%
+if exist restore_junction.cmd (
+    call restore_junction.cmd
+) else (
+    mountvol %DATADRIVE%:\ /L > volumeguid_data
+    set /p VOLUMEGUID_Data=<volumeguid_data
+    rmdir %MAINOSDRIVE%:\Data
+    mklink /J %MAINOSDRIVE%:\Data %VOLUMEGUID_Data%
 
-mountvol %DPPDRIVE%:\ /L > volumeguid_dpp
-set /p VOLUMEGUIDDPP=<volumeguid_dpp
-rmdir %MAINOSDRIVE%:\DPP
-mklink /J %MAINOSDRIVE%:\DPP %VOLUMEGUIDDPP%
+    mountvol %DPPDRIVE%:\ /L > volumeguid_dpp
+    set /p VOLUMEGUIDDPP=<volumeguid_dpp
+    rmdir %MAINOSDRIVE%:\DPP
+    mklink /J %MAINOSDRIVE%:\DPP %VOLUMEGUIDDPP%
 
-mountvol %RECOVERYDRIVE%:\ /L > volumeguid_recovery
-set /p VOLUMEGUIDRECOVERY=<volumeguid_recovery
-rmdir %MAINOSDRIVE%:\MMOS
-mklink /J %MAINOSDRIVE%:\MMOS %VOLUMEGUIDRECOVERY%
-
+    mountvol %RECOVERYDRIVE%:\ /L > volumeguid_recovery
+    set /p VOLUMEGUIDRECOVERY=<volumeguid_recovery
+    rmdir %MAINOSDRIVE%:\MMOS
+    mklink /J %MAINOSDRIVE%:\MMOS %VOLUMEGUIDRECOVERY%
+)
 REM Fix up MountedDevices registry to point to correct Data partition GUID
-set VOL=%VOLUMEGUIDDATA%
+set VOL=%VOLUMEGUID_Data%
 set VOL=%VOL: =%
 set UDRIVEBINARYBLOB=444D494F3A49443A%vol:~17,2%%vol:~15,2%%vol:~13,2%%vol:~11,2%%vol:~22,2%%vol:~20,2%%vol:~27,2%%vol:~25,2%%vol:~30,4%%vol:~35,12%
 reg load "HKLM\RecoveryIoTSystem" %MAINOSDRIVE%:\windows\system32\config\system

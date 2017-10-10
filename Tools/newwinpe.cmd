@@ -68,14 +68,12 @@ if [%BSP_ARCH%] == [arm] (
     )
 )
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\*.*" %MOUNTDIR%\windows\system32\ >nul
-REM copy "%IOTADK_ROOT%\Templates\recovery\startnet_recovery.cmd" %MOUNTDIR%\windows\system32\ >nul
-copy "%BLD_DIR%\%BSP%\%SOCNAME%\diskpart_assign.txt" %MOUNTDIR%\windows\system32\ >nul
-copy "%BLD_DIR%\%BSP%\%SOCNAME%\diskpart_remove.txt" %MOUNTDIR%\windows\system32\ >nul
+copy "%IOTADK_ROOT%\Templates\recovery\*.*" %MOUNTDIR%\windows\system32\ 
+copy "%BLD_DIR%\%BSP%\recovery\*.*" %MOUNTDIR%\windows\system32\ 
 
 echo Saving and unmounting WinPE
 dism /Unmount-image /mountdir:%MOUNTDIR% /commit
-rmdir "%BLD_DIR%\%BSP%" /S /Q >nul
+rmdir "%BLD_DIR%\%BSP%\mount" /S /Q >nul
 
 echo. WinPE is available at %WINPEDIR%
 goto End

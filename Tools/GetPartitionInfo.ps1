@@ -22,7 +22,10 @@ Foreach ($Partition in $Partitions)
     $ParName=$Partition.Name;
     $ParType=$Partition.Type;
     $ParSize=$Partition.TotalSectors;
-	$ParFS=$Partition.FileSystem;
+    $ParFS=$Partition.FileSystem;
+    if(!$ParSize){ $ParSize=0;}
+    if(!$ParFS){ $ParFS="NA";}
+    
     Write-Host "$ParName,$count,$ParType,$ParSize,$ParFS";
     $count= $count + 1;
 }

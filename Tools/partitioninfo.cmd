@@ -5,7 +5,7 @@ goto START
 :Usage
 echo Usage: partitioninfo [BSP] [SOCID] 
 echo    BSP........ Required, BSP Name
-echo    SOCID       Optional, SOC ID for the device layout in the BSPFM.xml file
+echo    SOCID       Optional, SOC ID for the GPT device layout in the BSPFM.xml file
 echo    [/?]....... Displays this usage string.
 echo    Example:
 echo        partitioninfo QCDB410C QCDB410C_R
@@ -19,6 +19,12 @@ setlocal ENABLEDELAYEDEXPANSION
 if [%1] == [/?] goto Usage
 if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
+
+REM Some Constants https://msdn.microsoft.com/en-us/library/windows/desktop/aa365449(v=vs.85).aspx
+set GUID_GPT_BASIC_DATA=ebd0a0a2-b9e5-4433-87c0-68b6b72699c7
+set GUID_GPT_SYSTEM=c12a7328-f81f-11d2-ba4b-00a0c93ec93b
+set GUID_GPT_LDM_METADATA=5808c8aa-7e8f-42e0-85d2-e1e90434cfb3
+set GUID_GPT_MSFT_RECOVERY=de94bba4-06d1-4d40-a16a-bfd50179d6ac
 
 if not exist "%BSPSRC_DIR%\%1" (
     echo %1 is not a valid BSP.
@@ -65,18 +71,18 @@ if not defined DLCOMP_DIR (
 )
 
 if not exist %BLD_DIR%\%BSP%\%SOCNAME% ( mkdir %BLD_DIR%\%BSP%\%SOCNAME% )
+if not exist %BLD_DIR%\%BSP%\recovery ( mkdir %BLD_DIR%\%BSP%\recovery )
 
-echo. DeviceLayout File :%DLCOMP_DIR%
+echo. Parsing device layout file :%DLCOMP_DIR%
 powershell -Command ("%TOOLS_DIR%\GetPartitionInfo.ps1 %DLCOMP_DIR%") > %BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv
 
-for /f "tokens=1,2,3,4,5 delims=, " %%i in (%BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv) do (
-    REM echo PARID_%%i=%%j
+for /f "tokens=1,2,3,4,5 delims=,{} " %%i in (%BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv) do (
+    REM echo PARID_%%i=%%j [%%k] [%%l] [%%m]
     set PARID_%%i=%%j
     set TYPE_%%i=%%k
     set SIZE_%%i=%%l
     set FS_%%i=%%m
 )
-REM del %BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv >nul 2>nul
 
 REM validate device layout
 echo. Validating device layout... 
@@ -94,44 +100,123 @@ if not defined PARID_EFIESP (
     echo. %CLRRED%Error: EFIESP partition is not defined%CLREND% 
     exit /b 1
 )
-if [%TYPE_EFIESP%] NEQ [{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}] (
-    echo. %CLRYEL%Warning: EFIESP partition should be set to {c12a7328-f81f-11d2-ba4b-00a0c93ec93b} for Bitlocker to work%CLREND%
+if [%TYPE_EFIESP%] NEQ [%GUID_GPT_SYSTEM%] (
+    echo. %CLRYEL%Warning: EFIESP partition should be set to GPT_SYSTEM_GUID %GUID_GPT_SYSTEM% for Bitlocker to work%CLREND%
 ) 
 
-echo. EFIESP:%PARID_EFIESP% MainOS:%PARID_MainOS% MMOS:%PARID_MMOS% Data:%PARID_Data% PLAT:%PARID_PLAT% DPP:%PARID_DPP%
+echo. EFIESP:%PARID_EFIESP% MainOS:%PARID_MainOS% MMOS:%PARID_MMOS% Data:%PARID_Data%
 
+set MOUNT_LIST=%IOTADK_ROOT%\Templates\recovery\mountlist.txt
 REM Output diskpart_assign.txt
-set OUTFILE=%BLD_DIR%\%BSP%\%SOCNAME%\diskpart_assign.txt
+echo. Generationg diskpart_assign.txt
+set OUTFILE=%BLD_DIR%\%BSP%\recovery\diskpart_assign.txt
 if exist %OUTFILE% (del %OUTFILE%)
 
 call :PRINT_TEXT "sel dis 0"
 call :PRINT_TEXT "lis vol"
-call :PRINT_TEXT "sel par %PARID_DPP%"
-call :PRINT_TEXT "assign letter=P noerr"
-call :PRINT_TEXT "sel par %PARID_MMOS%"
-call :PRINT_TEXT "assign letter=R noerr"
-call :PRINT_TEXT "sel par %PARID_Data%"
-call :PRINT_TEXT "assign letter=D noerr"
-call :PRINT_TEXT "sel par %PARID_EFIESP%"
-call :PRINT_TEXT "assign letter=E noerr"
+echo.>> "%OUTFILE%"
+if exist "%MOUNT_LIST%" (
+    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
+        if [!PARID_%%i!] == [] (
+            echo.%CLRRED%Error: %%i is not a valid partition.%CLREND%
+            exit /b 1
+        )
+        call :PRINT_TEXT "sel par !PARID_%%i!"
+        if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
+            call :PRINT_TEXT "set id=%GUID_GPT_BASIC_DATA%"
+        )
+        call :PRINT_TEXT "assign letter=%%j noerr"
+        echo.>> "%OUTFILE%"
+    )
+) else (
+    call :PRINT_TEXT "sel par %PARID_DPP%"
+    call :PRINT_TEXT "assign letter=P noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_MMOS%"
+    call :PRINT_TEXT "assign letter=R noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_Data%"
+    call :PRINT_TEXT "assign letter=D noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_EFIESP%"
+    call :PRINT_TEXT "assign letter=E noerr"
+    echo.>> "%OUTFILE%"
+)
 call :PRINT_TEXT "lis vol"
 call :PRINT_TEXT "exit"
-
-set OUTFILE=%BLD_DIR%\%BSP%\%SOCNAME%\diskpart_remove.txt
+REM Output diskpart_remove.txt
+echo. Generationg diskpart_remove.txt
+set OUTFILE=%BLD_DIR%\%BSP%\recovery\diskpart_remove.txt
 if exist %OUTFILE% (del %OUTFILE%)
 
 call :PRINT_TEXT "sel dis 0"
 call :PRINT_TEXT "lis vol"
-call :PRINT_TEXT "sel par %PARID_DPP%"
-call :PRINT_TEXT "remove letter=P noerr"
-call :PRINT_TEXT "sel par %PARID_MMOS%"
-call :PRINT_TEXT "remove letter=R noerr"
-call :PRINT_TEXT "sel par %PARID_Data%"
-call :PRINT_TEXT "remove letter=D noerr"
-call :PRINT_TEXT "sel par %PARID_EFIESP%"
-call :PRINT_TEXT "remove letter=E noerr"
+echo.>> "%OUTFILE%"
+if exist "%MOUNT_LIST%" (
+    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
+        call :PRINT_TEXT "sel par !PARID_%%i!"
+        call :PRINT_TEXT "remove letter=%%j noerr"
+        if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
+            call :PRINT_TEXT "set id=!TYPE_%%i!"
+        )
+        echo.>> "%OUTFILE%"
+    )
+) else (
+    call :PRINT_TEXT "sel par %PARID_DPP%"
+    call :PRINT_TEXT "remove letter=P noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_MMOS%"
+    call :PRINT_TEXT "remove letter=R noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_Data%"
+    call :PRINT_TEXT "remove letter=D noerr"
+    echo.>> "%OUTFILE%"
+    call :PRINT_TEXT "sel par %PARID_EFIESP%"
+    call :PRINT_TEXT "remove letter=E noerr"
+    echo.>> "%OUTFILE%"
+)
 call :PRINT_TEXT "lis vol"
 call :PRINT_TEXT "exit"
+REM Output restore_junction.cmd
+echo. Generationg restore_junction.cmd
+set OUTFILE=%BLD_DIR%\%BSP%\recovery\restore_junction.cmd
+if exist %OUTFILE% (del %OUTFILE%)
+
+call :PRINT_TEXT "REM Script to restore junctions"
+call :PRINT_TEXT "@echo off"
+echo.>> "%OUTFILE%"
+if exist "%MOUNT_LIST%" (
+    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
+        if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
+            echo.    Skipping %%i
+        ) else (
+            REM echo. Processing %%i
+            call :PRINT_TEXT "REM restoring %%i junction"
+            call :PRINT_TEXT "mountvol %%j:\ /L > volumeguid_%%i.txt"
+            call :PRINT_TEXT "set /p VOLUMEGUID_%%i=<volumeguid_%%i.txt"
+            call :PRINT_TEXT "rmdir C:\%%i"
+            echo.mklink /J C:\%%i %%VOLUMEGUID_%%i%% >> "%OUTFILE%"
+            echo.>> "%OUTFILE%"
+        )
+    )
+) else (
+    call :PRINT_TEXT "mountvol D:\ /L > volumeguid_data"
+    call :PRINT_TEXT "set /p VOLUMEGUIDDATA=<volumeguid_data"
+    call :PRINT_TEXT "rmdir C:\\Data"
+    echo.mklink /J C:\Data %%VOLUMEGUIDDATA%% >> "%OUTFILE%"
+
+    call :PRINT_TEXT "mountvol P:\ /L > volumeguid_dpp"
+    call :PRINT_TEXT "set /p VOLUMEGUIDDPP=<volumeguid_dpp"
+    call :PRINT_TEXT "rmdir C:\DPP"
+    echo.mklink /J C:\DPP %%VOLUMEGUIDDPP%% >> "%OUTFILE%"
+
+    call :PRINT_TEXT "mountvol R:\\ /L > volumeguid_recovery"
+    call :PRINT_TEXT "set /p VOLUMEGUIDRECOVERY=<volumeguid_recovery"
+    call :PRINT_TEXT "rmdir C:\MMOS"
+    echo.mklink /J C:\Data %%VOLUMEGUIDRECOVERY%% >> "%OUTFILE%"
+)
+call :PRINT_TEXT "exit /b 0"
+
 endlocal
 exit /b 0
 

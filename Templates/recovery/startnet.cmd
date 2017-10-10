@@ -1,7 +1,7 @@
 REM startnet.cmd
 
 REM Launch UI to cover screen
-REM start recoverygui.exe
+if exist recoverygui.exe ( start recoverygui.exe )
 
 echo IoT recovery initializing...
 
@@ -16,6 +16,11 @@ md %RECOVERY_LOG_FOLDER%
 echo --- Device recovery initiated --- >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 call time /t >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 copy %WINDIR%\system32\winpeshl.log %RECOVERY_LOG_FOLDER%
+
+if exist pre_recovery_hook.cmd (
+    call pre_recovery_hook.cmd
+    if errorlevel 1 goto :exit
+)
 
 REM Ensure recovery WIM files are available
 if not exist %RECOVERYDRIVE%:\data.wim echo Missing data.wim file! >>%RECOVERY_LOG_FOLDER%\recovery_log.txt && goto exit

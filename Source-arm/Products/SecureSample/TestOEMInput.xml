@@ -4,7 +4,7 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <Description>Windows 10 IoT Core 8016sbc Test FFU generation</Description>
-  <SOC>QC8016</SOC>
+  <SOC>QC8016_R</SOC>
   <SV>Qualcomm</SV>
   <Device>8016sbc</Device>
   <ReleaseType>Test</ReleaseType>
