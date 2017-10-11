@@ -30,6 +30,10 @@ if not exist %RECOVERYDRIVE%:\efiesp.wim echo Missing efiesp.wim file! >>%RECOVE
 REM Perform recovery operations, logging to MMOS log file
 call startnet_recovery.cmd >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 
+if exist post_recovery_hook.cmd (
+    call post_recovery_hook.cmd
+)
+
 :exit
 call time /t >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 echo --- Device recovery completed --- >>%RECOVERY_LOG_FOLDER%\recovery_log.txt

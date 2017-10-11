@@ -1,4 +1,3 @@
-@echo off
 REM Pre Recovery Hook.cmd
 REM Define any product specific pre-recovery actions here
 REM return 0 to continue with recovery actions

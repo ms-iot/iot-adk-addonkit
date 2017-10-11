@@ -68,12 +68,12 @@ if [%BSP_ARCH%] == [arm] (
     )
 )
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\*.*" %MOUNTDIR%\windows\system32\ 
-copy "%BLD_DIR%\%BSP%\recovery\*.*" %MOUNTDIR%\windows\system32\ 
+copy "%IOTADK_ROOT%\Templates\recovery\*" %MOUNTDIR%\windows\system32\ 
+copy "%BLD_DIR%\%BSP%\recovery\*" %MOUNTDIR%\windows\system32\ 
 
 echo Saving and unmounting WinPE
 dism /Unmount-image /mountdir:%MOUNTDIR% /commit
-rmdir "%BLD_DIR%\%BSP%\mount" /S /Q >nul
+rmdir "%MOUNTDIR%" /S /Q >nul
 
 echo. WinPE is available at %WINPEDIR%
 goto End

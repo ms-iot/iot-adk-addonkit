@@ -177,19 +177,20 @@ if exist "%MOUNT_LIST%" (
 )
 call :PRINT_TEXT "lis vol"
 call :PRINT_TEXT "exit"
-REM Output restore_junction.cmd
-echo. Generationg restore_junction.cmd
+REM Output restore_junction.cmd only if mount_list is available
 set OUTFILE=%BLD_DIR%\%BSP%\recovery\restore_junction.cmd
 if exist %OUTFILE% (del %OUTFILE%)
 
-call :PRINT_TEXT "REM Script to restore junctions"
-call :PRINT_TEXT "@echo off"
-echo.>> "%OUTFILE%"
 if exist "%MOUNT_LIST%" (
+    echo. Generationg restore_junction.cmd
+    call :PRINT_TEXT "REM Script to restore junctions"
     for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
+        set SKIP=
         if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
-            echo.    Skipping %%i
-        ) else (
+                echo.    Skipping %%i - Non System/Data GUID
+                set SKIP=1
+        )
+        if not defined SKIP (
             REM echo. Processing %%i
             call :PRINT_TEXT "REM restoring %%i junction"
             call :PRINT_TEXT "mountvol %%j:\ /L > volumeguid_%%i.txt"
@@ -199,23 +200,8 @@ if exist "%MOUNT_LIST%" (
             echo.>> "%OUTFILE%"
         )
     )
-) else (
-    call :PRINT_TEXT "mountvol D:\ /L > volumeguid_data"
-    call :PRINT_TEXT "set /p VOLUMEGUIDDATA=<volumeguid_data"
-    call :PRINT_TEXT "rmdir C:\\Data"
-    echo.mklink /J C:\Data %%VOLUMEGUIDDATA%% >> "%OUTFILE%"
-
-    call :PRINT_TEXT "mountvol P:\ /L > volumeguid_dpp"
-    call :PRINT_TEXT "set /p VOLUMEGUIDDPP=<volumeguid_dpp"
-    call :PRINT_TEXT "rmdir C:\DPP"
-    echo.mklink /J C:\DPP %%VOLUMEGUIDDPP%% >> "%OUTFILE%"
-
-    call :PRINT_TEXT "mountvol R:\\ /L > volumeguid_recovery"
-    call :PRINT_TEXT "set /p VOLUMEGUIDRECOVERY=<volumeguid_recovery"
-    call :PRINT_TEXT "rmdir C:\MMOS"
-    echo.mklink /J C:\Data %%VOLUMEGUIDRECOVERY%% >> "%OUTFILE%"
+    call :PRINT_TEXT "exit /b 0"
 )
-call :PRINT_TEXT "exit /b 0"
 
 endlocal
 exit /b 0

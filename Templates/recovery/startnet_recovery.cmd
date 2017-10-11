@@ -25,20 +25,20 @@ REM Only necessary when recovery WIMs not generated from same FFU
 if exist restore_junction.cmd (
     call restore_junction.cmd
 ) else (
-    mountvol %DATADRIVE%:\ /L > volumeguid_data
-    set /p VOLUMEGUID_Data=<volumeguid_data
+    mountvol %DATADRIVE%:\ /L > volumeguid_data.txt
+    set /p VOLUMEGUID_Data=<volumeguid_data.txt
     rmdir %MAINOSDRIVE%:\Data
     mklink /J %MAINOSDRIVE%:\Data %VOLUMEGUID_Data%
 
-    mountvol %DPPDRIVE%:\ /L > volumeguid_dpp
-    set /p VOLUMEGUIDDPP=<volumeguid_dpp
+    mountvol %DPPDRIVE%:\ /L > volumeguid_dpp.txt
+    set /p VOLUMEGUID_DPP=<volumeguid_dpp.txt
     rmdir %MAINOSDRIVE%:\DPP
-    mklink /J %MAINOSDRIVE%:\DPP %VOLUMEGUIDDPP%
+    mklink /J %MAINOSDRIVE%:\DPP %VOLUMEGUID_DPP%
 
-    mountvol %RECOVERYDRIVE%:\ /L > volumeguid_recovery
-    set /p VOLUMEGUIDRECOVERY=<volumeguid_recovery
+    mountvol %RECOVERYDRIVE%:\ /L > volumeguid_MMOS.txt
+    set /p VOLUMEGUID_MMOS=<volumeguid_MMOS.txt
     rmdir %MAINOSDRIVE%:\MMOS
-    mklink /J %MAINOSDRIVE%:\MMOS %VOLUMEGUIDRECOVERY%
+    mklink /J %MAINOSDRIVE%:\MMOS %VOLUMEGUID_MMOS%
 )
 REM Fix up MountedDevices registry to point to correct Data partition GUID
 set VOL=%VOLUMEGUID_Data%
