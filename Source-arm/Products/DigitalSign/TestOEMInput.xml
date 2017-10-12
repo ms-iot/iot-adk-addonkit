@@ -102,13 +102,14 @@
       <Feature>QC_UEFI_TEST</Feature>
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
-      <Feature>OEM_CustomCmd</Feature>
+      <Feature>CUSTOM_CMD</Feature>
       <Feature>RECOVERY_BCD</Feature>
       <Feature>CUSTOM_OOBEAPP</Feature>
-      <Feature>OEM_ProvAuto</Feature>
+      <Feature>PROV_AUTO</Feature>
       <Feature>APP_DIGITALSIGN</Feature>
       <Feature>AZUREDM_SERVICES</Feature>
       <Feature>AZUREDM_REGISTRY</Feature>
+      <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

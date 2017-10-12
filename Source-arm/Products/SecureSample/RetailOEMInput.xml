@@ -4,7 +4,7 @@
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <Description>Windows 10 IoT Core 8016sbc Retail FFU generation</Description>
-  <SOC>QC8016</SOC>
+  <SOC>QC8016_R</SOC>
   <SV>Qualcomm</SV>
   <Device>8016sbc</Device>
   <ReleaseType>Production</ReleaseType>
@@ -52,11 +52,12 @@
       <Feature>QC_UEFI_PRODUCTION</Feature>
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
-      <Feature>OEM_CustomCmd</Feature>
-      <Feature>OEM_ProvAuto</Feature>
+      <Feature>CUSTOM_CMD</Feature>
+      <Feature>PROV_AUTO</Feature>
       <Feature>Sec_BitLocker</Feature>
       <Feature>Sec_SecureBoot</Feature>
       <Feature>Sec_DeviceGuard</Feature>
+      <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

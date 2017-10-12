@@ -43,7 +43,7 @@
       <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
       <Feature>IOT_HWN_CLASS_EXTENSION</Feature>
       <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
-      <Feature>IOT_GENERIC_POP</Feature> 
+      <Feature>IOT_GENERIC_POP</Feature>
       <Feature>IOT_APPLICATIONS</Feature>
       <Feature>IOT_UAP_OOBE</Feature>
       <Feature>IOT_TOOLKIT</Feature>
@@ -69,12 +69,15 @@
       <Feature>QC_UEFI_TEST</Feature>
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
-      <Feature>OEM_CustomCmd</Feature>
-      <Feature>RECOVERY_BCD</Feature>
+      <Feature>CUSTOM_CMD</Feature>
+      <Feature>CUSTOM_BCD</Feature>
       <Feature>CUSTOM_OOBEAPP</Feature>
-      <Feature>OEM_ProvAuto</Feature>
+      <Feature>CUSTOM_SETTINGS</Feature>
+      <Feature>RECOVERY_BCD</Feature>
+      <Feature>PROV_AUTO</Feature>
       <Feature>AZUREDM_SERVICES</Feature>
       <Feature>AZUREDM_REGISTRY</Feature>
+      <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>
