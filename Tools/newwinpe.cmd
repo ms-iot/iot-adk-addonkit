@@ -31,6 +31,11 @@ if not exist "%BSPSRC_DIR%\%1" (
 
 set BSP=%1
 set BSPDIR=%2
+
+echo. Processing device layout in %BSP% bsp...
+call partitioninfo.cmd %BSP% 
+if errorlevel 1 ( goto :Error )
+
 set WINPEDIR=%BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE
 set MOUNTDIR=%BLD_DIR%\%BSP%\mount
 if exist "%WINPEDIR%" (
@@ -44,8 +49,8 @@ md "%MOUNTDIR%"
 
 echo Copying WinPE from Install directory
 copy "%WINPE_ROOT%\%BSP_ARCH%\en-us\winpe.wim" "%WINPEDIR%" >nul
-copy "%IOTADK_ROOT%\Templates\recovery\startrecovery.cmd" %WINPEDIR%\startrecovery.cmd >nul
-copy "%IOTADK_ROOT%\Templates\recovery\Recovery.WinPE.wm.xml" %WINPEDIR%\Recovery.WinPE.wm.xml >nul
+copy "%IOTADK_ROOT%\Templates\startrecovery.cmd" %WINPEDIR%\startrecovery.cmd >nul
+copy "%IOTADK_ROOT%\Templates\Recovery.WinPE.wm.xml" %WINPEDIR%\Recovery.WinPE.wm.xml >nul
 echo Mounting WinPE at %MOUNTDIR%
 dism /mount-wim /wimfile:%WINPEDIR%\winpe.wim /index:1 /mountdir:%MOUNTDIR%
 
@@ -63,15 +68,12 @@ if [%BSP_ARCH%] == [arm] (
     )
 )
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\startnet.cmd" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\startnet_recovery.cmd" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_assign.txt" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_format.txt" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_remove.txt" %MOUNTDIR%\windows\system32\ >nul
+copy "%IOTADK_ROOT%\Templates\recovery\*" %MOUNTDIR%\windows\system32\ 
+copy "%BLD_DIR%\%BSP%\recovery\*" %MOUNTDIR%\windows\system32\ 
 
 echo Saving and unmounting WinPE
 dism /Unmount-image /mountdir:%MOUNTDIR% /commit
-rmdir "%BLD_DIR%\%BSP%" /S /Q >nul
+rmdir "%MOUNTDIR%" /S /Q >nul
 
 echo. WinPE is available at %WINPEDIR%
 goto End

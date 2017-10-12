@@ -27,3 +27,6 @@ REM The below should be called on every boot
 if exist C:\RecoveryConfig\Recovery.BcdEdit.cmd (
     call C:\RecoveryConfig\Recovery.BcdEdit.cmd
 )
+
+bcdedit /set bootux disabled
+

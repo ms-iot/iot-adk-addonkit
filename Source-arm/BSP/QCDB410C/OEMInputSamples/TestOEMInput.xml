@@ -69,8 +69,9 @@
       <Feature>QC_UEFI_TEST</Feature>
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
-      <Feature>OEM_CustomCmd</Feature>
-      <Feature>OEM_ProvAuto</Feature>
+      <Feature>CUSTOM_CMD</Feature>
+      <Feature>PROV_AUTO</Feature>
+      <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

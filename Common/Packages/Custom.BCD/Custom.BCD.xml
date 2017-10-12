@@ -1,0 +1,40 @@
+﻿<?xml version='1.0' encoding='utf-8' standalone='yes'?>
+<BootConfigurationDatabase
+    xmlns="http://schemas.microsoft.com/phone/2011/10/BootConfiguration"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    IncludeDescriptions="true"
+    IncludeRegistryHeader="true"
+    >
+  <Objects>
+    <!-- Windows Boot Manager -->
+    <Object SaveKeyToRegistry="false">
+      <FriendlyName>Windows Boot Manager</FriendlyName>
+      <Elements>
+        <Element>
+          <DataType>
+            <WellKnownType>Boot UX Progress Animation Disable</WellKnownType>
+          </DataType>
+          <ValueType>
+            <BooleanValue>true</BooleanValue>
+          </ValueType>
+        </Element>
+      </Elements>
+    </Object>
+    <!--  Allow Flight Signing Certificate -->
+    <Object SaveKeyToRegistry="false">
+      <FriendlyName>Global Settings Group</FriendlyName>
+      <Elements>
+        <Element>
+          <DataType>
+            <WellKnownType>Allow Flight Signatures</WellKnownType>
+          </DataType>
+          <ValueType>
+            <BooleanValue>true</BooleanValue>
+          </ValueType>
+        </Element>
+      </Elements>
+    </Object>
+  </Objects>
+</BootConfigurationDatabase>
+

@@ -119,7 +119,12 @@
       </PackageFile>
       <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smbios_cfg.cab">
         <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
+          <FeatureID>SMBIOS_DEFAULT</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.SMBIOS.cab">
+        <FeatureIDs>
+          <FeatureID>CUSTOM_SMBIOS</FeatureID>
         </FeatureIDs>
       </PackageFile>
       <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.MemRes_ModemLite.cab">
