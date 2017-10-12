@@ -109,7 +109,6 @@ if exist "%FILE_PATH%\Dependencies\%ARCH%" (
 
 if not defined SKIPCERT (
     dir /b "%FILE_PATH%\*.cer" > "%FILE_PATH%\appx_cerlist.txt" 2>nul
-    copy "%FILE_PATH%\*.cer" "%OUTPUT_PATH%\" >nul 2>nul
 )
 
 dir /b "%FILE_PATH%\*License*.xml" > "%FILE_PATH%\appx_license.txt" 2>nul
@@ -136,7 +135,7 @@ set SRC_INFO_FILE=%OUTPUT_PATH%\SourceDetails.txt
 echo Source Appx: %FILE_PATH%%FILE_NAME%%FILE_TYPE%>> "%SRC_INFO_FILE%"
 echo Dependencies :>> "%SRC_INFO_FILE%"
 
-REM Renaming files to shorten the names
+REM Renaming files to shorten the appx names
 for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
     for /f "useback tokens=1,* delims=_" %%A in ("%FILE_PATH%\appx_deplist.txt") do (
         if [%%B] == [] (
@@ -150,13 +149,30 @@ for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
         )
     )
 )
+REM Renaming files to shorten the cert names
+for %%Z in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zZ gtr 0 (
+    echo Certificates : >> "%SRC_INFO_FILE%"
+    for /f "useback tokens=1,* delims=_" %%A in ("%FILE_PATH%\appx_cerlist.txt") do (
+        if [%%B] == [] (
+            copy "%FILE_PATH%\%%A" "%OUTPUT_PATH%\%%A" >nul 2>nul
+            echo.%%A>>"%FILE_PATH%\appx_cerlist_trim.txt"
+            echo.%FILE_PATH%%%A>>"%SRC_INFO_FILE%"
+        ) else (
+            copy "%FILE_PATH%\%%A_%%B" "%OUTPUT_PATH%\%%A.cer" >nul 2>nul
+            echo.%%A.cer>>"%FILE_PATH%\appx_cerlist_trim.txt"
+            echo.%FILE_PATH%%%A_%%B>>"%SRC_INFO_FILE%"
+        )
+    )
+)
 
 echo. Authoring %CUSTOMIZATIONS%.xml
 if exist "%FILE_PATH%\%CUSTOMIZATIONS%.xml" (del "%FILE_PATH%\%CUSTOMIZATIONS%.xml" )
-REM Get a new GUID for the Provisioning config file
-powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
-set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
-del %PRODSRC_DIR%\uuid.txt
+if not defined NEWGUID (
+    REM Get a new GUID for the Provisioning config file
+    powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
+    set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
+    del %PRODSRC_DIR%\uuid.txt
+)
 call :CREATE_CUSTFILE
 
 copy "%FILE_PATH%\%FILE_NAME%%FILE_TYPE%" "%OUTPUT_PATH%\%SHORT_FILE_NAME%%FILE_TYPE%" >nul 2>nul
@@ -170,9 +186,8 @@ if defined LICENSE_FILE (
 )
 
 if not defined SKIPCERT (
-    echo Certificates : >> "%SRC_INFO_FILE%"
-    type "%FILE_PATH%\appx_cerlist.txt" >> "%SRC_INFO_FILE%"
     del "%FILE_PATH%\appx_cerlist.txt"
+    del "%FILE_PATH%\appx_cerlist_trim.txt"
 )
 
 del "%FILE_PATH%\appx_license.txt"
@@ -231,10 +246,10 @@ if /i "%ADK_VERSION%" LSS "16190" (
 )
 REM Printing Certificates
 if not defined SKIPCERT (
-    for %%B in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zB gtr 0 (
+    for %%B in ("%FILE_PATH%\appx_cerlist_trim.txt") do if %%~zB gtr 0 (
         call :PRINT_TO_CUSTFILE "        <Certificates>"
         call :PRINT_TO_CUSTFILE "          <RootCertificates>"
-        for /f "useback delims=" %%A in ("%FILE_PATH%\appx_cerlist.txt") do (
+        for /f "useback delims=" %%A in ("%FILE_PATH%\appx_cerlist_trim.txt") do (
             call :PRINT_TO_CUSTFILE "            <RootCertificate CertificateName="%%~nA" Name="%%~nA">"
             call :PRINT_TO_CUSTFILE "              <CertificatePath>%%A</CertificatePath>"
             call :PRINT_TO_CUSTFILE "            </RootCertificate>"
