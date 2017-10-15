@@ -84,29 +84,19 @@
     <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcLTECoexMgr.cab" />
   </BasePackages>
   <OEMDevicePlatformPackages>
-    <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/>
     <!-- Device platform with Recovery setup -->
     <PackageFile Device="8016sbc_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DevicePlatform-R.cab"/>
+    <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/> 
   </OEMDevicePlatformPackages>
   <DeviceLayoutPackages>
-    <PackageFile SOC="QC8016" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.DeviceLayout.cab"/>
-    <!-- Device Layout with recovery setup -->
+      <!-- Device Layout with recovery setup -->
     <PackageFile SOC="QC8016_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout-R.cab"/>
+    <PackageFile SOC="QC8016" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.DeviceLayout.cab"/>
   </DeviceLayoutPackages>
   <Features>
     <Microsoft />
     <MSFeatureGroups />
     <OEM>
-      <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceInfo.cab">
-        <FeatureIDs>
-          <FeatureID>QCDB410C_DEVICE_INFO</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.DeviceTargetingInfo.cab">
-        <FeatureIDs>
-          <FeatureID>QCDB410C_DEVICE_TARGETINGINFO</FeatureID>
-        </FeatureIDs>
-      </PackageFile-->
       <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab" >
         <FeatureIDs>
           <FeatureID>QC_UEFI_PRODUCTION</FeatureID>
