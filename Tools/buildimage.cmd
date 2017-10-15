@@ -52,6 +52,7 @@ if /I [%1] == [All] (
 ) else if /I [%1] == [Clean] (
     if exist %BLD_DIR% (
         rmdir "%BLD_DIR%" /S /Q >nul
+        del /Q %WINDIR%\Logs\DISM\DISM.log  >nul 2>nul
         echo Build directories cleaned
     ) else echo Nothing to clean.
 ) else (

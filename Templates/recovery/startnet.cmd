@@ -5,10 +5,14 @@ if exist recoverygui.exe ( start recoverygui.exe )
 
 echo IoT recovery initializing...
 
+for /f "tokens=1,2 delims=, " %%i in (mountlist.txt) do ( 
+    set DL_%%i=%%j
+)
+
 REM Assign drive letters
 call diskpart /s diskpart_assign.txt
-set RECOVERYDRIVE=R
-set EFIDRIVE=E
+set RECOVERYDRIVE=%DL_MMOS%
+set EFIDRIVE=%DL_EFIESP%
 
 REM Initilize logging
 set RECOVERY_LOG_FOLDER=%RECOVERYDRIVE%:\recoverylogs
@@ -18,7 +22,7 @@ call time /t >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 copy %WINDIR%\system32\winpeshl.log %RECOVERY_LOG_FOLDER%
 
 if exist pre_recovery_hook.cmd (
-    call pre_recovery_hook.cmd
+    call pre_recovery_hook.cmd  >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
     if errorlevel 1 goto :exit
 )
 
@@ -31,7 +35,7 @@ REM Perform recovery operations, logging to MMOS log file
 call startnet_recovery.cmd >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 
 if exist post_recovery_hook.cmd (
-    call post_recovery_hook.cmd
+    call post_recovery_hook.cmd  >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 )
 
 :exit

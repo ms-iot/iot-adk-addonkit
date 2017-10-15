@@ -1,4 +1,0 @@
-DPP,P
-MMOS,R
-Data,D
-EFIESP,E

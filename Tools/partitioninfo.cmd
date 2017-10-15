@@ -3,7 +3,7 @@
 goto START
 
 :Usage
-echo Usage: partitioninfo [BSP] [SOCID] 
+echo Usage: partitioninfo [BSP] [SOCID]
 echo    BSP........ Required, BSP Name
 echo    SOCID       Optional, SOC ID for the GPT device layout in the BSPFM.xml file
 echo    [/?]....... Displays this usage string.
@@ -50,13 +50,13 @@ if [%SOCNAME%] == [] (
         set DLCOMP=%%i.%%j
     )
     if not defined DLCOMP (
-        echo. %CLRRED%Error : %SOCNAME% not defined in %BSP%FM.xml.%CLREND% 
+        echo. %CLRRED%Error : %SOCNAME% not defined in %BSP%FM.xml.%CLREND%
         exit /b 1
     )
 )
 
 if not defined DLCOMP (
-    echo. %CLRRED%Error : No device layout selected.%CLREND% 
+    echo. %CLRRED%Error : No device layout selected.%CLREND%
     exit /b 1
 )
 
@@ -65,30 +65,36 @@ for /f "tokens=*" %%i in ('dir /s /b %IOTADK_ROOT%\%DLCOMP%') do (
     set DLCOMP_DIR=%%i\DeviceLayout.xml
 )
 
-if not defined DLCOMP_DIR ( 
-    echo. %CLRRED%Error : %DLCOMP% directory not found.%CLREND% 
+if not defined DLCOMP_DIR (
+    echo. %CLRRED%Error : %DLCOMP% directory not found.%CLREND%
     exit /b 1
 )
-
-if not exist %BLD_DIR%\%BSP%\%SOCNAME% ( mkdir %BLD_DIR%\%BSP%\%SOCNAME% )
-if not exist %BLD_DIR%\%BSP%\recovery ( mkdir %BLD_DIR%\%BSP%\recovery )
+set WINPEDIR=%BLD_DIR%\%BSP%
+set WINPEFILES=%WINPEDIR%\recovery
+if not exist %WINPEFILES% ( mkdir %WINPEFILES% )
 
 echo. Parsing device layout file :%DLCOMP_DIR%
-powershell -Command ("%TOOLS_DIR%\GetPartitionInfo.ps1 %DLCOMP_DIR%") > %BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv
+powershell -executionpolicy unrestricted  -Command ("%TOOLS_DIR%\GetPartitionInfo.ps1 %DLCOMP_DIR%") > %WINPEFILES%\devicelayout.csv
+set MOUNT_LIST=%WINPEFILES%\mountlist.txt
+set PC_MOUNTLIST=%WINPEDIR%\pc_mountlist.txt
+if exist %MOUNT_LIST% ( del %MOUNT_LIST% >nul )
+if exist %PC_MOUNTLIST% ( del %PC_MOUNTLIST% >nul )
 
-for /f "tokens=1,2,3,4,5 delims=,{} " %%i in (%BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv) do (
+for /f "skip=1 tokens=1,2,3,4,5,6 delims=,{} " %%i in (%WINPEFILES%\devicelayout.csv) do (
     REM echo PARID_%%i=%%j [%%k] [%%l] [%%m]
     set PARID_%%i=%%j
     set TYPE_%%i=%%k
     set SIZE_%%i=%%l
     set FS_%%i=%%m
+    if [%%n] NEQ [-] if /I [%%i] neq [MainOS] ( echo.%%i,%%n >> %MOUNT_LIST% )
+    if [%%n] NEQ [-] ( echo.%%i,%%n >> %PC_MOUNTLIST% )
 )
 
 REM validate device layout
-echo. Validating device layout... 
+echo. Validating device layout...
 REM check if MMOS is defined
-if not defined PARID_MMOS ( 
-    echo. %CLRRED%Error: Recovery partition MMOS is not defined%CLREND% 
+if not defined PARID_MMOS (
+    echo. %CLRRED%Error: Recovery partition MMOS is not defined%CLREND%
     exit /b 1
 )
 REM check MMOS file system is not NTFS
@@ -97,113 +103,87 @@ if [%FS_MMOS%] == [NTFS] (
 )
 REM Check if EFIESP partition type is proper
 if not defined PARID_EFIESP (
-    echo. %CLRRED%Error: EFIESP partition is not defined%CLREND% 
+    echo. %CLRRED%Error: EFIESP partition is not defined%CLREND%
     exit /b 1
 )
 if [%TYPE_EFIESP%] NEQ [%GUID_GPT_SYSTEM%] (
     echo. %CLRYEL%Warning: EFIESP partition should be set to GPT_SYSTEM_GUID %GUID_GPT_SYSTEM% for Bitlocker to work%CLREND%
-) 
+)
 
 echo. EFIESP:%PARID_EFIESP% MainOS:%PARID_MainOS% MMOS:%PARID_MMOS% Data:%PARID_Data%
 
-set MOUNT_LIST=%IOTADK_ROOT%\Templates\recovery\mountlist.txt
+
 REM Output diskpart_assign.txt
 echo. Generationg diskpart_assign.txt
-set OUTFILE=%BLD_DIR%\%BSP%\recovery\diskpart_assign.txt
+set OUTFILE=%WINPEFILES%\diskpart_assign.txt
+if exist %OUTFILE% (del %OUTFILE%)
+call :GENDISKPART 0 %MOUNT_LIST% assign
+set OUTFILE=%WINPEDIR%\pc_diskpart_assign.txt
+if exist %OUTFILE% (del %OUTFILE%)
+call :GENDISKPART DISKNR %PC_MOUNTLIST% assign
+
+REM Output diskpart_remove.txt
+echo. Generationg diskpart_remove.txt
+set OUTFILE=%WINPEFILES%\diskpart_remove.txt
+if exist %OUTFILE% (del %OUTFILE%)
+call :GENDISKPART 0 %MOUNT_LIST% remove
+set OUTFILE=%WINPEDIR%\pc_diskpart_remove.txt
+if exist %OUTFILE% (del %OUTFILE%)
+call :GENDISKPART DISKNR %PC_MOUNTLIST% remove
+
+REM Output restore_junction.cmd only if mount_list is available
+set OUTFILE=%WINPEFILES%\restore_junction.cmd
 if exist %OUTFILE% (del %OUTFILE%)
 
-call :PRINT_TEXT "sel dis 0"
+
+echo. Generationg restore_junction.cmd
+call :PRINT_TEXT "REM Script to restore junctions"
+for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
+    if [!TYPE_%%i!] == [%GUID_GPT_BASIC_DATA%] (
+        REM echo. Processing %%i
+        call :PRINT_TEXT "REM restoring %%i junction"
+        call :PRINT_TEXT "mountvol %%j:\ /L > volumeguid_%%i.txt"
+        call :PRINT_TEXT "set /p VOLUMEGUID_%%i=<volumeguid_%%i.txt"
+        call :PRINT_TEXT "rmdir C:\%%i"
+        echo.mklink /J C:\%%i %%VOLUMEGUID_%%i%% >> "%OUTFILE%"
+        echo.>> "%OUTFILE%"
+    ) else (
+        echo.    skipping %%i - Non Data GUID
+    )
+)
+call :PRINT_TEXT "exit /b 0"
+
+endlocal
+exit /b 0
+
+:GENDISKPART
+REM %1 - DiskNr
+REM %2 - Mountlist
+REM %3 - assign/remove
+call :PRINT_TEXT "sel dis %1"
 call :PRINT_TEXT "lis vol"
 echo.>> "%OUTFILE%"
-if exist "%MOUNT_LIST%" (
-    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
-        if [!PARID_%%i!] == [] (
-            echo.%CLRRED%Error: %%i is not a valid partition.%CLREND%
-            exit /b 1
-        )
-        call :PRINT_TEXT "sel par !PARID_%%i!"
+for /f "tokens=1,2 delims=, " %%i in (%2) do (
+    if [!PARID_%%i!] == [] (
+        echo.%CLRRED%Error: %%i is not a valid partition.%CLREND%
+        exit /b 1
+    )
+    call :PRINT_TEXT "sel par !PARID_%%i!"
+    if /I [%3] == [assign] ( 
         if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
             call :PRINT_TEXT "set id=%GUID_GPT_BASIC_DATA%"
         )
-        call :PRINT_TEXT "assign letter=%%j noerr"
-        echo.>> "%OUTFILE%"
     )
-) else (
-    call :PRINT_TEXT "sel par %PARID_DPP%"
-    call :PRINT_TEXT "assign letter=P noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_MMOS%"
-    call :PRINT_TEXT "assign letter=R noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_Data%"
-    call :PRINT_TEXT "assign letter=D noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_EFIESP%"
-    call :PRINT_TEXT "assign letter=E noerr"
-    echo.>> "%OUTFILE%"
-)
-call :PRINT_TEXT "lis vol"
-call :PRINT_TEXT "exit"
-REM Output diskpart_remove.txt
-echo. Generationg diskpart_remove.txt
-set OUTFILE=%BLD_DIR%\%BSP%\recovery\diskpart_remove.txt
-if exist %OUTFILE% (del %OUTFILE%)
-
-call :PRINT_TEXT "sel dis 0"
-call :PRINT_TEXT "lis vol"
-echo.>> "%OUTFILE%"
-if exist "%MOUNT_LIST%" (
-    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
-        call :PRINT_TEXT "sel par !PARID_%%i!"
-        call :PRINT_TEXT "remove letter=%%j noerr"
+    call :PRINT_TEXT "%3 letter=%%j noerr"
+    if /I [%3] == [remove] (
         if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
             call :PRINT_TEXT "set id=!TYPE_%%i!"
         )
-        echo.>> "%OUTFILE%"
     )
-) else (
-    call :PRINT_TEXT "sel par %PARID_DPP%"
-    call :PRINT_TEXT "remove letter=P noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_MMOS%"
-    call :PRINT_TEXT "remove letter=R noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_Data%"
-    call :PRINT_TEXT "remove letter=D noerr"
-    echo.>> "%OUTFILE%"
-    call :PRINT_TEXT "sel par %PARID_EFIESP%"
-    call :PRINT_TEXT "remove letter=E noerr"
     echo.>> "%OUTFILE%"
 )
 call :PRINT_TEXT "lis vol"
 call :PRINT_TEXT "exit"
-REM Output restore_junction.cmd only if mount_list is available
-set OUTFILE=%BLD_DIR%\%BSP%\recovery\restore_junction.cmd
-if exist %OUTFILE% (del %OUTFILE%)
-
-if exist "%MOUNT_LIST%" (
-    echo. Generationg restore_junction.cmd
-    call :PRINT_TEXT "REM Script to restore junctions"
-    for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
-        set SKIP=
-        if [!TYPE_%%i!] NEQ [%GUID_GPT_SYSTEM%] if [!TYPE_%%i!] NEQ [%GUID_GPT_BASIC_DATA%] (
-                echo.    Skipping %%i - Non System/Data GUID
-                set SKIP=1
-        )
-        if not defined SKIP (
-            REM echo. Processing %%i
-            call :PRINT_TEXT "REM restoring %%i junction"
-            call :PRINT_TEXT "mountvol %%j:\ /L > volumeguid_%%i.txt"
-            call :PRINT_TEXT "set /p VOLUMEGUID_%%i=<volumeguid_%%i.txt"
-            call :PRINT_TEXT "rmdir C:\%%i"
-            echo.mklink /J C:\%%i %%VOLUMEGUID_%%i%% >> "%OUTFILE%"
-            echo.>> "%OUTFILE%"
-        )
-    )
-    call :PRINT_TEXT "exit /b 0"
-)
-
-endlocal
 exit /b 0
 
 :PRINT_TEXT

@@ -4,10 +4,10 @@ REM Format MainOS and Data partitions
 
 REM Define drive letters (assigned by diskpart script)
 set MAINOSDRIVE=C
-set EFIDRIVE=E
-set RECOVERYDRIVE=R
-set DATADRIVE=D
-set DPPDRIVE=P
+set RECOVERYDRIVE=%DL_MMOS%
+set EFIDRIVE=%DL_EFIESP%
+set DATADRIVE=%DL_Data%
+set DPPDRIVE=%DL_DPP%
 
 REM Apply EFIESP partition WIM file
 dism /apply-image /ImageFile:%RECOVERYDRIVE%:\efiesp.wim /index:1 /ApplyDir:%EFIDRIVE%:\

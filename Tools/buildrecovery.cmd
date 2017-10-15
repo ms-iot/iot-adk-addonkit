@@ -61,6 +61,8 @@ for /f "tokens=1,2 delims== " %%i in (%SRC_DIR%\Products\%PRODUCT%\prodconfig.tx
 )
 
 set OUTPUTDIR=%BLD_DIR%\%PRODUCT%\%2
+set WINPEDIR=%BLD_DIR%\%BSP%
+set WINPEFILES=%WINPEDIR%\recovery
 set IMG_FILE=%OUTPUTDIR%\%FFUNAME%.ffu
 
 for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\%PRODUCT%\%2OEMInput.xml') do (
@@ -69,14 +71,9 @@ for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\
 
 echo. Processing %SOCNAME% device layout in %BSP% bsp...
 
-if not exist %BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv (
-    call partitioninfo.cmd %BSP% %SOCNAME%
-    if errorlevel 1 ( goto :Error )
-)
-
-for /f "tokens=1,2 delims=, " %%i in (%BLD_DIR%\%BSP%\%SOCNAME%\partitioninfo.csv) do (
-    REM echo PARID_%%i=%%j
-    set PARID_%%i=%%j
+if not exist %WINPEDIR%\winpe.wim (
+    echo Creating WinPE.wim
+    call newwinpe.cmd %BSP% %SOCNAME%
 )
 
 if not exist "%IMG_FILE%" (
@@ -85,18 +82,13 @@ if not exist "%IMG_FILE%" (
 )
 
 if not exist "%IMG_FILE%" (
-REM File not found even after invoking buildimage. 
     echo.%CLRRED%Error: Building the base FFU failed.%CLREND%
-    exit /b 1
-)
-
-if not exist %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\winpe.wim (
-    echo.%CLRRED%Error: WinPE not available at %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\winpe.wim. See newwinpe.cmd %CLREND%
     exit /b 1
 )
 
 set IMG_RECOVERY_FILE=%OUTPUTDIR%\%FFUNAME%_Recovery.ffu
 cd /D %OUTPUTDIR%
+
 echo Mounting %IMG_FILE% (this can take some time)..
 call wpimage mount "%IMG_FILE%" > %OUTPUTDIR%\mountlog.txt
 
@@ -111,8 +103,8 @@ for /f "tokens=3,4,* skip=9 delims= " %%i in (%OUTPUTDIR%\mountlog.txt) do (
 
 echo Mounted at %MOUNT_PATH% as %DISK_DRIVE%..
 set DISK_NR=%DISK_DRIVE:~-1%
-
-if not exist "%MOUNT_PATH%\mmos\" (
+set MMOSDIR=%MOUNT_PATH%\mmos
+if not exist "%MMOSDIR%" (
     echo.%CLRRED%Error: Recovery partition MMOS missing in device layout.%CLREND%
     goto Error
 )
@@ -120,31 +112,25 @@ if not exist "%MOUNT_PATH%\mmos\" (
 if /I [%WIMMODE%] == [Import] (
     REM Wimfiles provided. Copy the wim files from that directory
     echo. Importing wim files from %WIMDIR%
-    copy %WIMDIR%\EFIESP.wim %MOUNT_PATH%\mmos >nul
-    copy %WIMDIR%\MainOS.wim %MOUNT_PATH%\mmos >nul
-    copy %WIMDIR%\Data.wim %MOUNT_PATH%\mmos >nul
-    copy %WIMDIR%\RecoveryImageVersion.txt %MOUNT_PATH%\mmos >nul
-    
+    copy %WIMDIR%\efiesp.wim %MMOSDIR% >nul
+    copy %WIMDIR%\mainos.wim %MMOSDIR% >nul
+    copy %WIMDIR%\data.wim %MMOSDIR% >nul
+    copy %WIMDIR%\RecoveryImageVersion.txt %MMOSDIR% >nul
+
 ) else (
     REM wim files not provided. Extract the wim files from the FFU itself.
-    echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartassign.txt
-    echo sel par %PARID_EFIESP% >> %OUTPUTDIR%\diskpartassign.txt
-    echo assign letter=x >> %OUTPUTDIR%\diskpartassign.txt
-    echo exit >> %OUTPUTDIR%\diskpartassign.txt
-
-    echo sel dis %DISK_NR% > %OUTPUTDIR%\diskpartunassign.txt
-    echo sel par %PARID_EFIESP% >> %OUTPUTDIR%\diskpartunassign.txt
-    echo remove letter=x >> %OUTPUTDIR%\diskpartunassign.txt
-    echo exit >> %OUTPUTDIR%\diskpartunassign.txt
-
-    echo Extracting EFIESP wim
-    diskpart < %OUTPUTDIR%\diskpartassign.txt
-    if exist X:\EFI (
-        dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:X:\ /Name:"EFIESP"
-    ) else (
-        echo.%CLRYEL%Warning:PARID_EFIESP is incorrect. EFIESP wim is skipped%CLREND% 
+    if exist "%WINPEDIR%\pc_mountlist.txt" (
+    for /f "tokens=1,2 delims=, " %%i in (%WINPEDIR%\pc_mountlist.txt) do (
+        set DL_%%i=%%j
     )
-    diskpart < %OUTPUTDIR%\diskpartunassign.txt
+    powershell -Command "(gc %WINPEDIR%\pc_diskpart_assign.txt) -replace 'DISKNR', '%DISK_NR%' | Out-File %WINPEDIR%\diskpart_assign.txt -Encoding utf8"
+    powershell -Command "(gc %WINPEDIR%\pc_diskpart_remove.txt) -replace 'DISKNR', '%DISK_NR%' | Out-File %WINPEDIR%\diskpart_remove.txt -Encoding utf8"
+
+    echo. Assigning drive letters
+    diskpart < %WINPEDIR%\diskpart_assign.txt > %OUTPUTDIR%\buildrecoverydiskpart.log
+
+    echo Extracting EFIESP wim from %DL_EFIESP%:\
+    dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:%DL_EFIESP%:\ /Name:"EFIESP"
 
     echo Extracting data wim
     dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max
@@ -152,25 +138,28 @@ if /I [%WIMMODE%] == [Import] (
     echo Extracting MainOS wim, this can take a while too..
     dism /Capture-Image /ImageFile:%OUTPUTDIR%\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"MainOS" /Compress:max
 
+    echo Removing drive letters
+    diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\buildrecoverydiskpart.log
+
     echo %BSP_VERSION% > %OUTPUTDIR%\RecoveryImageVersion.txt
-    copy %OUTPUTDIR%\efiesp.wim %MOUNT_PATH%\mmos\EFIESP.wim >nul
-    copy %OUTPUTDIR%\mainos.wim %MOUNT_PATH%\mmos\MainOS.wim >nul
-    copy %OUTPUTDIR%\data.wim %MOUNT_PATH%\mmos\Data.wim >nul
-    copy %OUTPUTDIR%\RecoveryImageVersion.txt %MOUNT_PATH%\mmos\RecoveryImageVersion.txt >nul
+    copy %OUTPUTDIR%\efiesp.wim %MMOSDIR% >nul
+    copy %OUTPUTDIR%\mainos.wim %MMOSDIR% >nul
+    copy %OUTPUTDIR%\data.wim %MMOSDIR% >nul
+    copy %OUTPUTDIR%\RecoveryImageVersion.txt %MMOSDIR% >nul
 
     if /I [%WIMMODE%] == [Export] (
         REM Wimfiles provided. Copy the wim files from that directory
         echo. Exporting wim files to %WIMDIR%
         if not exist %WIMDIR% ( mkdir %WIMDIR% )
-        copy %OUTPUTDIR%\EFIESP.wim %WIMDIR% >nul
-        copy %OUTPUTDIR%\MainOS.wim %WIMDIR% >nul
-        copy %OUTPUTDIR%\Data.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\efiesp.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\mainos.wim %WIMDIR% >nul
+        copy %OUTPUTDIR%\data.wim %WIMDIR% >nul
         copy %OUTPUTDIR%\RecoveryImageVersion.txt %WIMDIR% >nul
     )
 )
 echo Copying winpe.wim..
-copy %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\winpe.wim %MOUNT_PATH%\mmos >nul
-copy %BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE\startrecovery.cmd %MOUNT_PATH%\mmos >nul
+copy %WINPEDIR%\winpe.wim %MMOSDIR% >nul
+copy "%IOTADK_ROOT%\Templates\startrecovery.cmd" %MMOSDIR% >nul
 
 echo Unmounting %DISK_DRIVE%
 wpimage dismount -physicaldrive %DISK_DRIVE% -imagepath %IMG_RECOVERY_FILE% -nosign
@@ -182,7 +171,7 @@ exit /b
 
 :Error
 echo Unmounting %DISK_DRIVE% without saving
-wpimage dismount -physicaldrive %DISK_DRIVE% 
+wpimage dismount -physicaldrive %DISK_DRIVE%
 del %OUTPUTDIR%\mountlog.txt
 popd
 endlocal
