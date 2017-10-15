@@ -77,7 +77,7 @@ if [%1] == [] (
 exit /b 0
 
 :BUILDFM_OEM
-echo. Running FeatureMerger for OEM packages
+echo.Running FeatureMerger for OEM packages
 echo.  Exporting OEMFM files
 powershell -Command "(gc %PKGSRC_DIR%\OEMFM.xml) -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OEMFM.xml -Encoding utf8"
 powershell -Command "(gc %COMMON_DIR%\Packages\OEMCommonFM.xml) -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OEMCommonFM.xml -Encoding utf8"
@@ -94,7 +94,7 @@ for %%B in ("%BLD_DIR%\buildfm_errors.txt") do if %%~zB gtr 0 (
 exit /b 0
 
 :BUILDFM_BSP
-echo. Running FeatureMerger for %1
+echo.Running FeatureMerger for %1
 echo.  Exporting %1 FM files
 dir /b %BSPSRC_DIR%\%1\Packages\*FM*.xml > %BLD_DIR%\%1FMFiles.txt
 for /f "delims=" %%A in (%BLD_DIR%\%1FMFiles.txt) do (

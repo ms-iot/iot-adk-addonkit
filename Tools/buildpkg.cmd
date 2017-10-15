@@ -61,7 +61,8 @@ if /I [%1] == [All] (
     echo Building all bsp packages
     dir %BSPSRC_DIR%\*.wm.xml /S /b > %PKGLOG_DIR%\packagelist.txt
     call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt %2
-    call buildfm.cmd all %2
+    REM call buildfm.cmd all %2
+    echo.-----build done-----
 
 ) else if /I [%1] == [Clean] (
     call buildprovpkg.cmd clean

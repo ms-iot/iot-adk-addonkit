@@ -90,6 +90,10 @@ if exist %PRODSRC_DIR%\CUSConfig (
     call buildfm.cmd ocp %PRODUCT%
 )
 
+REM Invoke buildfm 
+call buildfm.cmd oem %PKG_VER%
+call buildfm.cmd bsp %PROD_BSP% %PKG_VER%
+
 if exist %PRODSRC_DIR%\imagecustomizations.xml (
     set IMGAPP_CUST=/OEMCustomizationXML:"%PRODSRC_DIR%\imagecustomizations.xml" /OEMVersion:"%BSP_VERSION%"
 )
