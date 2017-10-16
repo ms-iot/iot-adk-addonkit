@@ -128,11 +128,11 @@ copy %DL_MMOS%:\mainos.wim %EXTRACTDIR%\
 copy %DL_MMOS%:\efiesp.wim %EXTRACTDIR%\
 copy %DL_MMOS%:\data.wim %EXTRACTDIR%\
 echo Applying EFIESP.wim to %DL_MMOS% drive
-REM dism /apply-image /ImageFile:%EXTRACTDIR%\efiesp.wim /index:1 /ApplyDir:%DL_EFIESP%:\ %VERIFYOPTION% || set VERIFYRESULT1=Failed
+dism /apply-image /ImageFile:%EXTRACTDIR%\efiesp.wim /index:1 /ApplyDir:%DL_EFIESP%:\ %VERIFYOPTION% || set VERIFYRESULT1=Failed
 echo Applying Data.wim to %DL_Data% drive
-REM dism /apply-image /ImageFile:%EXTRACTDIR%\data.wim /index:1 /ApplyDir:%DL_Data%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT2=Failed
+dism /apply-image /ImageFile:%EXTRACTDIR%\data.wim /index:1 /ApplyDir:%DL_Data%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT2=Failed
 echo Applying MainOS.wim to %DL_MainOS% drive
-REM dism /apply-image /ImageFile:%EXTRACTDIR%\mainos.wim /index:1 /ApplyDir:%DL_MainOS% /Compact %VERIFYOPTION% || set VERIFYRESULT3=Failed
+dism /apply-image /ImageFile:%EXTRACTDIR%\mainos.wim /index:1 /ApplyDir:%DL_MainOS% /Compact %VERIFYOPTION% || set VERIFYRESULT3=Failed
 echo Removing drive letters
 diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\verifyrecoverydiskpart.log
 
