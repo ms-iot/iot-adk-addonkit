@@ -233,17 +233,12 @@ call :PRINT_TO_CUSTFILE "  </PackageConfig>"
 call :PRINT_TO_CUSTFILE "  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">"
 call :PRINT_TO_CUSTFILE "    <Customizations>"
 call :PRINT_TO_CUSTFILE "      <Common>"
-if /i "%ADK_VERSION%" LSS "16190" (
-    call :PRINT_TO_CUSTFILE "        <ApplicationManagement>"
-    call :PRINT_TO_CUSTFILE "          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
-    call :PRINT_TO_CUSTFILE "        </ApplicationManagement>"
-) else (
-    call :PRINT_TO_CUSTFILE "        <Policies>"
-    call :PRINT_TO_CUSTFILE "          <ApplicationManagement>"
-    call :PRINT_TO_CUSTFILE "            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
-    call :PRINT_TO_CUSTFILE "          </ApplicationManagement>"
-    call :PRINT_TO_CUSTFILE "        </Policies>"
-)
+call :PRINT_TO_CUSTFILE "        <Policies>"
+call :PRINT_TO_CUSTFILE "          <ApplicationManagement>"
+call :PRINT_TO_CUSTFILE "            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
+call :PRINT_TO_CUSTFILE "          </ApplicationManagement>"
+call :PRINT_TO_CUSTFILE "        </Policies>"
+
 REM Printing Certificates
 if not defined SKIPCERT (
     for %%B in ("%FILE_PATH%\appx_cerlist_trim.txt") do if %%~zB gtr 0 (
