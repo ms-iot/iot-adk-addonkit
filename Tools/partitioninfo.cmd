@@ -75,19 +75,33 @@ if not exist %WINPEFILES% ( mkdir %WINPEFILES% )
 
 echo. Parsing device layout file :%DLCOMP_DIR%
 powershell -executionpolicy unrestricted  -Command ("%TOOLS_DIR%\GetPartitionInfo.ps1 %DLCOMP_DIR%") > %WINPEFILES%\devicelayout.csv
-set MOUNT_LIST=%WINPEFILES%\mountlist.txt
+set MOUNT_LIST=%WINPEDIR%\mountlist.txt
 set PC_MOUNTLIST=%WINPEDIR%\pc_mountlist.txt
+set SETDRIVECMD=%WINPEFILES%\setdrives.cmd
+set PCSETDRIVECMD=%WINPEDIR%\pc_setdrives.cmd
+if exist %SETDRIVECMD% ( del %SETDRIVECMD% >nul )
+if exist %PCSETDRIVECMD% ( del %PCSETDRIVECMD% >nul )
+
 if exist %MOUNT_LIST% ( del %MOUNT_LIST% >nul )
 if exist %PC_MOUNTLIST% ( del %PC_MOUNTLIST% >nul )
 
 for /f "skip=1 tokens=1,2,3,4,5,6 delims=,{} " %%i in (%WINPEFILES%\devicelayout.csv) do (
-    REM echo PARID_%%i=%%j [%%k] [%%l] [%%m]
+    REM echo PARID_%%i=%%j [%%k] [%%l] [%%m] [%%n]
     set PARID_%%i=%%j
     set TYPE_%%i=%%k
     set SIZE_%%i=%%l
     set FS_%%i=%%m
-    if [%%n] NEQ [-] if /I [%%i] neq [MainOS] ( echo.%%i,%%n >> %MOUNT_LIST% )
-    if [%%n] NEQ [-] ( echo.%%i,%%n >> %PC_MOUNTLIST% )
+    if [%%n] NEQ [-] if /I [%%i] neq [MainOS] (
+        echo.%%i,%%n >> %MOUNT_LIST% 
+        echo.echo Setting %%i Drive: DL_%%i=%%n >> %SETDRIVECMD%
+        echo.set DL_%%i=%%n>> %SETDRIVECMD%
+    )
+    if [%%n] NEQ [-] (
+        echo. Setting %%i Drive: DL_%%i=%%n 
+        echo.%%i,%%n >> %PC_MOUNTLIST%
+        echo.echo Setting %%i Drive: DL_%%i=%%n >> %PCSETDRIVECMD%
+        echo.set DL_%%i=%%n>> %PCSETDRIVECMD%
+    )
 )
 
 REM validate device layout
@@ -152,6 +166,9 @@ for /f "tokens=1,2 delims=, " %%i in (%MOUNT_LIST%) do (
     )
 )
 call :PRINT_TEXT "exit /b 0"
+
+del %MOUNT_LIST% >nul
+del %PC_MOUNTLIST% >nul
 
 endlocal
 exit /b 0

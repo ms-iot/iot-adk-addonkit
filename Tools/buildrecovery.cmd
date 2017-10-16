@@ -109,6 +109,8 @@ if not exist "%MMOSDIR%" (
     goto Error
 )
 
+call %WINPEDIR%\pc_setdrives.cmd
+
 if /I [%WIMMODE%] == [Import] (
     REM Wimfiles provided. Copy the wim files from that directory
     echo. Importing wim files from %WIMDIR%
@@ -119,10 +121,7 @@ if /I [%WIMMODE%] == [Import] (
 
 ) else (
     REM wim files not provided. Extract the wim files from the FFU itself.
-    if exist "%WINPEDIR%\pc_mountlist.txt" (
-    for /f "tokens=1,2 delims=, " %%i in (%WINPEDIR%\pc_mountlist.txt) do (
-        set DL_%%i=%%j
-    )
+
     powershell -Command "(gc %WINPEDIR%\pc_diskpart_assign.txt) -replace 'DISKNR', '%DISK_NR%' | Out-File %WINPEDIR%\diskpart_assign.txt -Encoding utf8"
     powershell -Command "(gc %WINPEDIR%\pc_diskpart_remove.txt) -replace 'DISKNR', '%DISK_NR%' | Out-File %WINPEDIR%\diskpart_remove.txt -Encoding utf8"
 
@@ -160,6 +159,11 @@ if /I [%WIMMODE%] == [Import] (
 echo Copying winpe.wim..
 copy %WINPEDIR%\winpe.wim %MMOSDIR% >nul
 copy "%IOTADK_ROOT%\Templates\startrecovery.cmd" %MMOSDIR% >nul
+
+if exist %SRC_DIR%\BSP\%BSP%\tools\br_addfiles.cmd (
+   echo. Adding %BSP% specifics 
+   call %SRC_DIR%\BSP\%BSP%\tools\br_addfiles.cmd
+)
 
 echo Unmounting %DISK_DRIVE%
 wpimage dismount -physicaldrive %DISK_DRIVE% -imagepath %IMG_RECOVERY_FILE% -nosign

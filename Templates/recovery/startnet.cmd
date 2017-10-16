@@ -5,9 +5,7 @@ if exist recoverygui.exe ( start recoverygui.exe )
 
 echo IoT recovery initializing...
 
-for /f "tokens=1,2 delims=, " %%i in (mountlist.txt) do ( 
-    set DL_%%i=%%j
-)
+call setdrives.cmd
 
 REM Assign drive letters
 call diskpart /s diskpart_assign.txt
