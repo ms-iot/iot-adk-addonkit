@@ -8,7 +8,7 @@ goto START
 :Usage
 echo Usage: newproduct ProductName [BSPName]
 echo    ProductName....... Required, Name of the product to be created.
-echo    BSPName........... Optional, Name of the BSP to be used. Default : RPi2 for arm, MBM for x86
+echo    BSPName........... Optional, Name of the BSP to be used. Default : QCDB410C for arm, MBM for x86
 echo    [/?].............. Displays this usage string.
 echo    Example:
 echo        newproduct SampleA MBM
@@ -28,7 +28,7 @@ if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
 if [%2] == [] (
     if [%ARCH%] == [arm] (
-        set BSPNAME=RPi2
+        set BSPNAME=QCDB410C
     ) else if [%ARCH%] == [x86] (
         set BSPNAME=MBM
     ) else (
@@ -78,9 +78,9 @@ REM Store BSP info for the product for later used
 echo BSP=%BSPNAME%> %PRODSRC_DIR%\prodconfig.txt
 
 REM Invoke BSP specific build hooks
-if exist %TOOLS_DIR%\hooks\%BSPNAME%\np_hook.cmd (
+if exist %SRC_DIR%\BSP\%BSPNAME%\tools\np_hook.cmd (
     echo. Running %BSPNAME% specifics
-    call %TOOLS_DIR%\hooks\%BSPNAME%\np_hook.cmd
+    call %SRC_DIR%\BSP\%BSPNAME%\tools\np_hook.cmd
 )
 
 echo %1 product directories ready
