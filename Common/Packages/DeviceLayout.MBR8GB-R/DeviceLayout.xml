@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DeviceLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
-  <!-- GUID Partition Table -->
+  <!-- Master Boot Record -->
   <Partitions>
 
     <!-- EFI -->
 
     <Partition>
       <Name>EFIESP</Name>
-      <Type>{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}</Type>
+      <Type>0x0c</Type>
       <FileSystem>FAT</FileSystem>
       <TotalSectors>65536</TotalSectors>
       <Bootable>true</Bootable>
@@ -18,18 +18,27 @@
 
     <Partition>
       <Name>MainOS</Name>
-      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
+      <Type>0x07</Type>
       <FileSystem>NTFS</FileSystem>
-      <MinFreeSectors>262144</MinFreeSectors>
+      <MinFreeSectors>512000</MinFreeSectors>
       <ByteAlignment>0x800000</ByteAlignment>
       <ClusterSize>0x1000</ClusterSize>
     </Partition>
 
+    <!-- Recovery Partition  -->
+    <Partition>
+      <Name>MMOS</Name>
+      <FileSystem>FAT32</FileSystem>
+      <TotalSectors>4096000</TotalSectors>
+      <!--MinFreeSectors>6553600</MinFreeSectors-->
+      <Type>0x07</Type>
+    </Partition>
+ 
     <!-- Data Partition  -->
 
     <Partition>
       <Name>Data</Name>
-      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
+      <Type>0x07</Type>
       <FileSystem>NTFS</FileSystem>
       <UseAllSpace>true</UseAllSpace>
       <ByteAlignment>0x800000</ByteAlignment>

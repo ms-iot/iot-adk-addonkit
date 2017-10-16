@@ -17,14 +17,14 @@
   <OEMDevicePlatformPackages>
     <!-- GPT 4GB layout  -->
     <PackageFile Device="CustomMBMx64" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT4GB.cab"/>
-    <!-- GPT 2GB layout - select this by specifying the SOC field in the OEMInput xml file -->
-    <PackageFile Device="CustomMBMx64_2GB" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT2GB.cab"/>
+    <!-- GPT 8GB layout - select this by specifying the SOC field in the OEMInput xml file -->
+    <PackageFile Device="CustomMBMx64-R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT8GB-R.cab"/>
   </OEMDevicePlatformPackages>
   <DeviceLayoutPackages>
     <!-- GPT 4GB layout  -->
     <PackageFile SOC="CustomMBMx64" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT4GB.cab"/>
-    <!-- GPT 2GB layout - select this by specifying the SOC field in the OEMInput xml file -->
-    <PackageFile SOC="CustomMBMx64_2GB" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT2GB.cab"/>
+    <!-- GPT 8GB layout - select this by specifying the SOC field in the OEMInput xml file -->
+    <PackageFile SOC="CustomMBMx64-R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.DeviceLayout.GPT8GB-R.cab"/>
   </DeviceLayoutPackages>
   <Features>
     <Microsoft />

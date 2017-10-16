@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    name="GPT2GB"
+    name="GPT4GB-R"
     namespace="DeviceLayout"
     owner="$(OEMNAME)"
-    legacyName="$(OEMNAME).DeviceLayout.GPT2GB" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    legacyName="$(OEMNAME).DeviceLayout.GPT8GB-R" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
     <onecorePackageInfo
         targetPartition="MainOS"
         releaseType="Production"

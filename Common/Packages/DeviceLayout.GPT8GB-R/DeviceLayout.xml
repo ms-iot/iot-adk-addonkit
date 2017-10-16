@@ -20,7 +20,7 @@
       <Name>MainOS</Name>
       <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
       <FileSystem>NTFS</FileSystem>
-      <MinFreeSectors>1048576</MinFreeSectors>
+      <MinFreeSectors>512000</MinFreeSectors>
       <ByteAlignment>0x800000</ByteAlignment>
       <ClusterSize>0x1000</ClusterSize>
     </Partition>
@@ -28,9 +28,10 @@
     <!-- Recovery Partition  -->
     <Partition>
       <Name>MMOS</Name>
-      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
       <FileSystem>FAT32</FileSystem>
-      <TotalSectors>2457600</TotalSectors>
+      <TotalSectors>4096000</TotalSectors>
+      <!--MinFreeSectors>6553600</MinFreeSectors-->
+      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
     </Partition>
 
     <!-- Data Partition  -->
