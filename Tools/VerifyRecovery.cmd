@@ -132,7 +132,7 @@ dism /apply-image /ImageFile:%EXTRACTDIR%\efiesp.wim /index:1 /ApplyDir:%DL_EFIE
 echo Applying Data.wim to %DL_Data% drive
 dism /apply-image /ImageFile:%EXTRACTDIR%\data.wim /index:1 /ApplyDir:%DL_Data%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT2=Failed
 echo Applying MainOS.wim to %DL_MainOS% drive
-dism /apply-image /ImageFile:%EXTRACTDIR%\mainos.wim /index:1 /ApplyDir:%DL_MainOS% /Compact %VERIFYOPTION% || set VERIFYRESULT3=Failed
+dism /apply-image /ImageFile:%EXTRACTDIR%\mainos.wim /index:1 /ApplyDir:%DL_MainOS%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT3=Failed
 echo Removing drive letters
 diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\verifyrecoverydiskpart.log
 
