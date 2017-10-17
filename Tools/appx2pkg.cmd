@@ -54,7 +54,13 @@ for /f "tokens=1,2,3 delims=:,!, " %%i in (%FILE_PATH%\appx_info.txt) do (
         set ENTRY=%%k
     )
 )
-if not defined PROV_VERSION ( set PROV_VERSION=1.0)
+
+if not defined PROV_VERSION if /i "%ADK_VERSION%" LSS "16190" (
+     set PROV_VERSION=1.0
+) else (
+    set PROV_VERSION=%APPX_Version%
+)
+
 if not defined PROV_RANK ( set PROV_RANK=0)
 if not defined PROV_PATH ( 
     set PROV_PATH="$(runtime.windows)\Provisioning\Packages"
@@ -103,7 +109,6 @@ if exist "%FILE_PATH%\Dependencies\%ARCH%" (
 
 if not defined SKIPCERT (
     dir /b "%FILE_PATH%\*.cer" > "%FILE_PATH%\appx_cerlist.txt" 2>nul
-    copy "%FILE_PATH%\*.cer" "%OUTPUT_PATH%\" >nul 2>nul
 )
 
 dir /b "%FILE_PATH%\*License*.xml" > "%FILE_PATH%\appx_license.txt" 2>nul
@@ -114,18 +119,23 @@ if defined LICENSE_FILE (
             set LICENSE_ID=%%j
         )
     )
-    echo.  LicenseProductID : !LICENSE_ID!
+    echo. LicenseProductID : !LICENSE_ID!
 )
 
-echo. Authoring %COMP_NAME%.%SUB_NAME%.pkg.xml
+echo. Authoring %COMP_NAME%.%SUB_NAME%.wm.xml
 if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (del "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" )
 call :CREATE_PKGFILE
+
+if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (
+    call convertpkg.cmd "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+    del /q /f "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+)
 
 set SRC_INFO_FILE=%OUTPUT_PATH%\SourceDetails.txt
 echo Source Appx: %FILE_PATH%%FILE_NAME%%FILE_TYPE%>> "%SRC_INFO_FILE%"
 echo Dependencies :>> "%SRC_INFO_FILE%"
 
-REM Renaming files to shorten the names
+REM Renaming files to shorten the appx names
 for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
     for /f "useback tokens=1,* delims=_" %%A in ("%FILE_PATH%\appx_deplist.txt") do (
         if [%%B] == [] (
@@ -139,18 +149,36 @@ for %%Z in ("%FILE_PATH%\appx_deplist.txt") do if %%~zZ gtr 0 (
         )
     )
 )
+REM Renaming files to shorten the cert names
+for %%Z in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zZ gtr 0 (
+    echo Certificates : >> "%SRC_INFO_FILE%"
+    for /f "useback tokens=1,* delims=_" %%A in ("%FILE_PATH%\appx_cerlist.txt") do (
+        if [%%B] == [] (
+            copy "%FILE_PATH%\%%A" "%OUTPUT_PATH%\%%A" >nul 2>nul
+            echo.%%A>>"%FILE_PATH%\appx_cerlist_trim.txt"
+            echo.%FILE_PATH%%%A>>"%SRC_INFO_FILE%"
+        ) else (
+            copy "%FILE_PATH%\%%A_%%B" "%OUTPUT_PATH%\%%A.cer" >nul 2>nul
+            echo.%%A.cer>>"%FILE_PATH%\appx_cerlist_trim.txt"
+            echo.%FILE_PATH%%%A_%%B>>"%SRC_INFO_FILE%"
+        )
+    )
+)
 
-echo. Authoring customizations.xml
-if exist "%FILE_PATH%\customizations.xml" (del "%FILE_PATH%\customizations.xml" )
-REM Get a new GUID for the Provisioning config file
-powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
-set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
-del %PRODSRC_DIR%\uuid.txt
+echo. Authoring %CUSTOMIZATIONS%.xml
+if exist "%FILE_PATH%\%CUSTOMIZATIONS%.xml" (del "%FILE_PATH%\%CUSTOMIZATIONS%.xml" )
+if not defined NEWGUID (
+    REM Get a new GUID for the Provisioning config file
+    powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
+    set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
+    del %PRODSRC_DIR%\uuid.txt
+)
 call :CREATE_CUSTFILE
 
 copy "%FILE_PATH%\%FILE_NAME%%FILE_TYPE%" "%OUTPUT_PATH%\%SHORT_FILE_NAME%%FILE_TYPE%" >nul 2>nul
-move "%FILE_PATH%\customizations.xml" "%OUTPUT_PATH%\customizations.xml" >nul 2>nul
-move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%OUTPUT_PATH%\%CUSTOMIZATIONS%.xml" >nul 2>nul
+REM move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
 
 if defined LICENSE_FILE (
     copy %FILE_PATH%\%LICENSE_FILE% %OUTPUT_PATH%\%SHORT_FILE_NAME%_License.ms-windows-store-license >nul 2>nul
@@ -158,9 +186,8 @@ if defined LICENSE_FILE (
 )
 
 if not defined SKIPCERT (
-    echo Certificates : >> "%SRC_INFO_FILE%"
-    type "%FILE_PATH%\appx_cerlist.txt" >> "%SRC_INFO_FILE%"
     del "%FILE_PATH%\appx_cerlist.txt"
+    del "%FILE_PATH%\appx_cerlist_trim.txt"
 )
 
 del "%FILE_PATH%\appx_license.txt"
@@ -206,16 +233,18 @@ call :PRINT_TO_CUSTFILE "  </PackageConfig>"
 call :PRINT_TO_CUSTFILE "  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">"
 call :PRINT_TO_CUSTFILE "    <Customizations>"
 call :PRINT_TO_CUSTFILE "      <Common>"
-call :PRINT_TO_CUSTFILE "        <ApplicationManagement>"
-call :PRINT_TO_CUSTFILE "          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
-call :PRINT_TO_CUSTFILE "        </ApplicationManagement>"
+call :PRINT_TO_CUSTFILE "        <Policies>"
+call :PRINT_TO_CUSTFILE "          <ApplicationManagement>"
+call :PRINT_TO_CUSTFILE "            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>"
+call :PRINT_TO_CUSTFILE "          </ApplicationManagement>"
+call :PRINT_TO_CUSTFILE "        </Policies>"
 
 REM Printing Certificates
 if not defined SKIPCERT (
-    for %%B in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zB gtr 0 (
+    for %%B in ("%FILE_PATH%\appx_cerlist_trim.txt") do if %%~zB gtr 0 (
         call :PRINT_TO_CUSTFILE "        <Certificates>"
         call :PRINT_TO_CUSTFILE "          <RootCertificates>"
-        for /f "useback delims=" %%A in ("%FILE_PATH%\appx_cerlist.txt") do (
+        for /f "useback delims=" %%A in ("%FILE_PATH%\appx_cerlist_trim.txt") do (
             call :PRINT_TO_CUSTFILE "            <RootCertificate CertificateName="%%~nA" Name="%%~nA">"
             call :PRINT_TO_CUSTFILE "              <CertificatePath>%%A</CertificatePath>"
             call :PRINT_TO_CUSTFILE "            </RootCertificate>"
@@ -233,14 +262,14 @@ REM Print startup configuration
 if [%STARTUP%] == [fga] (
     call :PRINT_TO_CUSTFILE "        <StartupApp>"
     call :PRINT_TO_CUSTFILE "          <Default>"
-    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\customizations.xml"
+    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
     call :PRINT_TO_CUSTFILE "          </Default>"
     call :PRINT_TO_CUSTFILE "        </StartupApp>"
 ) else if [%STARTUP%] == [bgt] (
     call :PRINT_TO_CUSTFILE "        <StartupBackgroundTasks>"
     call :PRINT_TO_CUSTFILE "          <ToAdd>"
     call :PRINT_TO_CUSTFILE "            <Add PackageName="
-    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\customizations.xml"
+    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
     call :PRINT_TO_CUSTFILE "            ></Add>"
     call :PRINT_TO_CUSTFILE "          </ToAdd>"
     call :PRINT_TO_CUSTFILE "        </StartupBackgroundTasks>"
@@ -295,5 +324,5 @@ exit /b
 
 :PRINT_TO_CUSTFILE
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT!>> "%FILE_PATH%\customizations.xml"
+echo !TEXT!>> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
 exit /b

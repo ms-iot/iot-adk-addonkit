@@ -13,7 +13,7 @@ echo        createimage SampleA Retail
 exit /b 1
 
 :START
-setlocal
+setlocal ENABLEDELAYEDEXPANSION
 REM Input validation
 if [%1] == [/?] goto Usage
 if [%1] == [-?] goto Usage
@@ -32,7 +32,7 @@ set PRODSRC_DIR=%SRC_DIR%\Products\%PRODUCT%
 set PRODBLD_DIR=%BLD_DIR%\%1\%2
 
 if not defined FFUNAME ( set FFUNAME=Flash)
-if not defined MSPACKAGE ( set "MSPACKAGE=%KITSROOT%MSPackages" )
+
 set IMGAPP_CUST=
 
 if not exist %SRC_DIR%\Products\%PRODUCT% (
@@ -40,21 +40,61 @@ if not exist %SRC_DIR%\Products\%PRODUCT% (
    dir /b /AD %SRC_DIR%\Products
    goto Usage
 )
+if defined USEUPDATE (
+  if not exist %PKGUPD_DIR%\%USEUPDATE% (
+    echo %CLRRED%Error: %USEUPDATE% not found. Set USEUPDATE value correctly %CLREND%
+    goto Usage
+  )
+)
+REM Read the config info for BSP
+for /f "tokens=1,2 delims== " %%i in (%SRC_DIR%\Products\%PRODUCT%\prodconfig.txt) do (
+    set PROD_%%i=%%j
+)
+
 REM Start processing command
 echo Creating %1 %2 Image
 echo Build Start Time : %TIME%
 
-echo Building Packages with product specific contents
-call buildpkg.cmd Registry.Version
+if defined USEUPDATE (
+    echo %CLRYEL%Using Update folder : %USEUPDATE% %CLREND%
+    SET /P PKG_VER=<%PKGUPD_DIR%\%USEUPDATE%\versioninfo.txt
+    call buildupdate %USEUPDATE%
+    echo Copying %USEUPDATE% packages
+    copy %BLD_DIR%\%USEUPDATE%-!PKG_VER!\*.cab %PKGBLD_DIR% >nul 2>nul 
+) else (
+    set PKG_VER=%BSP_VERSION%
+)
+
+echo Building Packages with product specific contents with version %PKG_VER%
+
+REM Invoke BSP specific build hooks
+if exist %SRC_DIR%\BSP\%PROD_BSP%\tools\ci_hook.cmd (
+    echo. Running %PROD_BSP% specifics
+    call %SRC_DIR%\BSP\%PROD_BSP%\tools\ci_hook.cmd
+)
+
+call buildpkg.cmd Registry.Version %PKG_VER%
 
 if exist %PRODSRC_DIR%\oemcustomization.cmd (
     call buildpkg.cmd Custom.Cmd
 )
 
-if exist %PRODSRC_DIR%\prov\customizations.xml (
-    call createprovpkg.cmd %PRODSRC_DIR%\prov\customizations.xml %PRODSRC_DIR%\prov\%PRODUCT%Prov.ppkg
+if exist %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml (
+    call buildprovpkg.cmd %PRODUCT%
     call buildpkg.cmd Provisioning.Auto
 )
+
+if exist %PRODSRC_DIR%\CUSConfig (
+    echo.Building DeviceTargeting packages
+    call buildpkg.cmd %PRODSRC_DIR%\CUSConfig %PKG_VER%
+    call buildfm.cmd ocp %PRODUCT%
+)
+
+REM Invoke buildfm 
+call buildfm.cmd oem %PKG_VER%
+if %ERRORLEVEL% neq 0 goto Error
+call buildfm.cmd bsp %PROD_BSP% %PKG_VER%
+if %ERRORLEVEL% neq 0 goto Error
 
 if exist %PRODSRC_DIR%\imagecustomizations.xml (
     set IMGAPP_CUST=/OEMCustomizationXML:"%PRODSRC_DIR%\imagecustomizations.xml" /OEMVersion:"%BSP_VERSION%"
@@ -70,7 +110,7 @@ REM call DevNodeClean
 if "%ProgramW6432%"=="" (
    REM run x86
    call DeviceNodeCleanup.x86.exe
-) ELSE (
+) else (
    REM run x64
    call DeviceNodeCleanup.x64.exe
 )

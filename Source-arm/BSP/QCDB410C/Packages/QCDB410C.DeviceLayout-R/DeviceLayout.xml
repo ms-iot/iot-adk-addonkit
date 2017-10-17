@@ -1,12 +1,10 @@
-﻿<?xml version='1.0' encoding='utf-8' standalone='yes'?>
-<DeviceLayout
-    xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    >
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DeviceLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <Partitions>
     <!-- QC 8916 TEST DEVICE LAYOUT -->
+
     <!-- PROVISIONED DATA SECTION START - WARNING DO NOT ALTER BELOW OR FFU WILL REMOVE DEVICE SETTINGS -->
+
     <!-- Device Provisioning Partition -->
     <Partition>
       <Name>DPP</Name>
@@ -15,7 +13,9 @@
       <TotalSectors>16384</TotalSectors>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- QUALCOMM 8916 SPECIFIC PROVISIONING PARTITIONS -->
+
     <!-- Modem golden file system -->
     <Partition>
       <Name>MODEM_FSG</Name>
@@ -23,6 +23,7 @@
       <Type>{638FF8E2-22C9-E33B-8F5D-0E81686A68CB}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- Modem live file systems -->
     <Partition>
       <Name>MODEM_FS1</Name>
@@ -36,6 +37,7 @@
       <Type>{0A288B1F-22C9-E33B-8F5D-0E81686A68CB}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- Modem File System Cookie partition -->
     <Partition>
       <Name>MODEM_FSC</Name>
@@ -43,6 +45,7 @@
       <Type>{57B90A16-22C9-E33B-8F5D-0E81686A68CB}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- DDR training partition -->
     <Partition>
       <Name>DDR</Name>
@@ -50,6 +53,7 @@
       <Type>{20A0C19C-286A-42FA-9CE7-F64C3226A794}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- Secure Software Download -->
     <Partition>
       <Name>SSD</Name>
@@ -57,6 +61,7 @@
       <Type>{2C86E742-745E-4FDD-BFD8-B6A7AC638772}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- UEFI Variable Services Partitions -->
     <Partition>
       <Name>UEFI_BS_NV</Name>
@@ -64,20 +69,33 @@
       <Type>{F0B4F48B-AEBA-4ECF-9142-5DC30CDC3E77}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <Partition>
       <Name>UEFI_RT_NV</Name>
       <TotalSectors>512</TotalSectors>
-      <Type>{6BB94537-7D1C-44D0-9DFE-6D77C011DBFC}</Type>
+     <Type>{6BB94537-7D1C-44D0-9DFE-6D77C011DBFC}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
+	
     <Partition>
       <Name>BOOTMODE</Name>
       <TotalSectors>32</TotalSectors>
       <Type>{0E91AB96-8339-4AE4-A310-ED94357FD7D0}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+	
+	<Partition>
+      <Name>SEC</Name>
+      <TotalSectors>256</TotalSectors>
+      <Type>{303E6AC3-AF15-4C54-9E9B-D9A8FBECF401}</Type>
+      <RequiredToFlash>true</RequiredToFlash>
+    </Partition>
+	
     <!-- PROVISIONED DATA SECTION END - WARNING DO NOT ALTER ABOVE OR FFU WILL REMOVE DEVICE SETTINGS -->
+
     <!-- START QUALCOMM 8916 BOOT PARTITIONS -->
+
     <!-- Bootloaders -->
     <Partition>
       <Name>SBL1</Name>
@@ -101,7 +119,7 @@
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
     <Partition>
-      <Name>RPM</Name>
+    <Name>RPM</Name>
       <TotalSectors>1024</TotalSectors>
       <Type>{098DF793-D712-413D-9D4E-89D711772228}</Type>
       <RequiredToFlash>true</RequiredToFlash>
@@ -118,6 +136,7 @@
       <Type>{E1A6A689-0C8D-4CC6-B4E8-55A4320FBD8A}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+    
     <!-- TrustZone Applets -->
     <Partition>
       <Name>WINSECAPP</Name>
@@ -131,6 +150,7 @@
       <Type>{14D11C40-2A3D-4F97-882D-103A1EC09333}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- Bootloaders Backup Section (Sizes must match) -->
     <Partition>
       <Name>BACKUP_SBL1</Name>
@@ -153,7 +173,7 @@
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
     <Partition>
-      <Name>BACKUP_RPM</Name>
+   <Name>BACKUP_RPM</Name>
       <TotalSectors>1024</TotalSectors>
       <Type>{A3381699-350C-465E-BD5D-FA3AB901A39A}</Type>
       <RequiredToFlash>true</RequiredToFlash>
@@ -170,6 +190,7 @@
       <Type>{A3381699-350C-465E-BD5D-FA3AB901A39A}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- TrustZone Applet Backup Sections (Sizes must match) -->
     <Partition>
       <Name>BACKUP_WINSECAPP</Name>
@@ -183,6 +204,7 @@
       <Type>{A3381699-350C-465E-BD5D-FA3AB901A39A}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+  
     <!-- ACPI table storage -->
     <Partition>
       <Name>PLAT</Name>
@@ -191,16 +213,19 @@
       <Type>{543C031A-4CB6-4897-BFFE-4B485768A8AD}</Type>
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
+
     <!-- END QUALCOMM 8x26 BOOT PARTITIONS -->
+
     <!-- START MICROSOFT PARTITIONS -->
-    <!-- EFI System Partition -->
+
+    <!-- EFI System Partition --> 
     <Partition>
       <Name>EFIESP</Name>
       <FileSystem>FAT</FileSystem>
       <TotalSectors>131072</TotalSectors>
-      <!-- PARTITION_SYSTEM_GUID
-      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type> -->
-      <Type>{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}</Type>
+      <!-- PARTITION_SYSTEM_GUID -->
+      <Type>{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}</Type> <!-- for bitlocker -->
+      <!-- Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type -->
       <RequiredToFlash>true</RequiredToFlash>
     </Partition>
 <!-- CR 816068	
@@ -211,7 +236,7 @@
       <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
     </Partition>
 -->
-    <Partition>
+   <Partition>
       <Name>MainOS</Name>
       <!-- PARTITION_BASIC_DATA_GUID -->
       <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
@@ -240,7 +265,9 @@
       <FileSystem>NTFS</FileSystem>
     </Partition>
   </Partitions>
+
   <!-- END MICROSOFT PARTITIONS -->
+
   <SectorSize>512</SectorSize>
   <ChunkSize>128</ChunkSize>
   <DefaultPartitionByteAlignment>0x200000</DefaultPartitionByteAlignment>

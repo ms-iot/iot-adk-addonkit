@@ -1,15 +1,16 @@
 REM startnet.cmd
 
 REM Launch UI to cover screen
-REM start recoverygui.exe
+if exist recoverygui.exe ( start recoverygui.exe )
 
 echo IoT recovery initializing...
-wpeinit
+
+call setdrives.cmd
 
 REM Assign drive letters
 call diskpart /s diskpart_assign.txt
-set RECOVERYDRIVE=R
-set EFIDRIVE=E
+set RECOVERYDRIVE=%DL_MMOS%
+set EFIDRIVE=%DL_EFIESP%
 
 REM Initilize logging
 set RECOVERY_LOG_FOLDER=%RECOVERYDRIVE%:\recoverylogs
@@ -18,6 +19,11 @@ echo --- Device recovery initiated --- >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 call time /t >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
 copy %WINDIR%\system32\winpeshl.log %RECOVERY_LOG_FOLDER%
 
+if exist pre_recovery_hook.cmd (
+    call pre_recovery_hook.cmd  >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
+    if errorlevel 1 goto :exit
+)
+
 REM Ensure recovery WIM files are available
 if not exist %RECOVERYDRIVE%:\data.wim echo Missing data.wim file! >>%RECOVERY_LOG_FOLDER%\recovery_log.txt && goto exit
 if not exist %RECOVERYDRIVE%:\mainos.wim echo Missing mainos.wim file! >>%RECOVERY_LOG_FOLDER%\recovery_log.txt && goto exit
@@ -25,6 +31,10 @@ if not exist %RECOVERYDRIVE%:\efiesp.wim echo Missing efiesp.wim file! >>%RECOVE
 
 REM Perform recovery operations, logging to MMOS log file
 call startnet_recovery.cmd >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
+
+if exist post_recovery_hook.cmd (
+    call post_recovery_hook.cmd  >>%RECOVERY_LOG_FOLDER%\recovery_log.txt
+)
 
 :exit
 call time /t >>%RECOVERY_LOG_FOLDER%\recovery_log.txt

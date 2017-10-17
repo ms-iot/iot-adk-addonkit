@@ -8,7 +8,7 @@ goto START
 :Usage
 echo Usage: newproduct ProductName [BSPName]
 echo    ProductName....... Required, Name of the product to be created.
-echo    BSPName........... Optional, Name of the BSP to be used. Default : RPi2 for arm, MBM for x86
+echo    BSPName........... Optional, Name of the BSP to be used. Default : QCDB410C for arm, MBM for x86
 echo    [/?].............. Displays this usage string.
 echo    Example:
 echo        newproduct SampleA MBM
@@ -28,7 +28,7 @@ if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
 if [%2] == [] (
     if [%ARCH%] == [arm] (
-        set BSPNAME=RPi2
+        set BSPNAME=QCDB410C
     ) else if [%ARCH%] == [x86] (
         set BSPNAME=MBM
     ) else (
@@ -72,9 +72,16 @@ powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR
 set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
 del %PRODSRC_DIR%\uuid.txt
 
-powershell -Command "(gc %IOTADK_ROOT%\Templates\customizations.xml) -replace '{Product}', '%PRODUCT%' -replace 'GUID', '%NEWGUID%' -replace '{OEMNAME}', '%OEM_NAME%' | Out-File %PRODSRC_DIR%\prov\customizations.xml -Encoding utf8"
+powershell -Command "(gc %IOTADK_ROOT%\Templates\%CUSTOMIZATIONS%.xml) -replace '{Product}', '%PRODUCT%' -replace 'GUID', '%NEWGUID%' -replace '{OEMNAME}', '%OEM_NAME%' | Out-File %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml -Encoding utf8"
+
 REM Store BSP info for the product for later used
 echo BSP=%BSPNAME%> %PRODSRC_DIR%\prodconfig.txt
+
+REM Invoke BSP specific build hooks
+if exist %SRC_DIR%\BSP\%BSPNAME%\tools\np_hook.cmd (
+    echo. Running %BSPNAME% specifics
+    call %SRC_DIR%\BSP\%BSPNAME%\tools\np_hook.cmd
+)
 
 echo %1 product directories ready
 goto End

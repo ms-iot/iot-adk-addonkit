@@ -3,7 +3,7 @@
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
     <ID>{f3581b3b-04c5-4a33-bd35-afc2d7cb7d2e}</ID>
     <Name>SecureSampleProv</Name>
-    <Version>1.0</Version>
+    <Version>1.0.0.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>
@@ -15,17 +15,31 @@
             <ComputerName>ContosoSecure</ComputerName>
           </ComputerAccount>
         </Accounts>
-        <ApplicationManagement>
-          <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
-          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-        </ApplicationManagement>
         <Policies>
-          <Security>
+          <ApplicationManagement>
+            <AllowAppStoreAutoUpdate>Allowed</AllowAppStoreAutoUpdate>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+          <!--Security>
             <AllowAddProvisioningPackage>Yes</AllowAddProvisioningPackage>
             <AllowRemoveProvisioningPackage>Yes</AllowRemoveProvisioningPackage>
             <RequireDeviceEncryption>No</RequireDeviceEncryption>
             <RequireProvisioningPackageSignature>No</RequireProvisioningPackageSignature>
           </Security>
+          <Update>
+            <ActiveHoursEnd>17</ActiveHoursEnd>
+            <ActiveHoursMaxRange>18</ActiveHoursMaxRange>
+            <ActiveHoursStart>8</ActiveHoursStart>
+            <AllowAutoUpdate>Auto-install and restart without end-user control</AllowAutoUpdate>
+            <AllowMUUpdateService>No</AllowMUUpdateService>
+            <AllowNonMicrosoftSignedUpdate>Yes</AllowNonMicrosoftSignedUpdate>
+            <AllowUpdateService>Yes</AllowUpdateService>
+            <BranchReadinessLevel>Current Branch</BranchReadinessLevel>
+            <DeferFeatureUpdatesPeriodInDays>0</DeferFeatureUpdatesPeriodInDays>
+            <DeferQualityUpdatesPeriodInDays>0</DeferQualityUpdatesPeriodInDays>
+            <DetectionFrequency>22</DetectionFrequency>
+            <RequireDeferUpgrade>Do not pause updates</RequireDeferUpgrade>
+          </Update-->
         </Policies>
       </Common>
     </Customizations>

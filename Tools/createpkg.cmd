@@ -3,16 +3,18 @@
 goto START
 
 :Usage
-echo Usage: createpkg [CompName.SubCompName]/[packagefile.pkg.xml] [version]
-echo    packagefile.pkg.xml....... Package definition XML file
-echo    CompName.SubCompName...... Package ComponentName.SubComponent Name
+echo Usage: createpkg [CompName.SubCompName]/[packagefile.pkg.xml]/[packagefile.wm.xml] [version]
+echo    packagefile.pkg.xml/.wm.xml....... Package definition XML file
+echo    CompName.SubCompName.............. Package ComponentName.SubComponent Name
 echo        Either one of the above should be specified
-echo    [version]................. Optional, Package version. If not specified, it uses BSP_VERSION
-echo    [/?]...................... Displays this usage string.
+echo    [version]......................... Optional, Package version. If not specified, it uses BSP_VERSION
+echo    [/?].............................. Displays this usage string.
 echo    Example:
 echo        createpkg sample.pkg.xml
+echo        createpkg sample.wm.xml
 echo        createpkg sample.pkg.xml 10.0.1.0
-echo        createpkg Appx.Main
+echo        createpkg sample.wm.xml 10.0.1.0
+echo        createpkg Custom.Cmd
 
 exit /b 1
 
@@ -37,10 +39,15 @@ if [%2] == [] (
 )
 set INPUT=%1
 set EXTN=%INPUT:~-8%
+set EXTN1=%INPUT:~-7%
 
 if [%EXTN%] == [.pkg.xml] (
     set INPUT_FILE=%~nx1
     set INPUT=%INPUT:.pkg.xml=%
+    cd /D %~dp1
+) else if [%EXTN1%] == [.wm.xml] (
+    set INPUT_FILE=%~nx1
+    set INPUT=%INPUT:.wm.xml=%
     cd /D %~dp1
 ) else (
     set INPUT_FILE=%1.pkg.xml
@@ -66,19 +73,22 @@ if not defined RELEASE_DIR (
 echo Creating %INPUT_FILE% Package with version %PKG_VER% for %PRODUCT%
 
 REM check if customizations.xml is present, if so create provisioning package
-if exist "customizations.xml" (
+if exist "%CUSTOMIZATIONS%.xml" (
     if not exist "%INPUT%.ppkg" (
         echo  Creating %INPUT%.ppkg...
-        call createprovpkg.cmd customizations.xml %INPUT%.ppkg
+        call createprovpkg.cmd %CUSTOMIZATIONS%.xml %INPUT%.ppkg
    )
 )
 
+if not exist "%INPUT%.wm.xml" (
+    call convertpkg.cmd "%INPUT_FILE%"
+)
+
 set BUILDTIME=%date:~-2,2%%date:~4,2%%date:~7,2%-%time:~0,2%%time:~3,2%
-call pkggen.exe "%INPUT_FILE%" /config:"%PKG_CONFIG_XML%" /output:"%PKGBLD_DIR%" /version:%PKG_VER% /build:fre /cpu:%BSP_ARCH% /variables:"_RELEASEDIR=%RELEASE_DIR%\;PROD=%PRODUCT%;PRJDIR=%SRC_DIR%;COMDIR=%COMMON_DIR%;BSPVER=%PKG_VER%;BSPARCH=%BSP_ARCH%;OEMNAME=%OEM_NAME%;BUILDTIME=%BUILDTIME%;" /onecore
+
+call pkggen.exe "%INPUT%.wm.xml" /output:"%PKGBLD_DIR%" /version:%PKG_VER% /build:fre /cpu:%BSP_ARCH% /variables:"_RELEASEDIR=%RELEASE_DIR%\;PROD=%PRODUCT%;PRJDIR=%SRC_DIR%;COMDIR=%COMMON_DIR%;BSPVER=%PKG_VER%;BSPARCH=%BSP_ARCH%;OEMNAME=%OEM_NAME%;BUILDTIME=%BUILDTIME%;" /onecore /universalbsp
 
 if errorlevel 0 (
-    REM remove unused .spkg files
-    del %PKGBLD_DIR%\*.spkg
     echo Package creation completed
 ) else (
     echo Package creation failed with error %ERRORLEVEL%

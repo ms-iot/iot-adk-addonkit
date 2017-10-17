@@ -3,12 +3,12 @@
 goto START
 
 :Usage
-echo Usage: newwinpe BSP BSPSrcDir
+echo Usage: newwinpe BSP SOCNAME
 echo    BSP............... BSP Name
-echo    BSPSrcDir......... BSP Source Directory
+echo    SOCNAME........... SOCNAME for the device layout to be used- defined in BSPFM.xml
 echo    [/?].............. Displays this usage string.
 echo    Example:
-echo        newwinpe RPi2 C:\rpibsp
+echo        newwinpe QCDB410C QC8016_R
 
 exit /b 1
 
@@ -30,8 +30,11 @@ if not exist "%BSPSRC_DIR%\%1" (
 )
 
 set BSP=%1
-set BSPDIR=%2
-set WINPEDIR=%BSPSRC_DIR%\%BSP%\Packages\Recovery.WinPE
+set SOCNAME=%2
+set WINPEEXTDRV=%BSPSRC_DIR%\%BSP%\WinPEExt\Drivers
+set WINPEEXTFILES=%BSPSRC_DIR%\%BSP%\WinPEExt\recovery
+set WINPEDIR=%BLD_DIR%\%BSP%
+set WINPEFILES=%WINPEDIR%\recovery
 set MOUNTDIR=%BLD_DIR%\%BSP%\mount
 if exist "%WINPEDIR%" (
     rmdir "%WINPEDIR%" /S /Q >nul 2>nul
@@ -42,36 +45,40 @@ if exist "%MOUNTDIR%" (
 )
 md "%MOUNTDIR%"
 
+echo. Processing device layout in %BSP% bsp...
+call partitioninfo.cmd %BSP% %SOCNAME%
+if errorlevel 1 ( goto :Error )
+
 echo Copying WinPE from Install directory
 copy "%WINPE_ROOT%\%BSP_ARCH%\en-us\winpe.wim" "%WINPEDIR%" >nul
-copy "%IOTADK_ROOT%\Templates\recovery\startrecovery.cmd" %WINPEDIR%\startrecovery.cmd >nul
-copy "%IOTADK_ROOT%\Templates\recovery\Recovery.WinPE.pkg.xml" %WINPEDIR%\Recovery.WinPE.pkg.xml >nul
+
 echo Mounting WinPE at %MOUNTDIR%
 dism /mount-wim /wimfile:%WINPEDIR%\winpe.wim /index:1 /mountdir:%MOUNTDIR%
 
-REM Adding drivers only for ARM architecture
-if [%BSP_ARCH%] == [arm] (
-    if exist "%BSPDIR%" (
-        dir "%BSPDIR%\*.inf" /S /B > %BSPDIR%\driverlist.txt
-        for /f "delims=" %%i in (%BSPDIR%\driverlist.txt) do (
-           echo. Adding %%~nxi
-           dism /image:%MOUNTDIR% /add-driver /driver:%%i >nul
-        )
-        del %BSPDIR%\driverlist.txt
+REM Adding drivers 
+if exist "%WINPEEXTDRV%" (
+    dir "%WINPEEXTDRV%\*.inf" /S /B > %WINPEEXTDRV%\driverlist.txt 2>nul
+    for %%Z in ("%WINPEEXTDRV%\driverlist.txt") do if %%~zZ gtr 0 (
+       echo. Adding %%~nxZ
+       dism /image:%MOUNTDIR% /add-driver /driver:%%Z >nul
     ) else (
-       echo No drivers added. Provide valid BSP source directory to add drivers.
+        echo. No drivers found in %WINPEEXTDRV%.
     )
+    del %WINPEEXTDRV%\driverlist.txt >nul 2>nul
+) else (
+   echo %WINPEEXTDRV% not present. No drivers added.
 )
+
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\startnet.cmd" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\startnet_recovery.cmd" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_assign.txt" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_format.txt" %MOUNTDIR%\windows\system32\ >nul
-copy "%IOTADK_ROOT%\Templates\recovery\diskpart_remove.txt" %MOUNTDIR%\windows\system32\ >nul
+copy "%IOTADK_ROOT%\Templates\recovery\*" %MOUNTDIR%\windows\system32\ 
+copy "%WINPEFILES%\*" %MOUNTDIR%\windows\system32\ 
+if exist %WINPEEXTFILES% (
+    copy "%WINPEEXTFILES%\*" %MOUNTDIR%\windows\system32\
+)
 
 echo Saving and unmounting WinPE
 dism /Unmount-image /mountdir:%MOUNTDIR% /commit
-rmdir "%BLD_DIR%\%BSP%" /S /Q >nul
+rmdir "%MOUNTDIR%" /S /Q >nul
 
 echo. WinPE is available at %WINPEDIR%
 goto End
