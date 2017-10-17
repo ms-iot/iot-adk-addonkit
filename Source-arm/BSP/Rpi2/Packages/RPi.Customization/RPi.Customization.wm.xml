@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Customization"
+    namespace="RPi"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).RPi.Customization" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <regKey
+            keyName="$(hklm.control)\Class\{4d36e972-e325-11ce-bfc1-08002be10318}\0001">
+            <regValue
+                name="MaxRCBs"
+                type="REG_SZ"
+                value="64" />
+            <regValue
+                name="MaxTCBs"
+                type="REG_SZ"
+                value="64" />
+        </regKey>
+        <regKey
+            keyName="$(hklm.enum)\USB\VID_0424&amp;PID_EC00\5&amp;3753427a&amp;0&amp;1">
+            <regValue
+                name="Driver"
+                type="REG_SZ"
+                value="{4d36e972-e325-11ce-bfc1-08002be10318}\0001" />
+        </regKey>
+        <regKey
+            keyName="$(hklm.windows)\CurrentVersion\Explorer\ActivateTimeout">
+            <regValue
+                type="REG_DWORD"
+                value="0x00007530" />
+        </regKey>
+    </regKeys>
+</identity>

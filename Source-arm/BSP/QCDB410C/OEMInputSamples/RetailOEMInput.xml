@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<OEMInput 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+<OEMInput
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <Description>Windows 10 IoT Core 8016sbc Retail FFU </Description>
   <SOC>QC8016</SOC>
@@ -36,12 +36,12 @@
     <Microsoft>
       <Feature>IOT_EFIESP</Feature>
       <Feature>IOT_EFIESP_BCD</Feature>
-      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature> 
-      <Feature>IOT_HWN_CLASS_EXTENSION</Feature> 
-      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>    
+      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
+      <Feature>IOT_HWN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
       <Feature>IOT_CP210x_MAKERDRIVER</Feature>
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
-      <Feature>IOT_GENERIC_POP</Feature>  
+      <Feature>IOT_GENERIC_POP</Feature>
       <Feature>IOT_UAP_OOBE</Feature>
       <!-- Sample Apps, remove this when you introduce OEM Apps -->
       <Feature>IOT_BERTHA</Feature>
@@ -49,11 +49,12 @@
     </Microsoft>
     <OEM>
       <!-- Include BSP Features -->
-      <Feature>QC_UEFI_PRODUCTION</Feature>   
+      <Feature>QC_UEFI_PRODUCTION</Feature>
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
-      <Feature>OEM_CustomCmd</Feature>
-      <Feature>OEM_ProvAuto</Feature>  
+      <Feature>CUSTOM_CMD</Feature>
+      <Feature>PROV_AUTO</Feature>
+      <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
   <Product>Windows 10 IoT Core</Product>

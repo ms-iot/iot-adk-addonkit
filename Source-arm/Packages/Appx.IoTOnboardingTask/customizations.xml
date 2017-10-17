@@ -1,46 +1,48 @@
-<?xml version="1.0" encoding="utf-8" ?> 
-<WindowsCustomizations> 
-  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0"> 
-    <ID>{6fb9864b-c85f-467c-8101-d2cf6007728a}</ID> 
-    <Name>IoTOnboardingTaskProv</Name> 
-    <Version>1.0</Version> 
-    <OwnerType>OEM</OwnerType> 
-    <Rank>0</Rank> 
-  </PackageConfig> 
-  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning"> 
-    <Customizations> 
+<?xml version="1.0" encoding="utf-8" ?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>{bf0b29ec-9d89-48e8-922f-9bc0e41b6465}</ID>
+    <Name>IoTOnboardingTaskProv</Name>
+    <Version>1.0.0.0</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
       <Common>
-        <ApplicationManagement>
-          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-        </ApplicationManagement>  
-        <Certificates> 
-          <RootCertificates> 
-            <RootCertificate CertificateName="IoTOnboardingTask_1.0.0.0_ARM" Name="IoTOnboardingTask_1.0.0.0_ARM"> 
-              <CertificatePath>IoTOnboardingTask_1.0.0.0_ARM.cer</CertificatePath> 
-            </RootCertificate> 
-          </RootCertificates> 
-        </Certificates> 
-        <StartupBackgroundTasks> 
-          <ToAdd> 
-            <Add PackageName= 
+        <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+        </Policies>
+        <Certificates>
+          <RootCertificates>
+            <RootCertificate CertificateName="IoTOnboardingTask_1.0.0.0_ARM" Name="IoTOnboardingTask_1.0.0.0_ARM">
+              <CertificatePath>IoTOnboardingTask_1.0.0.0_ARM.cer</CertificatePath>
+            </RootCertificate>
+          </RootCertificates>
+        </Certificates>
+        <StartupBackgroundTasks>
+          <ToAdd>
+            <Add PackageName=
             "IoTOnboardingTask-uwp_1w720vyc4ccym!App" 
-            ></Add> 
-          </ToAdd> 
-        </StartupBackgroundTasks> 
-        <UniversalAppInstall> 
-          <UserContextApp> 
-            <Application PackageFamilyName="IoTOnboardingTask-uwp_1w720vyc4ccym" Name="IoTOnboardingTask-uwp_1w720vyc4ccym"> 
-              <ApplicationFile>IoTOnboardingTask_1.0.0.0_ARM.appx</ApplicationFile> 
-              <DependencyAppxFiles> 
-                <Dependency Name="Microsoft.NET.Native.Framework.1.3.appx">Dependencies\Microsoft.NET.Native.Framework.1.3.appx</Dependency> 
-                <Dependency Name="Microsoft.NET.Native.Runtime.1.4.appx">Dependencies\Microsoft.NET.Native.Runtime.1.4.appx</Dependency> 
-                <Dependency Name="Microsoft.VCLibs.ARM.14.00.appx">Dependencies\Microsoft.VCLibs.ARM.14.00.appx</Dependency> 
-              </DependencyAppxFiles> 
-              <DeploymentOptions>Force target application shutdown</DeploymentOptions> 
-            </Application> 
-          </UserContextApp> 
-        </UniversalAppInstall> 
-      </Common> 
-    </Customizations> 
-  </Settings> 
-</WindowsCustomizations> 
+            ></Add>
+          </ToAdd>
+        </StartupBackgroundTasks>
+        <UniversalAppInstall>
+          <UserContextApp>
+            <Application PackageFamilyName="IoTOnboardingTask-uwp_1w720vyc4ccym" Name="IoTOnboardingTask-uwp_1w720vyc4ccym">
+              <ApplicationFile>IoTOnboardingTask.appx</ApplicationFile>
+              <DependencyAppxFiles>
+                <Dependency Name="Microsoft.NET.Native.Framework.1.3.appx">Microsoft.NET.Native.Framework.1.3.appx</Dependency>
+                <Dependency Name="Microsoft.NET.Native.Runtime.1.4.appx">Microsoft.NET.Native.Runtime.1.4.appx</Dependency>
+                <Dependency Name="Microsoft.VCLibs.ARM.14.00.appx">Microsoft.VCLibs.ARM.14.00.appx</Dependency>
+              </DependencyAppxFiles>
+              <DeploymentOptions>Force target application shutdown</DeploymentOptions>
+            </Application>
+          </UserContextApp>
+        </UniversalAppInstall>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>

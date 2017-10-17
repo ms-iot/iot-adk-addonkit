@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="Customization"
+    namespace="MBMx64"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).MBMx64.Customization" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="MainOS"
+        releaseType="Production"
+        ownerType="OEM" />
+    <regKeys>
+        <regKey
+            keyName="$(hklm.enum)\ACPI\PNP0501\1\Device Parameters">
+            <regValue
+                name="PortName"
+                type="REG_SZ"
+                value="COM1" />
+        </regKey>
+        <regKey
+            keyName="$(hklm.control)\DeviceOverrides\*PNP0501\LocationPaths\*">
+            <regValue
+                name="Removable"
+                type="REG_DWORD"
+                value="0x00000001" />
+        </regKey>
+    </regKeys>
+</identity>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DeviceLayout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
+  <!-- GUID Partition Table -->
+  <Partitions>
+
+    <!-- EFI -->
+
+    <Partition>
+      <Name>EFIESP</Name>
+      <Type>{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}</Type>
+      <FileSystem>FAT</FileSystem>
+      <TotalSectors>65536</TotalSectors>
+      <Bootable>true</Bootable>
+      <RequiredToFlash>true</RequiredToFlash>
+    </Partition>
+
+    <!-- MainOS -->
+
+    <Partition>
+      <Name>MainOS</Name>
+      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
+      <FileSystem>NTFS</FileSystem>
+      <MinFreeSectors>512000</MinFreeSectors>
+      <ByteAlignment>0x800000</ByteAlignment>
+      <ClusterSize>0x1000</ClusterSize>
+    </Partition>
+
+    <!-- Recovery Partition  -->
+    <Partition>
+      <Name>MMOS</Name>
+      <FileSystem>FAT32</FileSystem>
+      <TotalSectors>4096000</TotalSectors>
+      <!--MinFreeSectors>6553600</MinFreeSectors-->
+      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
+    </Partition>
+
+    <!-- Data Partition  -->
+
+    <Partition>
+      <Name>Data</Name>
+      <Type>{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}</Type>
+      <FileSystem>NTFS</FileSystem>
+      <UseAllSpace>true</UseAllSpace>
+      <ByteAlignment>0x800000</ByteAlignment>
+      <ClusterSize>0x4000</ClusterSize>
+    </Partition>
+
+  </Partitions>
+
+  <SectorSize>512</SectorSize>
+  <ChunkSize>128</ChunkSize>
+  <DefaultPartitionByteAlignment>0x200000</DefaultPartitionByteAlignment>
+  <VersionTag>IoTUAP</VersionTag>
+</DeviceLayout>

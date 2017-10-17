@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OEMDevicePlatform xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
+  <MinSectorCount>15155200</MinSectorCount>
+   <DevicePlatformIDs>
+    <ID>*</ID>
+  </DevicePlatformIDs>
+  <CompressedPartitions>
+    <Name>MainOS</Name>
+  </CompressedPartitions>
+</OEMDevicePlatform>

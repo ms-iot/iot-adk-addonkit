@@ -25,6 +25,9 @@ if [%1] == [/?] goto Usage
 if [%1] == [] goto Usage
 
 if not exist %BLD_DIR%\InputFMs ( mkdir %BLD_DIR%\InputFMs )
+if [%ARCH%] == [x86] set CPUTYPE=X86
+if [%ARCH%] == [arm] set CPUTYPE=ARM
+if [%ARCH%] == [x64] set CPUTYPE=AMD64
 
 if /I [%1] ==[oem] (
     call :PKG_VERSION %2
@@ -32,11 +35,19 @@ if /I [%1] ==[oem] (
 ) else if /I [%1] == [bsp] (
     if [%2] == [] goto Usage
     if /i not exist %BSPSRC_DIR%\%2 (
-        echo Error : %2 does not exist
+        echo.%CLRRED%Error : %2 does not exist%CLREND%
         goto Usage
     )
     call :PKG_VERSION %3
     call :BUILDFM_BSP %2
+) else if /I [%1] == [OCP] (
+    if [%2] == [] goto Usage
+    if /i not exist %SRC_DIR%\Products\%2\CUSConfig (
+        echo.%CLRRED%Error : %2\CUSConfig does not exist%CLREND%
+        goto Usage
+    )
+    call :PKG_VERSION %3
+    call :BUILDFM_OCP %2
 ) else if /I [%1] == [all] (
     call :PKG_VERSION %2
     call :BUILDFM_OEM
@@ -66,7 +77,7 @@ if [%1] == [] (
 exit /b 0
 
 :BUILDFM_OEM
-echo. Running FeatureMerger for OEM packages
+echo.Running FeatureMerger for OEM packages
 echo.  Exporting OEMFM files
 powershell -Command "(gc %PKGSRC_DIR%\OEMFM.xml) -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OEMFM.xml -Encoding utf8"
 powershell -Command "(gc %COMMON_DIR%\Packages\OEMCommonFM.xml) -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OEMCommonFM.xml -Encoding utf8"
@@ -78,11 +89,12 @@ FeatureMerger %BLD_DIR%\InputFMs\OEMFMFileList.xml %PKGBLD_DIR% %PKG_VER% %BLD_D
 findstr /L "fatal" %BLD_DIR%\buildfm_oem.log > %BLd_DIR%\buildfm_errors.txt
 for %%B in ("%BLD_DIR%\buildfm_errors.txt") do if %%~zB gtr 0 (
     echo.  %CLRRED%Error: Featuremerger failed for OEMFMFileList.xml. See %BLd_DIR%\buildfm_oem.log%CLREND%
+    exit /b 1
 )
 exit /b 0
 
 :BUILDFM_BSP
-echo. Running FeatureMerger for %1
+echo.Running FeatureMerger for %1
 echo.  Exporting %1 FM files
 dir /b %BSPSRC_DIR%\%1\Packages\*FM*.xml > %BLD_DIR%\%1FMFiles.txt
 for /f "delims=" %%A in (%BLD_DIR%\%1FMFiles.txt) do (
@@ -98,5 +110,25 @@ FeatureMerger %BLD_DIR%\InputFMs\%1FMFileList.xml %PKGBLD_DIR% %PKG_VER% %BLD_DI
 findstr /L "fatal" %BLD_DIR%\buildfm_bsp_%1.log > %BLD_DIR%\buildfm_errors.txt
 for %%B in ("%BLD_DIR%\buildfm_errors.txt") do if %%~zB gtr 0 (
     echo.  %CLRRED%Error: Featuremerger failed for %1FMFileList.xml. See %BLD_DIR%\buildfm_bsp_%1.log%CLREND%
+    exit /b 1
+)
+exit /b 0
+
+:BUILDFM_OCP
+
+echo.Running FeatureMerger for %1 OCP packages 
+echo.  Exporting OCPUpdateFM files
+
+powershell -Command "(gc "%IOTADK_ROOT%\Templates\ocpupdate\OCPUpdateFM.xml") -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFM.xml -Encoding utf8"
+
+powershell -Command "(gc %IOTADK_ROOT%\Templates\ocpupdate\OCPUpdateFMFileList.xml) -replace 'OEM_NAME', '%OEM_NAME%' -replace 'CPU_TYPE', '%CPUTYPE%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFMFileList.xml -Encoding utf8"
+
+echo.  Processing OCPUpdateFMFileList.xml
+FeatureMerger %BLD_DIR%\InputFMs\OCPUpdateFMFileList.xml %PKGBLD_DIR% %BSP_VERSION% %BLD_DIR%\MergedFMs /InputFMDir:%BLD_DIR%\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:_cputype=%BSP_ARCH%;buildtype=fre;releasetype=production > %BLD_DIR%\buildfm_ocp.log
+
+findstr /L "fatal" %BLD_DIR%\buildfm_ocp.log > %BLd_DIR%\buildfm_errors.txt
+for %%B in ("%BLD_DIR%\buildfm_errors.txt") do if %%~zB gtr 0 (
+    echo.  %CLRRED%Error: Featuremerger failed for OCPUpdateFMFileList.xml. See %BLd_DIR%\buildfm_ocp.log%CLREND%
+    exit /b 1
 )
 exit /b 0

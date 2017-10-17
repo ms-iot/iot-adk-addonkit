@@ -13,7 +13,6 @@
         <FeatureIDs>
           <!-- This feature id sets the HotKey for "Home" -->
           <FeatureID>OEMCommon_HotKey</FeatureID>
-          <FeatureID>OEMCommon_ALL</FeatureID>
         </FeatureIDs>
       </PackageFile>
 
@@ -21,7 +20,6 @@
         <FeatureIDs>
           <!-- This feature id brings in Enrollment provisioning package  -->
           <FeatureID>OEM_ProvEnroll</FeatureID>
-          <!-- OEMCommon_ALL not included  -->
         </FeatureIDs>
       </PackageFile>
 
@@ -50,13 +48,50 @@
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.Cmd.cab">
         <FeatureIDs>
           <FeatureID>OEM_CustomCmd</FeatureID>
-          <FeatureID>OEMCommon_ALL</FeatureID>
+          <FeatureID>CUSTOM_CMD</FeatureID>
         </FeatureIDs>
       </PackageFile>
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Provisioning.Auto.cab">
         <FeatureIDs>
           <FeatureID>OEM_ProvAuto</FeatureID>
-          <FeatureID>OEMCommon_ALL</FeatureID>
+          <FeatureID>PROV_AUTO</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <!-- Packages for building FFU with Recovery feature -->
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.GPT-BCD.cab">
+        <FeatureIDs>
+          <FeatureID>RECOVERY_BCD</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.GPT-BcdEdit.cab">
+        <FeatureIDs>
+          <FeatureID>RECOVERY_BCD</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.OOBEApp.cab">
+        <FeatureIDs>
+          <FeatureID>CUSTOM_OOBEAPP</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.BCD.cab">
+        <FeatureIDs>
+          <FeatureID>CUSTOM_BCD</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.Settings.cab">
+        <FeatureIDs>
+          <FeatureID>CUSTOM_SETTINGS</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Registry.AzureDM.cab">
+        <FeatureIDs>
+          <FeatureID>AZUREDM_REGISTRY</FeatureID>
         </FeatureIDs>
       </PackageFile>
 

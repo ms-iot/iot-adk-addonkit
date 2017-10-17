@@ -1,18 +1,20 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <WindowsCustomizations>
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
-    <ID>{23ca65e3-8640-491f-9009-8a254025cd29}</ID>
+    <ID>{dc4a204d-13f8-4417-a296-af0a8c5400db}</ID>
     <Name>IoTCoreDefaultAppProv</Name>
-    <Version>1.0</Version>
+    <Version>1.1.0.0</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>
   <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
     <Customizations>
       <Common>
-        <ApplicationManagement>
-          <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-        </ApplicationManagement>
+        <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+        </Policies>
         <Certificates>
           <RootCertificates>
             <RootCertificate CertificateName="IoTCoreDefaultApp_1.1.0.0_x86" Name="IoTCoreDefaultApp_1.1.0.0_x86">
@@ -21,16 +23,18 @@
           </RootCertificates>
         </Certificates>
         <StartupApp>
-          <Default>IoTCoreDefaultApp_1w720vyc4ccym!App</Default>
+          <Default>
+           IoTCoreDefaultApp_1w720vyc4ccym!App 
+          </Default>
         </StartupApp>
         <UniversalAppInstall>
           <UserContextApp>
             <Application PackageFamilyName="IoTCoreDefaultApp_1w720vyc4ccym" Name="IoTCoreDefaultApp_1w720vyc4ccym">
-              <ApplicationFile>IoTCoreDefaultApp_1.1.0.0_x86.appx</ApplicationFile>
+              <ApplicationFile>IoTCoreDefaultApp.appx</ApplicationFile>
               <DependencyAppxFiles>
-                <Dependency Name="Microsoft.NET.Native.Framework.1.3.appx">Dependencies\Microsoft.NET.Native.Framework.1.3.appx</Dependency>
-                <Dependency Name="Microsoft.NET.Native.Runtime.1.4.appx">Dependencies\Microsoft.NET.Native.Runtime.1.4.appx</Dependency>
-                <Dependency Name="Microsoft.VCLibs.x86.14.00.appx">Dependencies\Microsoft.VCLibs.x86.14.00.appx</Dependency>
+                <Dependency Name="Microsoft.NET.Native.Framework.1.3.appx">Microsoft.NET.Native.Framework.1.3.appx</Dependency>
+                <Dependency Name="Microsoft.NET.Native.Runtime.1.4.appx">Microsoft.NET.Native.Runtime.1.4.appx</Dependency>
+                <Dependency Name="Microsoft.VCLibs.x86.14.00.appx">Microsoft.VCLibs.x86.14.00.appx</Dependency>
               </DependencyAppxFiles>
               <DeploymentOptions>Force target application shutdown</DeploymentOptions>
             </Application>

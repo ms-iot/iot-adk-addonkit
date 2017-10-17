@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="DeviceGuard"
+    namespace="Security"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Security.DeviceGuard" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="EFIESP"
+        releaseType="Production"
+        ownerType="OEM" />
+    <files>
+        <file
+            destinationDir="$(runtime.bootDrive)\efi\microsoft\boot"
+            source="SIPolicyOn.p7b"
+            name="SIPolicy.p7b" />
+    </files>
+</identity>
