@@ -39,7 +39,7 @@ if not [%WIMMODE%] == [] (
 
 if not defined PKGBLD_DIR (
     echo Environment not defined. Call setenv
-    exit /b 1
+    goto END
 )
 
 if not defined FFUNAME ( set FFUNAME=Flash)
@@ -71,10 +71,10 @@ for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\
 
 echo. Processing %SOCNAME% device layout in %BSP% bsp...
 
-if not exist %WINPEDIR%\winpe.wim (
-    echo Creating WinPE.wim
-    call newwinpe.cmd %BSP% %SOCNAME%
-)
+REM Creating WinPE script always to ensure that there is no stale generated files
+echo Creating WinPE.wim
+call newwinpe.cmd %BSP% %SOCNAME%
+if %errorlevel% neq 0 goto END
 
 if not exist "%IMG_FILE%" (
     echo Building the base FFU
@@ -83,7 +83,7 @@ if not exist "%IMG_FILE%" (
 
 if not exist "%IMG_FILE%" (
     echo.%CLRRED%Error: Building the base FFU failed.%CLREND%
-    exit /b 1
+    goto END
 )
 
 set IMG_RECOVERY_FILE=%OUTPUTDIR%\%FFUNAME%_Recovery.ffu
@@ -127,6 +127,12 @@ if /I [%WIMMODE%] == [Import] (
 
     echo. Assigning drive letters
     diskpart < %WINPEDIR%\diskpart_assign.txt > %OUTPUTDIR%\buildrecoverydiskpart.log
+    if %errorlevel% neq 0 (
+        REM something went wrong. So try diskpart remove and proceed to exit.
+        echo.%CLRRED%Diskpart failed. Please check %OUTPUTDIR%\buildrecoverydiskpart.log.%CLREND%
+        diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\buildrecoverydiskpart.log
+        goto Error
+    )
 
     echo Extracting EFIESP wim from %DL_EFIESP%:\
     dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:%DL_EFIESP%:\ /Name:"EFIESP"
@@ -177,6 +183,7 @@ exit /b
 echo Unmounting %DISK_DRIVE% without saving
 wpimage dismount -physicaldrive %DISK_DRIVE%
 del %OUTPUTDIR%\mountlog.txt
+:END
 popd
 endlocal
 exit /b 1

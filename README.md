@@ -17,7 +17,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 ## Downloads
 
 * [IoT Core OS Packages](https://www.microsoft.com/en-us/download/details.aspx?id=55031)
-* [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit#winADK)
+* [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit)
 * [Windows Driver Kit - WDK](https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit)
 * [Windows 10 IoT Core Dashboard](https://developer.microsoft.com/windows/iot/docs/iotdashboard)
 
@@ -33,6 +33,9 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 * Appx.IoTCoreDefaultApp
     * Source : [ms-iot/samples/IoTCoreDefaultApp](https://github.com/ms-iot/samples/tree/develop/IoTCoreDefaultApp)
     * Documentation : [IoTCoreDefaultApp](https://developer.microsoft.com/windows/iot/samples/iotdefaultapp)
+* Appx.DigitalSign
+    * Source : [ms-iot/samples/IoTOnBoarding](https://github.com/ms-iot/samples/tree/develop/DigitalSign)
+    * Documentation : [DigitalSign](https://developer.microsoft.com/windows/iot/samples/digitalsign)
 * Appx.IoTCoreOnboardingTask
     * Source : [ms-iot/samples/IoTOnBoarding](https://github.com/ms-iot/samples/tree/develop/IotOnboarding)
     * Documentation : [IoTOnBoarding](https://developer.microsoft.com/windows/iot/samples/iotonboarding)
@@ -40,16 +43,14 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 # Branch Overview
 
 ## Master Branch
-This branch supports the lastest Windows 10 IoT Core release available ( currently 1703, version number 10.0.15063.x )
+This branch supports the lastest Windows 10 IoT Core release available ( currently 1709, version number 10.0.16299.x ). Note that this release now supports wm.xml and requires latest ADK. See [Create Windows Universal OEM Packages](https://docs.microsoft.com/windows-hardware/manufacture/iot/create-packages) for more details.
 
 ## Develop Branch
 This branch contains the active development contents, mostly addressing the upcoming release features.
 
-## wm.xml Branch
-This branch supports the latest wm.xml packaging and requires ADK version **16288** or higher and this does not support ADK 15063.
-
 ## Older Versions
 
+* [15063_v3.2 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v3.2) for [Windows 10 IoT Core Release 1607 (version 10.0.15063.x)](https://www.microsoft.com/en-us/download/details.aspx?id=55031).
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).
 * [10586_v1.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v1.0) for Windows 10 IoT Core Release 1511 (version 10.0.10586.x).
 

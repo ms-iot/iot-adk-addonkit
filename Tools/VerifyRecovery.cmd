@@ -76,10 +76,10 @@ for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\
 
 echo. Processing %SOCNAME% device layout in %BSP% bsp...
 
-if not exist %WINPEFILES%\devicelayout.csv (
-    call partitioninfo.cmd %BSP% %SOCNAME%
-    if errorlevel 1 ( exit /b 1 )
-)
+REM always call this to ensure that there is no stale files
+call partitioninfo.cmd %BSP% %SOCNAME%
+if %errorlevel% neq 0 ( exit /b 1 )
+
 
 for /f "tokens=1,2 delims=, " %%i in (%WINPEFILES%\devicelayout.csv) do (
     REM echo PARID_%%i=%%j
@@ -118,7 +118,11 @@ powershell -Command "(gc %WINPEDIR%\pc_diskpart_remove.txt) -replace 'DISKNR', '
 
 echo. Assigning drive letters 
 diskpart < %WINPEDIR%\diskpart_assign.txt > %OUTPUTDIR%\verifyrecoverydiskpart.log
-
+if %errorlevel% neq 0 (
+    echo Error in assiging drive letters.. Removing drive letters
+    diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\verifyrecoverydiskpart.log
+    goto Error
+)
 
 echo extracting the wims from the MMOS dir
 set EXTRACTDIR=%OUTPUTDIR%\extract
