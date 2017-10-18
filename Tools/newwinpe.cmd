@@ -59,8 +59,11 @@ REM Adding drivers
 if exist "%WINPEEXTDRV%" (
     dir "%WINPEEXTDRV%\*.inf" /S /B > %WINPEEXTDRV%\driverlist.txt 2>nul
     for %%Z in ("%WINPEEXTDRV%\driverlist.txt") do if %%~zZ gtr 0 (
-       echo. Adding %%~nxZ
-       dism /image:%MOUNTDIR% /add-driver /driver:%%Z >nul
+        for /f "delims=" %%i in (%WINPEEXTDRV%\driverlist.txt) do (
+            echo.Adding %%~nxi
+            dism /image:%MOUNTDIR% /add-driver /driver:%%i
+            echo.
+        )
     ) else (
         echo. No drivers found in %WINPEEXTDRV%.
     )
