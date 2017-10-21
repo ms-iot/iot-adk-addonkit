@@ -83,6 +83,7 @@ call setversion.cmd
 
 echo BSP_ARCH    : %BSP_ARCH%
 echo BSP_VERSION : %BSP_VERSION%
+echo BSPPKG_DIR  : %BSPPKG_DIR%
 echo.
 
 exit /b 0

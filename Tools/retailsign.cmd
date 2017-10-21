@@ -22,19 +22,23 @@ if [%1] == [] goto Usage
 if /i [%1] == [On] (
     REM set the cross cert information in the env variables
     call setsignature.cmd
-    REM enable sign with timestamp
-    set SIGN_WITH_TIMESTAMP=1
-    echo Retail Signing enabled
-	set PROMPT=IoTCore %BSP_ARCH% %BSP_VERSION% Retail$_$P$G
-	TITLE IoTCoreShell %BSP_ARCH% %BSP_VERSION% Retail
+    if defined SIGNTOOL_OEM_SIGN (
+        REM enable sign with timestamp
+        set SIGN_WITH_TIMESTAMP=1
+        echo Retail Signing enabled
+        set PROMPT=IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION% Retail$_$P$G
+        TITLE IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION% Retail
+    ) else (
+        echo. SIGNTOOL_OEM_SIGN not defined in setsignature.cmd
+    )
 ) else (
     if /i [%1] == [Off] (
         REM remove cross cert information in the env variables
         set SIGN_WITH_TIMESTAMP=0
         set SIGNTOOL_OEM_SIGN=
         echo Retail Signing disabled
-		set PROMPT=IoTCore %BSP_ARCH% %BSP_VERSION%$_$P$G
-		TITLE IoTCoreShell %BSP_ARCH% %BSP_VERSION%
+        set PROMPT=IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION%$_$P$G
+        TITLE IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION%
     ) else goto Usage
 )
 

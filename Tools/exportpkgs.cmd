@@ -26,7 +26,7 @@ REM Input validation
 if [%1] == [/?] goto Usage
 if [%1] == [-?] goto Usage
 if [%1] == [] goto Usage
-set WORK_DIR=%1
+set WORK_DIR=%1\%BSP_VERSION%
 
 if not exist "%BLD_DIR%\%2\%3" ( goto Usage )
 if not defined FFUNAME ( set FFUNAME=Flash)
@@ -92,9 +92,9 @@ for /f "tokens=3,8,9,10,11,13 delims=>= " %%A in (%WORK_DIR%\pkgbspdb.txt) do (
 del %WORK_DIR%\pkgbspdb.txt
 
 echo. Making BSP DB cab
-call makecab %OUTPUT%\%FFUNAME%.BSPDB.xml %OUTPUT%\%FFUNAME%.BSPDB.cab >nul
+call makecab %OUTPUT%\%FFUNAME%.BSPDB.xml %OUTPUT%\%FFUNAME%.BSPDB.xml.cab >nul
 echo. Signing BSP DB cab
-call sign.cmd %OUTPUT%\%FFUNAME%.BSPDB.cab >nul
+call sign.cmd %OUTPUT%\%FFUNAME%.BSPDB.xml.cab >nul
 del %OUTPUT%\%FFUNAME%.BSPDB.xml
 cd /D %WORK_DIR%
 echo. Making %OCPCAB%.cab
