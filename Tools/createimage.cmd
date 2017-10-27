@@ -57,10 +57,11 @@ echo Build Start Time : %TIME%
 
 if defined USEUPDATE (
     echo %CLRYEL%Using Update folder : %USEUPDATE% %CLREND%
-    SET /P PKG_VER=<%PKGUPD_DIR%\%USEUPDATE%\versioninfo.txt
+    set /P PKG_VER=<%PKGUPD_DIR%\%USEUPDATE%\versioninfo.txt
     call buildupdate %USEUPDATE%
     echo Copying %USEUPDATE% packages
-    copy %BLD_DIR%\%USEUPDATE%-!PKG_VER!\*.cab %PKGBLD_DIR% >nul 2>nul 
+    copy %BLD_DIR%\%USEUPDATE%-!PKG_VER!\*.cab %PKGBLD_DIR% >nul 2>nul
+    set PRODBLD_DIR=%BLD_DIR%\%1\%2-!PKG_VER!
 ) else (
     set PKG_VER=%BSP_VERSION%
 )
@@ -87,7 +88,7 @@ if exist %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml (
 if exist %PRODSRC_DIR%\CUSConfig (
     echo.Building DeviceTargeting packages
     call buildpkg.cmd %PRODSRC_DIR%\CUSConfig %PKG_VER%
-    call buildfm.cmd ocp %PRODUCT%
+    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
 )
 
 REM Invoke buildfm 
@@ -117,6 +118,7 @@ if "%ProgramW6432%"=="" (
 
 echo Build End Time : %TIME%
 echo Image creation completed
+echo.See %PRODBLD_DIR%\%FFUNAME%.ffu
 goto End
 
 :Error
