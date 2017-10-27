@@ -39,7 +39,10 @@ SET UPDATE=%1
 SET VERSION=%2
 
 mkdir "%PKGUPD_DIR%\%UPDATE%"
-echo %UPDATE% %VERSION% >> %PKGUPD_DIR%\UpdateVersions.txt
+if not exist %PKGUPD_DIR%\UpdateVersions.txt (
+    echo UpdateName,Version,Notes > %PKGUPD_DIR%\UpdateVersions.txt
+)
+echo %UPDATE%,%VERSION%, >> %PKGUPD_DIR%\UpdateVersions.txt
 echo %VERSION%> %PKGUPD_DIR%\%UPDATE%\versioninfo.txt
 
 echo %1 directories ready

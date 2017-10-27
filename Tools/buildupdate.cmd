@@ -10,7 +10,7 @@ echo    Clean............ Cleans the Update output directory
 echo        One of the above should be specified
 echo    [/?]........Displays this usage string.
 echo    Example:
-echo        buildupdate Update-10.0.1.0
+echo        buildupdate Update1
 ech0 Available updates are
 dir /B /AD %PKGUPD_DIR%
 exit /b 1

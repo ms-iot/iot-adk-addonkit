@@ -57,7 +57,6 @@ if /I [%1] == [All] (
 
     call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt %2
 
-    REM Comment the below line to force re-signing of the bsp drivers
     echo Building all bsp packages
     dir %BSPSRC_DIR%\*.wm.xml /S /b > %PKGLOG_DIR%\packagelist.txt
     call :SUB_PROCESSLIST %PKGLOG_DIR%\packagelist.txt %2
