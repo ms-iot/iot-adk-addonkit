@@ -76,7 +76,6 @@
       <Feature>RECOVERY_BCD</Feature>
       <Feature>PROV_AUTO</Feature>
       <Feature>AZUREDM_SERVICES</Feature>
-      <Feature>AZUREDM_REGISTRY</Feature>
       <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>
