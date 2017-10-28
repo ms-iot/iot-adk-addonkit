@@ -78,17 +78,7 @@ if /I [%FILE_TYPE%] == [.inf] (
     call inf2pkg.cmd %1 %COMP_NAME%.%SUB_NAME%
     REM copy the files to the package directory
     echo. Copying files to package directory
-REM     move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul
-    move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%NEWPKG_DIR%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
-    copy "%FILE_PATH%\%FILE_NAME%.inf" "%NEWPKG_DIR%\%FILE_NAME%.inf" >nul
-    cd /D %FILE_PATH%
-    for /f "useback tokens=1,* delims=@" %%i in ("%FILE_PATH%\inf_filelist.txt") do (
-        if exist "%%j" (
-            if not exist "%NEWPKG_DIR%\%%j" ( mkdir "%NEWPKG_DIR%\%%j" )
-            copy %%j\%%i "%NEWPKG_DIR%\%%j\" >nul
-        )
-    )
-    move "%FILE_PATH%\inf_filelist.txt" "%NEWPKG_DIR%\inf_filelist.txt" >nul
+    copy "%FILE_PATH%\*" "%NEWPKG_DIR%\"
 )
 
 echo %NEWPKG_DIR% ready
