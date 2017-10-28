@@ -56,7 +56,7 @@ exit /b 0
 :CREATE_PKGFILE
 
 REM Printing the headers
-call :PRINT_TEXT "<?xml version="1.0" encoding="utf-8" ?>"
+call :PRINT_TEXT "<?xml version="1.0" encoding="utf-8"?>"
 call :PRINT_TEXT "<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance""
 echo.    name="%SUB_NAME%" namespace="%COMP_NAME%" owner="%OWNERNAME%" legacyName="%OWNERNAME%.%COMP_NAME%.%SUB_NAME%">>"%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml"
 call :PRINT_TEXT "    xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">"
