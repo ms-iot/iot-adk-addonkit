@@ -68,7 +68,7 @@ set PKGBLD_DIR=%BLD_DIR%\pkgs
 set PPKGBLD_DIR=%BLD_DIR%\ppkgs
 set PKGLOG_DIR=%PKGBLD_DIR%\logs
 set TOOLS_DIR=%IOTADK_ROOT%\Tools
-
+set TMP=%BLD_DIR%\Temp
 if not exist %PPKGBLD_DIR% ( mkdir %PPKGBLD_DIR% )
 if not exist %PPKGBLD_DIR%\logs ( mkdir %PPKGBLD_DIR%\logs )
 if not exist %PKGLOG_DIR% ( mkdir %PKGLOG_DIR% )

@@ -134,7 +134,7 @@ set SIGN_NULL=1
 for %%i in (%SIGNTOOL_OEM_SIGN_HAL%) do if not "%%i"=="" set SIGN_NULL=0
 
 if "%SIGN_NULL%"=="1" (
-    set SIGNTOOL_OEM_SIGN_HAL=/a /s my /i "Windows OEM Intermediate 2017 (TEST ONLY)" /n "Windows Phone OEM HAL Extension Test Cert 2013 (TEST ONLY)" /fd SHA256
+    set SIGNTOOL_OEM_SIGN_HAL=/a /s my /i "Windows OEM Intermediate 2017 (TEST ONLY)" /n "Windows OEM HAL Extension Test Cert 2017 (TEST ONLY)" /fd SHA256
 )
 
 REM reset default to OEM cert
