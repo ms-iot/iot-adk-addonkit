@@ -89,6 +89,18 @@
         </FeatureIDs>
       </PackageFile>
 
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.MBR-BCD.cab">
+        <FeatureIDs>
+          <FeatureID>RECOVERY_BCD_MBR</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.MBR-BcdEdit.cab">
+        <FeatureIDs>
+          <FeatureID>RECOVERY_BCD_MBR</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.WinPE.cab">
         <FeatureIDs>
           <FeatureID>RECOVERY_BCD</FeatureID>

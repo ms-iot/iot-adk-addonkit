@@ -5,8 +5,10 @@
   xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <Description>Contoso Windows 10 IoT Core Test FFU with RPi2 BSP</Description>
   <SOC>RPi2</SOC>
+  <!-- For recovery, use SOC: RPi2-R -->
   <SV>RASPBERRY PI</SV>
   <Device>RPi2</Device>
+  <!-- For recovery, use Device: RPi2-R -->
   <ReleaseType>Test</ReleaseType>
   <BuildType>fre</BuildType>
   <SupportedLanguages>
@@ -77,6 +79,7 @@
       <!-- Include OEM features -->
       <Feature>OEM_CustomCmd</Feature>
       <Feature>OEM_ProvAuto</Feature>
+      <!-- For recovery, include: RECOVERY_BCD_MBR -->
 
     </OEM>
   </Features>

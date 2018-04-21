@@ -25,14 +25,6 @@
       <ClusterSize>0x1000</ClusterSize>
     </Partition>
 
-    <!-- CrashDump Partition  -->
-    <Partition>
-      <Name>CrashDump</Name>
-      <Type>0x0C</Type>
-      <FileSystem>FAT32</FileSystem>
-      <TotalSectors>1228800</TotalSectors>
-    </Partition>
-
     <!-- Data Partition  -->
 
     <Partition>

@@ -10,6 +10,6 @@ REM NOTE: If the GUI is only used to show a splash screen, uncomment line below 
 REM call recovery_init.cmd
 ) else (
 REM If GUI app not available, automatically trigger recovery script
-    call recovery_cancel.cmd
-REM    call recovery_init.cmd
+REM call recovery_cancel.cmd
+    call recovery_init.cmd
 )
