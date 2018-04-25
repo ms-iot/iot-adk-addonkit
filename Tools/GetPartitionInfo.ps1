@@ -24,14 +24,14 @@ function GetFreeDriveLetter()
 ################
 
 #getting all the used Drive letters reported by the Operating System
-$drivesinuse = @();
-$(Get-PSDrive -PSProvider filesystem) | %{$drivesinuse += $_.name}
+$drivesinuse = (Get-PSDrive -PSProvider filesystem).Name
 $dlxDoc = [xml] (get-content $inputXML);
 Write-Host "PartitionName,ID,Type,TotalSectors,FileSystem,Drive";
 $Partitions = $dlxDoc.GetElementsByTagName("Partition");
 $count = 1;
 $guids = "{c12a7328-f81f-11d2-ba4b-00a0c93ec93b}","{ebd0a0a2-b9e5-4433-87c0-68b6b72699c7}","0x0C","0x07";
-
+$mbrguids = "0x0C","0x07";
+$IsMBR = $false
 Foreach ($Partition in $Partitions)
 {
     $ParName=$Partition.Name;
@@ -46,6 +46,13 @@ Foreach ($Partition in $Partitions)
         $drivesinuse+= $ParDrive;
     }
     Write-Host "$ParName,$count,$ParType,$ParSize,$ParFS,$ParDrive";
-    $count= $count + 1;
+    if ( $mbrguids -contains "$ParType") {
+        $IsMBR = $true;
+    }
+    if (($count -eq 3) -and ($IsMBR) ) {
+        # account for extended partition in slot 4 with MBR layouts
+        $count = $count + 2;
+    }
+    else { $count = $count + 1; }
 } 
 

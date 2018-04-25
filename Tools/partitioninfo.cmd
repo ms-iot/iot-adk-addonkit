@@ -194,6 +194,7 @@ REM %1 - DiskNr
 REM %2 - Mountlist
 REM %3 - assign/remove
 call :PRINT_TEXT "sel dis %1"
+call :PRINT_TEXT "lis par"
 call :PRINT_TEXT "lis vol"
 echo.>> "%OUTFILE%"
 for /f "tokens=1,2 delims=, " %%i in (%2) do (

@@ -31,7 +31,7 @@
       <FileSystem>FAT32</FileSystem>
       <TotalSectors>4096000</TotalSectors>
       <!--MinFreeSectors>6553600</MinFreeSectors-->
-      <Type>0x0C</Type>
+      <Type>0x07</Type>
     </Partition>
  
     <!-- Data Partition  -->
