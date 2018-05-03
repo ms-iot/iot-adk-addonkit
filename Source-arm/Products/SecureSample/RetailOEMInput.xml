@@ -52,6 +52,7 @@
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
       <Feature>CUSTOM_CMD</Feature>
+      <Feature>CUSTOM_BCD</Feature>
       <Feature>PROV_AUTO</Feature>
       <Feature>Sec_BitLocker</Feature>
       <Feature>Sec_SecureBoot</Feature>

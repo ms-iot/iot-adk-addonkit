@@ -88,7 +88,12 @@ REM if exist %PRODSRC_DIR%\prov\customizations.xml (
     REM call buildprovpkg.cmd %PRODUCT%
     REM call buildpkg.cmd Provisioning.Auto
 REM )
-
+if exist %PRODSRC_DIR%\Packages (
+    echo.Building Product packages
+    call buildpkg.cmd %PRODSRC_DIR%\Packages %PKG_VER%
+    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
+)
+REM retaining below for backward compatibility
 if exist %PRODSRC_DIR%\CUSConfig (
     echo.Building DeviceTargeting packages
     call buildpkg.cmd %PRODSRC_DIR%\CUSConfig %PKG_VER%

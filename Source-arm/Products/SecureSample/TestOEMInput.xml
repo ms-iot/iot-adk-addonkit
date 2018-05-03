@@ -51,7 +51,7 @@
       <Feature>IOT_SIREP</Feature>
       <Feature>IOT_WEBB_EXTN</Feature>
       <Feature>IOT_UMDFDBG_SETTINGS</Feature>
-      <Feature>IOT_NETCMD</Feature>
+      
       <Feature>IOT_POWERSHELL</Feature>
       <Feature>IOT_DIRECTX_TOOLS</Feature>
       <Feature>IOT_ALLJOYN_APP</Feature>
@@ -68,10 +68,11 @@
       <Feature>SBC</Feature>
       <!-- Include OEM features -->
       <Feature>CUSTOM_CMD</Feature>
+      <Feature>CUSTOM_BCD</Feature>
       <Feature>PROV_AUTO</Feature>
-      <Feature>Sec_BitLocker</Feature>
+      <!--Feature>Sec_BitLocker</Feature-->
       <Feature>Sec_SecureBoot</Feature>
-      <Feature>Sec_DeviceGuard</Feature>
+      <!--Feature>Sec_DeviceGuard</Feature-->
       <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>

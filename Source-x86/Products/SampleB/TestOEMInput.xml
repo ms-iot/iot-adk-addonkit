@@ -49,7 +49,7 @@
       <!-- for Connectivity -->
       <Feature>IOT_WEBB_EXTN</Feature>
       <Feature>IOT_POWERSHELL</Feature>
-      <Feature>IOT_NETCMD</Feature>
+      
       <Feature>IOT_SSH</Feature>
       <Feature>IOT_SIREP</Feature>
       <!-- Enabling Test images -->
@@ -61,7 +61,7 @@
       <Feature>IOT_WDTF</Feature>
       <Feature>IOT_CRT140</Feature>
       <Feature>IOT_DIRECTX_TOOLS</Feature>
-      <Feature>PRODUCTION_CORE</Feature>
+      
       <Feature>IOT_NANORDPSERVER</Feature>
       <Feature>IOT_SHELL_HOTKEY_SUPPORT</Feature>
       <Feature>IOT_APPLICATIONS</Feature>

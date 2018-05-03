@@ -62,6 +62,9 @@ del %PKGBLD_DIR%\*.merged.txt >nul 2>nul
 del %BLD_DIR%\buildfm_errors.txt >nul 2>nul
 if exist %PKGLOG_DIR%\bsplist.txt ( del %PKGLOG_DIR%\bsplist.txt )
 
+del %TMP%\* /S /Q >nul
+for /d %%x in (%TMP%\*) do @rd /s /q "%%x"
+
 endlocal
 exit /b
 
