@@ -11,7 +11,7 @@
     <files>
         <file
             destinationDir="$(runtime.windows)\Provisioning\Packages"
-            source="Appx.IoTCoreDefaultApp.ppkg"
+            source="$(BLDDIR)\ppkgs\Appx.IoTCoreDefaultApp.ppkg"
             name="Appx.IoTCoreDefaultApp.ppkg" />
     </files>
 </identity>

@@ -42,8 +42,8 @@ if /I [%1] ==[oem] (
     call :BUILDFM_BSP %2
 ) else if /I [%1] == [OCP] (
     if [%2] == [] goto Usage
-    if /i not exist %SRC_DIR%\Products\%2\CUSConfig (
-        echo.%CLRRED%Error : %2\CUSConfig does not exist%CLREND%
+    if /i not exist %SRC_DIR%\Products\%2\Packages\CUSConfig (
+        echo.%CLRRED%Error : %2\Packages\CUSConfig does not exist%CLREND%
         goto Usage
     )
     call :PKG_VERSION %3
@@ -61,6 +61,9 @@ del %PKGBLD_DIR%\*.spkg >nul 2>nul
 del %PKGBLD_DIR%\*.merged.txt >nul 2>nul
 del %BLD_DIR%\buildfm_errors.txt >nul 2>nul
 if exist %PKGLOG_DIR%\bsplist.txt ( del %PKGLOG_DIR%\bsplist.txt )
+
+del %TMP%\* /S /Q >nul 2>nul
+for /d %%x in (%TMP%\*) do @rd /s /q "%%x" >nul 2>nul
 
 endlocal
 exit /b

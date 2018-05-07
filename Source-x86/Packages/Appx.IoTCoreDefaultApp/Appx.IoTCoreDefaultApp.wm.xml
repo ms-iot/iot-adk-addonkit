@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     name="IoTCoreDefaultApp"
     namespace="Appx"
@@ -11,7 +11,7 @@
     <files>
         <file
             destinationDir="$(runtime.windows)\Provisioning\Packages"
-            source="Appx.IoTCoreDefaultApp.ppkg"
+            source="$(BLDDIR)\ppkgs\Appx.IoTCoreDefaultApp.ppkg"
             name="Appx.IoTCoreDefaultApp.ppkg" />
     </files>
 </identity>

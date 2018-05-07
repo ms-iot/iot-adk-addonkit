@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    name="IoTCoreDefaultApp"
-    namespace="Appx"
+    name="Auto"
+    namespace="Provisioning"
     owner="$(OEMNAME)"
-    legacyName="$(OEMNAME).Appx.IoTCoreDefaultApp" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    legacyName="$(OEMNAME).Provisioning.Auto" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
     <onecorePackageInfo
         targetPartition="MainOS"
         releaseType="Production"
@@ -11,7 +11,7 @@
     <files>
         <file
             destinationDir="$(runtime.windows)\Provisioning\Packages"
-            source="$(BLDDIR)\ppkgs\Appx.IoTCoreDefaultApp.ppkg"
-            name="Appx.IoTCoreDefaultApp.ppkg" />
+            source="$(BLDDIR)\ppkgs\$(PROD)Prov.ppkg"
+            name="ProvAuto.ppkg" />
     </files>
 </identity>

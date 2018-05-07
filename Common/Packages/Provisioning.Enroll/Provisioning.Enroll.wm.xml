@@ -11,7 +11,7 @@
     <files>
         <file
             destinationDir="$(runtime.windows)\Provisioning\Packages"
-            source="Provisioning.Enroll.ppkg"
+            source="$(BLDDIR)\ppkgs\Provisioning.Enroll.ppkg"
             name="Enroll.ppkg" />
     </files>
 </identity>

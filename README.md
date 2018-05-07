@@ -16,7 +16,7 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 
 ## Downloads
 
-* [Windows 10 IoT Core Packages – Build 16299](https://www.microsoft.com/en-us/software-download/windows10iotcore)
+* [Windows 10 IoT Core Packages](https://www.microsoft.com/en-us/software-download/windows10iotcore)
 * [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit)
 * [Windows Driver Kit - WDK](https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit)
 * [Windows 10 IoT Core Dashboard](https://developer.microsoft.com/windows/iot/docs/iotdashboard)
@@ -43,13 +43,15 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 # Branch Overview
 
 ## Master Branch
-This branch supports the lastest Windows 10 IoT Core release available ( currently 1709, version number 10.0.16299.x ). Note that this release now supports wm.xml and requires latest ADK. See [Create Windows Universal OEM Packages](https://docs.microsoft.com/windows-hardware/manufacture/iot/create-packages) for more details.
+This branch supports the lastest Windows 10 IoT Core release available ( currently 1803, version number 10.0.17134.x ). Note that this release now supports wm.xml and requires latest ADK. See [Create Windows Universal OEM Packages](https://docs.microsoft.com/windows-hardware/manufacture/iot/create-packages) for more details. 
 
 ## Develop Branch
 This branch contains the active development contents, mostly addressing the upcoming release features.
 
 ## Older Versions
+For older releases, please use the corresponding ADK tools and iot-adk-addonkit releases.
 
+* [16299_v4.3 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v4.3) for Windows 10 IoT Core Release 1709 (version 10.0.16299.x)
 * [15063_v3.2 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v3.2) for [Windows 10 IoT Core Release 1703 (version 10.0.15063.x)](https://www.microsoft.com/en-us/download/details.aspx?id=55031).
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).
 

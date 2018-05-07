@@ -11,7 +11,7 @@
     <files>
         <file
             destinationDir="$(runtime.windows)\Provisioning\Packages"
-            source="Appx.IoTOnboardingTask.ppkg"
+            source="$(BLDDIR)\ppkgs\Appx.IoTOnboardingTask.ppkg"
             name="Appx.IoTOnboardingTask.ppkg" />
     </files>
 </identity>

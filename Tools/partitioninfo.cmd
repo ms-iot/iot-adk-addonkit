@@ -94,14 +94,14 @@ for /f "skip=1 tokens=1,2,3,4,5,6 delims=,{} " %%i in (%WINPEFILES%\devicelayout
     set TYPE_%%i=%%k
     set SIZE_%%i=%%l
     set FS_%%i=%%m
-    if [%%n] NEQ [-] if /I [%%i] neq [MainOS] (
+    if [%%m] EQU [NTFS] if /I [%%i] neq [MainOS] (
         echo.%%i,%%n >> %MOUNT_LIST% 
-        echo.echo Setting %%i Drive: DL_%%i=%%n >> %SETDRIVECMD%
-        echo.set DL_%%i=%%n>> %SETDRIVECMD%
     )
     if [%%n] NEQ [-] (
         echo. Setting %%i Drive: DL_%%i=%%n 
         echo.%%i,%%n >> %PC_MOUNTLIST%
+        echo.echo Setting %%i Drive: DL_%%i=%%n >> %SETDRIVECMD%
+        echo.set DL_%%i=%%n>> %SETDRIVECMD%
         echo.echo Setting %%i Drive: DL_%%i=%%n >> %PCSETDRIVECMD%
         echo.set DL_%%i=%%n>> %PCSETDRIVECMD%
     )

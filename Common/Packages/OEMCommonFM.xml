@@ -76,7 +76,7 @@
         </FeatureIDs>
       </PackageFile>
 
-      <!-- Packages for building GPT-based FFU with Recovery feature -->
+      <!-- Packages for building FFU with Recovery feature -->
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.GPT-BCD.cab">
         <FeatureIDs>
           <FeatureID>RECOVERY_BCD</FeatureID>
@@ -89,7 +89,6 @@
         </FeatureIDs>
       </PackageFile>
 
-      <!-- Packages for building MBR-based FFU with Recovery feature -->
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.MBR-BCD.cab">
         <FeatureIDs>
           <FeatureID>RECOVERY_BCD_MBR</FeatureID>
@@ -99,6 +98,12 @@
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.MBR-BcdEdit.cab">
         <FeatureIDs>
           <FeatureID>RECOVERY_BCD_MBR</FeatureID>
+        </FeatureIDs>
+      </PackageFile>
+      
+      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Recovery.WinPE.cab">
+        <FeatureIDs>
+          <FeatureID>RECOVERY_BCD</FeatureID>
         </FeatureIDs>
       </PackageFile>
 

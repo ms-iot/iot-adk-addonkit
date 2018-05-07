@@ -18,7 +18,6 @@ exit /b 1
 
 :START
 
-
 pushd
 setlocal ENABLEDELAYEDEXPANSION
 
@@ -60,6 +59,8 @@ if /I [%1] == [All] (
         ) else if exist "%1" (
             REM Enabling support for multiple .pkg.xml files in one directory.
             dir "%1\*.pkg.xml" /S /b > %PKGLOG_DIR%\packagelist.txt 2>nul
+        ) else if exist "%COMMON_DIR%\ProdPackages\%1" (
+            REM Nothing to do here. Skip
         ) else (
             REM Check if its in BSP path
             cd /D "%BSPSRC_DIR%"
@@ -96,6 +97,7 @@ REM ----------------------------------------------------------------------------
 :SUB_PROCESSLIST
 
 if %~z1 gtr 0 (
+    echo. %CLRYEL%.pkg.xml files found. Review generated .wm.xml files for correctness%CLREND%
     for /f "delims=" %%i in (%1) do (
        echo. Converting %%~nxi
        set NAME=%%~dpni

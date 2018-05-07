@@ -71,13 +71,11 @@ if not defined RELEASE_DIR (
 )
 
 echo Creating %INPUT_FILE% Package with version %PKG_VER% for %PRODUCT%
-
+set PPKG_FILE=%INPUT_FILE:.wm.xml=.ppkg%
 REM check if customizations.xml is present, if so create provisioning package
-if exist "%CUSTOMIZATIONS%.xml" (
-    if not exist "%INPUT%.ppkg" (
-        echo  Creating %INPUT%.ppkg...
-        call createprovpkg.cmd %CUSTOMIZATIONS%.xml %INPUT%.ppkg
-   )
+if exist "customizations.xml" (
+    echo  Creating %PPKG_FILE%...
+    call createprovpkg.cmd customizations.xml %PPKGBLD_DIR%\%PPKG_FILE% > %PPKGBLD_DIR%\logs\%PPKG_FILE%.log
 )
 
 if not exist "%INPUT%.wm.xml" (

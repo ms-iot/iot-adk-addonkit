@@ -66,6 +66,8 @@ if defined USEUPDATE (
     set PKG_VER=%BSP_VERSION%
 )
 
+if not exist %PRODBLD_DIR% ( mkdir %PRODBLD_DIR% )
+
 echo Building Packages with product specific contents with version %PKG_VER%
 
 REM Invoke BSP specific build hooks
@@ -75,23 +77,18 @@ if exist %SRC_DIR%\BSP\%PROD_BSP%\tools\ci_hook.cmd (
 )
 
 call buildpkg.cmd Registry.Version %PKG_VER%
+call buildprovpkg.cmd %PRODUCT%
+call buildpkg.cmd %COMMON_DIR%\ProdPackages
 
-if exist %PRODSRC_DIR%\oemcustomization.cmd (
-    call buildpkg.cmd Custom.Cmd
-)
-
-if exist %PRODSRC_DIR%\prov\%CUSTOMIZATIONS%.xml (
-    call buildprovpkg.cmd %PRODUCT%
-    call buildpkg.cmd Provisioning.Auto
-)
-
-if exist %PRODSRC_DIR%\CUSConfig (
-    echo.Building DeviceTargeting packages
-    call buildpkg.cmd %PRODSRC_DIR%\CUSConfig %PKG_VER%
-    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
+if exist %PRODSRC_DIR%\Packages (
+    echo.Building Product packages
+    call buildpkg.cmd %PRODSRC_DIR%\Packages %PKG_VER%
 )
 
 REM Invoke buildfm 
+if exist %PRODSRC_DIR%\Packages\CUSConfig (
+    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
+)
 call buildfm.cmd oem %PKG_VER%
 if %ERRORLEVEL% neq 0 goto Error
 call buildfm.cmd bsp %PROD_BSP% %PKG_VER%
@@ -127,8 +124,8 @@ echo "CreateImage %1 %2" failed with error %ERRORLEVEL%
 exit /b 1
 
 :End
-del %TMP%\* /S /Q >nul
-for /d %%x in (%TMP%\*) do @rd /s /q "%%x"
+del %TMP%\* /S /Q >nul 2>nul
+for /d %%x in (%TMP%\*) do @rd /s /q "%%x" >nul 2>nul
 
 endlocal
 exit /b 0

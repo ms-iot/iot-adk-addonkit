@@ -62,7 +62,7 @@
       <Feature>IOT_SSH</Feature>
       <Feature>IOT_WEBB_EXTN</Feature>
       <Feature>IOT_UMDFDBG_SETTINGS</Feature>
-      <Feature>IOT_NETCMD</Feature>
+      
       <Feature>IOT_POWERSHELL</Feature>
       <Feature>IOT_DIRECTX_TOOLS</Feature>
       <Feature>IOT_ENABLE_TESTSIGNING</Feature>

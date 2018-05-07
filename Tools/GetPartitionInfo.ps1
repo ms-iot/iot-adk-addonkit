@@ -24,8 +24,7 @@ function GetFreeDriveLetter()
 ################
 
 #getting all the used Drive letters reported by the Operating System
-$drivesinuse = @();
-$(Get-PSDrive -PSProvider filesystem) | %{$drivesinuse += $_.name}
+$drivesinuse = (Get-PSDrive -PSProvider filesystem).Name
 $dlxDoc = [xml] (get-content $inputXML);
 Write-Host "PartitionName,ID,Type,TotalSectors,FileSystem,Drive";
 $Partitions = $dlxDoc.GetElementsByTagName("Partition");

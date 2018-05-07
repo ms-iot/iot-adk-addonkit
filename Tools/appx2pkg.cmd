@@ -121,13 +121,8 @@ if defined LICENSE_FILE (
 )
 
 echo. Authoring %COMP_NAME%.%SUB_NAME%.wm.xml
-if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (del "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" )
+if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" (del "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" )
 call :CREATE_PKGFILE
-
-if exist "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" (
-    call convertpkg.cmd "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
-    del /q /f "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
-)
 
 set SRC_INFO_FILE=%OUTPUT_PATH%\SourceDetails.txt
 echo Source Appx: %FILE_PATH%%FILE_NAME%%FILE_TYPE%>> "%SRC_INFO_FILE%"
@@ -163,8 +158,8 @@ for %%Z in ("%FILE_PATH%\appx_cerlist.txt") do if %%~zZ gtr 0 (
     )
 )
 
-echo. Authoring %CUSTOMIZATIONS%.xml
-if exist "%FILE_PATH%\%CUSTOMIZATIONS%.xml" (del "%FILE_PATH%\%CUSTOMIZATIONS%.xml" )
+echo. Authoring customizations.xml
+if exist "%FILE_PATH%\customizations.xml" (del "%FILE_PATH%\customizations.xml" )
 if not defined NEWGUID (
     REM Get a new GUID for the Provisioning config file
     powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
@@ -174,8 +169,7 @@ if not defined NEWGUID (
 call :CREATE_CUSTFILE
 
 copy "%FILE_PATH%\%FILE_NAME%%FILE_TYPE%" "%OUTPUT_PATH%\%SHORT_FILE_NAME%%FILE_TYPE%" >nul 2>nul
-move "%FILE_PATH%\%CUSTOMIZATIONS%.xml" "%OUTPUT_PATH%\%CUSTOMIZATIONS%.xml" >nul 2>nul
-REM move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml" >nul 2>nul
+move "%FILE_PATH%\customizations.xml" "%OUTPUT_PATH%\customizations.xml" >nul 2>nul
 move "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" "%OUTPUT_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml" >nul 2>nul
 
 if defined LICENSE_FILE (
@@ -184,35 +178,33 @@ if defined LICENSE_FILE (
 )
 
 if not defined SKIPCERT (
-    del "%FILE_PATH%\appx_cerlist.txt"
-    del "%FILE_PATH%\appx_cerlist_trim.txt"
+    del "%FILE_PATH%\appx_cerlist.txt" >nul 2>nul
+    del "%FILE_PATH%\appx_cerlist_trim.txt" >nul 2>nul
 )
 
-del "%FILE_PATH%\appx_license.txt"
-del "%FILE_PATH%\appx_deplist.txt"
-del "%FILE_PATH%\appx_deplist_trim.txt"
-del "%FILE_PATH%\appx_info.txt"
+del "%FILE_PATH%\appx_license.txt" >nul 2>nul
+del "%FILE_PATH%\appx_deplist.txt" >nul 2>nul
+del "%FILE_PATH%\appx_deplist_trim.txt" >nul 2>nul
+del "%FILE_PATH%\appx_info.txt" >nul 2>nul
 
 endlocal
 exit /b 0
 
 :CREATE_PKGFILE
 REM Printing the headers
-call :PRINT_TEXT "<?xml version="1.0" encoding="utf-8" ?>"
-call :PRINT_TEXT "<Package xmlns="urn:Microsoft.WindowsPhone/PackageSchema.v8.00""
-echo          Owner="$(OEMNAME)" OwnerType="OEM" ReleaseType="Production" >> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
-call :PRINT_TEXT "         Platform="%BSP_ARCH%" Component="%COMP_NAME%" SubComponent="%SUB_NAME%">"
-call :PRINT_TEXT "   <Components>"
-call :PRINT_TEXT "      <OSComponent>"
-call :PRINT_TEXT "         <Files>"
-REM Printing script files inclusion
-call :PRINT_TEXT "            <File Source="%COMP_NAME%.%SUB_NAME%.ppkg""
-echo                   DestinationDir=%PROV_PATH%>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
-call :PRINT_TEXT "                  Name="%COMP_NAME%.%SUB_NAME%.ppkg" />"
-call :PRINT_TEXT "         </Files>"
-call :PRINT_TEXT "      </OSComponent>"
-call :PRINT_TEXT "   </Components>"
-call :PRINT_TEXT "</Package>"
+call :PRINT_TEXT "<?xml version="1.0" encoding="utf-8"?>"
+call :PRINT_TEXT "<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance""
+call :PRINT_TEXT "    name="%SUB_NAME%" namespace="%COMP_NAME%""
+             echo.    owner="$(OEMNAME)" legacyName="$(OEMNAME).%COMP_NAME%.%SUB_NAME%">> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml"
+call :PRINT_TEXT "    xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">"
+call :PRINT_TEXT "    <onecorePackageInfo targetPartition="MainOS" releaseType="Production" ownerType="OEM" />"
+call :PRINT_TEXT "    <files>"
+call :PRINT_TEXT "        <file"
+             echo.            destinationDir=%PROV_PATH%>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml"
+             echo.            source="$(BLDDIR)\ppkgs\%COMP_NAME%.%SUB_NAME%.ppkg">> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml"
+call :PRINT_TEXT "            name="%COMP_NAME%.%SUB_NAME%.ppkg" />"
+call :PRINT_TEXT "    </files>"
+call :PRINT_TEXT "</identity>"
 )
 exit /b 0
 
@@ -260,14 +252,14 @@ REM Print startup configuration
 if [%STARTUP%] == [fga] (
     call :PRINT_TO_CUSTFILE "        <StartupApp>"
     call :PRINT_TO_CUSTFILE "          <Default>"
-    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
+    echo            %PACKAGE_FNAME%^^!%ENTRY% >> "%FILE_PATH%\customizations.xml"
     call :PRINT_TO_CUSTFILE "          </Default>"
     call :PRINT_TO_CUSTFILE "        </StartupApp>"
 ) else if [%STARTUP%] == [bgt] (
     call :PRINT_TO_CUSTFILE "        <StartupBackgroundTasks>"
     call :PRINT_TO_CUSTFILE "          <ToAdd>"
     call :PRINT_TO_CUSTFILE "            <Add PackageName="
-    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
+    echo             "%PACKAGE_FNAME%^!%ENTRY%" >> "%FILE_PATH%\customizations.xml"
     call :PRINT_TO_CUSTFILE "            ></Add>"
     call :PRINT_TO_CUSTFILE "          </ToAdd>"
     call :PRINT_TO_CUSTFILE "        </StartupBackgroundTasks>"
@@ -317,10 +309,10 @@ exit /b 0
 
 :PRINT_TEXT
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT!>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.pkg.xml"
+echo !TEXT!>> "%FILE_PATH%\%COMP_NAME%.%SUB_NAME%.wm.xml"
 exit /b
 
 :PRINT_TO_CUSTFILE
 for /f "useback tokens=*" %%a in ('%1') do set TEXT=%%~a
-echo !TEXT!>> "%FILE_PATH%\%CUSTOMIZATIONS%.xml"
+echo !TEXT!>> "%FILE_PATH%\customizations.xml"
 exit /b
