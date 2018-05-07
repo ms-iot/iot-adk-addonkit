@@ -43,7 +43,7 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 # Branch Overview
 
 ## Master Branch
-This branch supports the lastest Windows 10 IoT Core release available ( currently 1803, version number 10.0.17134.x ). Note that this release now supports wm.xml and requires latest ADK. See [Create Windows Universal OEM Packages](https://docs.microsoft.com/windows-hardware/manufacture/iot/create-packages) for more details. 
+This branch supports the lastest Windows 10 IoT Core release available ( currently 1803, version number 10.0.17134.x ). Please run **migrate.cmd** to update your old tree to the new structure. Note that this release only supports wm.xml and requires latest ADK. See [Create Windows Universal OEM Packages](https://docs.microsoft.com/windows-hardware/manufacture/iot/create-packages) for more details. 
 
 ## Develop Branch
 This branch contains the active development contents, mostly addressing the upcoming release features.
