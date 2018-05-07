@@ -138,7 +138,7 @@ REM Change to Working directory
 cd /D %IOTADK_ROOT%\Tools
 
 doskey /macrofile=alias.txt
-set IOT_ADDON_VERSION=5.0_dev
+set IOT_ADDON_VERSION=5.0
 
 echo IOTADK_ROOT : %IOTADK_ROOT%
 echo ADK_VERSION : %ADK_VERSION%
