@@ -39,6 +39,17 @@ for /f "delims=" %%i in (%PPKGBLD_DIR%\pkglist.txt) do (
 )
 del %PPKGBLD_DIR%\pkglist.txt
 
+REM Moving CUSConfig dir to Product\Packages directory
+cd %SRC_DIR%\Products
+dir /b /AD >> %BLDDIR%\prodlist.txt
+for /f "delims=" %%i in (%BLDDIR%\prodlist.txt) do (
+    if exist %%i\CUSConfig (
+        echo.Moving CUSConfig dir to Packages dir for %%i
+        if not exist %%i\Packages ( mkdir %%i\Packages )
+        move %%i\CUSConfig %%i\Packages\ >nul 2>nul
+    )
+)
+
 endlocal
 popd
 exit /b

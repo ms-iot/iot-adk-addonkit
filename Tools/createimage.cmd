@@ -80,27 +80,15 @@ call buildpkg.cmd Registry.Version %PKG_VER%
 call buildprovpkg.cmd %PRODUCT%
 call buildpkg.cmd %COMMON_DIR%\ProdPackages
 
-REM if exist %PRODSRC_DIR%\oemcustomization.cmd (
-    REM call buildpkg.cmd Custom.Cmd
-REM )
-
-REM if exist %PRODSRC_DIR%\prov\customizations.xml (
-    REM call buildprovpkg.cmd %PRODUCT%
-    REM call buildpkg.cmd Provisioning.Auto
-REM )
 if exist %PRODSRC_DIR%\Packages (
     echo.Building Product packages
     call buildpkg.cmd %PRODSRC_DIR%\Packages %PKG_VER%
-    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
-)
-REM retaining below for backward compatibility
-if exist %PRODSRC_DIR%\CUSConfig (
-    echo.Building DeviceTargeting packages
-    call buildpkg.cmd %PRODSRC_DIR%\CUSConfig %PKG_VER%
-    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
 )
 
 REM Invoke buildfm 
+if exist %PRODSRC_DIR%\Packages\CUSConfig (
+    call buildfm.cmd ocp %PRODUCT% %PKG_VER%
+)
 call buildfm.cmd oem %PKG_VER%
 if %ERRORLEVEL% neq 0 goto Error
 call buildfm.cmd bsp %PROD_BSP% %PKG_VER%
@@ -136,8 +124,8 @@ echo "CreateImage %1 %2" failed with error %ERRORLEVEL%
 exit /b 1
 
 :End
-del %TMP%\* /S /Q >nul
-for /d %%x in (%TMP%\*) do @rd /s /q "%%x"
+del %TMP%\* /S /Q >nul 2>nul
+for /d %%x in (%TMP%\*) do @rd /s /q "%%x" >nul 2>nul
 
 endlocal
 exit /b 0
