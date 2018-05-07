@@ -142,10 +142,10 @@ if /I [%WIMMODE%] == [Import] (
     dism /Capture-Image /ImageFile:%OUTPUTDIR%\efiesp.wim /CaptureDir:%DL_EFIESP%:\ /Name:"EFIESP"
 
     echo Extracting data wim
-    dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%MOUNT_PATH%Data\ /Name:"DATA" /Compress:max
+    dism /Capture-Image /ImageFile:%OUTPUTDIR%\data.wim /CaptureDir:%DL_Data%:\ /Name:"DATA" /Compress:max
 
     echo Extracting MainOS wim, this can take a while too..
-    dism /Capture-Image /ImageFile:%OUTPUTDIR%\mainos.wim /CaptureDir:%MOUNT_PATH% /Name:"MainOS" /Compress:max
+    dism /Capture-Image /ImageFile:%OUTPUTDIR%\mainos.wim /CaptureDir:%DL_MainOS%:\ /Name:"MainOS" /Compress:max
 
     echo %BSP_VERSION% > %OUTPUTDIR%\RecoveryImageVersion.txt
     copy %OUTPUTDIR%\efiesp.wim %MMOSDIR% >nul
