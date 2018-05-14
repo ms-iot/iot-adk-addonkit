@@ -66,13 +66,13 @@ mkdir "%PRODSRC_DIR%\prov"
 copy %BSPSRC_DIR%\%BSPNAME%\OEMInputSamples\RetailOEMInput.xml %PRODSRC_DIR%\RetailOEMInput.xml >nul
 copy %BSPSRC_DIR%\%BSPNAME%\OEMInputSamples\TestOEMInput.xml %PRODSRC_DIR%\TestOEMInput.xml >nul
 
-copy "%IOTADK_ROOT%\Templates\oemcustomization.cmd" %PRODSRC_DIR%\oemcustomization.cmd >nul
+copy "%TEMPLATES_DIR%\oemcustomization.cmd" %PRODSRC_DIR%\oemcustomization.cmd >nul
 REM Get a new GUID for the Provisioning config file
 powershell -Command "[System.Guid]::NewGuid().toString() | Out-File %PRODSRC_DIR%\uuid.txt -Encoding ascii"
 set /p NEWGUID=<%PRODSRC_DIR%\uuid.txt
 del %PRODSRC_DIR%\uuid.txt
 
-powershell -Command "(gc %IOTADK_ROOT%\Templates\customizations.xml) -replace '{Product}', '%PRODUCT%' -replace 'GUID', '%NEWGUID%' -replace '{OEMNAME}', '%OEM_NAME%' | Out-File %PRODSRC_DIR%\prov\customizations.xml -Encoding utf8"
+powershell -Command "(gc %TEMPLATES_DIR%\customizations.xml) -replace '{Product}', '%PRODUCT%' -replace 'GUID', '%NEWGUID%' -replace '{OEMNAME}', '%OEM_NAME%' | Out-File %PRODSRC_DIR%\prov\customizations.xml -Encoding utf8"
 
 REM Store BSP info for the product for later used
 echo BSP=%BSPNAME%> %PRODSRC_DIR%\prodconfig.txt

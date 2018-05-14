@@ -116,7 +116,7 @@ if exist %PKGLOG_DIR%\packagelist.txt ( del %PKGLOG_DIR%\packagelist.txt )
 if exist %PKGLOG_DIR%\packagedir.txt ( del %PKGLOG_DIR%\packagedir.txt )
 
 del %TMP%\* /S /Q >nul
-for /d %%x in (%TMP%\*) do @rd /s /q "%%x"
+for /d %%x in (%TMP%\*) do @rd /s /q "%%x" >nul 2>nul
 
 endlocal
 popd

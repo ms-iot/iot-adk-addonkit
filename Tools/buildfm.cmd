@@ -122,9 +122,9 @@ exit /b 0
 echo.Running FeatureMerger for %1 OCP packages 
 echo.  Exporting OCPUpdateFM files
 
-powershell -Command "(gc "%IOTADK_ROOT%\Templates\ocpupdate\OCPUpdateFM.xml") -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFM.xml -Encoding utf8"
+powershell -Command "(gc "%TEMPLATES_DIR%\ocpupdate\OCPUpdateFM.xml") -replace '%%PKGBLD_DIR%%', '%PKGBLD_DIR%' -replace '%%OEM_NAME%%', '%OEM_NAME%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFM.xml -Encoding utf8"
 
-powershell -Command "(gc %IOTADK_ROOT%\Templates\ocpupdate\OCPUpdateFMFileList.xml) -replace 'OEM_NAME', '%OEM_NAME%' -replace 'CPU_TYPE', '%CPUTYPE%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFMFileList.xml -Encoding utf8"
+powershell -Command "(gc %TEMPLATES_DIR%\ocpupdate\OCPUpdateFMFileList.xml) -replace 'OEM_NAME', '%OEM_NAME%' -replace 'CPU_TYPE', '%CPUTYPE%' | Out-File %BLD_DIR%\InputFMs\OCPUpdateFMFileList.xml -Encoding utf8"
 
 echo.  Processing OCPUpdateFMFileList.xml
 FeatureMerger %BLD_DIR%\InputFMs\OCPUpdateFMFileList.xml %PKGBLD_DIR% %BSP_VERSION% %BLD_DIR%\MergedFMs /InputFMDir:%BLD_DIR%\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:_cputype=%BSP_ARCH%;buildtype=fre;releasetype=production > %BLD_DIR%\buildfm_ocp.log
