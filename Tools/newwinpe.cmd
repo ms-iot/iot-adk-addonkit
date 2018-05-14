@@ -73,7 +73,7 @@ if exist "%WINPEEXTDRV%" (
 )
 
 echo Copying files into WinPE
-copy "%IOTADK_ROOT%\Templates\recovery\*" %MOUNTDIR%\windows\system32\ 
+copy "%TEMPLATES_DIR%\recovery\*" %MOUNTDIR%\windows\system32\ 
 copy "%WINPEFILES%\*" %MOUNTDIR%\windows\system32\ 
 if exist %WINPEEXTFILES% (
     copy "%WINPEEXTFILES%\*" %MOUNTDIR%\windows\system32\

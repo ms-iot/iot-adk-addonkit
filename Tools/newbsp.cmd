@@ -29,7 +29,7 @@ if not defined SRC_DIR (
 REM Error Checks
 set NEWBSP=%1
 set NEWBSP_DIR=%BSPSRC_DIR%\%NEWBSP%
-set TEMPLATE_DIR=%IOTADK_ROOT%\Templates\BSP
+set TEMPLATE_DIR=%TEMPLATES_DIR%\BSP
 if /i exist %NEWBSP_DIR% (
     echo Error : %1 already exists
     goto Usage

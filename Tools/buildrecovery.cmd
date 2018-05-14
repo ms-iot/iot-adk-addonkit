@@ -165,7 +165,7 @@ if /I [%WIMMODE%] == [Import] (
 )
 echo Copying winpe.wim..
 copy %BLD_DIR%\%PRODUCT%\winpe.wim %MMOSDIR% >nul
-copy "%IOTADK_ROOT%\Templates\startrecovery.cmd" %MMOSDIR% >nul
+copy "%TEMPLATES_DIR%\startrecovery.cmd" %MMOSDIR% >nul
 
 if exist %SRC_DIR%\BSP\%BSP%\tools\br_addfiles.cmd (
    echo. Adding %BSP% specifics 

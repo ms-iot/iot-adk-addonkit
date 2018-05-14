@@ -52,7 +52,7 @@ echo Creating %1 package
 mkdir "%NEWPKG_DIR%"
 
 :: Create File/Registry package using template files
-powershell -Command "(gc %IOTADK_ROOT%\Templates\FileTemplate.wm.xml) -replace 'COMPNAME', '%COMP_NAME%' -replace 'SUBNAME', '%SUB_NAME%' -replace 'PLFNAME', 'Common' | Out-File %NEWPKG_DIR%\%1.wm.xml -Encoding utf8"
+powershell -Command "(gc %TEMPLATES_DIR%\FileTemplate.wm.xml) -replace 'COMPNAME', '%COMP_NAME%' -replace 'SUBNAME', '%SUB_NAME%' -replace 'PLFNAME', 'Common' | Out-File %NEWPKG_DIR%\%1.wm.xml -Encoding utf8"
 
 
 echo %NEWPKG_DIR% ready
