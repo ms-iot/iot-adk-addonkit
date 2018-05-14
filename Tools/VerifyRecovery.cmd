@@ -69,6 +69,8 @@ set VERIFYOPTION=
 set VERIFYRESULT1=Pass
 set VERIFYRESULT2=Pass
 set VERIFYRESULT3=Pass
+set VERIFYRESULT4=Pass
+set VERIFYRESULT5=Pass
 
 for /f "tokens=2 delims=<,> " %%i in ('findstr /L /I "<SOC>" %SRC_DIR%\Products\%PRODUCT%\%2OEMInput.xml') do (
     set SOCNAME=%%i
@@ -132,6 +134,13 @@ echo Applying Data.wim to %DL_Data% drive
 dism /apply-image /ImageFile:%EXTRACTDIR%\data.wim /index:1 /ApplyDir:%DL_Data%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT2=Failed
 echo Applying MainOS.wim to %DL_MainOS% drive
 dism /apply-image /ImageFile:%EXTRACTDIR%\mainos.wim /index:1 /ApplyDir:%DL_MainOS%:\ /Compact %VERIFYOPTION% || set VERIFYRESULT3=Failed
+
+echo Checking ACLs on MAINOS and DATA
+icacls %DL_MainOS%:\ > %OUTPUTDIR%\verifyacls_mainos.log
+icacls %DL_Data%:\ > %OUTPUTDIR%\verifyacls_data.log
+findstr /snip BUILTIN\Users: verifyacls_mainos.log || set VERIFYRESULT4=Failed
+findstr /snip BUILTIN\Users: verifyacls_data.log || set VERIFYRESULT5=Failed
+
 echo Removing drive letters
 diskpart < %WINPEDIR%\diskpart_remove.txt >> %OUTPUTDIR%\verifyrecoverydiskpart.log
 
@@ -144,6 +153,8 @@ echo Result for: %IMG_RECOVERY_FILE%
 echo Result of EFIESP.wim verification: %VERIFYRESULT1%
 echo Result of DATA.wim verification: %VERIFYRESULT2%
 echo Result of MAINOS.wim verification: %VERIFYRESULT3%
+echo Result of ACL verification on MAINOS.wim: %VERIFYRESULT4%
+echo Result of ACL verification on DATA.wim: %VERIFYRESULT5%
 echo .
 
 popd
