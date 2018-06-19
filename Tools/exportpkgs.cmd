@@ -7,12 +7,12 @@ echo Usage: exportpkgs [DestDir] [Product] [BuildType] [OwnerType]
 echo    DestDir........... Required, Destination directory to export
 echo    ProductName....... Required, Name of the product to be created.
 echo    BuildType......... Required, Retail/Test
-echo    OwnerType......... Optional, MS/OEM/ALL , default OEM
+echo    OwnerType......... Ignored. Only OEM packages exported
 
 echo    [/?]...................... Displays this usage string.
 echo    Example:
-echo        exportpkgs C:\Temp SampleA Test OEM
-echo        exportpkgs C:\Temp SampleA Retail ALL
+echo        exportpkgs C:\Temp SampleA Test
+echo        exportpkgs C:\Temp SampleA Retail
 echo Run this command only after a successful ffu creation. (See buildimage.cmd)
 
 exit /b 1
@@ -30,66 +30,22 @@ set WORK_DIR=%1\%BSP_VERSION%
 
 if not exist "%BLD_DIR%\%2\%3" ( goto Usage )
 if not defined FFUNAME ( set FFUNAME=Flash)
-set OCPCAB=%2_OCP
+set OCPNAME=%2_OCP
+set OCPCAB=%OCPNAME%_%BSP_VERSION%
 set OUTPUT=%WORK_DIR%\%OCPCAB%
-if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.FFU" (
-    echo. %CLRRED% %BLD_DIR%\%2\%3\%FFUNAME%.FFU not found. Build the image before exporting.%CLREND%
+if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.ffu" (
+    echo. %CLRRED% %BLD_DIR%\%2\%3\%FFUNAME%.ffu not found. Build the image before exporting.%CLREND%
     exit /b 1
 )
 
-if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.UpdateInput.xml" (
-    echo. %FFUNAME%.UpdateInput.xml not found. Build the image before exporting.
+if not exist "%BLD_DIR%\%2\%3\%FFUNAME%.BSPDB_publish.xml" (
+    echo. %FFUNAME%.BSPDB_publish.xml not found. Build the image before exporting.
     exit /b 1
 )
 if not exist "%OUTPUT%" ( mkdir "%OUTPUT%" )
 setlocal
 
-if /I [%4] == [MS] (
-    set MSPKG=1
-) else if /I [%4] == [ALL] (
-    set MSPKG=1
-    set OEMPKG=1
-) else (
-    set OEMPKG=1
-)
-REM if exist ("%WORK_DIR%\%OCPCAB%_pkglist.txt") del "%WORK_DIR%\%OCPCAB%_pkglist.txt"
-
-for /f "tokens=1,2,3 delims=<,> skip=5" %%A in (%BLD_DIR%\%2\%3\%FFUNAME%.UpdateInput.xml) do (
-    if [%%C] == [] (
-        REM echo. Nothing to do.
-    ) else (
-        REM echo. Found : %%C
-        echo.%%C | findstr /C:"MSPackages" >nul && (
-            if defined MSPKG (
-                echo. [MS package] : %%C
-                copy "%%C" "%OUTPUT%" >nul
-REM             echo.%%C >> "%WORK_DIR%\%OCPCAB%_pkglist.txt"
-            )
-        ) || (
-            if defined OEMPKG (
-                echo. [OEM package] : %%C
-                copy "%%C" "%OUTPUT%" >nul
-REM             echo.%%C >> "%WORK_DIR%\%OCPCAB%_pkglist.txt"
-            )
-        )
-    )
-)
-
-echo. Exporting BSP DB
-copy "%BLD_DIR%\%2\%3\%FFUNAME%.BSPDB.xml" %OUTPUT% >nul
-
-findstr /C:"OwnerType" %OUTPUT%\%FFUNAME%.BSPDB.xml > %WORK_DIR%\pkgbspdb.txt
-if exist %WORK_DIR%\%OCPCAB%_pkgver.txt (del %WORK_DIR%\%OCPCAB%_pkgver.txt)
-for /f "tokens=3,8,9,10,11,13 delims=>= " %%A in (%WORK_DIR%\pkgbspdb.txt) do (
-    if /I [%%B] == [Version] (
-        echo %%~A.cab,%%~C >> %WORK_DIR%\%OCPCAB%_pkgver.txt
-    ) else if /I [%%D] == [Version] (
-        echo %%~A.cab,%%~E >> %WORK_DIR%\%OCPCAB%_pkgver.txt
-    ) else (
-          echo %%~A.cab,%%~F >> %WORK_DIR%\%OCPCAB%_pkgver.txt
-    )
-)
-del %WORK_DIR%\pkgbspdb.txt
+powershell -executionpolicy unrestricted  -Command ("%TOOLS_DIR%\ExportBSPDB.ps1 %BLD_DIR%\%2\%3 %OUTPUT%")
 
 echo. Making BSP DB cab
 call makecab %OUTPUT%\%FFUNAME%.BSPDB.xml %OUTPUT%\%FFUNAME%.BSPDB.xml.cab >nul
