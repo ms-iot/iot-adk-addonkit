@@ -14,7 +14,7 @@ Param(
 
 $dixmlfile = "$env:SRC_DIR\Products\$productname\IoTDeviceModel_$($productname).xml"
 Write-Host "DeviceInventory file : $dixmlfile"
-if (Test-Path $dixmlfile){
+if (Test-Path $dixmlfile) {
     Write-Host "$dixmlfile already exists" -ForegroundColor Red
     return
 }
@@ -23,7 +23,7 @@ $arch = $env:ARCH
 $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_$($arch)_Packages.x86.10"
 if (Test-Path $key) {
     $corekitver = (Get-ItemProperty -Path $key).Version
-    $corekitver = $corekitver.Replace("10.1.","10.0.")
+    $corekitver = $corekitver.Replace("10.1.", "10.0.")
 }
 else {
     Write-Host "IoT Core kit ver not found in registry" -ForegroundColor Red
@@ -33,6 +33,38 @@ else {
 Write-Host "OS Version           : $corekitver"
 Write-Host "BSP Version          : $env:BSP_VERSION"
 
+$smbioscfg = "$env:SRC_DIR\Products\$productname\SMBIOS.CFG"
+if (Test-Path $smbioscfg) {
+    Write-Host "Parsing SMBIOS.CFG to get SMBIOS information"
+    $doc = Get-Content $smbioscfg
+    foreach ($line in $doc) {
+        $parts = $line.Split(",")
+        if ($parts[0] -eq "01") {
+            switch ($parts[1]) {
+                '04' {
+                    $Manufacturer = $parts[3] -replace '"', ""
+                    Write-Output "Manufacturer : $Manufacturer"
+                    break
+                }
+                '05' {
+                    $ProductName = $parts[3] -replace '"', ""
+                    Write-Output "Product Name : $ProductName"
+                    break
+                }
+                '19' {
+                    $SKUNumber = $parts[3] -replace '"', ""
+                    Write-Output "SKU Number   : $SKUNumber"
+                    break
+                }
+                '1A' {
+                    $Family = $parts[3] -replace '"', ""
+                    Write-Output "Family       : $Family"
+                    break
+                }
+            }
+        }
+    }
+}
 $encoding = [System.Text.Encoding]::UTF8
 $xmlwriter = New-Object System.Xml.XmlTextWriter($dixmlfile, $encoding)
 $xmlwriter.Formatting = "Indented"
@@ -44,20 +76,41 @@ $xmlwriter.WriteAttributeString("BuildArch", $arch)
 $xmlwriter.WriteAttributeString("OSString", $corekitver)
 $xmlwriter.WriteAttributeString("OCPString", $env:BSP_VERSION)
 $xmlwriter.WriteStartElement("MachineInfo")
-$usrinput = $env:OEM_NAME
-if (!$Silent) {
-    $usrinput = Read-Host("Enter Manufacturer           ")
+if ($Manufacturer) {
+    $usrinput = $Manufacturer
 }
+else {
+    if (!$Silent) {
+        $usrinput = Read-Host("Enter Manufacturer           ")
+    }
+    else { $usrinput = $env:OEM_NAME }
+} 
 $xmlwriter.WriteAttributeString("Manufacturer", $usrinput)
-$usrinput = $env:OEM_NAME + "Family"
-if (!$Silent) {
-    $usrinput = Read-Host("Enter Family                 ")
+if ($Family) {
+    $usrinput = $Family
+}
+else {
+    if (!$Silent) {
+        $usrinput = Read-Host("Enter Family           ")
+    }
+    else { $usrinput = $env:OEM_NAME + "Family" }
 }
 $xmlwriter.WriteAttributeString("Family", $usrinput)
-$xmlwriter.WriteAttributeString("ProductName", $productname)
-$usrinput = $productname + "01"
-if (!$Silent) {
-    $usrinput = Read-Host("Enter SKUNumber              ")
+if ($ProductName) {
+    $usrinput = $ProductName
+}
+else {
+    $usrinput = $productname 
+}
+$xmlwriter.WriteAttributeString("ProductName", $usrinput)
+if ($SKUNumber) {
+    $usrinput = $SKUNumber
+}
+else {
+    if (!$Silent) {
+        $usrinput = Read-Host("Enter SKUNumber           ")
+    }
+    else { $usrinput = $productname + "01" }
 }
 $xmlwriter.WriteAttributeString("SKUNumber", $usrinput)
 $usrinput = "Fabrikam"
@@ -76,5 +129,3 @@ $xmlwriter.WriteEndDocument()
 $xmlwriter.Flush()
 $xmlwriter.Close()
 Write-Host "DeviceInventory created"
-
-
