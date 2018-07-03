@@ -49,7 +49,7 @@
       <!-- for Connectivity -->
       <Feature>IOT_WEBB_EXTN</Feature>
       <Feature>IOT_POWERSHELL</Feature>
-      <Feature>IOT_NETCMD</Feature>
+      
       <Feature>IOT_SSH</Feature>
       <Feature>IOT_SIREP</Feature>
       <!-- Enabling Test images -->
@@ -61,7 +61,7 @@
       <Feature>IOT_WDTF</Feature>
       <Feature>IOT_CRT140</Feature>
       <Feature>IOT_DIRECTX_TOOLS</Feature>
-      <Feature>PRODUCTION_CORE</Feature>
+      
       <Feature>PRODUCTION</Feature>
       <!-- Sample Apps, remove this when you introduce OEM Apps -->
       <Feature>IOT_BERTHA</Feature>

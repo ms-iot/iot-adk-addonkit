@@ -72,7 +72,6 @@
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
 
       <Feature>IOT_POWER_SETTINGS</Feature>
-      <!-- Feature>IOT_HWN_CLASS_EXTENSION</Feature -->
       <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
       <Feature>IOT_GENERIC_POP</Feature>
       <!-- both these are Required for Cortana -->
