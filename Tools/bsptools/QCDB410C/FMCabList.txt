@@ -78,7 +78,7 @@ Qualcomm.QC8916.smbios_cfg.cab
 Qualcomm.QC8916.MemRes_ModemLite.cab
 Qualcomm.QC8916_SBC.ACSP.cab
 Qualcomm.QC8916_SBC.qcaud.cab
-Qualcomm.M8016SOC_SBC_ATHENS.acpi.cab
+Qualcomm.M8016SOC_SBC.acpi.cab
 Qualcomm.QC8916.qcAccGyroMPU6050.cab
 Qualcomm.QC8916.qcSynapticsTouch.cab
 Qualcomm.QC8916.qcFocalTechTouch.cab

@@ -132,7 +132,7 @@
           <FeatureID>SBC</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.M8016SOC_SBC_ATHENS.acpi.cab">
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.M8016SOC_SBC.acpi.cab">
         <FeatureIDs>
           <FeatureID>SBC</FeatureID>
         </FeatureIDs>
