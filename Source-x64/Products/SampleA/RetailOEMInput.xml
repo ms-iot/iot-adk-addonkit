@@ -38,6 +38,7 @@
       <Feature>IOT_EFIESP_BCD</Feature>
       <Feature>IOT_DMAP_DRIVER</Feature>
       <Feature>IOT_GENERIC_POP</Feature>
+      <Feature>IOT_CRT140</Feature>      
       <Feature>IOT_POWER_SETTINGS</Feature>
 
       <!-- Following two required for Appx Installation -->
