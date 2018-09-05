@@ -43,10 +43,10 @@ if defined WDKContentRoot (
 )
 
 REM Environment configurations
-set PATH=%TOOLSROOT%tools\bin\i386;%PATH%
+set PATH=%TOOLSROOT%\tools\bin\i386;%PATH%
 set AKROOT=%KITSROOT%
 set WPDKCONTENTROOT=%TOOLSROOT%
-set PKG_CONFIG_XML=%TOOLSROOT%Tools\bin\i386\pkggen.cfg.xml
+set PKG_CONFIG_XML=%TOOLSROOT%\Tools\bin\i386\pkggen.cfg.xml
 set WINPE_ROOT=%KITSROOT%Assessment and Deployment Kit\Windows Preinstallation Environment
 
 if /I [%1] == [x64] ( set BSP_ARCH=amd64)

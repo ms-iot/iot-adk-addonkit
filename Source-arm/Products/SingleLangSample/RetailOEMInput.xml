@@ -41,6 +41,7 @@
       <Feature>IOT_CP210x_MAKERDRIVER</Feature>
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
       <Feature>IOT_GENERIC_POP</Feature>
+      <Feature>IOT_CRT140</Feature>      
       <!-- Following two required for Appx Installation -->
       <Feature>IOT_UAP_OOBE</Feature>
       <Feature>IOT_APP_TOOLKIT</Feature>
