@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTEnvironment>
+  <CrossCertCAs>
+    <CrossCertCA>Certum Trusted Network CA</CrossCertCA>
+    <CrossCertCA>DigiCert Assured ID Root CA</CrossCertCA>
+    <CrossCertCA>DigiCert Global Root CA</CrossCertCA>
+    <CrossCertCA>DigiCert High Assurance EV Root CA</CrossCertCA>
+    <CrossCertCA>Entrust.net Certification Authority (2048)</CrossCertCA>
+    <CrossCertCA>Entrust Root Certification Authority - G2</CrossCertCA>
+    <CrossCertCA>GeoTrust Primary Certification Authority</CrossCertCA>
+    <CrossCertCA>GeoTrust Primary Certification Authority - G3</CrossCertCA>
+    <CrossCertCA>GlobalSign Root CA</CrossCertCA>
+    <CrossCertCA>Go Daddy Root Certificate Authority - G2</CrossCertCA>
+    <CrossCertCA>NetLock Arany (Class Gold)</CrossCertCA>
+    <CrossCertCA>NetLock Platina (Class Platinum)</CrossCertCA>
+    <CrossCertCA>Security Communication RootCA1</CrossCertCA>
+    <CrossCertCA>Starfield Root Certificate Authority - G2</CrossCertCA>
+    <CrossCertCA>StartCom Certification Authority</CrossCertCA>
+    <CrossCertCA>TC TrustCenter Class 2 CA II</CrossCertCA>
+    <CrossCertCA>Thawte Primary Root CA</CrossCertCA>
+    <CrossCertCA>Thawte Primary Root CA - G3</CrossCertCA>
+    <CrossCertCA>VeriSign Class 3 Public Primary Certification Authority - G5</CrossCertCA>
+    <CrossCertCA>VeriSign Universal Root Certification Authority</CrossCertCA>
+    <CrossCertCA>AddTrust External CA Root</CrossCertCA>
+    <CrossCertCA>GoDaddy Class 2 Certification Authority</CrossCertCA>
+    <CrossCertCA>Starfield Class 2 Certification Authority</CrossCertCA>
+    <CrossCertCA>UTN-USERFirst-Object</CrossCertCA>
+  </CrossCertCAs>
+  <DevFeatureIDs>
+    <DevFeatureID>IOT_TOOLKIT</DevFeatureID>
+    <DevFeatureID>IOT_SIREP</DevFeatureID>
+    <DevFeatureID>IOT_CORTANA</DevFeatureID>
+    <DevFeatureID>IOT_SSH</DevFeatureID>
+    <DevFeatureID>IOT_WEBB_EXTN</DevFeatureID>
+    <DevFeatureID>IOT_NANORDPSERVER</DevFeatureID>
+    <DevFeatureID>IOT_CORTANA_OBSCURELAUNCH</DevFeatureID>
+    <DevFeatureID>IOT_BERTHA</DevFeatureID>
+    <DevFeatureID>IOT_UAP_DEFAULTAPP</DevFeatureID>
+    <DevFeatureID>IOT_FTSER2K_MAKERDRIVER</DevFeatureID>
+    <DevFeatureID>IOT_CP210x_MAKERDRIVER</DevFeatureID>
+    <DevFeatureID>IOT_DMAP_DRIVER</DevFeatureID>
+    <DevFeatureID>IOT_CONTAINERS</DevFeatureID>
+  </DevFeatureIDs>
+  <DeprecatedIDs>
+    <DeprecatedID>IOT_NETCMD</DeprecatedID>
+    <DeprecatedID>IOT_DISABLE_UMCI</DeprecatedID>
+    <DeprecatedID>IOT_HWN_CLASS_EXTENSION</DeprecatedID>
+    <DeprecatedID>IOT_SPEECHDATA_EN_US</DeprecatedID>
+  </DeprecatedIDs>
+  <Security>
+      <SecureBoot>
+          <!--PlatformKey>
+              <PFX>Keys\OEM-PK.pfx</PFX>
+              <Cert>Keys\OEM-PK.cer</Cert>
+          </PlatformKey-->
+          <KeyExchangeKey>
+              <!--PFX>Keys\OEM-UEFISB.pfx</PFX>
+              <Cert>Keys\OEM-UEFISB.cer</Cert-->
+              <Cert>Retail\MicCorKEKCA2011_2011-06-24.cer</Cert>
+          </KeyExchangeKey>
+          <Database>
+              <Test>
+                  <Cert>Test\MicrosoftDevelopmentRootCA2014.cer</Cert>
+                  <Cert>Test\MicrosoftWindowsPCA2010.cer</Cert>
+                  <Cert>Test\MicrosoftTestingRootCA2010.cer</Cert>
+              </Test>
+              <Retail>
+                  <Cert>Retail\MicCorUEFCA2011_2011-06-27.cer</Cert>
+                  <Cert>Retail\MicWinProPCA2011_2011-10-19.cer</Cert>
+              </Retail>
+          </Database>
+      </SecureBoot>
+      <!--BitLocker>
+          <DataRecoveryAgent>Keys\OEM-DRA.cer</DataRecoveryAgent>
+      </BitLocker-->
+      <SIPolicy>
+          <!--Update>
+              <PFX>Keys\OEM-PAUTH.pfx</PFX>
+              <Cert>Keys\OEM-PAUTH.cer</Cert>
+          </Update-->
+          <User>
+              <Test>
+                  <!-- Microsoft OEM App Test Cert 2017 (TEST ONLY) -->
+                  <Cert>Test\OEM_App_Test_Cert_2017.cer</Cert>
+                  <!-- Microsoft Windows PCA 2010 -->
+                  <Cert>Test\MicrosoftWindowsPCA2010.cer</Cert>
+                  <!-- Microsoft Development PCA 2014 -->
+                  <Cert>Test\MicrosoftDevelopmentPCA2014.cer</Cert>
+                  <!-- Microsoft Testing Root Certificate Authority 2010 -->
+                  <Cert>Test\MicrosoftTestingRootCA2010.cer</Cert>
+              </Test>
+              <Retail>
+                  <!-- Microsoft MarketPlace PCA 2011 -->
+                  <Cert>Retail\MicrosoftMarketPlacePCA2011.cer</Cert>
+                  <!-- Microsoft Windows Production PCA 2011 -->
+                  <Cert>Retail\MicWinProPCA2011_2011-10-19.cer</Cert>
+              </Retail>
+          </User>
+          <Kernel>
+              <Test>
+                  <!-- Windows OEM HAL Extension Test Cert 2017 (TEST ONLY) -->
+                  <Cert>Test\OEM_HAL_Extension_Test_Cert_2017.cer</Cert>
+                  <!-- Microsoft Windows PCA 2010 -->
+                  <Cert>Test\MicrosoftWindowsPCA2010.cer</Cert>
+                  <!-- Microsoft Development PCA 2014 -->
+                  <Cert>Test\MicrosoftDevelopmentPCA2014.cer</Cert>
+                  <!-- Microsoft Testing Root Certificate Authority 2010 -->
+                  <Cert>Test\MicrosoftTestingRootCA2010.cer</Cert>
+              </Test>
+              <Retail>
+                  <!-- Microsoft Windows Production PCA 2011 -->
+                  <Cert>Retail\MicWinProPCA2011_2011-10-19.cer</Cert>
+              </Retail>
+          </Kernel>
+      </SIPolicy>
+  </Security>
+</IoTEnvironment>

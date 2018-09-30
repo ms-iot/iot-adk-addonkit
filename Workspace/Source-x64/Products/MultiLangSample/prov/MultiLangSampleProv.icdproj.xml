@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ICDProject Name="MultiLangSampleProv" Description="" Version="10.0.17134.1" Id="{7c719f11-71ab-4c2c-8f74-5a95b8709ec5}" TemplateName="Provisioning package" TemplateType="ProvisioningPackage">
+    <TargetEditions>
+        <Sku>
+            <StoreType>File</StoreType>
+            <Name>Windows 10 IoT Core</Name>
+            <SourcePath>Microsoft-IoTUAP-Provisioning.dat</SourcePath>
+            <Edition>Athens</Edition>
+            <Version>10</Version>
+            <Description>Selecting this option will display settings that are specific to the Windows 10 IoT Core edition as well as settings that are common to all Windows editions.</Description>
+        </Sku>
+    </TargetEditions>
+</ICDProject>

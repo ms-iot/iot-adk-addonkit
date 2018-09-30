@@ -1,2 +1,2 @@
 @echo off
-powershell -Command "Start-Process 'cmd.exe' -ArgumentList '/k \"%~dp0\Tools\LaunchTool.cmd\"' -Verb runAs"
+powershell -Command "Start-Process 'cmd.exe' -ArgumentList '/k \"%~dp0\Tools\CmdTools\LaunchTool.cmd\"' -Verb runAs"

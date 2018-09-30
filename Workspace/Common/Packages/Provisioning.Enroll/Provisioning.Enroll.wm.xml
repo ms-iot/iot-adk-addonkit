@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Enroll" namespace="Provisioning" owner="$(OEMNAME)" legacyName="$(OEMNAME).Provisioning.Enroll" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo targetPartition="MainOS" releaseType="Production" ownerType="OEM" />
+    <files>
+        <file destinationDir="$(runtime.windows)\Provisioning\Packages" source="$(BLDDIR)\ppkgs\Provisioning.Enroll.ppkg" name="Provisioning.Enroll.ppkg" />
+        <file destinationDir="$(runtime.windows)\Provisioning\Packages" source="$(BLDDIR)\ppkgs\Provisioning.Enroll.cat" name="Provisioning.Enroll.cat" />
+    </files>
+</identity>

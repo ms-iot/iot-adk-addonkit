@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTProductSettings>
+  <Name>SampleB</Name>
+  <Arch>arm</Arch>
+  <BSP>CustomRPi2</BSP>
+  <SMBIOS>
+    <Manufacturer>Contoso</Manufacturer>
+    <Family>ContosoFamily</Family>
+    <ProductName>SampleB</ProductName>
+    <SKUNumber>SampleB01</SKUNumber>
+    <BaseboardManufacturer>Fabrikam</BaseboardManufacturer>
+    <BaseboardProduct>SampleB_v01</BaseboardProduct>
+  </SMBIOS>
+  <BuildConfig Name="Test">
+    <BSPPkgDir />
+  </BuildConfig>
+  <BuildConfig Name="Retail">
+    <BSPPkgDir />
+  </BuildConfig>
+</IoTProductSettings>

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTProductSettings>
+  <Name>SingleLangSample</Name>
+  <Arch>x64</Arch>
+  <BSP>MBMx64</BSP>
+  <SMBIOS>
+    <Manufacturer>Contoso</Manufacturer>
+    <Family>ContosoFamily</Family>
+    <ProductName>SingleLangSample</ProductName>
+    <SKUNumber>SingleLangSample01</SKUNumber>
+    <BaseboardManufacturer>Fabrikam</BaseboardManufacturer>
+    <BaseboardProduct>SingleLangSample_v01</BaseboardProduct>
+  </SMBIOS>
+  <BuildConfig Name="Test">
+    <BSPPkgDir />
+  </BuildConfig>
+  <BuildConfig Name="Retail">
+    <BSPPkgDir />
+  </BuildConfig>
+</IoTProductSettings>

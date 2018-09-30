@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTWorkspace>
+    <!--Current active configuration-->
+    <CurrentEnv>arm</CurrentEnv>
+    <Config>
+        <OemName>Contoso</OemName>
+        <!--Default build output directory-->
+        <BuildDir>%IOTWKSPACE%\Build\%BSP_ARCH%</BuildDir>
+        <!--IoT Core kit package location, default is Windows10KitsRoot-->
+        <MSPkgRoot />
+        <eWDK_ISO />
+        <WindowsSDKVersion>10.0.16299.0</WindowsSDKVersion>
+        <!--Specify the ev signing certificate details, Format given below -->
+        <!--/s my /i "Issuer" /n "Subject" /fd SHA256-->
+        <EVSignToolParam />
+
+        <!--/s my /i "Issuer" /n "Subject" /ac "C:\CrossCertRoot.cer" /fd SHA256-->
+        <RetailSignToolParam />
+    </Config>
+    <Env Name="arm">
+        <BSPVersion>10.0.0.0</BSPVersion>
+        <BSPPkgDir>%PKGBLD_DIR%</BSPPkgDir>
+    </Env>
+    <Env Name="x64">
+        <BSPVersion>10.0.0.0</BSPVersion>
+        <BSPPkgDir>%PKGBLD_DIR%</BSPPkgDir>
+    </Env>
+    <Env Name="x86">
+        <BSPVersion>10.0.0.0</BSPVersion>
+        <BSPPkgDir>%PKGBLD_DIR%</BSPPkgDir>
+    </Env>
+    <Security>
+        <SecureBoot>
+            <PlatformKey>
+                <Cert>OEM-PK.cer</Cert>
+            </PlatformKey>
+            <KeyExchangeKey>
+                <Cert>OEM-UEFISB.cer</Cert>
+            </KeyExchangeKey>
+            <Database>
+                <Test/>
+                <Retail/>
+            </Database>
+        </SecureBoot>
+        <BitLocker>
+            <DataRecoveryAgent>
+                <Cert>OEM-DRA.cer</Cert>
+            </DataRecoveryAgent>
+        </BitLocker>
+        <SIPolicy>
+            <Update>
+                <Cert>OEM-PAUTH.cer</Cert>
+            </Update>
+            <User>
+                <Test/>
+                <Retail>
+                    <Cert>OEM-UMCI.cer</Cert>
+                    <Cert>MicrosoftCrossCert2019.cer</Cert>                    
+                </Retail>
+            </User>
+            <Kernel>
+                <Test/>
+                <Retail>
+                    <Cert>MicrosoftCrossCert2019.cer</Cert>
+                </Retail>
+            </Kernel>
+        </SIPolicy>
+    </Security>
+</IoTWorkspace>
