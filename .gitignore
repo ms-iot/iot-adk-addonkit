@@ -183,7 +183,7 @@ ClientBin/
 *~
 *.dbmdl
 *.dbproj.schemaview
-*.pfx
+#*.pfx Commented out
 *.publishsettings
 node_modules/
 orleans.codegen.cs
