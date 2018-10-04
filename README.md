@@ -19,8 +19,8 @@ This branch contains the active development contents, mostly addressing the upco
 
 For older releases, please use the corresponding ADK tools and iot-adk-addonkit releases.
 
-* [17134_v5.3 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/17134_v5.3) for Windows 10 IoT Core Release 1803 (version 10.0.17134.x)
-* [16299_v4.4 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v4.4) for [Windows 10 IoT Core Release 1709 (version 10.0.16299.x)](https://software-download.microsoft.com/download/pr/16299.15.170928-1534.rs3_release_amd64fre_IOTCORE_PACKAGES.iso)
+* [17134_v5.3 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/17134_v5.3) for Windows 10 IoT Core Release 1803 (version 10.0.17134.x).
+* [16299_v4.4 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v4.4) for [Windows 10 IoT Core Release 1709 (version 10.0.16299.x)](https://software-download.microsoft.com/download/pr/16299.15.170928-1534.rs3_release_amd64fre_IOTCORE_PACKAGES.iso).
 * [15063_v3.2 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v3.2) for [Windows 10 IoT Core Release 1703 (version 10.0.15063.x)](https://www.microsoft.com/en-us/download/details.aspx?id=55031).
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).
 
