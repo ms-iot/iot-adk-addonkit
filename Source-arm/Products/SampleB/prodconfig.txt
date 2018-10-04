@@ -1,1 +1,0 @@
-BSP=CustomRPi2

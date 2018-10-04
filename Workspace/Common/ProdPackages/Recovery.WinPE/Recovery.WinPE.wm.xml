@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    name="WinPE"
+    namespace="Recovery"
+    owner="$(OEMNAME)"
+    legacyName="$(OEMNAME).Recovery.WinPE" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo
+        targetPartition="Data"
+        releaseType="Production"
+        ownerType="OEM" />
+    <files>
+        <!-- Include this winpe.wim file when there is an winpe update. Otherwise comment this file -->
+        <!--file
+            destinationDir="$(runtime.bootDrive)\Wimfiles"
+            name="winpe_update.wim"
+            source="$(BLDDIR)\$(PROD)\winpe.wim" /-->
+        <file
+            destinationDir="$(runtime.bootDrive)\RecoveryConfig"
+            name="startrecovery.cmd"
+            source="startrecovery.cmd" />
+    </files>
+</identity>
