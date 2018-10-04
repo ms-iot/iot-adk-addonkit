@@ -2,8 +2,8 @@
 
 Powershell version of the iot-adk-addonkit extends the functionality with further validation / verification steps in the imaging process.
 
-
 ## What's new in 6.0
+
 * Support of Workspace concept : Workspace is a directory with IoTWorkspace.xml file specifying its attributes. This directory structure is similar to earlier iot-adk-addonkit without the tools and templates directory. You can now have multiple workspaces for building different products and use one common tooling directory.
 * Sample Workspace : The addon kit comes with a sample workspace that you can access via the env variable SAMPLEWKS (`$env:SAMPLEWKS`). You can import oem packages, bsp and products from this workspace into your workspace for your use.
 * Upgrade existing iot-adk-addonkit directory : You can upgrade your existing iot-adk-addonkit directory into a workspace, see [Work with Existing Workspace](#work-with-existing-workspace)
@@ -16,7 +16,7 @@ The pre-requisite for using this tools are same as the earlier iot-adk-addonkit 
 Install the following pre-requisites
 
 * [Windows 10 IoT Core Packages](https://www.microsoft.com/en-us/software-download/windows10iotcore)
-* [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit)
+* [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit) including Windows PE add-on for the adk
 * Get your BSP for your platform. See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/bsphardware) for links to get the BSPs.
 * Certificates - You will need to have these certificates (with private keys) in the local cert store ( either directly installed or loaded from a smart card)
   * Code signing certificate from a CA : Required for building retail image
@@ -49,8 +49,8 @@ Install the following pre-requisites
     (or) importbsp RPi2 C:\Downloads\RPi_BSP.zip
 
     # Importing an Intel bsp
-    Import-IoTBSP CHTx64 "C:\Program Files (x86)\Intel IoT\Source-x64\BSP"
-    (or) importbsp CHTx64 "C:\Program Files (x86)\Intel IoT\Source-x64\BSP"
+    Import-IoTBSP APLx64 "C:\Program Files (x86)\Intel IoT\Source-x64\BSP"
+    (or) importbsp APLx64 "C:\Program Files (x86)\Intel IoT\Source-x64\BSP"
 
     # Importing NXP BSPs found inside the zip or folder
     Import-IoTBSP *  C:\BSP\NXPBSP.zip
