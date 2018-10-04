@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FMCollectionManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" Product="IoTUAP">
+    <IsBuildFeatureEnabled>true</IsBuildFeatureEnabled>
+    <FMs>
+        <FM ID="OEM" Path="$(FMDirectory)\OEMFM.xml" ReleaseType="Production" OwnerName="OEM_NAME" OwnerType="OEM" CPUType="ARM64" Critical="true" />
+        <FM ID="OEMCOMMON" Path="$(FMDirectory)\OEMCOMMONFM.xml" ReleaseType="Production" OwnerName="OEM_NAME" OwnerType="OEM" CPUType="ARM64" Critical="true" />
+    </FMs>
+    <SupportedResolutions>
+        <Resolution>1024x768</Resolution>
+    </SupportedResolutions>
+    <SupportedLanguages>
+        <Language>en-US</Language>
+    </SupportedLanguages>
+    <SupportedLocales>
+        <Locale>en-US</Locale>
+    </SupportedLocales>
+</FMCollectionManifest>

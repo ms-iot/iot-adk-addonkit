@@ -31,7 +31,7 @@
     <MSFeatureGroups />
     <OEM>
       <!-- Optional Device Drivers -->
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBMx64.GPIO.cab">
+            <PackageFile Path="%PKGBLD_DIR%" Name="Intel.BYT64.GPIO.cab" >
         <FeatureIDs>
           <FeatureID>MBM_X64_GPIO_DRIVER</FeatureID>
         </FeatureIDs>
@@ -42,22 +42,22 @@
           <FeatureID>CustomMBMx64_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBMx64.UART.cab">
+            <PackageFile Path="%PKGBLD_DIR%" Name="Intel.BYT64.UART.cab" >
         <FeatureIDs>
           <FeatureID>MBMx64_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBMx64.I2C.cab">
+            <PackageFile Path="%PKGBLD_DIR%" Name="Intel.BYT64.I2C.cab" >
         <FeatureIDs>
           <FeatureID>MBMx64_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBMx64.SPI.cab">
+            <PackageFile Path="%PKGBLD_DIR%" Name="Intel.BYT64.SPI.cab" >
         <FeatureIDs>
           <FeatureID>MBMx64_DRIVERS</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Intel.MBMx64.GRFX.cab">
+            <PackageFile Path="%PKGBLD_DIR%" Name="Intel.BYT64.GFX.cab" >
         <FeatureIDs>
           <FeatureID>MBMx64_DRIVERS</FeatureID>
         </FeatureIDs>

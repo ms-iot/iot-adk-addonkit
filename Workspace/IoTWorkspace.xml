@@ -29,6 +29,10 @@
         <BSPVersion>10.0.0.0</BSPVersion>
         <BSPPkgDir>%PKGBLD_DIR%</BSPPkgDir>
     </Env>
+    <Env Name="arm64">
+        <BSPVersion>10.0.0.0</BSPVersion>
+        <BSPPkgDir>%PKGBLD_DIR%</BSPPkgDir>
+    </Env>
     <Security>
         <SecureBoot>
             <PlatformKey>

@@ -4,10 +4,10 @@ REM Run open-ws before running this script
 goto START
 
 :Usage
-echo Usage: importbsp [-BSPName]  [[-SourceWkspace] ]
+echo Usage: importbsp [-BSPName] <String> [[-Source] <String>]
 echo    Imports bsp into the current workspace
 echo    BSPName ............ bsp to import
-echo    SourceWkspace ...... Optional, source workspace dir to import from. Default is %SAMPLEWKS%
+echo    Source ...... Optional, source workspace dir or bsp folder or bsp zip file to import from. Default is %SAMPLEWKS%
 echo    [/?]............ Displays this usage string.
 
 exit /b 1
