@@ -103,6 +103,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
     This also adds a feature id `APPX_MYTEST` in the OEMFM.xml file. You can add this feature to MyProduct using
     ```powershell
     Add-IoTProductFeature MyProduct All APPX_TEST -OEM
+    (or) addfid MyProduct All APPX_TEST -OEM
     ```
     This will edit both retail and test oeminputxml files under MyProduct to add APPX_TEST feature under OEM node. You also need to make sure that you remove any other application feature id in the oeminputxml file such as IOT_BERTHA.
 
@@ -115,6 +116,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
     You can add this feature to MyProduct using
     ```powershell
     Add-IoTProductFeature MyProduct All DRIVERS_MYTEST -OEM
+    (or) addfid MyProduct All DRIVERS_MYTEST -OEM
     ```
 
 3. Add a **provisioning package** using
@@ -132,6 +134,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
     You can add this feature to MyProduct using
     ```powershell
     Add-IoTProductFeature MyProduct All PROV_MYSETTINGS -OEM
+    (or) addfid  MyProduct All PROV_MYSETTINGS -OEM
     ```
 4. Add a **file package** using
     ```powershell
@@ -141,6 +144,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
     You can add this feature to MyProduct using
     ```powershell
     Add-IoTProductFeature MyProduct All FILES_CONFIGS -OEM
+    (or) addfid MyProduct All FILES_CONFIGS -OEM
     ```
 
 5. Add a **registry package** using
@@ -152,6 +156,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
     You can add this feature to MyProduct using
     ```powershell
     Add-IoTProductFeature MyProduct All REG_SETTINGS -OEM
+    (or) addfid MyProduct All REG_SETTINGS -OEM
     ```
 
 6. You can build the above packages using `buildpkg` command discussed earlier and create an FFU using `buildimage` command.
@@ -349,8 +354,8 @@ The supported functionality are listed below in logical groups.
 |[Add-IoTDeviceGuard](IoTCoreImaging/Docs/Add-IoTDeviceGuard.md) | -  | - | Adds device guard package  |
 |[Add-IoTSecureBoot](IoTCoreImaging/Docs/Add-IoTSecureBoot.md) | -  | - | Adds secureboot package for the product  |
 |[Add-IoTBitLocker](IoTCoreImaging/Docs/Add-IoTBitLocker.md) | -  | - | Adds bitlocker package for the product  |
-|[Add-IoTProductFeature](IoTCoreImaging/Docs/Add-IoTProductFeature.md) | addfid  | - | Adds feature id to the product's oeminput xml file  |
-|[Remove-IoTProductFeature](IoTCoreImaging/Docs/Remove-IoTProductFeature.md) | removefid  | - | Removes feature id from the product's oeminput xml file  |
+|[Add-IoTProductFeature](IoTCoreImaging/Docs/Add-IoTProductFeature.md) | addfid  | addfid.cmd | Adds feature id to the product's oeminput xml file  |
+|[Remove-IoTProductFeature](IoTCoreImaging/Docs/Remove-IoTProductFeature.md) | removefid  | removefid.cmd | Removes feature id from the product's oeminput xml file  |
 |[Get-IoTWorkspaceProducts](IoTCoreImaging/Docs/Get-IoTWorkspaceProducts.md) | gwsproducts | gwsproducts.cmd | Gets the list of product names in the workspace |
 |[Get-IoTWorkspaceBSPs](IoTCoreImaging/Docs/Get-IoTWorkspaceBSPs.md) | gwsbsps | gwsbsps.cmd | Gets the list of BSP names in the workspace |
 | **Build Functions** | - | - | - |
@@ -379,10 +384,10 @@ The supported functionality are listed below in logical groups.
 |[Get-IoTFFUDrives](IoTCoreImaging/Docs/Get-IoTFFUDrives.md) | ffugd | - | Returns a hashtable of the drive letters for the mounted partitions |
 | **Signing/Test Functions** | - | - | - |
 |[Set-IoTSignature](IoTCoreImaging/Docs/Set-IoTSignature.md) | setsignature | setsignature.cmd | Sets the Certificate info used for signing |
-|[Test-IoTSignature](IoTCoreImaging/Docs/Test-IoTSignature.md) | TBD | - | Tests if the file is signed for the given config  |
-|[Test-IoTCabSignature](IoTCoreImaging/Docs/Test-IoTCabSignature.md) | TBD | - | Tests if the Cab package and its contents are signed for the given config  |
-|[Test-IoTPackages](IoTCoreImaging/Docs/Test-IoTPackages.md) | TBD | - | Tests all packages and its contents are signed, for the given product / config  |
-|[Test-IoTFeatures](IoTCoreImaging/Docs/Test-IoTFeatures.md) | TBD | - | Tests if all feature ids are defined, for the given product / config  |
+|[Test-IoTSignature](IoTCoreImaging/Docs/Test-IoTSignature.md) | - | - | Tests if the file is signed for the given config  |
+|[Test-IoTCabSignature](IoTCoreImaging/Docs/Test-IoTCabSignature.md) | - | - | Tests if the Cab package and its contents are signed for the given config  |
+|[Test-IoTPackages](IoTCoreImaging/Docs/Test-IoTPackages.md) | - | - | Tests all packages and its contents are signed, for the given product / config  |
+|[Test-IoTFeatures](IoTCoreImaging/Docs/Test-IoTFeatures.md) | - | - | Tests if all feature ids are defined, for the given product / config  |
 |[Add-IoTSignature](IoTCoreImaging/Docs/Add-IoTSignature.md) | signbinaries | signbinaries.cmd | Signs files with the cert set via Set-IoTSignature  |
 |[Redo-IoTCabSignature](IoTCoreImaging/Docs/Redo-IoTCabSignature.md) | re-signcabs | re-signcabs.cmd | Resigns cab and its contents using Add-IoTSignature  |
 
