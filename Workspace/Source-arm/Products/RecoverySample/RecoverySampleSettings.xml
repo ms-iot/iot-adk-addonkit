@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTProductSettings>
+  <Name>RecoverySample</Name>
+  <Arch>arm</Arch>
+  <BSP>QCDB410C</BSP>
+  <SMBIOS>
+    <Manufacturer>Contoso</Manufacturer>
+    <Family>ContosoFamily</Family>
+    <ProductName>RecoverySample</ProductName>
+    <SKUNumber>RecoverySampleSKU</SKUNumber>
+    <BaseboardManufacturer>Fabrikam</BaseboardManufacturer>
+    <BaseboardProduct>RecoverySample_v01</BaseboardProduct>
+  </SMBIOS>
+  <BuildConfig Name="Test">
+    <BSPPkgDir />
+  </BuildConfig>
+  <BuildConfig Name="Retail">
+    <BSPPkgDir />
+  </BuildConfig>
+</IoTProductSettings>

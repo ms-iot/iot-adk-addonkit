@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<IoTProductSettings>
+  <Name>SecureSample</Name>
+  <Arch>arm</Arch>
+  <BSP>QCDB410C</BSP>
+  <SMBIOS>
+    <Manufacturer>Contoso</Manufacturer>
+    <Family>ContosoFamily</Family>
+    <ProductName>SecureSample</ProductName>
+    <SKUNumber>SecureSampleSKU</SKUNumber>
+    <BaseboardManufacturer>Fabrikam</BaseboardManufacturer>
+    <BaseboardProduct>SecureSample_v01</BaseboardProduct>
+  </SMBIOS>
+  <BuildConfig Name="Test">
+    <BSPPkgDir />
+  </BuildConfig>
+  <BuildConfig Name="Retail">
+    <BSPPkgDir />
+  </BuildConfig>
+</IoTProductSettings>
