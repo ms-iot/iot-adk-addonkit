@@ -51,6 +51,7 @@ New-Alias -Name 'tpkgs' -Value 'Test-IoTPackages'
 New-Alias -Name 'importcfg' -Value 'Import-IoTDUCConfig'
 New-Alias -Name 'exportpkgs' -Value 'Export-IoTDUCCab'
 New-Alias -Name 'exportidm' -Value 'Export-IoTDeviceModel'
+New-Alias -Name 'inf2cab' -Value 'New-IoTInf2Cab'
 ############ IoTAddCommands Exports ##############
 New-Alias -Name 'newappxpkg' -Value 'Add-IoTAppxPackage'
 New-Alias -Name 'newbsp' -Value 'Add-IoTBSP'

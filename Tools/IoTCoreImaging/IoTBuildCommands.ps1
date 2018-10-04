@@ -796,3 +796,70 @@ function Clear-UserTemp() {
         $files = $null
     }
 }
+
+function New-IoTInf2Cab {
+        <#
+    .SYNOPSIS
+    Creates a cab file for the given inf. 
+    
+    .DESCRIPTION
+    This command creates the wm.xml file in the same location as the inf file and builds a cab file. This does not add the driver to the workspace. See Add-IoTDriverPackage for adding driver to workspace. 
+    
+    .PARAMETER InfFile
+    Mandatory parameter, specifying the inf file.
+    
+    .PARAMETER OutputName
+    Optional parameter specifying the package name (namespace.name format). Default is Drivers.<InfName>.
+    
+    .EXAMPLE
+    New-IoTInf2Cab C:\Test\gpiodrv.inf Drivers.GPIO
+    Creates Oemname.Drivers.GPIO.cab in the build\<arch>\pkg directory.
+
+    .NOTES
+    See Add-IoTDriverPackage to add driver to workspace and New-IoTCabPackage to build a cab file.
+    #>
+    [CmdletBinding()]
+    Param
+    (
+        [Parameter(Position = 0, Mandatory = $true)]
+        [ValidateScript( { Test-Path $_ -PathType Leaf })]
+        [String]$InfFile,
+        [Parameter(Position = 1, Mandatory = $false)]
+        [String]$OutputName
+    )
+
+    $fileobj = Get-Item $InfFile
+    if ($fileobj.Extension -ine ".inf" ) {
+        Publish-Error "$InfFile is not an inf file"
+        return
+    }
+
+    if ([string]::IsNullOrWhiteSpace($OutputName)) { 
+        $OutputName = "Drivers." + $fileobj.BaseName 
+    }
+    
+    $srcdir = Split-Path -Path $InfFile
+    $filedir = $srcdir
+
+    # Write the wm.xml file
+    $namespace = $OutputName.Split('.')[0]
+    $name = $OutputName.Split('.')[1]
+    try {
+        $wmwriter = New-IoTWMWriter $filedir $namespace $name -force
+        $wmwriter.Start($null)
+        $wmwriter.AddDriver($fileobj.Name)
+        $wmwriter.Finish()
+    }
+    catch {
+        $msg = $_.Exception.Message
+        Publish-Error "$msg"; return
+    }
+    # create package
+    $retval = New-IoTCabPackage $filedir
+    if ($retval) {
+        Publish-Success "Driver cab created successfully."
+    }
+    else {
+        Publish-Error "Failed creating driver cab."
+    }
+}
