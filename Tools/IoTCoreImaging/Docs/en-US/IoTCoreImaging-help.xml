@@ -3634,6 +3634,91 @@ $dlobj.DriveLetters</dev:code>
   </command:command>
   <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
     <command:details>
+      <command:name>New-IoTInf2Cab</command:name>
+      <command:verb>New</command:verb>
+      <command:noun>IoTInf2Cab</command:noun>
+      <maml:description>
+        <maml:para>Creates a cab file for the given inf.</maml:para>
+      </maml:description>
+    </command:details>
+    <maml:description>
+      <maml:para>This command creates the wm.xml file in the same location as the inf file and builds a cab file. This does not add the driver to the workspace. See Add-IoTDriverPackage for adding driver to workspace.</maml:para>
+    </maml:description>
+    <command:syntax>
+      <command:syntaxItem>
+        <maml:name>New-IoTInf2Cab</maml:name>
+        <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+          <maml:name>InfFile</maml:name>
+          <maml:Description>
+            <maml:para>Mandatory parameter, specifying the inf file.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+        <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+          <maml:name>OutputName</maml:name>
+          <maml:Description>
+            <maml:para>Optional parameter specifying the package name (namespace.name format). Default is Drivers.&lt;InfName&gt;.</maml:para>
+          </maml:Description>
+          <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+          <dev:type>
+            <maml:name>String</maml:name>
+            <maml:uri />
+          </dev:type>
+          <dev:defaultValue>None</dev:defaultValue>
+        </command:parameter>
+      </command:syntaxItem>
+    </command:syntax>
+    <command:parameters>
+      <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
+        <maml:name>InfFile</maml:name>
+        <maml:Description>
+          <maml:para>Mandatory parameter, specifying the inf file.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+      <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
+        <maml:name>OutputName</maml:name>
+        <maml:Description>
+          <maml:para>Optional parameter specifying the package name (namespace.name format). Default is Drivers.&lt;InfName&gt;.</maml:para>
+        </maml:Description>
+        <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
+        <dev:type>
+          <maml:name>String</maml:name>
+          <maml:uri />
+        </dev:type>
+        <dev:defaultValue>None</dev:defaultValue>
+      </command:parameter>
+    </command:parameters>
+    <command:inputTypes />
+    <command:returnValues />
+    <maml:alertSet>
+      <maml:alert>
+        <maml:para>See Add-IoTDriverPackage to add driver to workspace and New-IoTCabPackage to build a cab file.</maml:para>
+      </maml:alert>
+    </maml:alertSet>
+    <command:examples>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
+        <dev:code>New-IoTInf2Cab C:\Test\gpiodrv.inf Drivers.GPIO</dev:code>
+        <dev:remarks>
+          <maml:para>Creates Oemname.Drivers.GPIO.cab in the build\&lt;arch&gt;\pkg directory.</maml:para>
+        </dev:remarks>
+      </command:example>
+    </command:examples>
+    <command:relatedLinks />
+  </command:command>
+  <command:command xmlns:maml="http://schemas.microsoft.com/maml/2004/10" xmlns:command="http://schemas.microsoft.com/maml/dev/command/2004/10" xmlns:dev="http://schemas.microsoft.com/maml/dev/2004/10" xmlns:MSHelp="http://msdn.microsoft.com/mshelp">
+    <command:details>
       <command:name>New-IoTOEMCerts</command:name>
       <command:verb>New</command:verb>
       <command:noun>IoTOEMCerts</command:noun>
