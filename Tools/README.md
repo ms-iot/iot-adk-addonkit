@@ -26,13 +26,18 @@ Install the following pre-requisites
 ## Create a basic image
 
 1. Launch the IoTCorePShell ( Run `IoTCorePShell.cmd` ). This will launch the tool and also install the test certificates if required and opens the sample workspace present along with the tools by default.
-2. Create a new workspace (say `C:\MyWorkspace` ) with the below command
+
+2. Create a new workspace (say `C:\MyWorkspace` ) using [New-IoTWorkspace](IoTCoreImaging/Docs/New-IoTWorkspace.md)
+
     ```powershell
     New-IoTWorkspace C:\MyWorkspace Contoso arm
     (or) new-ws C:\MyWorkspace Contoso arm
     ```
+
     The Workspace will be created and opened. The required packages such as Registry.Version, Custom.Cmd and Provisioning.Auto will be imported into the workspace automatically.
-3. Import the required oem packages from the sample workspace (`$env:SAMPLEWKS`). You can either import each package selectively or import all of them.
+
+3. Import the required oem packages using [Import-IoTOEMPackage](IoTCoreImaging/Docs/Import-IoTOEMPackage.md) from the sample workspace (`$env:SAMPLEWKS`). You can either import each package selectively or import all of them.
+
     ```powershell
     # Importing Recovery packages from sample workspace
     Import-IoTOEMPackage Recovery.*
@@ -41,7 +46,9 @@ Install the following pre-requisites
     Import-IoTOEMPackage *
     (or) importpkg *
     ```
-4. Import the required BSP (for example RPi2)
+
+4. Import the required BSP (for example RPi2) using [Import-IoTBSP](IoTCoreImaging/Docs/Import-IoTBSP.md)
+
     ```powershell
     # Importing RPi2 bsp from a folder
     Import-IoTBSP RPi2 C:\Myfolder\RPi_BSP
@@ -57,75 +64,95 @@ Install the following pre-requisites
     (or) importbsp *  C:\BSP\NXPBSP_FOLDER
     (or) importbsp Sabre_iMX6Q_1GB  C:\BSP\NXPBSP.zip
     ```
+
     * For Qualcomm BSP, after downloading the zip file, you can extract the prebuilt cabs using
+
         ```powershell
         # Import the QCDB410 BSP and extract the required cabs from the QC zip file
         Import-QCBSP C:\BSP\db410c_bsp.zip C:\MyBSPs\ARM -ImportBSP
         ```
+
         Set `C:\MyBSPs\ARM` as the prebuilt package dir in the Workspace xml.
 
-5. Create a new product (MyProduct) based on the imported BSP, say RPi2 in the below example
+5. Create a new product (MyProduct) based on the imported BSP, say RPi2 in the below example, using [Add-IoTProduct](IoTCoreImaging/Docs/Add-IoTProduct.md)
+
     ```powershell
     Add-IoTProduct MyProduct RPi2
     (or) newproduct MyProduct RPi2
     ```
+
     This will prompt you for the SMBIOS values to be used in the product.
     `DeviceInventory_MyProduct.xml` is also generated which is used to register your device on the DUC portal.
 
-6. Build all packages using
+6. Build all packages using [New-IoTCabPackage](IoTCoreImaging/Docs/New-IoTCabPackage.md)
+
     ```powershell
     New-IoTCabPackage All
     (or) buildpkg all
     ```
-7. Build the FFU image for MyProduct product, test configuration using
+
+7. Build the FFU image for MyProduct product, test configuration using [New-IoTFFUImage](IoTCoreImaging/Docs/New-IoTFFUImage.md)
+
     ```powershell
     New-IoTFFUImage MyProduct Test
     (or) buildimage MyProduct Test
     ```
+
     This will also build the necessary product specific packages and the fm files before starting the image creation.
 
-8. Build the recovery FFU image using
+8. Build the recovery FFU image using [New-IoTRecoveryImage](IoTCoreImaging/Docs/New-IoTRecoveryImage.md)
+
     ```powershell
     New-IoTRecoveryImage MyProduct Test
     (or) buildrecovery MyProduct Test
     ```
+
     Note that the device layout should have MMOS partition to be able to create recovery image. See [Recovery](https://docs.microsoft.com/windows-hardware/service/iot/recovery) for more details.
 
 ## Add your packages to your image
 
 You can add an appx, driver, provisioning package, files and registry settings to your image by creating specific packages for each.
 
-1. Add a **appx package** using
+1. Add a **appx package** using [Add-IoTAppxPackage](IoTCoreImaging/Docs/Add-IoTAppxPackage.md)
+
     ```powershell
     Add-IoTAppxPackage C:\MyTest.appx fga
     (or) newappxpkg C:\MyTest.appx fga
     ```
-    This also adds a feature id `APPX_MYTEST` in the OEMFM.xml file. You can add this feature to MyProduct using
+
+    This also adds a feature id `APPX_MYTEST` in the OEMFM.xml file. You can add this feature to MyProduct using [Add-IoTProductFeature](IoTCoreImaging/Docs/Add-IoTProductFeature.md)
+
     ```powershell
     Add-IoTProductFeature MyProduct All APPX_TEST -OEM
     (or) addfid MyProduct All APPX_TEST -OEM
     ```
+
     This will edit both retail and test oeminputxml files under MyProduct to add APPX_TEST feature under OEM node. You also need to make sure that you remove any other application feature id in the oeminputxml file such as IOT_BERTHA.
 
-2. Add a **driver package** using
+2. Add a **driver package** using [Add-IoTDriverPackage](IoTCoreImaging/Docs/Add-IoTDriverPackage.md)
+
     ```powershell
     Add-IoTDriverPackage C:\TestDriver\MyTest.inf
     (or) newdrvpkg C:\TestDriver\MyTest.inf
     ```
+
     This will copy all the files in the C:\TestDriver directory and also add a feature id `DRIVERS_MYTEST` in the OEMFM.xml file.
     You can add this feature to MyProduct using
+
     ```powershell
     Add-IoTProductFeature MyProduct All DRIVERS_MYTEST -OEM
     (or) addfid MyProduct All DRIVERS_MYTEST -OEM
     ```
 
-3. Add a **provisioning package** using
+3. Add a **provisioning package** using [Add-IoTProvisioningPackage](IoTCoreImaging/Docs/Add-IoTProvisioningPackage.md)
+
     ```powershell
     Add-IoTProvisioningPackage Prov.MySettings
     (or) newprovpkg Prov.MySettings
     ```
+
     You can then edit the provisioning customizations.xml file using WCD (icd.exe). Launch ICD.exe and open Prov.MySettings.icdproj.xml file that is generated to add the policies required.
-    If you have created a ppkg file using ICD.exe already, you can import the same using 
+    If you have created a ppkg file using ICD.exe already, you can import the same using
     ```powershell
     Add-IoTProvisioningPackage Prov.MySettings "C:\Users\username\Documents\Windows Imaging and Configuration Designer (WICD)\MySettings\MySettings.ppkg"
     (or) newprovpkg Prov.MySettings2 "C:\Users\username\Documents\Windows Imaging and Configuration Designer (WICD)\MySettings\MySettings.ppkg"
@@ -136,24 +163,36 @@ You can add an appx, driver, provisioning package, files and registry settings t
     Add-IoTProductFeature MyProduct All PROV_MYSETTINGS -OEM
     (or) addfid  MyProduct All PROV_MYSETTINGS -OEM
     ```
-4. Add a **file package** using
+4. Add a **file package** using [Add-IoTFilePackage](IoTCoreImaging/Docs/Add-IoTFilePackage.md)
+
     ```powershell
-    Add-IoTFilePackage Files.Configs @("C:\Myfile1.txt","C:\Myfile2.txt")
+    $myfiles = @(
+        ("`$(runtime.system32)","C:\Temp\TestFile1.txt", ""),
+        ("`$(runtime.bootDrive)\OEMInstall","C:\Temp\TestFile2.txt", "TestFile2.txt")
+        )
+    Add-IoTFilePackage Files.Configs $myfiles
     ```
+
     This will add a feature id `FILES_CONFIGS` in the OEMCOMMONFM.xml.
     You can add this feature to MyProduct using
+
     ```powershell
     Add-IoTProductFeature MyProduct All FILES_CONFIGS -OEM
     (or) addfid MyProduct All FILES_CONFIGS -OEM
     ```
 
-5. Add a **registry package** using
+5. Add a **registry package** using [Add-IoTRegistryPackage](IoTCoreImaging/Docs/Add-IoTRegistryPackage.md)
+
     ```powershell
-    $myregkeys = @(("`$(hklm.software)\`$(OEMNAME)\Test","StringValue", "REG_SZ", "Test string"), ("`$(hklm.software)\`$(OEMNAME)\Test","DWordValue", "REG_DWORD", "0x12AB34CD"))
+    $myregkeys = @(
+        ("`$(hklm.software)\`$(OEMNAME)\Test","StringValue", "REG_SZ", "Test string"),
+        ("`$(hklm.software)\`$(OEMNAME)\Test","DWordValue", "REG_DWORD", "0x12AB34CD"))
     Add-IoTRegistryPackage Reg.Settings $myregkeys
     ```
+
     This will add a feature id `REG_SETTINGS` in the OEMCOMMONFM.xml.
     You can add this feature to MyProduct using
+
     ```powershell
     Add-IoTProductFeature MyProduct All REG_SETTINGS -OEM
     (or) addfid MyProduct All REG_SETTINGS -OEM
@@ -167,18 +206,22 @@ In order to enable security features such as Secure boot, Bitlocker and Device g
 
 For testing purposes, following commands are provided to create and install the certs in your machine.
 
-1. Create OEM Certs using
+1. Create OEM Certs using [New-IoTOEMCerts](IoTCoreImaging/Docs/New-IoTOEMCerts.md)
+
     ```powershell
     New-IoTOEMCerts
     ```
+
     This will prompt you to enter password for the certs that are created. The created certificates are in the workspace certs folder and the pfx files with the private keys are in the certs\private folder.
 
-2. Install the pfx files required for the signing process during the security package creation, using
+2. Install the pfx files required for the signing process during the security package creation, using [Install-IoTOEMCerts](IoTCoreImaging/Docs/Install-IoTOEMCerts.md)
+
      ```powershell
     Install-IoTOEMCerts
     ```
 
-3. If you already have the certs to use for security packages, you can import them using
+3. If you already have the certs to use for security packages, you can import them using [Import-IoTCertificate](IoTCoreImaging/Docs/Import-IoTCertificate.md)
+
     ```powershell
     # PlatformKey and KeyExchangeKey mandatory for SecureBoot
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-PK.cer PlatformKey
@@ -190,7 +233,8 @@ For testing purposes, following commands are provided to create and install the 
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-UMCI.cer User
     ```
 
-4. You can now create the security packages using
+4. You can now create the security packages using [Add-IoTSecureBoot](IoTCoreImaging/Docs/Add-IoTSecureBoot.md),[Add-IoTDeviceGuard](IoTCoreImaging/Docs/Add-IoTDeviceGuard.md) and [Add-IoTBitLocker](IoTCoreImaging/Docs/Add-IoTBitLocker.md)
+
     ```powershell
      # Create Secure boot package
     Add-IoTSecureBoot
@@ -199,7 +243,9 @@ For testing purposes, following commands are provided to create and install the 
     # Create Bitlocker package
     Add-IoTBitLocker
     ```
-    (or) you can create them all using
+
+    (or) you can create them all using [Add-IoTSecurityPackages](IoTCoreImaging/Docs/Add-IoTSecurityPackages.md)
+
     ```powershell
     Add-IoTSecurityPackages
     ```
@@ -228,30 +274,42 @@ To build an retail image, you will need to retail sign all your packages and the
     <RetailSignToolParam>/s my /sha1 "thumbprint" /fd SHA256</RetailSignToolParam>
     ```
 
-2. Enable retail signing with
+2. Enable retail signing with [Set-IoTRetailSign](IoTCoreImaging/Docs/Set-IoTRetailSign.md)
+
     ```powershell
     Set-IoTRetailSign On
     (or) retailsign On
     ```
+
     This will set the sign tool parameter to the certificate specified as `RetailSignToolParam` in the Workspace xml. You will also see the prompt highlighting that the Retail mode is on.
+
 3. Rebuild all your packages with
+
     ```powershell
     New-IoTCabPackage All
     (or) buildpkg all
     ```
+
     Note : If you are using security packages, ensure to generate the retail version of the packages (without -Test flag) and include the corresponding feature id in the RetailOEMInput.xml file.
-4. If you have prebuilt bsp cab packages, re-sign them using
+
+4. If you have prebuilt bsp cab packages, re-sign them using [Redo-IoTCabSignature](IoTCoreImaging/Docs/Redo-IoTCabSignature.md)
+
     ```powershell
     Redo-IoTCabSignature <srccabdir> <dstcabdir>
     (or) re-signcabs <srccabdir> <dstcabdir>
     ```
+
     Set the BSPPkgDir setting to the `dstcabdir` in the product settings xml for retail configuration.
+
 5. Build the image for retail configuration.
+
     ```powershell
     New-IoTFFUImage RPiRecovery Retail
     (or) buildimage RPiRecovery Retail
     ```
+
     This will also build the necessary product specific packages and the fm files before starting the image creation.
+
 6. Build the Retail recovery FFU image with
     ```powershell
     New-IoTRecoveryImage RPiRecovery Retail
@@ -264,15 +322,19 @@ Steps to upgrade your existing iot-adk-addonkit project directory.
 
 1. Launch the IoTCorePShell ( Run `IoTCorePShell.cmd` ). This will launch the tool and also install the test certificates if required and opens the sample workspace present along with the tools by default.
 
-2. Run the migration command for the existing repo dir say `C:\Myproject\iot-adk-addonkit`,
+2. Run the migration command for the existing repo dir say `C:\Myproject\iot-adk-addonkit`, using [Redo-IoTWorkspace](IoTCoreImaging/Docs/Redo-IoTWorkspace.md)
+
     ```powershell
     Redo-IoTWorkspace C:\Myproject\iot-adk-addonkit
     (or) migrate C:\Myproject\iot-adk-addonkit
     ```
+
     This command will generate the workspace xml file and product specific settings file that is required for rest of the scripts to work. The SMBIOS data for the product will be set to default and you will be required to update them to the proper values. For Qualcomm based products, the SMBIOS values from the SMBIOS.cfg will be used.
 
 3. The tools and templates directory under your repo is not required anymore. These can be deleted ( note that the above command does not delete these folders, but moves them to a ToDelete folder).
-4. Open this workspace and start using this as a new workspace described above.
+
+4. Open this workspace using [Open-IoTWorkspace](IoTCoreImaging/Docs/Open-IoTWorkspace.md) and start using this as a new workspace described above.
+
     ```powershell
     Open-IoTWorkspace C:\Myproject\iot-adk-addonkit\IoTWorkspace.xml
     (or) open-ws C:\Myproject\iot-adk-addonkit\IoTWorkspace.xml
@@ -322,7 +384,6 @@ Steps to register your device on the device update center and publish updates ar
     This will create a cab file under `$env:BUILD_DIR\<product>\<Config>\$env:BSP_VERSION`
 8. You can upload this cab in the DUC portal.
 
-
 ## Supported Functionality listing
 
 The supported functionality are listed below in logical groups.
@@ -330,26 +391,26 @@ The supported functionality are listed below in logical groups.
 | Function Name | Alias      |  CmdTools  | Remarks |
 | :------------ |:-----------|:----------------|:--------|
 | **Workspace Functions** | - | - | - |
-|[New-IoTWorkspace](IoTCoreImaging/Docs/New-IoTWorkspace.md) | new-ws | new-ws.cmd | New functionality added|
-|[Open-IoTWorkspace](IoTCoreImaging/Docs/Open-IoTWorkspace.md) | open-ws | open-ws.cmd | New functionality added|
-|[Redo-IoTWorkspace](IoTCoreImaging/Docs/Redo-IoTWorkspace.md) | migrate | migrate.cmd | New functionality added|
-|[Import-IoTOEMPackage](IoTCoreImaging/Docs/Import-IoTOEMPackage.md) | importpkg | importpkg.cmd | New functionality added|
-|[Import-IoTProduct](IoTCoreImaging/Docs/Import-IoTProduct.md) | importproduct | importproduct.cmd | New functionality added|
-|[Import-IoTBSP](IoTCoreImaging/Docs/Import-IoTBSP.md) | importbsp | importbsp.cmd | New functionality added|
+|[New-IoTWorkspace](IoTCoreImaging/Docs/New-IoTWorkspace.md) | new-ws | new-ws.cmd | Creates new workspace |
+|[Open-IoTWorkspace](IoTCoreImaging/Docs/Open-IoTWorkspace.md) | open-ws | open-ws.cmd | Opens existing workspace |
+|[Redo-IoTWorkspace](IoTCoreImaging/Docs/Redo-IoTWorkspace.md) | migrate | migrate.cmd | Converts legacy iot-adk-addonkit directory into a workspace |
+|[Import-IoTOEMPackage](IoTCoreImaging/Docs/Import-IoTOEMPackage.md) | importpkg | importpkg.cmd | Imports OEM package from Sample workspace |
+|[Import-IoTProduct](IoTCoreImaging/Docs/Import-IoTProduct.md) | importproduct | importproduct.cmd | Imports Product from Sample workspace |
+|[Import-IoTBSP](IoTCoreImaging/Docs/Import-IoTBSP.md) | importbsp | importbsp.cmd | Imports BSP from the given folder / zip file or sample workspace |
 |[New-IoTOEMCerts](IoTCoreImaging/Docs/New-IoTOEMCerts.md) | - | - | Creates new OEM specific certificates |
 |[Install-IoTOEMCerts](IoTCoreImaging/Docs/Install-IoTOEMCerts.md) | - | - | Installs oem pfx files in the certs\private folder |
 |[Import-IoTCertificate](IoTCoreImaging/Docs/Import-IoTCertificate.md) | - | - | Imports the certificate for security functions|
-|[Copy-IoTOEMPackage](IoTCoreImaging/Docs/Copy-IoTOEMPackage.md) | copypkg | TBD | New functionality added|
-|[Copy-IoTProduct](IoTCoreImaging/Docs/Copy-IoTProduct.md) | copyproduct | TBD | New functionality added|
-|[Copy-IoTBSP](IoTCoreImaging/Docs/Copy-IoTBSP.md) | copybsp | copybsp.cmd | New functionality added|
-|[Add-IoTAppxPackage](IoTCoreImaging/Docs/Add-IoTAppxPackage.md) | newappxpkg | newappxpkg.cmd | Adds the feature id to the FM file automatically |
-|[Add-IoTDriverPackage](IoTCoreImaging/Docs/Add-IoTDriverPackage.md) | newdrvpkg | newdrvpkg.cmd | Adds the feature id to the FM file automatically |
-|[Add-IoTCommonPackage](IoTCoreImaging/Docs/Add-IoTCommonPackage.md) | newcommonpkg | newcommonpkg.cmd | Adds the feature id to the FM file automatically |
-|[Add-IoTFilePackage](IoTCoreImaging/Docs/Add-IoTFilePackage.md) | - | - | Adds a file package and adds the feature id to the FM file automatically |
-|[Add-IoTRegistryPackage](IoTCoreImaging/Docs/Add-IoTRegistryPackage.md) | - | - | Adds a registry package and adds the feature id to the FM file automatically |
-|[Add-IoTProvisioningPackage](IoTCoreImaging/Docs/Add-IoTProvisioningPackage.md) | newprovpkg | newprovpkg.cmd | New functionality added |
+|[Copy-IoTOEMPackage](IoTCoreImaging/Docs/Copy-IoTOEMPackage.md) | copypkg | TBD | Copies OEM package between workspaces |
+|[Copy-IoTProduct](IoTCoreImaging/Docs/Copy-IoTProduct.md) | copyproduct | TBD | Copies product between workspaces |
+|[Copy-IoTBSP](IoTCoreImaging/Docs/Copy-IoTBSP.md) | copybsp | copybsp.cmd | Copies BSP between workspaces |
+|[Add-IoTAppxPackage](IoTCoreImaging/Docs/Add-IoTAppxPackage.md) | newappxpkg | newappxpkg.cmd | Creates Appx OEM package and adds featureID to OEMFM.xml |
+|[Add-IoTDriverPackage](IoTCoreImaging/Docs/Add-IoTDriverPackage.md) | newdrvpkg | newdrvpkg.cmd | Creates Driver OEM package and adds featureID to OEMFM.xml |
+|[Add-IoTCommonPackage](IoTCoreImaging/Docs/Add-IoTCommonPackage.md) | newcommonpkg | newcommonpkg.cmd | Creates common (file/reg) OEM package and adds featureID to OEMCOMMONFM.xml |
+|[Add-IoTFilePackage](IoTCoreImaging/Docs/Add-IoTFilePackage.md) | - | - | Adds a file package and adds the featureID to OEMCOMMONFM.xml  |
+|[Add-IoTRegistryPackage](IoTCoreImaging/Docs/Add-IoTRegistryPackage.md) | - | - | Adds a registry package and adds the featureID to OEMCOMMONFM.xml |
+|[Add-IoTProvisioningPackage](IoTCoreImaging/Docs/Add-IoTProvisioningPackage.md) | newprovpkg | newprovpkg.cmd | Adds provisioning oem package and adds the featureID to OEMCOMMONFM.xml |
 |[Add-IoTBSP](IoTCoreImaging/Docs/Add-IoTBSP.md) | newbsp | newbsp.cmd | Adds new bsp based on a template |
-|[Add-IoTProduct](IoTCoreImaging/Docs/Add-IoTProduct.md) | newproduct | newproduct.cmd | Adds new product  |
+|[Add-IoTProduct](IoTCoreImaging/Docs/Add-IoTProduct.md) | newproduct | newproduct.cmd | Adds new product based on the OEMInputSamples from BSP  |
 |[Add-IoTSecurityPackages](IoTCoreImaging/Docs/Add-IoTSecurityPackages.md) | -  | - | Adds security packages for the product  |
 |[Add-IoTDeviceGuard](IoTCoreImaging/Docs/Add-IoTDeviceGuard.md) | -  | - | Adds device guard package  |
 |[Add-IoTSecureBoot](IoTCoreImaging/Docs/Add-IoTSecureBoot.md) | -  | - | Adds secureboot package for the product  |
@@ -367,6 +428,7 @@ The supported functionality are listed below in logical groups.
 |[New-IoTRecoveryImage](IoTCoreImaging/Docs/New-IoTRecoveryImage.md)| buildrecovery | buildrecovery.cmd | Creates recovery FFU |
 |[New-IoTWindowsImage](IoTCoreImaging/Docs/New-IoTWindowsImage.md)| newwinpe | newwinpe.cmd | Creates custom winpe with bsp drivers / recovery scripts |
 |[Test-IoTRecoveryImage](IoTCoreImaging/Docs/Test-IoTRecoveryImage.md)| verifyrecovery | verifyrecovery.cmd | Verifies if the wim files in the recovery ffu are proper |
+|[New-IoTInf2Cab](IoTCoreImaging/Docs/New-IoTInf2Cab.md)| inf2cab | inf2cab.cmd | Creates cab file for the given inf file |
 | **Env Functions** | - | - | - |
 |[Set-IoTEnvironment](IoTCoreImaging/Docs/Set-IoTEnvironment.md) | setenv | setenv.cmd | Sets environment settings based on the config values in IoTWorkspace.xml  |
 |[Convert-IoTPkg2Wm](IoTCoreImaging/Docs/Convert-IoTPkg2Wm.md) | convertpkg | convertpkg.cmd | Converts pkg.xml files to wm.xml files  |
@@ -384,6 +446,7 @@ The supported functionality are listed below in logical groups.
 |[Get-IoTFFUDrives](IoTCoreImaging/Docs/Get-IoTFFUDrives.md) | ffugd | - | Returns a hashtable of the drive letters for the mounted partitions |
 | **Signing/Test Functions** | - | - | - |
 |[Set-IoTSignature](IoTCoreImaging/Docs/Set-IoTSignature.md) | setsignature | setsignature.cmd | Sets the Certificate info used for signing |
+|[Set-IoTRetailSign](IoTCoreImaging/Docs/Set-IoTRetailSign.md)| retailsign | retailsign.cmd | Sets/resets use of the retail code signing certificate |
 |[Test-IoTSignature](IoTCoreImaging/Docs/Test-IoTSignature.md) | - | - | Tests if the file is signed for the given config  |
 |[Test-IoTCabSignature](IoTCoreImaging/Docs/Test-IoTCabSignature.md) | - | - | Tests if the Cab package and its contents are signed for the given config  |
 |[Test-IoTPackages](IoTCoreImaging/Docs/Test-IoTPackages.md) | - | - | Tests all packages and its contents are signed, for the given product / config  |
