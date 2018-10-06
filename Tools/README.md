@@ -365,7 +365,7 @@ The supported functionality are listed below in logical groups.
 |[New-IoTFIPPackage](IoTCoreImaging/Docs/New-IoTFIPPackage.md)| buildfm | buildfm.cmd | Creates FIP packages and merged FM files |
 |[New-IoTFFUImage](IoTCoreImaging/Docs/New-IoTFFUImage.md)| buildimage | buildimage.cmd | Creates regular FFU |
 |[New-IoTRecoveryImage](IoTCoreImaging/Docs/New-IoTRecoveryImage.md)| buildrecovery | buildrecovery.cmd | Creates recovery FFU |
-|[New-IoTWindowsImage](IoTCoreImaging/Docs/New-IoTWindowsImage.md)| createwinpe | createwinpe.cmd | Creates custom winpe with bsp drivers / recovery scripts |
+|[New-IoTWindowsImage](IoTCoreImaging/Docs/New-IoTWindowsImage.md)| newwinpe | newwinpe.cmd | Creates custom winpe with bsp drivers / recovery scripts |
 |[Test-IoTRecoveryImage](IoTCoreImaging/Docs/Test-IoTRecoveryImage.md)| verifyrecovery | verifyrecovery.cmd | Verifies if the wim files in the recovery ffu are proper |
 | **Env Functions** | - | - | - |
 |[Set-IoTEnvironment](IoTCoreImaging/Docs/Set-IoTEnvironment.md) | setenv | setenv.cmd | Sets environment settings based on the config values in IoTWorkspace.xml  |

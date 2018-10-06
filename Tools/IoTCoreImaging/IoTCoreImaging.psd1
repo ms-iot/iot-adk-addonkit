@@ -108,7 +108,7 @@ CmdletsToExport = @()
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
 AliasesToExport = 'addenv', 'buildfm', 'buildimage', 'buildpkg', 'buildppkg', 'buildrecovery', 
                'checkcab', 'checksign', 'convertpkg', 'copybsp', 'copypkg', 'copyproduct', 
-               'createwinpe', 'exportidm', 'exportpkgs', 'ffud', 'ffue', 'ffugd', 'ffum', 
+               'newwinpe', 'exportidm', 'exportpkgs', 'ffud', 'ffue', 'ffugd', 'ffum', 
                'ffus', 'gpfidpkgs', 'gpfids', 'importbsp', 'importcfg', 'importpkg', 
                'importproduct', 'migrate', 'new-ws', 'newappxpkg', 'newbsp', 
                'newcommonpkg', 'newdrvpkg', 'newproduct', 'open-ws', 're-signcabs', 

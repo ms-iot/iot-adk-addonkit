@@ -45,7 +45,7 @@ if ($gfids.Count -eq 0) {
 
 buildimage $product $config
 
-createwinpe $product $config
+newwinpe $product $config
 
 buildrecovery $product $config
 

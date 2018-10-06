@@ -72,7 +72,7 @@ New-Alias -Name 'addfid' -Value 'Add-IoTProductFeature'
 New-Alias -Name 'removefid' -Value 'Remove-IoTProductFeature'
 ############ IoTRecovery Exports ##############
 New-Alias -Name 'buildrecovery' -Value 'New-IoTRecoveryImage'
-New-Alias -Name 'createwinpe' -Value 'New-IoTWindowsImage'
+New-Alias -Name 'newwinpe' -Value 'New-IoTWindowsImage'
 New-Alias -Name 'verifyrecovery' -Value 'Test-IoTRecoveryImage'
 ############ IoTTestCommands Exports ##############
 New-Alias -Name 'checkcab' -Value 'Test-IoTCabSignature'
