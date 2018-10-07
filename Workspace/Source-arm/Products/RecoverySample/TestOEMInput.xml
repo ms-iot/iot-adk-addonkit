@@ -78,7 +78,7 @@
       <!--Feature>IOT_UAP_DEFAULTAPP</Feature-->
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
       <Feature>IOT_CP210x_MAKERDRIVER</Feature>
-
+      <Feature>IOT_CONTAINERS</Feature>
 
       <!-- Speech Data -->
 
@@ -99,7 +99,6 @@
       <Feature>CUSTOM_CMD</Feature>
       <Feature>CUSTOM_BCD</Feature>
       <Feature>CUSTOM_OOBEAPP</Feature>
-      <Feature>CUSTOM_SETTINGS</Feature>
       <Feature>RECOVERY_BCD</Feature>
       <Feature>PROV_AUTO</Feature>
       <Feature>AZUREDM_SERVICES</Feature>
