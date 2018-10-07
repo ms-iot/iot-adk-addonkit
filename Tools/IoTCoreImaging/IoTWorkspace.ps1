@@ -291,7 +291,7 @@ function Set-IoTEnvironment {
     [System.Environment]::SetEnvironmentVariable("BSPSRC_DIR", "$env:SRC_DIR\BSP")
     [System.Environment]::SetEnvironmentVariable("PKGUPD_DIR", "$env:SRC_DIR\Updates")
 
-    $IoTEnvVars += @("ADK_VERSION", "COREKIT_VER")
+    $IoTEnvVars += @("ADK_VERSION", "IOTCORE_VER")
     $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.WindowsDeploymentTools.x86.10"
     if (Test-Path $key) {
         $adkver = (Get-ItemProperty -Path $key).Version
