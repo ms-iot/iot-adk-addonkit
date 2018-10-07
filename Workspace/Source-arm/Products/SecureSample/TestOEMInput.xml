@@ -99,9 +99,9 @@
       <Feature>CUSTOM_CMD</Feature>
       <Feature>CUSTOM_BCD</Feature>
       <Feature>PROV_AUTO</Feature>
-      <!--Feature>Sec_BitLocker</Feature-->
-      <Feature>Sec_SecureBootTest</Feature>
-      <!--Feature>Sec_DeviceGuardTest</Feature-->
+      <!--Feature>SEC_BITLOCKER</Feature-->
+      <Feature>SEC_SECUREBOOT_TEST</Feature>
+      <!--Feature>SEC_DEVICEGUARD_TEST</Feature-->
       <Feature>CUSTOM_SMBIOS</Feature>
     </OEM>
   </Features>

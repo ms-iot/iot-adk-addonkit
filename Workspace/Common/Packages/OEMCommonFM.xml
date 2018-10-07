@@ -25,34 +25,34 @@
 
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.BitLocker.cab">
         <FeatureIDs>
-          <FeatureID>Sec_BitLocker</FeatureID>
-          <FeatureID>Sec_LockDown</FeatureID>
+          <FeatureID>SEC_BITLOCKER</FeatureID>
+          <FeatureID>SEC_LOCKDOWN</FeatureID>
         </FeatureIDs>
       </PackageFile>
 
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.SecureBoot.cab">
         <FeatureIDs>
-          <FeatureID>Sec_SecureBoot</FeatureID>
-          <FeatureID>Sec_LockDown</FeatureID>
+          <FeatureID>SEC_SECUREBOOT</FeatureID>
+          <FeatureID>SEC_LOCKDOWN</FeatureID>
         </FeatureIDs>
       </PackageFile>
 
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.SecureBootTest.cab">
         <FeatureIDs>
-          <FeatureID>Sec_SecureBootTest</FeatureID>
+          <FeatureID>SEC_SECUREBOOT_TEST</FeatureID>
         </FeatureIDs>
       </PackageFile>
 
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.DeviceGuard.cab">
         <FeatureIDs>
-          <FeatureID>Sec_DeviceGuard</FeatureID>
-          <FeatureID>Sec_LockDown</FeatureID>
+          <FeatureID>SEC_DEVICEGUARD</FeatureID>
+          <FeatureID>SEC_LOCKDOWN</FeatureID>
         </FeatureIDs>
       </PackageFile>
       
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.DeviceGuardTest.cab">
         <FeatureIDs>
-          <FeatureID>Sec_DeviceGuardTest</FeatureID>
+          <FeatureID>SEC_DEVICEGUARD_TEST</FeatureID>
         </FeatureIDs>
       </PackageFile>
 

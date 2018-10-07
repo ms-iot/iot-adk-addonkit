@@ -237,9 +237,9 @@ For testing purposes, following commands are provided to create and install the 
 
     ```powershell
      # Create Secure boot package
-    Add-IoTSecureBoot
+    Add-IoTSecureBoot -Test
     # Create Device guard package
-    Add-IoTDeviceGuard
+    Add-IoTDeviceGuard -Test
     # Create Bitlocker package
     Add-IoTBitLocker
     ```
@@ -250,11 +250,11 @@ For testing purposes, following commands are provided to create and install the 
     Add-IoTSecurityPackages
     ```
 
-5. Now that the new security packages are created, include the Security features `Sec_BitLocker`,`Sec_SecureBootTest` and `Sec_DeviceGuardTest` in the oeminputxml file.
+5. Now that the new security packages are created, include the Security features `SEC_BITLOCKER`,`SEC_SECUREBOOT_TEST` and `SEC_DEVICEGUARD_TEST` in the oeminputxml file.
     ```powershell
-    Add-IoTProductFeature MyProduct All Sec_BitLocker -OEM
-    Add-IoTProductFeature MyProduct All Sec_SecureBootTest -OEM
-    Add-IoTProductFeature MyProduct All Sec_DeviceGuardTest -OEM
+    Add-IoTProductFeature MyProduct All SEC_BITLOCKER -OEM
+    Add-IoTProductFeature MyProduct All SEC_SECUREBOOT_TEST -OEM
+    Add-IoTProductFeature MyProduct All SEC_DEVICEGUARD_TEST -OEM
     ```
 
 6. You can build the above packages using `buildpkg` command discussed earlier and create an FFU using `buildimage` command.
