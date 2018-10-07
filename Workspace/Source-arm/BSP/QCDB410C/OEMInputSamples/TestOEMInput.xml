@@ -37,36 +37,65 @@
   </AdditionalFMs>
   <Features>
     <Microsoft>
-      <Feature>IOT_EFIESP_TEST</Feature>
-      <Feature>IOT_KDUSB_SETTINGS</Feature>
-      <Feature>IOT_EFIESP_BCD</Feature>
-      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
-      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
-      <Feature>IOT_GENERIC_POP</Feature> 
-      <Feature>IOT_APPLICATIONS</Feature>
+      <!-- Retail Features -->
+      <!--Feature>IOT_EFIESP</Feature-->
       <Feature>IOT_UAP_OOBE</Feature>
-      <Feature>IOT_TOOLKIT</Feature>
-      <Feature>IOT_WDTF</Feature>
-      <Feature>IOT_SSH</Feature>
-      <Feature>IOT_SIREP</Feature>
-      <Feature>IOT_WEBB_EXTN</Feature>
-      <Feature>IOT_UMDFDBG_SETTINGS</Feature>
-      
-      <Feature>IOT_POWERSHELL</Feature>
-      <Feature>IOT_DIRECTX_TOOLS</Feature>
-      <Feature>IOT_ALLJOYN_APP</Feature>
-      <Feature>IOT_ENABLE_TESTSIGNING</Feature>
       <Feature>IOT_CRT140</Feature>
-      <Feature>IOT_BERTHA</Feature>
+      <Feature>IOT_UNIFIED_WRITE_FILTER</Feature>
+      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
+      <Feature>IOT_POWERSHELL</Feature>
+      <!--Feature>IOT_ALLJOYN_APP</Feature-->
+      <Feature>IOT_ONBOARDING_APP</Feature>
+      <!--Feature>IOT_FONTS_CHINESE_EXTENDED</Feature-->
       <Feature>IOT_APP_TOOLKIT</Feature>
-      <Feature>IOT_CP210x_MAKERDRIVER</Feature>
-      <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
+      <Feature>IOT_FFU_FLASHMODE</Feature>
+      <Feature>IOT_MTP</Feature>
+      <Feature>IOT_MIRACAST_RX_APP</Feature>
+      <Feature>IOT_WEBB_EXTN</Feature>
+      <Feature>IOT_BLUETOOTH_A2DP_SINK</Feature>
+      <Feature>IOT_BLUETOOTH_A2DP_SOURCE</Feature>
+      <Feature>IOT_BLUETOOTH_HFP_AUDIOGATEWAY</Feature>
+      <!--Feature>IOT_HEADLESS_CONFIGURATION</Feature-->
+      <Feature>IOT_NARRATOR</Feature>
+      <!--Feature>IOT_OCR_ALL_LANGS</Feature-->
+      <Feature>IOT_OCR_EN_US</Feature>
+
+      <!-- Settings  -->
       <Feature>IOT_POWER_SETTINGS</Feature>
+      <Feature>IOT_EFIESP_BCD</Feature>
+      <Feature>IOT_SHELL_HOTKEY_SUPPORT</Feature>
+      <Feature>IOT_SHELL_ONSCREEN_KEYBOARD</Feature>
+      <Feature>IOT_SHELL_ONSCREEN_KEYBOARD_FOLLOWFOCUS</Feature>
+      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
+      <Feature>IOT_CRASHCONTROL_SETTINGS</Feature>
+      <Feature>IOT_SSH</Feature>
+
+      <!-- Developer Tools -->
+      <Feature>IOT_SIREP</Feature>
+      <Feature>IOT_TOOLKIT</Feature>
+      <Feature>IOT_NANORDPSERVER</Feature>
+      <Feature>IOT_BERTHA</Feature>
+      <!--Feature>IOT_UAP_DEFAULTAPP</Feature-->
+      <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
+      <Feature>IOT_CP210x_MAKERDRIVER</Feature>
+      <Feature>IOT_CONTAINERS</Feature>
+
+      <!-- Speech Data -->
+
+      <!-- Test Features -->
+      <Feature>IOT_EFIESP_TEST</Feature>
+      <Feature>IOT_ENABLE_TESTSIGNING</Feature>
+      <Feature>IOT_KDSERIAL_SETTINGS</Feature>
+      <Feature>IOT_WDTF</Feature>
+      <Feature>IOT_DIRECTX_TOOLS</Feature>
+      <Feature>IOT_UMDFDBG_SETTINGS</Feature>
+
     </Microsoft>
     <OEM>
+      <!-- BSP Features -->
       <Feature>QC_UEFI_TEST</Feature>
       <Feature>SBC</Feature>
-      <!-- Include OEM features -->
+      <!-- OEM features -->
       <Feature>CUSTOM_CMD</Feature>
       <Feature>PROV_AUTO</Feature>
       <Feature>CUSTOM_SMBIOS</Feature>
