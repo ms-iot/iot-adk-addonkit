@@ -84,6 +84,7 @@
 
       <!-- Developer Tools -->
       <Feature>IOT_SIREP</Feature>
+      <Feature>IOT_BERTHA</Feature>
       <Feature>IOT_FTSER2K_MAKERDRIVER</Feature>
       <Feature>IOT_CP210x_MAKERDRIVER</Feature>
       <Feature>IOT_DMAP_DRIVER</Feature>
@@ -98,13 +99,13 @@
       <Feature>IOT_SPEECHDATA_FR_FR</Feature>
 
       <!-- Test Features -->
+
     </Microsoft>
     <OEM>
       <!-- BSP Features -->
       <Feature>RPI2_DRIVERS</Feature>
       <Feature>RPI3_DRIVERS</Feature>
       <!-- OEM features -->
-      <Feature>APP_IOTCOREDEFAULTAPP</Feature>
       <Feature>CUSTOM_CMD</Feature>
       <Feature>PROV_AUTO</Feature>
     </OEM>

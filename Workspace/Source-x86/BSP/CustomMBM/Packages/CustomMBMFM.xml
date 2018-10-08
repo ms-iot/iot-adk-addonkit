@@ -9,7 +9,6 @@
     <!-- UEFI for the silicon packaged in Bootfirmware : None -->
     <!-- Drivers required for boot/reading partitions for UpdateOS: Not required -->
     <!-- GPT BCD Settings : Include IOT_EFIESP_BCD in OEMInput xml file-->
-    <!-- Device Info/ Device Targeting Info : Include IOT_GENERIC_POP in OEMInput xml-->
     <!-- Mandatory device drivers : None -->
     <!-- Device specific customisations if any : -->
     <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.MBM.Customization.cab" />
