@@ -90,6 +90,8 @@ function New-IoTWorkspace {
     Import-IoTOEMPackage Registry.Version
     Import-IoTOEMPackage Custom.Cmd
     Import-IoTOEMPackage Provisioning.Auto
+    Import-IoTOEMPackage AzureDM.Services
+    Import-IoTOEMPackage Device*
     Publish-Success "Workspace ready!"
 }
 
@@ -621,6 +623,7 @@ function Copy-IoTOEMPackage {
             Copy-Item -Path $pkg -Destination $destpkg -Recurse | Out-Null
             $copydone = $true
             $pkgname = Split-Path -Path $pkg -Leaf
+            Publish-Status "Copying $pkgname"
             $pkgname = "%OEM_NAME%.$pkgname.cab"
             if ($pkg.Contains("\Common\") ) {
                 $srcfm = $commonfm
@@ -631,14 +634,16 @@ function Copy-IoTOEMPackage {
                 $dstfm = $destoemfm
             }
             $fids = $srcfm.GetFeatureForPackage($pkgname)
-            Write-Debug "Adding $($fids -join ",") for $pkgname"
             if ($fids) {
+                Write-Verbose "Adding $($fids -join ",") for $pkgname"
                 $dstfm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $fids)
             }
             else { Write-Verbose "$pkgname is not added to feature manifest"}
         }  
     }
-    Publish-Success "Package copy completed" 
+    if ($copydone) {
+        Write-Verbose "Package copy completed"
+    }
 }
 
 function Import-IoTOEMPackage {

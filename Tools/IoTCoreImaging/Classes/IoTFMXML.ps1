@@ -175,7 +175,7 @@ class IoTFMXML {
             if ($pkgNode) {
                 $retval += "Base"
             }
-            else { Publish-Warning "No feature defined for $pkgname" }
+            else { Write-Verbose "No feature defined for $pkgname" }
         }
         # For each package, find the ones with this name and return the featureids.
         return $retval
