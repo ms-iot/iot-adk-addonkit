@@ -124,7 +124,8 @@ class IoTProduct {
             if ($fid -ieq "CUS_DEVICE_INFO") { $cusconfigFound = $true }
         }
         # 17763 is the major release version for RS5 - October 2018 release. 
-        if (!($env:IOTCORE_VER -like "*17763*")){
+        $iotcorever = [convert]::ToInt32($env:IOTCORE_VER.Split(".")[2])
+        if ($iotcorever -lt 17763){
             if (!($cusconfigFound -xor $dpopFound)) {
                 Publish-Error "Images with Windows 10 IoT Core versions prior to 1809 must include either IOT_GENERIC_POP or CUS_DEVICE_INFO."
                 $retval = $false
