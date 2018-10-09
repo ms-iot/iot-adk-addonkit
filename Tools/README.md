@@ -352,7 +352,7 @@ Steps to register your device on the device update center and publish updates ar
     ```
 3. Create a product
     ```powershell
-    New-IoTProduct SampleA RPi2
+    Add-IoTProduct SampleA RPi2
     (or) newproduct SampleA RPi2
     ```
     You will find an device inventory file `IoTDeviceModel_<product>.xml`. Use this file to register your device model in the DUC portal. If you change the SMBIOS fields or install a different IoTCore Kit version, you can regenerate this file using
