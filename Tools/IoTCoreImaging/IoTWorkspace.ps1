@@ -804,8 +804,14 @@ function Copy-IoTBSP {
         }
         $xmldoc = [xml] (Get-Content -Path "$srcdir\$bsp\Packages\$($bsp)FMFileList.xml")
         $arch = $xmldoc.FMCollectionManifest.FMs.FM.CPUType
-        if($env:BSP_ARCH -ne $arch){
-            Publish-Error "Incorrect BSP arch. Found $arch, expected $env:BSP_ARCH"
+		if ($arch.Count -gt 1) {
+			$xmlarch = $arch[0].ToLower()
+		}
+		else {
+			$xmlarch = $arch.ToLower()
+		}
+        if($env:BSP_ARCH -ne $xmlarch){
+            Publish-Error "Incorrect BSP arch. Found $xmlarch, expected $env:BSP_ARCH"
             continue
         }
 
@@ -832,10 +838,11 @@ function Copy-IoTBSP {
             $fmxml = New-IoTFMXML $fmfile
             $definedpkgs = $fmxml.GetPackageNames()
             foreach($definedpkg in $definedpkgs){
-                if (-not $pkgnames.contains($definedpkg)) { 
+                if (-not $pkgnames.contains($definedpkg)) {
                     $subcomponentname = $definedpkg.Split(".")[2]
                     foreach($pkgname in $pkgnames) {
-                        if ($pkgname.contains($subcomponentname)){
+						$pkgsubcomponentname = $pkgname.Split(".")[2]
+                        if ($pkgsubcomponentname -ieq $subcomponentname){
                             $pkgname= $pkgname.Replace(".cab","")
                             $definedpkg = $definedpkg.Replace(".cab","") 
                             Publish-Warning "  Replacing $definedpkg with $pkgname"
