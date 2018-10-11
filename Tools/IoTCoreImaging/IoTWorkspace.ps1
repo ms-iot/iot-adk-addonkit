@@ -942,7 +942,12 @@ function Import-IoTBSP {
         return
     }
 
-    Copy-IoTBSP $Source $env:IOTWKSPACE $BSPName
+    if ($BSPName -ieq "QCDB410C"){
+        Import-QCBSP $Source "$env:IOTWKSPACE\Prebuilt" -ImportBSP
+    }
+    else {
+        Copy-IoTBSP $Source $env:IOTWKSPACE $BSPName
+    }
 }
 
 function Copy-IoTProduct {
@@ -1455,7 +1460,7 @@ function Import-QCBSP {
         return
     }
     if ($ImportBSP){
-        Import-IoTBSP QCDB410C
+        Copy-IoTBSP $env:SAMPLEWKS $env:IOTWKSPACE QCDB410C
     }
     $qcfmxml = "$env:BSPSRC_DIR\QCDB410C\Packages\QCDB410CFM.xml"
 
@@ -1505,6 +1510,13 @@ function Import-QCBSP {
                 [System.IO.Compression.ZipFileExtensions]::ExtractToFile($_, "$BSPPkgDir\$filename", $true)
             }
         }
+    }
+
+    #Update the IoTWorkspace xml to specify the BSPPkgDir
+    if ($null -ne $env:IoTWsXml) {
+        $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
+        $wkspace.SetBSPPkgDir($BSPPkgDir)
+        [System.Environment]::SetEnvironmentVariable("BSPPKG_DIR", $bsppkgdir)
     }
 
     Publish-Success "BSP import completed"

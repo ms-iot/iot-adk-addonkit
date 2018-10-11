@@ -63,16 +63,22 @@ Install the following pre-requisites
     Import-IoTBSP *  C:\BSP\NXPBSP.zip
     (or) importbsp *  C:\BSP\NXPBSP_FOLDER
     (or) importbsp Sabre_iMX6Q_1GB  C:\BSP\NXPBSP.zip
+
+    # Importing QCDB410C BSP packages found inside the zip
+    ## special case - this invokes Import-QCBSP internally
+    Import-IoTBSP QCDB410C C:\BSP\db410c_bsp.zip
+    (or) importbsp QCDB410C C:\BSP\db410c_bsp.zip
+    # the above will import the bsp from sample wkspace and copy the prebuilt cabs to Workspace\Prebuilt directory
     ```
 
     * For Qualcomm BSP, after downloading the zip file, you can extract the prebuilt cabs using
 
         ```powershell
         # Import the QCDB410 BSP and extract the required cabs from the QC zip file
-        Import-QCBSP C:\BSP\db410c_bsp.zip C:\MyBSPs\ARM -ImportBSP
+        Import-QCBSP C:\BSP\db410c_bsp.zip C:\MyWorkspace\Prebuilt -ImportBSP
         ```
 
-        Set `C:\MyBSPs\ARM` as the prebuilt package dir in the Workspace xml.
+        `C:\MyWorkspace\Prebuilt` will be set as BSPPkgDir in the Workspace xml.
 
 5. Create a new product (MyProduct) based on the imported BSP, say RPi2 in the below example, using [Add-IoTProduct](IoTCoreImaging/Docs/Add-IoTProduct.md)
 
