@@ -77,7 +77,9 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-Mandatory parameter, specifying the name.```yaml
+Mandatory parameter, specifying the name.
+
+```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
@@ -96,7 +98,15 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTWMWriter
+
 ## NOTES
 This class is used in the Add-IoT* methods.
+
+```powershell
+$wmwriter.Start("MainOS")
+$wmwriter.AddRegKeys("\`$(hklm.software)\Contoso\EmptyKey", $null)
+$wmwriter.Finish()
+```
 
 ## RELATED LINKS

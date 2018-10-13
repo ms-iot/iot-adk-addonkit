@@ -35,7 +35,7 @@ $mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml
 
 ### EXAMPLE 2
 ```
-$mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml -Create
+$mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml -Create "Contoso"
 ```
 
 ## PARAMETERS

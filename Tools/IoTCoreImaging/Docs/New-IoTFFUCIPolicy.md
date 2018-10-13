@@ -21,7 +21,7 @@ This function scans the mounted FFU Main OS partition and creates a CI policy. T
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```
 New-IoTFFUCIPolicy
 ```

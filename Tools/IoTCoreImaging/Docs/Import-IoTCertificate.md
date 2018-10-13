@@ -24,7 +24,7 @@ For Device guard functionality, Update is mandatory.
 You will also need the following certs in the local cert store of the build machine (either installed directly or on a smart card).
 For signing purpose
  - Certificate with private key corresponding to PlatformKey
- - Certificate with private key corresponding to KeyExchangeKey 
+ - Certificate with private key corresponding to KeyExchangeKey
  For testing purposes, you can use the sample pfx files provided in the sample workspace and install them by double clicking on them.
 
 ## EXAMPLES
@@ -89,7 +89,7 @@ Accept wildcard characters: False
 
 ### -CertType
 Mandatory parameter specifying the cert type.
-The supported values are 
+The supported values are
 for secure boot  : "PlatformKey","KeyExchangeKey","Database"
 for bit locker   : "DataRecoveryAgent"
 for device guard : "Update","User","Kernel"

@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version: https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
+online version: https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism
 schema: 2.0.0
 ---
 
@@ -114,5 +114,5 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## RELATED LINKS
 
-[https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery](https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery)
+[https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism](https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism)
 

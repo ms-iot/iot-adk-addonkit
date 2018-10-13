@@ -65,6 +65,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTOemInputXML
+
 ## NOTES
 See [IoTOemInputXML](Classes/IoTOemInputXML.md) for more details on the class.
 

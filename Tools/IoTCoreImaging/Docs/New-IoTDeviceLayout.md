@@ -52,6 +52,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTDeviceLayout
+
 ## NOTES
 See [IoTDeviceLayout](Classes/IoTDeviceLayout.md) for more details on the class.
 

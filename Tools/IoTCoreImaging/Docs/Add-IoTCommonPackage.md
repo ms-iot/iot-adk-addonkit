@@ -17,7 +17,7 @@ Add-IoTCommonPackage [-OutputName] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file. 
+This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file.
 In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
 
 ## EXAMPLES

@@ -17,7 +17,7 @@ Set-IoTEnvironment [[-arch] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture. 
+Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture.
 This also exports the environment settings as SetEnvVars.cmd.
 
 ## EXAMPLES
@@ -31,7 +31,7 @@ Set-IoTEnvironment arm
 
 ### -arch
 Specifies the required architecture.
-Supported values are arm,x86 and x64.
+Supported values are arm,arm64,x86 and x64.
 
 ```yaml
 Type: String

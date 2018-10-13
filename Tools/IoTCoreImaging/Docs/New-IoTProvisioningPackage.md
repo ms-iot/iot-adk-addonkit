@@ -67,6 +67,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.Boolean
+
 ## NOTES
 Install ADK with Windows Customization Designer tool to use this functionality.
 

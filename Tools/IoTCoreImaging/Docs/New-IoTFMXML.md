@@ -67,6 +67,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTFMXML
+
 ## NOTES
 See [IoTFMXML](Classes/IoTFMXML.md) for more details on the class.
 

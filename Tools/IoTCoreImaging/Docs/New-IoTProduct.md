@@ -68,6 +68,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTProduct
+
 ## NOTES
 See [IoTProduct](Classes/IoTProduct.md) for more details on the class.
 

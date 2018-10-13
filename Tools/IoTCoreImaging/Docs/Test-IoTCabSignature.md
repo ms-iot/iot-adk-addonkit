@@ -66,6 +66,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.Boolean
+
 ## NOTES
 Uses Test-IoTSignature cmdlet to validate the .cab file, and its contents - .cat.
 .exe, .dll and .sys

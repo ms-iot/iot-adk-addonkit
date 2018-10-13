@@ -35,7 +35,7 @@ Creates Drivers.GPIO in Source-arch\packages folder.
 Add-IoTDriverPackage C:\Test\gpiodrv.inf Drivers.GPIO RPi2
 ```
 
-Creates Drivers.GPIO in Source-arch\BSP\RPi2\packages folder
+Creates Drivers.GPIO in Source-arch\BSP\RPi2\packages folder.
 
 ## PARAMETERS
 

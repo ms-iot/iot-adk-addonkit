@@ -50,6 +50,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.Boolean
+
 ## NOTES
 Since the pkg.xml files are deleted, recommend to take a backup before proceeding with this function.
 

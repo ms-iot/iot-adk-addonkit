@@ -79,6 +79,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### System.Boolean
+
 ## NOTES
 All the packages referred in the FM files must be available before running this command.
 In general there is no need to execute this command stand alone as this is invoked in the New-IoTFFUImage cmdlet.

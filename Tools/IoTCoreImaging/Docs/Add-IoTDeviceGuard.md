@@ -54,6 +54,8 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## OUTPUTS
 
+### System.Boolean
+
 ## NOTES
 For validating the device guard policy, you can as well scan the built ffu using New-IoTFFUCIPolicy and compare the policy files.
 See Import-IoTCertificate before using this function.

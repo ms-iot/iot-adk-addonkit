@@ -261,7 +261,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file.  In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
+      <maml:para>This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file. In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -368,7 +368,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>For validating the device guard policy, you can as well scan the built ffu using New-IoTFFUCIPolicy and compare the policy files. See Import-IoTCertificate before using this function.</maml:para>
@@ -585,7 +594,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command creates a file package directory in the Common\packages folder and generates the wm.xml file.  In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
+      <maml:para>This command creates a file package directory in the Common\packages folder and generates the wm.xml file. In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1043,7 +1052,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file.  In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
+      <maml:para>This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file. In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1063,14 +1072,14 @@
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>PpkgFile</maml:name>
           <maml:Description>
-            <maml:para>Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users&lt;user&gt;\Documents\Windows Imaging and Configuration Designer (WICD)).</maml:para>
+            <maml:para>Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\&lt;user&gt;\Documents\Windows Imaging and Configuration Designer (WICD)).</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
             <maml:name>String</maml:name>
             <maml:uri />
           </dev:type>
-          <dev:defaultValue>Undefined</dev:defaultValue>
+          <dev:defaultValue>None</dev:defaultValue>
         </command:parameter>
       </command:syntaxItem>
     </command:syntax>
@@ -1090,14 +1099,14 @@
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>PpkgFile</maml:name>
         <maml:Description>
-          <maml:para>Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users&lt;user&gt;\Documents\Windows Imaging and Configuration Designer (WICD)).</maml:para>
+          <maml:para>Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\&lt;user&gt;\Documents\Windows Imaging and Configuration Designer (WICD)).</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>Undefined</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
@@ -1112,7 +1121,14 @@
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Add-IoTProvisioningPackage Custom.Settings</dev:code>
         <dev:remarks>
-          <maml:para></maml:para>
+          <maml:para>Creates a provisioning package folder Custom.Settings. Launch ICD.exe and open the .icdproj.xml file in this folder to edit the provisioning settings.</maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Add-IoTProvisioningPackage Custom.Settings C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)\DisableUpdate\DisableUpdate.ppkg"</dev:code>
+        <dev:remarks>
+          <maml:para>Creates a provisioning package folder Custom.Settings and copies the source files for the ppkg to this directory and renames it to CustomSettings.</maml:para>
         </dev:remarks>
       </command:example>
     </command:examples>
@@ -1128,7 +1144,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>This command creates a registry package directory in the Common\packages folder and generates the wm.xml file.  In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
+      <maml:para>This command creates a registry package directory in the Common\packages folder and generates the wm.xml file. In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -1459,7 +1475,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Since the pkg.xml files are deleted, recommend to take a backup before proceeding with this function.</maml:para>
@@ -1868,7 +1893,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See also Mount-IoTFFUImage</maml:para>
@@ -2154,7 +2188,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See also Get-IoTProductPackagesForFeature</maml:para>
@@ -2165,7 +2208,7 @@
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Get-IoTProductFeatureIDs</dev:code>
         <dev:remarks>
-          <maml:para>Returns all feature IDs including Test/Retail.</maml:para>
+          <maml:para>Returns all feature IDs including Test/Retail..</maml:para>
         </dev:remarks>
       </command:example>
       <command:example>
@@ -2222,7 +2265,16 @@
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See also Get-IoTProductFeatureIDs</maml:para>
@@ -2279,11 +2331,20 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>$env:SAMPLEWKS</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -2347,11 +2408,20 @@
           <maml:name>String</maml:name>
           <maml:uri />
         </dev:type>
-        <dev:defaultValue>$env:SAMPLEWKS</dev:defaultValue>
+        <dev:defaultValue>None</dev:defaultValue>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.String[]</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para></maml:para>
@@ -2505,7 +2575,7 @@
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Imports an certificate and adds to the Workspace security specification. For Secure boot functionality, it is mandatory to specify the PlatformKey and the KeyExchangeKey. For Bitlocker functionality, DataRecoveryAgent is required. For Device guard functionality, Update is mandatory. You will also need the following certs in the local cert store of the build machine (either installed directly or on a smart card). For signing purpose  - Certificate with private key corresponding to PlatformKey  - Certificate with private key corresponding to KeyExchangeKey   For testing purposes, you can use the sample pfx files provided in the sample workspace and install them by double clicking on them.</maml:para>
+      <maml:para>Imports an certificate and adds to the Workspace security specification. For Secure boot functionality, it is mandatory to specify the PlatformKey and the KeyExchangeKey. For Bitlocker functionality, DataRecoveryAgent is required. For Device guard functionality, Update is mandatory. You will also need the following certs in the local cert store of the build machine (either installed directly or on a smart card). For signing purpose  - Certificate with private key corresponding to PlatformKey  - Certificate with private key corresponding to KeyExchangeKey  For testing purposes, you can use the sample pfx files provided in the sample workspace and install them by double clicking on them.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -2525,7 +2595,7 @@
         <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
           <maml:name>CertType</maml:name>
           <maml:Description>
-            <maml:para>Mandatory parameter specifying the cert type. The supported values are  for secure boot  : "PlatformKey","KeyExchangeKey","Database" for bit locker   : "DataRecoveryAgent" for device guard : "Update","User","Kernel" See IoTWorkspace.xml for the cert definitions.</maml:para>
+            <maml:para>Mandatory parameter specifying the cert type. The supported values are for secure boot  : "PlatformKey","KeyExchangeKey","Database" for bit locker   : "DataRecoveryAgent" for device guard : "Update","User","Kernel" See IoTWorkspace.xml for the cert definitions.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -2563,7 +2633,7 @@
       <command:parameter required="true" variableLength="true" globbing="false" pipelineInput="False" position="2" aliases="none">
         <maml:name>CertType</maml:name>
         <maml:Description>
-          <maml:para>Mandatory parameter specifying the cert type. The supported values are  for secure boot  : "PlatformKey","KeyExchangeKey","Database" for bit locker   : "DataRecoveryAgent" for device guard : "Update","User","Kernel" See IoTWorkspace.xml for the cert definitions.</maml:para>
+          <maml:para>Mandatory parameter specifying the cert type. The supported values are for secure boot  : "PlatformKey","KeyExchangeKey","Database" for bit locker   : "DataRecoveryAgent" for device guard : "Update","User","Kernel" See IoTWorkspace.xml for the cert definitions.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -3615,7 +3685,16 @@ $dlobj.DriveLetters</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTFMXML</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See IoTFMXML (Classes/IoTFMXML.md)for more details on the class.</maml:para>
@@ -3820,7 +3899,16 @@ $dlobj.DriveLetters</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTOemInputXML</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See IoTOemInputXML (Classes/IoTOemInputXML.md)for more details on the class.</maml:para>
@@ -3905,7 +3993,16 @@ $dlobj.DriveLetters</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTProduct</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See IoTProduct (Classes/IoTProduct.md)for more details on the class.</maml:para>
@@ -4134,7 +4231,16 @@ $prod.ValidatePackages()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTProductSettingsXML</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See IoTProductSettingsXML (Classes/IoTProductSettingsXML.md)for more details on the class.</maml:para>
@@ -4219,7 +4325,16 @@ $prod.ValidatePackages()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Install ADK with Windows Customization Designer tool to use this functionality.</maml:para>
@@ -4303,7 +4418,16 @@ $prod.ValidatePackages()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTProvisioningXML</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See IoTProvisioningXML (Classes/IoTProvisioningXML.md)for more details on the class.</maml:para>
@@ -4702,7 +4826,16 @@ $prod.ValidatePackages()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTWMWriter</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>This class is used in the Add-IoT* methods.</maml:para>
@@ -4789,7 +4922,16 @@ $wmwriter.Finish()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>IoTWMXML</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>See \ IoTWMXML\ (Classes/IoTWMXML.md)for more details on the class.</maml:para>
@@ -5022,7 +5164,7 @@ $wmwriter.Finish()</dev:code>
       </command:example>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
-        <dev:code>$mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml -Create</dev:code>
+        <dev:code>$mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml -Create "Contoso"</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
@@ -5084,6 +5226,13 @@ $wmwriter.Finish()</dev:code>
       <command:example>
         <maml:title>-------------------------- EXAMPLE 1 --------------------------</maml:title>
         <dev:code>Open-IoTWorkspace C:\MyIoTProject\IoTWorkspace.xml</dev:code>
+        <dev:remarks>
+          <maml:para></maml:para>
+        </dev:remarks>
+      </command:example>
+      <command:example>
+        <maml:title>-------------------------- EXAMPLE 2 --------------------------</maml:title>
+        <dev:code>Open-IoTWorkspace C:\MyIoTProject</dev:code>
         <dev:remarks>
           <maml:para></maml:para>
         </dev:remarks>
@@ -5428,7 +5577,7 @@ $wmwriter.Finish()</dev:code>
       </maml:description>
     </command:details>
     <maml:description>
-      <maml:para>Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture.  This also exports the environment settings as SetEnvVars.cmd.</maml:para>
+      <maml:para>Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture. This also exports the environment settings as SetEnvVars.cmd.</maml:para>
     </maml:description>
     <command:syntax>
       <command:syntaxItem>
@@ -5436,7 +5585,7 @@ $wmwriter.Finish()</dev:code>
         <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
           <maml:name>arch</maml:name>
           <maml:Description>
-            <maml:para>Specifies the required architecture. Supported values are arm,x86 and x64.</maml:para>
+            <maml:para>Specifies the required architecture. Supported values are arm,arm64,x86 and x64.</maml:para>
           </maml:Description>
           <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
           <dev:type>
@@ -5451,7 +5600,7 @@ $wmwriter.Finish()</dev:code>
       <command:parameter required="false" variableLength="true" globbing="false" pipelineInput="False" position="1" aliases="none">
         <maml:name>arch</maml:name>
         <maml:Description>
-          <maml:para>Specifies the required architecture. Supported values are arm,x86 and x64.</maml:para>
+          <maml:para>Specifies the required architecture. Supported values are arm,arm64,x86 and x64.</maml:para>
         </maml:Description>
         <command:parameterValue required="true" variableLength="false">String</command:parameterValue>
         <dev:type>
@@ -5669,7 +5818,16 @@ $wmwriter.Finish()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>Uses Test-IoTSignature cmdlet to validate the .cab file, and its contents - .cat. .exe, .dll and .sys</maml:para>
@@ -6037,7 +6195,16 @@ $wmwriter.Finish()</dev:code>
       </command:parameter>
     </command:parameters>
     <command:inputTypes />
-    <command:returnValues />
+    <command:returnValues>
+      <command:returnValue>
+        <dev:type>
+          <maml:name>System.Boolean</maml:name>
+        </dev:type>
+        <maml:description>
+          <maml:para></maml:para>
+        </maml:description>
+      </command:returnValue>
+    </command:returnValues>
     <maml:alertSet>
       <maml:alert>
         <maml:para>This verifies using the signtool. [ signtool verify /v /pa FileName ]</maml:para>

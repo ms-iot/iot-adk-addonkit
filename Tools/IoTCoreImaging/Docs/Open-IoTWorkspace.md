@@ -26,6 +26,11 @@ Opens the IoTWorkspace xml and sets up the environment with those settings.
 Open-IoTWorkspace C:\MyIoTProject\IoTWorkspace.xml
 ```
 
+### EXAMPLE 2
+```
+Open-IoTWorkspace C:\MyIoTProject
+```
+
 ## PARAMETERS
 
 ### -WsXML

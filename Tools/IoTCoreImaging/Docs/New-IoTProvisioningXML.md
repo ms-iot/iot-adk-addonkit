@@ -66,6 +66,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## OUTPUTS
 
+### IoTProvisioningXML
+
 ## NOTES
 See [IoTProvisioningXML](Classes/IoTProvisioningXML.md) for more details on the class.
 

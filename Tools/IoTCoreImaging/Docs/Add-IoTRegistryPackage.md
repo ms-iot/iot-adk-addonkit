@@ -17,7 +17,7 @@ Add-IoTRegistryPackage [-OutputName] <String> [-RegKeys] <String[][]> [<CommonPa
 ```
 
 ## DESCRIPTION
-This command creates a registry package directory in the Common\packages folder and generates the wm.xml file. 
+This command creates a registry package directory in the Common\packages folder and generates the wm.xml file.
 In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
 
 ## EXAMPLES

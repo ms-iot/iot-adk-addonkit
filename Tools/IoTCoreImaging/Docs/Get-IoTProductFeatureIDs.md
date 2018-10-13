@@ -26,7 +26,7 @@ Returns the list of supported feature IDs in the Windows 10 IoT Core OS release 
 Get-IoTProductFeatureIDs
 ```
 
-Returns all feature IDs including Test/Retail.
+Returns all feature IDs including Test/Retail..
 
 ### EXAMPLE 2
 ```
@@ -59,6 +59,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ## OUTPUTS
+
+### System.String[]
 
 ## NOTES
 See also Get-IoTProductPackagesForFeature

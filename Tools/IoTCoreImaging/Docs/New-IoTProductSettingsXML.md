@@ -31,7 +31,7 @@ This method creates a object of class IoTProductSettingsXML
 
 ### EXAMPLE 1
 ```
-$obj = New-IoTProductSettingsXML $env:SRC_DIR\Products\SampleA\SampleASettings.xml
+$obj = New-IoTProductSettingsXML $env:SRC_DIR\Products\SampleA\SampleASettings.xml -Create:$false OEMName ProdFamily ProdSKU1 Fabrikam RPiCustom2
 ```
 
 ## PARAMETERS
@@ -162,6 +162,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## INPUTS
 
 ## OUTPUTS
+
+### IoTProductSettingsXML
 
 ## NOTES
 See [IoTProductSettingsXML](Classes/IoTProductSettingsXML.md) for more details on the class.

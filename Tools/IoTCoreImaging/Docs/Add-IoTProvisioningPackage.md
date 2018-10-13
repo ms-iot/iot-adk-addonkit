@@ -17,7 +17,7 @@ Add-IoTProvisioningPackage [-OutputName] <String> [[-PpkgFile] <String>] [<Commo
 ```
 
 ## DESCRIPTION
-This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file. 
+This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file.
 In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
 
 ## EXAMPLES
@@ -26,6 +26,16 @@ In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.x
 ```
 Add-IoTProvisioningPackage Custom.Settings
 ```
+
+Creates a provisioning package folder Custom.Settings.
+Launch ICD.exe and open the .icdproj.xml file in this folder to edit the provisioning settings.
+
+### EXAMPLE 2
+```
+Add-IoTProvisioningPackage Custom.Settings "C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)\DisableUpdate\DisableUpdate.ppkg"
+```
+
+Creates a provisioning package folder Custom.Settings and copies the source files for the ppkg to this directory and renames it to CustomSettings.
 
 ## PARAMETERS
 
@@ -45,14 +55,16 @@ Accept wildcard characters: False
 ```
 
 ### -PpkgFile
-Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)).```yaml
+Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\\\<user\>\Documents\Windows Imaging and Configuration Designer (WICD)).
+
+```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 2
-Default value: Undefined
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

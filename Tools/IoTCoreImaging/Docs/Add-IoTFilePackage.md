@@ -17,7 +17,7 @@ Add-IoTFilePackage [-OutputName] <String> [-Files] <String[][]> [<CommonParamete
 ```
 
 ## DESCRIPTION
-This command creates a file package directory in the Common\packages folder and generates the wm.xml file. 
+This command creates a file package directory in the Common\packages folder and generates the wm.xml file.
 In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
 
 ## EXAMPLES
