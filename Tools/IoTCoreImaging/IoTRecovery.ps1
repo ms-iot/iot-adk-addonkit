@@ -87,6 +87,11 @@ function New-IoTWindowsImage {
     Publish-Status "Mounting WinPE"
     try {
         $result = Mount-WindowsImage -ImagePath $ffudir\winpe.wim -Index 1 -Path $mountdir
+        if (!$result)
+        {
+            Publish-Error "Mount-WindowsImage failed"
+            return $false
+        }
     }
     catch {
         Publish-Error "Mount-WindowsImage failed"
@@ -182,6 +187,10 @@ function New-IoTRecoveryImage {
 
     # Mount the ffu
     $retval = Mount-IoTFFUImage $ffufile
+    if (!$retval){
+        Publish-Error "Mount-IoTFFUImage failed"
+        return
+    }
     $DriveLetters = Get-IoTFFUDrives
 
     # Extract wims
@@ -229,8 +238,13 @@ function New-IoTRecoveryImage {
 
     # Dismount and save as Recovery FFU
     $retval = Dismount-IoTFFUImage "Flash_Recovery.ffu"
+    if (!$retval) {
+        Publish-Error "Dismount-IoTFFUImage failed"
+    }
+    else {
+        Publish-Success "Recovery FFU is available at $ffudir\Flash_Recovery.ffu"
+    }
     Set-Location $env:IOTWKSPACE
-    Publish-Success "Recovery FFU is available at $ffudir\Flash_Recovery.ffu"
 }
 
 function Test-IoTRecoveryImage {
@@ -276,6 +290,10 @@ function Test-IoTRecoveryImage {
 
     # Mount the ffu
     $retval = Mount-IoTFFUImage $recoveryffu
+    if (!$retval){
+        Publish-Error "Mount-IoTFFUImage failed"
+        return
+    }
     $DriveLetters = Get-IoTFFUDrives
 
     # Extract wims from the MMOS partition
@@ -313,5 +331,8 @@ function Test-IoTRecoveryImage {
 
     # Dismount and save as Recovery FFU
     $retval = Dismount-IoTFFUImage
+    if (!$retval) {
+        Publish-Error "Dismount-IoTFFUImage failed"
+    }
     Set-Location $env:IOTWKSPACE
 }

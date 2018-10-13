@@ -486,7 +486,7 @@ function New-IoTFFUImage {
         }
     }
 
-    if ((Test-Path $proddir\Packages) -and ((Get-ChildItem $proddir\Packages) -ne $null)) {
+    if ((Test-Path $proddir\Packages) -and ($null -ne (Get-ChildItem $proddir\Packages))) {
         Publish-Status "Building product specific packages"
         $retval = New-IoTCabPackage $proddir\Packages
         if (!$retval) {

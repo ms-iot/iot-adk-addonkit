@@ -354,6 +354,7 @@ class IoTProvisioningXML {
                     $oldnode = $gpnode.ParentNode.RemoveChild($gpnode)
                 }
             }
+            Write-Debug $oldnode
             $this.IncrementVersion() # this one saves the xml file
             $provpath = Split-Path $this.FileName -Parent
             Remove-Item -Path "$provpath\$certname" | Out-Null
@@ -447,6 +448,7 @@ class IoTProvisioningXML {
                     $oldnode = $gpnode.ParentNode.RemoveChild($gpnode)
                 }
             }
+            Write-Debug $oldnode
             $this.IncrementVersion() # this one saves the xml file
             $provpath = Split-Path $this.FileName -Parent
             Remove-Item -Path "$provpath\$certname" | Out-Null

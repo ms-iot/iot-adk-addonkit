@@ -34,7 +34,7 @@ function Test-IoTCabSignature {
     Uses Test-IoTSignature cmdlet to validate the .cab file, and its contents - .cat. .exe, .dll and .sys
     #>
     [CmdletBinding()]
-    [OutputType([Boolean)]
+    [OutputType([Boolean])]
     Param
     (
         # Product name to process
@@ -98,7 +98,7 @@ function Test-IoTSignature {
     This verifies using the signtool. [ signtool verify /v /pa FileName ]
     #>
     [CmdletBinding()]
-    [OutputType([Boolean)]
+    [OutputType([Boolean])]
     Param
     (
         # Product name to process

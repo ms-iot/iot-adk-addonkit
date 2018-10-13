@@ -430,7 +430,7 @@ function Get-IoTFFUDrives {
     .NOTES
     See also Mount-IoTFFUImage
     #>
-    [OutputType([hashtable)]
+    [OutputType([hashtable])]
     $ffuobj = [IoTFFU]::GetInstance()
     return $ffuobj.DeviceLayout.DriveLetters
 }
@@ -485,7 +485,7 @@ function Get-IoTProductFeatureIDs {
     .NOTES
     See also Get-IoTProductPackagesForFeature
     #>
-    [OutputType([String[])]
+    [OutputType([String[]])]
     Param
     (
         [Parameter(Mandatory = $false)]
@@ -546,7 +546,7 @@ function Get-IoTProductPackagesForFeature {
     .NOTES
     See also Get-IoTProductFeatureIDs
     #>
-    [OutputType([String[])]
+    [OutputType([String[]])]
     Param
     (
         # FeatureID

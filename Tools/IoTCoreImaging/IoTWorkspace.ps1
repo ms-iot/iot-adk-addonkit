@@ -1327,7 +1327,7 @@ function Get-IoTWorkspaceProducts {
 
     .NOTES
     #>
-    [OutputType([String[])]
+    [OutputType([String[]])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $false)]
@@ -1385,7 +1385,7 @@ function Get-IoTWorkspaceBSPs {
 
     .NOTES
     #>
-    [OutputType([String[])]
+    [OutputType([String[]])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $false)]
