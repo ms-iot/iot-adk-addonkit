@@ -39,6 +39,7 @@ function New-IoTCabPackage {
     The generated cab files are available in build directory $env:PKGBLD_DIR
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $true)]
@@ -128,9 +129,9 @@ function New-IoTCabPackage {
                 else {
                     pkggen "$file" /output:"$env:PKGBLD_DIR" /version:$env:BSP_VERSION /build:fre /cpu:$env:BSP_ARCH /variables:$pkgvar /onecore /universalbsp | Out-File "$env:PKGLOG_DIR\$name.log" -Encoding utf8
                 }
-                if (!($?)) { 
+                if (!($?)) {
                     Publish-Error "$file pkggen failed"
-                    $retval = $false 
+                    $retval = $false
                 }
 
             }
@@ -139,7 +140,7 @@ function New-IoTCabPackage {
     }
     finally {
         Set-Location $env:IOTWKSPACE
-        Clear-Temp       
+        Clear-Temp
     }
     return $retval
 }
@@ -162,6 +163,7 @@ function Convert-IoTPkg2Wm {
     Since the pkg.xml files are deleted, recommend to take a backup before proceeding with this function.
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $true)]
@@ -186,16 +188,16 @@ function Convert-IoTPkg2Wm {
     foreach ($file in $filestoprocess) {
         $name = Split-Path -Path $file -Leaf
         Write-Verbose "Processing $name"
-        $wmname = $file.Replace(".pkg.xml", ".wm.xml") 
+        $wmname = $file.Replace(".pkg.xml", ".wm.xml")
         if ($VerbosePreference -ieq "Continue") {
-            pkggen "$file" /convert:pkg2wm /output:"$wmname" /useLegacyName:true /foroempkg:true /variables:$pkgvar 
+            pkggen "$file" /convert:pkg2wm /output:"$wmname" /useLegacyName:true /foroempkg:true /variables:$pkgvar
         }
         else {
             pkggen "$file" /convert:pkg2wm /output:"$wmname" /useLegacyName:true /foroempkg:true /variables:$pkgvar | Out-Null
         }
-        if (!($?)) { 
+        if (!($?)) {
             Publish-Error "$file pkggen failed"
-            $retval = $false 
+            $retval = $false
         }
         if (!$retval) { break }
         Remove-Item $file
@@ -213,7 +215,7 @@ function New-IoTProvisioningPackage {
     This command invokes icd.exe command line to process the provided settings.xml file and generates the ppkg.
 
     .PARAMETER File
-    Input settings/customizations.xml file 
+    Input settings/customizations.xml file
 
     .PARAMETER Output
     Output file name, with full path. If path is not included, it creates the ppkg in the same dir as the input xml file.
@@ -225,6 +227,7 @@ function New-IoTProvisioningPackage {
     Install ADK with Windows Customization Designer tool to use this functionality.
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]    
     Param
     (
         # Provisioning settings file (customizations.xml)
@@ -291,20 +294,21 @@ function New-IoTFIPPackage {
     Builds all three - OEM / BSP and OCP FM files.
 
     .EXAMPLE
-    $result = New-IoTFIPPackage 
+    $result = New-IoTFIPPackage
     Builds only the OEM FM files.
-    
+
     .NOTES
     All the packages referred in the FM files must be available before running this command. In general there is no need to execute this command stand alone as this is invoked in the New-IoTFFUImage cmdlet.
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]    
     Param
     (
         # Provisioning settings file (customizations.xml)
         [Parameter(Position = 0, Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
         [String]$BSP = $null,
-        
+
         [Parameter(Mandatory = $false)]
         [Switch] $IncludeOCP
     )
@@ -387,10 +391,10 @@ function New-IoTFIPPackage {
     (Get-Content -Path "$env:BSPSRC_DIR\$BSP\Packages\$bspfmlist") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\$bspfmlist -Encoding utf8
     Publish-Status "Processing $bspfmlist"
     if ($VerbosePreference -ieq "Continue") {
-        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" 
+        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production"
     }
     else {
-        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $env:BLD_DIR\FIPPackage_$BSP.log -Encoding utf8       
+        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $env:BLD_DIR\FIPPackage_$BSP.log -Encoding utf8
     }
     if (!($?)) {
         Publish-Error "New-IoTFIPPackage failed to process BSPFMList. See $env:BLD_DIR\FIPPackage_$BSP.log"
@@ -410,7 +414,7 @@ function New-IoTFFUImage {
     Creates the IoT FFU image for the specified product / configuration. Returns boolean true for success and false for failure.
 
     .DESCRIPTION
-    This command invokes Imageapp.exe to generate the Flash.ffu for the specified product/config oeminput xml file. Before invoking the ImageApp, this command processes various product specific packages and also invokes New-IoTFIPPackage to generate the FIP packages. 
+    This command invokes Imageapp.exe to generate the Flash.ffu for the specified product/config oeminput xml file. Before invoking the ImageApp, this command processes various product specific packages and also invokes New-IoTFIPPackage to generate the FIP packages.
 
     .PARAMETER Product
     Mandatory parameter identifying the Product directory
@@ -426,11 +430,12 @@ function New-IoTFFUImage {
 
     .EXAMPLE
     $result = New-IoTFFUImage SampleA Retail -Validate
-    
+
     .NOTES
     This command can take long time to complete in the order of few tens of minutes.
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]    
     Param
     (
         # Product name to process
@@ -495,7 +500,7 @@ function New-IoTFFUImage {
         #TODO check the impact of dot sourcing.
         . $hookfile $proddir $iotprod.BspName
     }
-    
+
     # Validate if all the packages required are present and signed properly
     if ($Validate) {
         Publish-Status "Validating product packages"
@@ -534,13 +539,13 @@ function New-IoTFFUImage {
         Publish-Status "This will take a while..."
         ImageApp $iotprod.FFUName $iotprod.OemXML.FileName $env:MSPACKAGE /CPUType:$env:BSP_ARCH | Out-File $env:BLD_DIR\$($Product)_$Config.log -Encoding utf8
     }
-    
+
     if ($?) {
         Publish-Success "Build Completed. See $outdir\Flash.ffu"
         $retval = $true
     }
-    else { 
-        Publish-Error "Build failed" 
+    else {
+        Publish-Error "Build failed"
         $retval = $false
     }
 
@@ -756,19 +761,19 @@ function Clear-UserTemp() {
     <#
     .SYNOPSIS
     Clears the User temp directory removing the temp files left behind by the imaging tools
-    
+
     .DESCRIPTION
     Clears the User temp directory removing the temp files left behind by the imaging tools
-    
+
     .EXAMPLE
     Clear-UserTemp
-    
+
     .NOTES
     This is not required to be run with the new toolkit as the temp folder location is changed. You can use this to cleanup your machine from the temp files left behind with the earlier toolkit based builds.
     #>
     $dirstodelete = @()
     $searchstr = "*" + $env:OEM_NAME + "*"
-    $filestodelete = Get-ChildItem -Path "$env:Temp\*" -Include *.mum, *.manifest, update.cat, *ImageUpdate*, *IoTUAP*, *UpdateOS*, $searchstr -Recurse | Foreach-Object { $_.FullName } 
+    $filestodelete = Get-ChildItem -Path "$env:Temp\*" -Include *.mum, *.manifest, update.cat, *ImageUpdate*, *IoTUAP*, *UpdateOS*, $searchstr -Recurse | Foreach-Object { $_.FullName }
 
     foreach ($file in $filestodelete) {
         $frags = $file.Split("\")
@@ -778,7 +783,7 @@ function Clear-UserTemp() {
         }
     }
 
-    foreach ($dir in $dirstodelete) { 
+    foreach ($dir in $dirstodelete) {
         Write-Debug "Cleaning $dir"
         if (Test-Path $env:Temp\$dir) {
             Remove-Item $env:Temp\$dir -Recurse -Force
@@ -787,11 +792,11 @@ function Clear-UserTemp() {
 
     $tempdirs = Get-ChildItem -Path "$env:Temp" -Directory
     foreach ($dir in $tempdirs) {
-        # No recurse here. Only delete empty dirs in the temp folder 
+        # No recurse here. Only delete empty dirs in the temp folder
         $files = Get-ChildItem -Path $dir.FullName
-        if ($files -eq $null) { 
+        if ($files -eq $null) {
             Write-Debug "Cleaning empty dir: $($dir.Name)"
-            Remove-Item $dir.FullName 
+            Remove-Item $dir.FullName
         }
         $files = $null
     }
@@ -800,17 +805,17 @@ function Clear-UserTemp() {
 function New-IoTInf2Cab {
         <#
     .SYNOPSIS
-    Creates a cab file for the given inf. 
-    
+    Creates a cab file for the given inf.
+
     .DESCRIPTION
-    This command creates the wm.xml file in the same location as the inf file and builds a cab file. This does not add the driver to the workspace. See Add-IoTDriverPackage for adding driver to workspace. 
-    
+    This command creates the wm.xml file in the same location as the inf file and builds a cab file. This does not add the driver to the workspace. See Add-IoTDriverPackage for adding driver to workspace.
+
     .PARAMETER InfFile
     Mandatory parameter, specifying the inf file.
-    
+
     .PARAMETER OutputName
     Optional parameter specifying the package name (namespace.name format). Default is Drivers.<InfName>.
-    
+
     .EXAMPLE
     New-IoTInf2Cab C:\Test\gpiodrv.inf Drivers.GPIO
     Creates Oemname.Drivers.GPIO.cab in the build\<arch>\pkg directory.
@@ -834,10 +839,10 @@ function New-IoTInf2Cab {
         return
     }
 
-    if ([string]::IsNullOrWhiteSpace($OutputName)) { 
-        $OutputName = "Drivers." + $fileobj.BaseName 
+    if ([string]::IsNullOrWhiteSpace($OutputName)) {
+        $OutputName = "Drivers." + $fileobj.BaseName
     }
-    
+
     $srcdir = Split-Path -Path $InfFile
     $filedir = $srcdir
 

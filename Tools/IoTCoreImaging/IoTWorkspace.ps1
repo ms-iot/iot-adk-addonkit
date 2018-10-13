@@ -7,16 +7,16 @@ function New-IoTWorkspaceXML {
     <#
     .SYNOPSIS
     Creates a new IoTWorkspaceXML object
-    
+
     .DESCRIPTION
     Creates a new IoTWorkspaceXML object from the File input file. If the file is not present and Create switch is defined, a new IoTWorkspace xml is created with the default values.
-    
+
     .PARAMETER File
     The IoTWorkspace xml file to open or create.
-    
+
     .PARAMETER Create
     Switch parameter to indicate creation of new file. If the file is already present, it opens the existing file.
-    
+
     .EXAMPLE
     $mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml
 
@@ -41,13 +41,13 @@ function New-IoTWorkspace {
     <#
     .SYNOPSIS
     Creates a new IoTWorkspace xml and the directory structure at the specified input directory.
-    
+
     .DESCRIPTION
     Creates a new IoTWorkspace xml and the directory structure at the specified input directory..
-    
+
     .PARAMETER DirName
     Mandatory parameter, specifying the directory for the workspace.
-    
+
     .PARAMETER OemName
     Mandatory parameter, specifying the OEMName for the workspace.
 
@@ -75,7 +75,7 @@ function New-IoTWorkspace {
     # Create the workspace xml file and the directories
     $wsdoc = New-IoTWorkspaceXML $wkspacexml -Create $OemName
     $retval = $wsdoc.AddEnv($Arch)
-    if (! $retval) { 
+    if (! $retval) {
         Publish-Error "Error adding configuration"
         return
     }
@@ -111,13 +111,13 @@ function Open-IoTWorkspace {
     <#
     .SYNOPSIS
     Opens the IoTWorkspace xml at the specified input directory and sets up the environment with those settings.
-    
+
     .DESCRIPTION
     Opens the IoTWorkspace xml and sets up the environment with those settings.
-    
+
     .PARAMETER WsXML
     Mandatory parameter, specifying the IoTWorkspace.xml file or the directory containing IoTWorkspace.xml file.
-    
+
     .EXAMPLE
     Open-IoTWorkspace C:\MyIoTProject\IoTWorkspace.xml
 
@@ -148,7 +148,7 @@ function Open-IoTWorkspace {
             Publish-Error "Invalid input directory"
             return
         }
-    } 
+    }
 
     $IoTWsXml = Resolve-Path -Path $WsXML
     [System.Environment]::SetEnvironmentVariable("IOTWSXML", $IoTWsXml)
@@ -161,13 +161,13 @@ function Add-IoTEnvironment {
     <#
     .SYNOPSIS
     Adds a new architecture to the workspace
-    
+
     .DESCRIPTION
     Adds new architecture to the workspace and creates the required template directories.
-    
+
     .PARAMETER Arch
     Specifies the required architecture. Supported values are arm,arm64,x86 and x64.
-    
+
     .EXAMPLE
     Add-IoTEnvironment arm
 
@@ -182,7 +182,7 @@ function Add-IoTEnvironment {
         [String]$Arch
     )
     $IoTWsXml = $env:IOTWSXML
-    if (!$IoTWsXml) { 
+    if (!$IoTWsXml) {
         Publish-Error "IoTWorkspace not opened. Use Open-IoTWorkspace"
         return
     }
@@ -198,17 +198,17 @@ function Set-IoTEnvironment {
     <#
     .SYNOPSIS
     Sets the environment variables as per requested architecture
-    
+
     .DESCRIPTION
-    Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture. 
+    Reads the IoTWorkspace xml file and configures all the environment variables as per the requested architecture.
     This also exports the environment settings as SetEnvVars.cmd.
-    
+
     .PARAMETER arch
     Specifies the required architecture. Supported values are arm,arm64,x86 and x64.
-    
+
     .EXAMPLE
     Set-IoTEnvironment arm
-    
+
     .NOTES
     The alias for this is setenv
     #>
@@ -219,7 +219,7 @@ function Set-IoTEnvironment {
         [String]$arch = "default"
     )
     $IoTWsXml = $env:IOTWSXML
-    if (!$IoTWsXml) { 
+    if (!$IoTWsXml) {
         Publish-Error "IoTWorkspace not opened. Use Open-IoTWorkspace"
         return
     }
@@ -233,8 +233,8 @@ function Set-IoTEnvironment {
     [System.Environment]::SetEnvironmentVariable("IOT_ADDON_VERSION", "$($MyInvocation.MyCommand.Module.Version)")
     [System.Environment]::SetEnvironmentVariable("SAMPLEWKS", "$Global:ToolsRoot\Workspace")
     [System.Environment]::SetEnvironmentVariable("TOOLS_DIR", "$Global:ToolsRoot\Tools")
-    [System.Environment]::SetEnvironmentVariable("TEMPLATES_DIR", "$env:TOOLS_DIR\Templates") 
-    
+    [System.Environment]::SetEnvironmentVariable("TEMPLATES_DIR", "$env:TOOLS_DIR\Templates")
+
     if ($arch -ieq "default") {
         $arch = $wkspaceobj.GetCurrentEnv()
         Write-Debug "Setting env : $arch"
@@ -263,7 +263,7 @@ function Set-IoTEnvironment {
         $Win10KitsRoot = (Get-ItemProperty -Path $key2).KitsRoot10
         if ([string]::IsNullOrWhiteSpace($Win10KitsRoot)) {
             Publish-Error "ADK not found"
-        }        
+        }
     }
 
     $Win10KitsRoot = $Win10KitsRoot.Substring(0, $Win10KitsRoot.Length - 1)
@@ -286,7 +286,7 @@ function Set-IoTEnvironment {
     $iotwsroot = Split-Path -Path $IoTWsXml -Parent
     $IoTEnvVars += @("IOTADK_ROOT", "IOTWKSPACE", "COMMON_DIR", "SRC_DIR", "PKGSRC_DIR", "BSPSRC_DIR", "PKGUPD_DIR")
     [System.Environment]::SetEnvironmentVariable("IOTADK_ROOT", $iotwsroot)  #to be deprecated
-    [System.Environment]::SetEnvironmentVariable("IOTWKSPACE", $iotwsroot) 
+    [System.Environment]::SetEnvironmentVariable("IOTWKSPACE", $iotwsroot)
     [System.Environment]::SetEnvironmentVariable("COMMON_DIR", "$iotwsroot\Common")
     [System.Environment]::SetEnvironmentVariable("SRC_DIR", "$iotwsroot\Source-$arch")
     [System.Environment]::SetEnvironmentVariable("PKGSRC_DIR", "$env:SRC_DIR\Packages")
@@ -312,7 +312,7 @@ function Set-IoTEnvironment {
         Publish-Status "IOTCORE_VER :", $corekitver
     }
     else { Publish-Error "IoT Core kit ver not found in registry" }
-    
+
     $mspkgroot = $wkscfg.MSPkgRoot
     $mspkg = $mspkgroot + "\MSPackages"
     if ([string]::IsNullOrWhiteSpace($mspkgroot)) {
@@ -345,7 +345,7 @@ function Set-IoTEnvironment {
     [System.Environment]::SetEnvironmentVariable("PKGLOG_DIR", "$env:BLD_DIR\pkgs\logs")
     New-DirIfNotExist $env:TMP
 
-    #set the tools directory 
+    #set the tools directory
     $IoTEnvVars += @("Path", "SDK_VERSION", "DUCSIGNPARAM")
     if ($env:Path -notcontains $env:TOOLS_DIR) {
         [System.Environment]::SetEnvironmentVariable("Path", "$env:TOOLS_DIR;$Win10KitsRootBinPath;$icdroot;$Global:OrigPath")
@@ -369,7 +369,7 @@ function Set-IoTEnvironment {
     if ([string]::IsNullOrWhiteSpace($bsppkgdir)) {
         $bsppkgdir = $env:PKGBLD_DIR
     }
-    else { 
+    else {
         $bsppkgdir = Expand-IoTPath $bsppkgdir
         if (($bsppkgdir -ine $env:PKGBLD_DIR) -and (!(Test-Path $bsppkgdir))) {
             Publish-Error "$bsppkgdir is not found. Setting it to default"
@@ -412,16 +412,16 @@ function Set-IoTCabVersion {
     <#
     .SYNOPSIS
     Sets the version to be used in the Cab package creation.
-    
+
     .DESCRIPTION
     Sets the environment variable used for Cab package creation (Env:BSP_VERSION). Also updates the version in the IoTWorkspace xml file.
-    
+
     .PARAMETER version
     Specifies the version value to be set. This version has to be a four part version number.
-    
+
     .EXAMPLE
     Set-IoTCabVersion 10.0.1.0
-    
+
     .NOTES
     The alias for this is setversion
     #>
@@ -431,7 +431,7 @@ function Set-IoTCabVersion {
         [Parameter(Position = 0, Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]$version
-    )    
+    )
 
     if ($null -ne $env:IoTWsXml) {
         #TODO: validate version
@@ -453,13 +453,13 @@ function Write-IoTVersions {
     <#
     .SYNOPSIS
     Writes the relevant versions that are useful for debugging.
-    
+
     .DESCRIPTION
     Writes the relevant versions that are useful for debugging.
-    
+
     .EXAMPLE
     Write-IoTVersions
-    
+
     .NOTES
     #>
     Publish-Status "ADK_VERSION : $env:ADK_VERSION"
@@ -475,16 +475,16 @@ function Set-IoTRetailSign {
     <#
     .SYNOPSIS
     Sets the signing certificate to the retail cert or test cert.
-    
+
     .DESCRIPTION
     Sets the environment variable used for code signing to the retail certificate (specified in Workspace xml as RetailSignToolParam when the mode parameter is on. When its off, it sets to the test certificate.
-    
+
     .PARAMETER Mode
     On/Off, specifies if retail certificate to be set or not.
-    
+
     .EXAMPLE
     Set-IoTRetailSign On
-    
+
     .NOTES
     The alias for this is retailsign
     #>
@@ -494,7 +494,7 @@ function Set-IoTRetailSign {
         [Parameter(Position = 0, Mandatory = $true)]
         [ValidateSet("On", "Off")]
         [String]$Mode
-    )    
+    )
 
     if ($null -ne $env:IoTWsXml) {
         $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
@@ -522,16 +522,16 @@ function Set-IoTSignature {
     <#
     .SYNOPSIS
     Sets the signing related env vars with the cert information provided.
-    
+
     .DESCRIPTION
     Sets the signing related env vars with the cert information provided.
-    
+
     .PARAMETER SignParam
-    The parameters of the sign tool to select the certificate to sign. 
-   
+    The parameters of the sign tool to select the certificate to sign.
+
     .EXAMPLE
     Set-IoTSignature "/a /s my /i `"Windows OEM Intermediate 2017 (TEST ONLY)`" /n `"Windows OEM Test Cert 2017 (TEST ONLY)`" /fd SHA256"
-    
+
     .NOTES
     See Code signing requirements for more details.
     #>
@@ -561,28 +561,28 @@ function Copy-IoTOEMPackage {
     <#
     .SYNOPSIS
     Copies an OEM package to the destination workspace from a source workspace.
-    
+
     .DESCRIPTION
-    Copies an OEM package to the destination workspace from a source workspace and updates the corresponding FM file with the feature id. 
- 
+    Copies an OEM package to the destination workspace from a source workspace and updates the corresponding FM file with the feature id.
+
     .PARAMETER Source
     Mandatory parameter specifying the source workspace directory.
-    
+
     .PARAMETER Destination
     Mandatory parameter specifying the destination workspace directory.
 
     .PARAMETER PkgName
     Mandatory parameter, specifying the package name, typically of namespace.name format. Wild cards supported.
 
- 
+
     .EXAMPLE
     Copy-IoTOEMPackage $env:SAMPLEWKS $env:IOTWKSPACE Appx.MyApp
     Copies the Appx.MyApp package from $env:SAMPLEWKS to current workspace.
-    
-    .EXAMPLE    
+
+    .EXAMPLE
     Copy-IoTOEMPackage $env:SAMPLEWKS C:\DestWkspace *
     Copies all packages from $env:SAMPLEWKS to DestWkspace
-    
+
     .NOTES
     See Add-IoT* and Import-IoT* methods.
     #>
@@ -639,7 +639,7 @@ function Copy-IoTOEMPackage {
                 $dstfm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $fids)
             }
             else { Write-Verbose "$pkgname is not added to feature manifest"}
-        }  
+        }
     }
     if ($copydone) {
         Write-Verbose "Package copy completed"
@@ -650,21 +650,21 @@ function Import-IoTOEMPackage {
     <#
     .SYNOPSIS
     Imports an OEM package in to the current workspace from a source workspace.
-    
+
     .DESCRIPTION
-    Imports an OEM package in to the current workspace from a source workspace and updates the corresponding FM file with the feature id. 
- 
+    Imports an OEM package in to the current workspace from a source workspace and updates the corresponding FM file with the feature id.
+
     .PARAMETER PkgName
     Mandatory parameter, specifying the package name, typically of namespace.name format. Wild cards supported.
 
     .PARAMETER SourceWkspace
     Optional parameter specifying the source workspace directory.
-    
+
     .EXAMPLE
     Import-IoTOEMPackage Appx.MyApp C:\MyWorkspace
     Imports Appx.MyApp package from C:\MyWorkspace
 
-    .EXAMPLE    
+    .EXAMPLE
     Import-IoTOEMPackage *
     Imports all the packages in the sample workspace that comes along with tooling. ($env:SAMPLEWKS)
     .NOTES
@@ -704,27 +704,27 @@ function Copy-IoTBSP {
     <#
     .SYNOPSIS
     Copies a BSP folder to the destination workspace from a source workspace or a source bsp directory.
-    
+
     .DESCRIPTION
-    Copies a BSP folder to the destination workspace from a source workspace. 
- 
+    Copies a BSP folder to the destination workspace from a source workspace.
+
     .PARAMETER Source
     Mandatory parameter specifying the source workspace or a source bsp directory.
-    
+
     .PARAMETER Destination
     Mandatory parameter specifying the destination workspace directory.
 
     .PARAMETER BSPName
     Mandatory parameter, specifying the BSP name, wildcards supported.
-  
+
     .EXAMPLE
     Copy-IoTBSP C:\MyWorkspace $env:IOTWKSPACE RPi
     Copies RPi BSP from C:\MyWorkspace to current workspace
-   
+
     .EXAMPLE
     Copy-IoTBSP C:\MyBspDir C:\MyWorkspace MyBSP
     Copies MyBSP from C:\MyBspDir to C:\MyWorkspace
-    
+
     .NOTES
     See Add-IoT* and Import-IoT* methods.
     #>
@@ -736,7 +736,7 @@ function Copy-IoTBSP {
         [String]$Source,
         [Parameter(Position = 1, Mandatory = $true)]
         [ValidateScript( { Test-Path $_\IoTWorkspace.xml -PathType Leaf })]
-        [String]$Destination,        
+        [String]$Destination,
         [Parameter(Position = 2, Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]$BSPName
@@ -754,10 +754,10 @@ function Copy-IoTBSP {
         $zip.Dispose()
         $fmfiles = (Get-ChildItem -Path "$tempdir" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
         if (!$fmfiles){
-            Publish-Error "No FM files found in $Source." 
+            Publish-Error "No FM files found in $Source."
             return
         }
-        #if more than one fm file, picking up first. 
+        #if more than one fm file, picking up first.
         #TODO relook as this logic again
         if ($fmfiles.Count -gt 1){
             $fmfilepath  = Split-Path -Path $fmfiles[0] -Parent
@@ -767,7 +767,7 @@ function Copy-IoTBSP {
         }
         $bspdir = Split-Path -Path $fmfilepath -Parent
         $srcdir = Split-Path -Path $bspdir -Parent
-    } 
+    }
     elseif (Test-Path $Source\IoTWorkspace.xml -PathType Leaf){
         $srcdir = "$Source\Source-$($env:arch)\BSP"
     }
@@ -778,15 +778,15 @@ function Copy-IoTBSP {
     $destdir = "$Destination\Source-$($env:arch)\BSP"
     $copydone = $false
     $bsps = (Get-ChildItem -Path $srcdir -Directory -Filter $BSPName ) | foreach-object { $_.Name }
-    if (!$bsps) { 
-        Publish-Error "No Bsp matching $BSPName found in $Source" 
+    if (!$bsps) {
+        Publish-Error "No Bsp matching $BSPName found in $Source"
         return
     }
     foreach ($bsp in $bsps) {
         Publish-Status "Processing $srcdir\$bsp"
         if (Test-Path -Path $destdir\$bsp -PathType Container) {
-            Publish-Warning "$bsp already exists" 
-            continue       
+            Publish-Warning "$bsp already exists"
+            continue
         }
         # validate if the folder is a BSP folder
         $fmfiles = (Get-ChildItem -Path "$srcdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
@@ -824,12 +824,12 @@ function Copy-IoTBSP {
         $fmfiles = (Get-ChildItem -Path "$destdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
         if (!$fmfiles){
             # should not occur if the copy succeeded.
-            Publish-Error "BSP copy failed" 
+            Publish-Error "BSP copy failed"
             continue
         }
-        # replace the absolute path of the bspFM files to the mergedfm directory , also fixing any naming inconsistencies 
+        # replace the absolute path of the bspFM files to the mergedfm directory , also fixing any naming inconsistencies
         foreach($fmfile in $fmfiles){
-            Write-Verbose "Updating $fmfile.." 
+            Write-Verbose "Updating $fmfile.."
             (Get-Content $fmfile) -replace "FeatureIdentifierPackage=`"true`"", "" | Out-File $fmfile -Encoding utf8
             #TODO Get rid of the System Information cab as SMBIOS will fill those values.
             #Get all package names in the directory
@@ -844,7 +844,7 @@ function Copy-IoTBSP {
 	                $pkgsubcomponentname = $pkgname.Split(".")[2]
                         if ($pkgsubcomponentname -ieq $subcomponentname){
                             $pkgname= $pkgname.Replace(".cab","")
-                            $definedpkg = $definedpkg.Replace(".cab","") 
+                            $definedpkg = $definedpkg.Replace(".cab","")
                             Publish-Warning "  Replacing $definedpkg with $pkgname"
                             (Get-Content $fmfile) -replace $definedpkg, $pkgname | Out-File $fmfile -Encoding utf8
                         }
@@ -856,12 +856,12 @@ function Copy-IoTBSP {
         $oeminputs = (Get-ChildItem -Path "$destdir\$bsp" -Filter *OEMInput.xml -Recurse) | foreach-object {$_.FullName}
         if (!$oeminputs){
             # should not occur if the copy succeeded.
-            Publish-Error "BSP copy failed" 
+            Publish-Error "BSP copy failed"
             continue
         }
         # replace the absolute path of the bspFM files to the mergedfm directory
         foreach($oeminput in $oeminputs){
-            Write-Verbose "Updating $oeminput.." 
+            Write-Verbose "Updating $oeminput.."
             (Get-Content $oeminput) -replace "%BSPSRC_DIR%\\$($BSPName)\\Packages", "%BLD_DIR%\MergedFMs" | Out-File $oeminput -Encoding utf8
         }
         $copydone = $true
@@ -879,16 +879,16 @@ function Import-IoTBSP {
     <#
     .SYNOPSIS
     Imports a BSP folder in to the current workspace from a source workspace or a source bsp directory or a source zip file.
-    
+
     .DESCRIPTION
-    Imports a BSP folder in to the current workspace from a source workspace or a source bsp directory or a source zip file. 
+    Imports a BSP folder in to the current workspace from a source workspace or a source bsp directory or a source zip file.
 
     .PARAMETER BSPName
     Mandatory parameter, specifying the BSP to import, wildcard supported.
-    
+
     .PARAMETER Source
     Optional parameter specifying the source workspace or source bsp directory or a source zip file. Default is $env:SAMPLEWKS
-    
+
     .EXAMPLE
     Import-IoTBSP RPi2 C:\MyWorkspace
     Imports RPi2 bsp from C:\MyWorkspace
@@ -896,17 +896,17 @@ function Import-IoTBSP {
     .EXAMPLE
     Import-IoTBSP  *
     Imports all bsps from $env:SAMPLEWKS
-    
+
     .EXAMPLE
-    Import-IoTBSP MyBSP C:\MyBSPFolder 
+    Import-IoTBSP MyBSP C:\MyBSPFolder
     Imports MyBSP from C:\MyBSPFolder
 
     .EXAMPLE
-    Import-IoTBSP BYTx64 C:\Downloads\BYT_Win10_IOT_Core_MR1_BSP_337014-003.zip 
+    Import-IoTBSP BYTx64 C:\Downloads\BYT_Win10_IOT_Core_MR1_BSP_337014-003.zip
     Imports BYTx64 from C:\Downloads\BYT_Win10_IOT_Core_MR1_BSP_337014-003.zip file
 
     .EXAMPLE
-    Import-IoTBSP RPi2 C:\RPi_BSP.zip 
+    Import-IoTBSP RPi2 C:\RPi_BSP.zip
     Imports RPi2 from C:\RPi_BSP.zip
 
     .EXAMPLE
@@ -954,13 +954,13 @@ function Copy-IoTProduct {
     <#
     .SYNOPSIS
     Copies a product folder to the destination workspace from a source workspace.
-    
+
     .DESCRIPTION
-    Copies a product folder to the destination workspace from a source workspace. 
- 
+    Copies a product folder to the destination workspace from a source workspace.
+
     .PARAMETER Source
     Mandatory parameter specifying the source workspace directory.
-    
+
     .PARAMETER Destination
     Mandatory parameter specifying the destination workspace directory.
 
@@ -986,7 +986,7 @@ function Copy-IoTProduct {
         [String]$Source,
         [Parameter(Position = 1, Mandatory = $true)]
         [ValidateScript( { Test-Path $_\IoTWorkspace.xml -PathType Leaf })]
-        [String]$Destination,        
+        [String]$Destination,
         [Parameter(Position = 2, Mandatory = $true)]
         [ValidateNotNullOrEmpty()]
         [String]$ProductName
@@ -995,13 +995,13 @@ function Copy-IoTProduct {
     $destdir = "$Destination\Source-$($env:arch)\Products"
     $copydone = $false
     $products = (Get-ChildItem -Path $srcdir -Directory -Filter $ProductName ) | foreach-object { $_.Name }
-    if (!$products) { 
-        Publish-Error "No matching product found for $ProductName in $Source" 
+    if (!$products) {
+        Publish-Error "No matching product found for $ProductName in $Source"
         return
     }
     foreach ($product in $products) {
         if (Test-Path -Path $destdir\$product -PathType Container) {
-            Publish-Warning "$product already exists"        
+            Publish-Warning "$product already exists"
         }
         else {
             Write-Debug "Copying $product"
@@ -1017,16 +1017,16 @@ function Import-IoTProduct {
     <#
     .SYNOPSIS
     Imports a product folder in to the current workspace from a source workspace.
-    
+
     .DESCRIPTION
     Imports a product folder in to the current workspace from a source workspace.
- 
+
     .PARAMETER ProductName
     Mandatory parameter, specifying the Product, wildcards supported.
 
     .PARAMETER SourceWkspace
     Optional parameter specifying the source workspace directory. Default is $env:SAMPLEWKS
-     
+
     .EXAMPLE
     Import-IoTProduct SampleA C:\MyWorkspace
     Imports SampleA product from C:\MyWorkspace
@@ -1073,7 +1073,7 @@ function Redo-IoTWorkspace {
     <#
     .SYNOPSIS
     Updates an old iot-adk-addonkit folder with required xml files to make it a proper workspace.
-    
+
     .DESCRIPTION
     Updates an old iot-adk-addonkit folder to a proper workspace.
     - creates the IoTWorkspace.xml parsing the setoem.cmd / versioninfo.txt files.
@@ -1082,13 +1082,13 @@ function Redo-IoTWorkspace {
     - deletes old Custom.Cmd and Provisioning.Auto pkgs and copies the new versions to ProdPackages folder
     - regenerates all driver packages to the new wm.xml
 
-    
+
     .PARAMETER Dir
     Mandatory parameter for the old iot-adk-addonkit location
-    
+
     .EXAMPLE
     Redo-IoTWorkspace C:\iot-adk-addonkit
-    
+
     .NOTES
     General notes
     #>
@@ -1102,7 +1102,7 @@ function Redo-IoTWorkspace {
 
     # Create IoTWorkspace.xml
     Publish-Status "Creating workspace xml"
-    $setoemcmd = "$DirName\Tools\setOEM.cmd" 
+    $setoemcmd = "$DirName\Tools\setOEM.cmd"
     if (!(Test-Path $setoemcmd)) {
         Publish-Error "setOEM.cmd file not found. $DirName is not an iot-adk-addonkit folder"
         return
@@ -1200,7 +1200,7 @@ function Redo-IoTWorkspace {
             }
          }
     }
-    
+
     # Process the ppkg files
     Publish-Status "Processing provisioning packages"
     $custfiles = (Get-ChildItem -Path "$DirName" -Filter customizations.xml -Recurse ) | ForEach-Object {$_.FullName}
@@ -1208,8 +1208,8 @@ function Redo-IoTWorkspace {
         Write-Verbose " Processing $custfile"
         $pkgdir = Split-Path -Path $custfile -Parent
         $OutputName = Split-Path -Path $pkgdir -Leaf
-        if ($OutputName -ieq "Templates") { 
-            continue 
+        if ($OutputName -ieq "Templates") {
+            continue
         } elseif ($OutputName -ieq "prov") {
             Write-Verbose "   Creating ICD project file"
             $provxml = New-IoTProvisioningXML $custfile
@@ -1252,7 +1252,7 @@ function Redo-IoTWorkspace {
             $namespart += "Drivers"
             $namespart += $OutputName
             Remove-ItemIfExist "$pkgdir\Drivers.$OutputName.pkg.xml"
-            Remove-ItemIfExist "$pkgdir\Drivers.$OutputName.wm.xml" 
+            Remove-ItemIfExist "$pkgdir\Drivers.$OutputName.wm.xml"
         }
 
         $wmwriter = New-IoTWMWriter $pkgdir $namespart[0] $namespart[1]
@@ -1264,7 +1264,7 @@ function Redo-IoTWorkspace {
 
     # process all driver files
     Publish-Status "Converting pkg xml to wm xml"
-    Convert-IoTPkg2Wm $DirName 
+    Convert-IoTPkg2Wm $DirName
 }
 
 function Get-SMBIOSData ( [ValidateNotNullOrEmpty()][string] $file ) {
@@ -1327,6 +1327,7 @@ function Get-IoTWorkspaceProducts {
 
     .NOTES
     #>
+    [OutputType([String[])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $false)]
@@ -1353,7 +1354,7 @@ function Get-IoTWorkspaceProducts {
 
     $srcdir = "$SourceWkspace\Source-$($env:arch)\Products"
     $products = (Get-ChildItem -Path $srcdir -Directory) | foreach-object { $_.Name }
-    if (!$products) { 
+    if (!$products) {
         Publish-Error "No products found in $srcdir"
         return $retval
     }
@@ -1384,6 +1385,7 @@ function Get-IoTWorkspaceBSPs {
 
     .NOTES
     #>
+    [OutputType([String[])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $false)]
@@ -1469,7 +1471,7 @@ function Import-QCBSP {
     $fmobj = New-IoTFMXML $qcfmxml
     $pkglist = $fmobj.GetPackageNames()
     #skipping parsing QCDB410CTestFM.xml. Just one entry hardcoded here.
-    $pkglist += "Qualcomm.QC8916.UEFI.cab" 
+    $pkglist += "Qualcomm.QC8916.UEFI.cab"
 
     $exceptionlist = @(
         'Qualcomm.QC8916.OEMDevicePlatform.cab'

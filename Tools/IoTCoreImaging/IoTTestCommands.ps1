@@ -17,23 +17,24 @@ function Test-IoTCabSignature {
     <#
     .SYNOPSIS
     Checks if the cab file and its contents are properly signed.
-    
+
     .DESCRIPTION
     Checks if the cab file and its contents are properly signed.
-    
+
     .PARAMETER CabFile
     Mandatory parameter, the cab file to be inspected
-    
+
     .PARAMETER Config
     Mandatory parameter, specifing the Config. Can be "Retail" or any other ("Test"/"Dev" etc)
-    
+
     .EXAMPLE
     $result = Test-IoTCabSignature C:\myfile.cab Retail
-    
+
     .NOTES
     Uses Test-IoTSignature cmdlet to validate the .cab file, and its contents - .cat. .exe, .dll and .sys
     #>
     [CmdletBinding()]
+    [OutputType([Boolean)]
     Param
     (
         # Product name to process
@@ -97,6 +98,7 @@ function Test-IoTSignature {
     This verifies using the signtool. [ signtool verify /v /pa FileName ]
     #>
     [CmdletBinding()]
+    [OutputType([Boolean)]
     Param
     (
         # Product name to process
@@ -166,13 +168,13 @@ function Add-IoTSignature {
     Optional parameter indicating the file type(s) to be signed. If omitted, all file types (*.exe,*.dll.*.sys,*.cat) will be signed.
 
     .EXAMPLE
-    Add-IoTSignature C:\QCSBSP 
+    Add-IoTSignature C:\QCSBSP
 
     .EXAMPLE
     Add-IoTSignature C:\QCSBSP *.sys,*.dll
 
     .NOTES
-    
+
     #>
     [CmdletBinding()]
     Param
@@ -186,7 +188,7 @@ function Add-IoTSignature {
     $types = @('*.exe', '*.sys', '*.dll', '*.cat')
     if (Test-Path $Path -PathType Container) {
         $filter = $types
-        if ($Type) { 
+        if ($Type) {
             $check = $Type | Where-Object { $types -notcontains $_ }
             if ($check ) {
                 Publish-Error "$check not supported"
@@ -204,10 +206,10 @@ function Add-IoTSignature {
             Write-Verbose "Signing $file"
             sign $file | Out-Null
         }
-        
+
     }
     elseif (Test-Path $Path -PathType Leaf -Include $types) {
-        #Single file. Sign this file 
+        #Single file. Sign this file
         Write-Verbose "Signing $file"
         sign $Path | Out-Null
     }
@@ -221,7 +223,7 @@ function Redo-IoTCabSignature {
     Resigns the cab file and its contents / cat files with the certificate set in the environment.
 
     .DESCRIPTION
-    Resigns the cab file and its contents / cat files with the certificate set in the environment. This is useful to sign the cabs from Silicon Vendors with OEM Cross certificate. 
+    Resigns the cab file and its contents / cat files with the certificate set in the environment. This is useful to sign the cabs from Silicon Vendors with OEM Cross certificate.
 
     .PARAMETER Path
     Path containing the source cab files
@@ -233,7 +235,7 @@ function Redo-IoTCabSignature {
     Redo-IoTCabSignature C:\QCSBSP C:\QCBSP-Signed
 
     .NOTES
-    
+
     #>
     [CmdletBinding()]
     Param
@@ -248,7 +250,7 @@ function Redo-IoTCabSignature {
     )
     New-DirIfNotExist $DestinationPath
     $excludesign = ".HalExt"
-    $cabfiles = Get-ChildItem -Path $Path -Filter *.cab 
+    $cabfiles = Get-ChildItem -Path $Path -Filter *.cab
     if (!$cabfiles) {
         Publish-Error "No .cab files found in $Path"
         return

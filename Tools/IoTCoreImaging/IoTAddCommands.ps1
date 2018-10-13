@@ -6,25 +6,25 @@ function Add-IoTAppxPackage {
     <#
     .SYNOPSIS
     Adds an Appx package directory to the workspace and generates the required wm.xml and customizations.xml files
-    
+
     .DESCRIPTION
     This command creates an appx directory in the Source-arch\packages folder and generates the wm.xml and customisations.xml file by processing the input appx/appxbundle file. This also copies the appx files including the dependencies and the cert or the license file to the appx directory. In addition, this also adds an appx specific feature id (APPX_AppxName) in the OEMFM.xml file.
-    
+
     .PARAMETER AppxFile
     Mandatory parameter, specifying the appx (or) appxbundle filename.
-    
+
     .PARAMETER StartupType
     Mandatory parameter, specifying the appx startup type, fga for foreground app, bgt for background task and none for no startup specification. Default is none.
-    
+
     .PARAMETER OutputName
     Optional parameter specifying the directory name (namespace.name format). Default is Appx.<appxname>.
-    
+
     .PARAMETER SkipCert
     Optional switch parameter to skip processing of cert file .This copies the cert file to the directory but does not add the cert specification in the customizations.xml file.
-    
+
     .EXAMPLE
-    Add-IoTAppxPackage C:\MyApps\Sample1.Appx fga Appx.Sample 
-    
+    Add-IoTAppxPackage C:\MyApps\Sample1.Appx fga Appx.Sample
+
     .NOTES
     See New-IoTCabPackage to build a cab file.
     #>
@@ -72,7 +72,7 @@ function Add-IoTAppxPackage {
                     $text = $txt2.Split("!")
                     $pkgfamname = $text[0]
                     $entry = $text[1]
-                    break 
+                    break
                 }
             }
         }
@@ -152,7 +152,7 @@ function Add-IoTAppxPackage {
     }
     else { $guid = [System.Guid]::NewGuid().toString() }
     $provxml = New-IoTProvisioningXML "$custxml" -Create
-    $pkgconfig = @{ 
+    $pkgconfig = @{
         "ID"      = "$guid"
         "Name"    = "$($AppxName)Prov"
         "Version" = "$AppxVersion"
@@ -220,20 +220,20 @@ function Add-IoTDriverPackage {
     <#
     .SYNOPSIS
     Adds a driver package directory to the workspace and generates the required wm.xml file.
-    
+
     .DESCRIPTION
     This command creates a driver package directory in the Source-arch\packages folder and generates the wm.xml file and copies all files in the inf directory including the inf file. If BSPName is specified, then it creates the package directory in Source-arch\BSP\<BSPName>\Packages directory.
-    In addition to that, it also adds a driver specific feature id (DRV_InfName) in the OEMFM.xml ( or in the BSPFM.xml if BSPName specified). 
-    
+    In addition to that, it also adds a driver specific feature id (DRV_InfName) in the OEMFM.xml ( or in the BSPFM.xml if BSPName specified).
+
     .PARAMETER InfFile
     Mandatory parameter, specifying the inf file.
-    
+
     .PARAMETER OutputName
     Optional parameter specifying the directory name (namespace.name format). Default is Drivers.<InfName>.
-    
+
     .PARAMETER BSPName
-    Optional parameter specifying the BSP. 
-    
+    Optional parameter specifying the BSP.
+
     .EXAMPLE
     Add-IoTDriverPackage C:\Test\gpiodrv.inf Drivers.GPIO
     Creates Drivers.GPIO in Source-arch\packages folder.
@@ -241,7 +241,7 @@ function Add-IoTDriverPackage {
     .EXAMPLE
     Add-IoTDriverPackage C:\Test\gpiodrv.inf Drivers.GPIO RPi2
     Creates Drivers.GPIO in Source-arch\BSP\RPi2\packages folder.
-    
+
     .NOTES
     See New-IoTCabPackage to build a cab file.
     #>
@@ -263,10 +263,10 @@ function Add-IoTDriverPackage {
         return
     }
 
-    if ([string]::IsNullOrWhiteSpace($OutputName)) { 
-        $OutputName = "Drivers." + $fileobj.BaseName 
+    if ([string]::IsNullOrWhiteSpace($OutputName)) {
+        $OutputName = "Drivers." + $fileobj.BaseName
     }
-    
+
     $filedir = "$env:SRC_DIR\Packages\$OutputName"
     $fmxml = "$env:PKGSRC_DIR\OEMFM.xml"
     $bspdir = "$env:SRC_DIR\BSP\$BSPName"
@@ -319,17 +319,17 @@ function Add-IoTCommonPackage {
     <#
     .SYNOPSIS
     Adds a common(generic) package directory to the workspace and generates the required wm.xml file.
-    
+
     .DESCRIPTION
-    This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file. 
-    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml. 
- 
+    This command creates a common (generic) package directory in the Common\packages folder and generates the wm.xml file.
+    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
+
     .PARAMETER OutputName
-    Mandatory parameter specifying the directory name (namespace.name format). 
-    
+    Mandatory parameter specifying the directory name (namespace.name format).
+
     .EXAMPLE
     Add-IoTCommonPackage Custom.Settings
-    
+
     .NOTES
     See New-IoTCabPackage to build a cab file.
     #>
@@ -382,20 +382,20 @@ function Add-IoTFilePackage {
     <#
     .SYNOPSIS
     Adds a file package directory to the workspace and generates the required wm.xml file.
-    
+
     .DESCRIPTION
-    This command creates a file package directory in the Common\packages folder and generates the wm.xml file. 
-    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml. 
- 
+    This command creates a file package directory in the Common\packages folder and generates the wm.xml file.
+    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
+
     .PARAMETER OutputName
-    Mandatory parameter specifying the directory name (namespace.name format). 
+    Mandatory parameter specifying the directory name (namespace.name format).
 
     .PARAMETER Files
-    Mandatory parameter specifying the list of files to be added to the package (array of arrays). Each entry is an 3 element array containing destinationdir, source file and destination filename in that order. 
-    
+    Mandatory parameter specifying the list of files to be added to the package (array of arrays). Each entry is an 3 element array containing destinationdir, source file and destination filename in that order.
+
     .EXAMPLE
     Add-IoTFilePackage Files.Templates
-    
+
     .NOTES
     See New-IoTCabPackage to build a cab file.
     #>
@@ -428,13 +428,13 @@ function Add-IoTFilePackage {
                     Copy-Item -Path $File[1] -Destination $filedir -Force | Out-Null
                     $srcfile = Split-Path $File[1] -Leaf
                     $destfile = $File[2]
-                    if ([string]::IsNullOrWhiteSpace($File[2])) { 
+                    if ([string]::IsNullOrWhiteSpace($File[2])) {
                         $destfile = $srcfile
                     }
                     $wmwriter.AddFiles($File[0],$srcfile,$destfile)
                 }
                 else {
-                    Publish-Error "$($File[1]) not found" 
+                    Publish-Error "$($File[1]) not found"
                 }
             }
         }
@@ -462,20 +462,20 @@ function Add-IoTRegistryPackage {
     <#
     .SYNOPSIS
     Adds a registry package directory to the workspace and generates the required wm.xml file.
-    
+
     .DESCRIPTION
-    This command creates a registry package directory in the Common\packages folder and generates the wm.xml file. 
-    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml. 
- 
+    This command creates a registry package directory in the Common\packages folder and generates the wm.xml file.
+    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
+
     .PARAMETER OutputName
     Mandatory parameter specifying the directory name (namespace.name format).
 
     .PARAMETER RegKeys
     Mandatory parameter specifying the reg keys to be specified (array of arrays). Each element should contain reg key, reg value , reg value type and reg value data in that order. For just the keys with no value, the remaining fields can be $null.
-    
+
     .EXAMPLE
     Add-IoTRegistryPackage Registry.Settings
-    
+
     .NOTES
     See New-IoTCabPackage to build a cab file.
     #>
@@ -532,21 +532,21 @@ function Add-IoTProvisioningPackage {
     <#
     .SYNOPSIS
     Adds a provisioning package directory to the workspace and generates the required wm.xml file, customizations.xml file and the icdproject file.
-    
+
     .DESCRIPTION
-    This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file. 
-    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml. 
- 
+    This command creates a provisioning package directory in the Common\packages folder and generates the wm.xml file,customizations.xml file and the icdproject file.
+    In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.xml.
+
     .PARAMETER OutputName
-    Mandatory parameter specifying the directory name (namespace.name format). 
+    Mandatory parameter specifying the directory name (namespace.name format).
 
     .PARAMETER PpkgFile
-    Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)). 
+    Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)).
 
     .EXAMPLE
     Add-IoTProvisioningPackage Custom.Settings
     Creates a provisioning package folder Custom.Settings. Launch ICD.exe and open the .icdproj.xml file in this folder to edit the provisioning settings.
-    
+
     .EXAMPLE
     Add-IoTProvisioningPackage Custom.Settings "C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)\DisableUpdate\DisableUpdate.ppkg"
     Creates a provisioning package folder Custom.Settings and copies the source files for the ppkg to this directory and renames it to CustomSettings.
@@ -603,20 +603,20 @@ function Add-IoTProvisioningPackage {
         $srcpath = Split-Path -Path $PpkgFile -Parent
         Copy-Item "$srcpath\customizations.xml" $custxml
         $provxml = New-IoTProvisioningXML "$custxml"
-        $pkgconfig = @{ 
+        $pkgconfig = @{
             "Name"    = "$ProvName"
         }
     }
     else {
         # create customisations.xml file
         $provxml = New-IoTProvisioningXML "$custxml" -Create
-        $pkgconfig = @{ 
+        $pkgconfig = @{
             "Name"    = "$ProvName"
             "Rank"    = "$PROV_RANK"
         }
         $provxml.AddPolicy("ApplicationManagement", "AllowAllTrustedApps", "Yes")
     }
-    $provxml.SetPackageConfig($pkgconfig)    
+    $provxml.SetPackageConfig($pkgconfig)
     $provxml.CreateICDProject()
     # Update the feature manifest with this package entry
     try {
@@ -635,19 +635,19 @@ function Add-IoTProduct {
     <#
     .SYNOPSIS
     Generates a new product directory under Source-arch\Products\.
-    
+
     .DESCRIPTION
     Generates a new product directory under Source-arch\Products\ based on the OEMInputSamples specified in the BSP directory Source-arch\BSP\<BSPName>\OEMInputSamples
-    
+
     .PARAMETER ProductName
     Mandatory parameter, specify the product name.
-    
+
     .PARAMETER BSPName
     Mandatory paramter, specify the BSP used in the product.
-    
+
     .PARAMETER OemName
     Mandatory parameter, specify the OEM name for the SMBIOS.
-    
+
     .PARAMETER FamilyName
     Mandatory parameter, specify the Family name for the SMBIOS.
 
@@ -725,16 +725,16 @@ function Add-IoTBSP {
     <#
     .SYNOPSIS
     Generates a BSP directory under Source-arch\BSP\ using a BSP directory template.
-    
+
     .DESCRIPTION
     Generates a BSP directory under Source-arch\BSP\ using a BSP directory template.
-    
+
     .PARAMETER BSPName
     Mandatory paramter, specifying the BSP name.
-    
+
     .EXAMPLE
     Add-IoTBSP MyRPi
-    
+
     .NOTES
     See Add-IoTProduct for creating new product directory.
     #>
@@ -821,21 +821,22 @@ function Add-IoTDeviceGuard {
     See Import-IoTCertificate before using this function.
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]
     Param
     (
         [Parameter(Position = 0, Mandatory = $false)]
         [Switch]$Test
-    )    
+    )
 
     if ($null -eq $env:IoTWsXml) {
-        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace" 
+        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace"
     }
     $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
     $settingsdoc = $wkspace.XmlDoc
     $sipolicynode = $settingsdoc.IoTWorkspace.Security.SIPolicy
-    if ($null -eq $sipolicynode) { 
+    if ($null -eq $sipolicynode) {
         Publish-Error "Security settings are not defined in the workspace"
-        return $false 
+        return $false
     }
     $retval = $true
 
@@ -843,7 +844,7 @@ function Add-IoTDeviceGuard {
     if ($Test) {
         $pkgname = "DeviceGuardTest"
     } else { $pkgname = "DeviceGuard" }
-    
+
     $secdir = "$env:COMMON_DIR\Packages\Security.$pkgname"
     $tmpdir = "$env:TMP\security"
     if (!(Test-Path $secdir)){
@@ -864,7 +865,7 @@ function Add-IoTDeviceGuard {
     $certdir = "$env:IOTWKSPACE\Certs"
     Copy-Item -Path $initialPolicy -Destination $auditPolicy -Force
 
-    # First add the microsoft 
+    # First add the microsoft
     $ConfigFile = "$PSScriptRoot\IoTEnvSettings.xml"
     [xml] $Config = Get-Content -Path $ConfigFile
     $cfgnode = $Config.IoTEnvironment.Security.SIPolicy
@@ -953,11 +954,11 @@ function Add-IoTDeviceGuard {
     else {
         Publish-Warning "SiPolicy : No kernel certs specified in workspace"
     }
-    
+
     ConvertFrom-CIPolicy -XmlFilePath $auditPolicy -BinaryFilePath $auditPolicyBin
     #$SignTool = (get-item -path "$env:KITSROOT\bin\$env:SDK_VERSION\x86\signtool.exe").FullName
     #& $SignTool sign -v /f $updatePfx /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $auditPolicyBin
-    
+
     # Use the first update cert to sign
     $signcertfile = ($sipolicynode.Update.Cert | Select-Object -first 1 | Get-Item ).FullName
     # Use sha1 thumbprint to identify the cert for signing. Cert must be available in CurrentUser store (from smartcard or local machine)
@@ -1007,7 +1008,7 @@ function Add-IoTSecureBoot {
     Generates the secure boot package (Security.SecureBoot) contents based on the workspace specifications. If Test is specified, then it includes test certificates from the specification and generates Security.SecureBootTest package. You will need to import the required certificates into the workspace before using this command. For Secure Boot, PlatformKey and KeyExchangeKey certificates are mandatory.
 
     .PARAMETER Test
-    Switch parameter, to include test certificates in the secure boot package. 
+    Switch parameter, to include test certificates in the secure boot package.
 
     .EXAMPLE
     Add-IoTSecureBoot -Test
@@ -1020,10 +1021,10 @@ function Add-IoTSecureBoot {
     (
         [Parameter(Position = 0, Mandatory = $false)]
         [Switch]$Test
-    ) 
+    )
 
     if ($null -eq $env:IoTWsXml) {
-        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace" 
+        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace"
     }
     $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
     $settingsdoc = $wkspace.XmlDoc
@@ -1046,7 +1047,7 @@ function Add-IoTSecureBoot {
     }
     New-DirIfNotExist $tmpdir
     #$SignTool = (get-item -path "$env:KITSROOT\bin\$env:SDK_VERSION\x86\signtool.exe").FullName
-    # First add the microsoft 
+    # First add the microsoft
     $ConfigFile = "$PSScriptRoot\IoTEnvSettings.xml"
     [xml] $Config = Get-Content -Path $ConfigFile
     $cfgnode = $Config.IoTEnvironment.Security.SecureBoot
@@ -1079,7 +1080,7 @@ function Add-IoTSecureBoot {
     else{
         Publish-Error "PlatformKey/KeyExchangeKey not specified in workspace"
         Pop-Location
-        return $false
+        return
     }
 
     $kekcert += ($securebootnode.KeyExchangeKey.Cert | Get-Item ).FullName
@@ -1157,9 +1158,9 @@ function Add-IoTBitLocker {
     .NOTES
     See Import-IoTCertificate before using this function.
     #>
-     
+
     if ($null -eq $env:IoTWsXml) {
-        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace" 
+        Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace"
     }
     $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
     $settingsdoc = $wkspace.XmlDoc
@@ -1176,7 +1177,7 @@ function Add-IoTBitLocker {
     if(-not $dracer){
         Publish-Error "DataRecovery Certificate not defined in workspace"
         Pop-Location
-        return $false
+        return
     }
     $dra = Get-Item -Path $dracer
     $thumbprint = (Get-PfxCertificate -FilePath $dra).Thumbprint

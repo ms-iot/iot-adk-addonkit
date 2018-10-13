@@ -18,7 +18,7 @@ $Global:ToolsRoot = $toolsroot.Replace("\Tools\IoTCoreImaging", "")
 $Global:OrigPath = $env:Path
 Write-Debug "Orig Path : $($Global:OrigPath)"
 
-# dot source all the classes here. The order is important to ensure the dependency 
+# dot source all the classes here. The order is important to ensure the dependency
 
 . $PSScriptRoot\Classes\IoTDeviceLayout.ps1
 . $PSScriptRoot\Classes\IoTWMWriter.ps1
@@ -31,7 +31,7 @@ Write-Debug "Orig Path : $($Global:OrigPath)"
 . $PSScriptRoot\Classes\IoTWMXML.ps1
 . $PSScriptRoot\Classes\IoTFFU.ps1
 
-# dot source all the powershell scripts for the functions 
+# dot source all the powershell scripts for the functions
 . $PSScriptRoot\IoTBuildCommands.ps1
 . $PSScriptRoot\IoTTestCommands.ps1
 . $PSScriptRoot\IoTAddCommands.ps1
@@ -78,7 +78,7 @@ New-Alias -Name 'verifyrecovery' -Value 'Test-IoTRecoveryImage'
 New-Alias -Name 'checkcab' -Value 'Test-IoTCabSignature'
 New-Alias -Name 'checksign' -Value 'Test-IoTSignature'
 New-Alias -Name 'signbinaries' -Value 'Add-IoTSignature'
-New-Alias -Name 're-signcabs' -Value 'Redo-IoTCabSignature' 
+New-Alias -Name 're-signcabs' -Value 'Redo-IoTCabSignature'
 ############ IoTWorkspace Exports ##############
 New-Alias -Name 'new-ws' -Value 'New-IoTWorkspace'
 New-Alias -Name 'open-ws' -Value 'Open-IoTWorkspace'

@@ -9,7 +9,7 @@ function Publish-Error([string] $message) {
     }
     else {
         Write-Error $message
-    }   
+    }
 }
 function Publish-Success() {
     Write-Host $args  -ForegroundColor Green
@@ -23,13 +23,13 @@ function Publish-Warning ([string] $message) {
     }
     else {
         Write-Warning $message
-    } 
+    }
 }
 
 function New-DirIfNotExist ([string] $path, [switch]$force) {
     if (Test-Path $path) {
-        if ($force) { 
-            Remove-Item $path -Recurse -Force | Out-Null 
+        if ($force) {
+            Remove-Item $path -Recurse -Force | Out-Null
         }
         else { return }
     }
@@ -38,7 +38,7 @@ function New-DirIfNotExist ([string] $path, [switch]$force) {
 
 function Remove-ItemIfExist ([string] $path) {
     if (Test-Path $path) {
-        Remove-Item $path -Recurse -Force | Out-Null 
+        Remove-Item $path -Recurse -Force | Out-Null
     }
 }
 function Expand-IoTPath([string] $filepath) {

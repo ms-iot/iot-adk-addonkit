@@ -7,7 +7,7 @@ function Import-IoTCertificate {
     <#
     .SYNOPSIS
     Imports an certificate and adds to the Workspace security specification.
-    
+
     .DESCRIPTION
     Imports an certificate and adds to the Workspace security specification.
     For Secure boot functionality, it is mandatory to specify the PlatformKey and the KeyExchangeKey.
@@ -16,31 +16,31 @@ function Import-IoTCertificate {
     You will also need the following certs in the local cert store of the build machine (either installed directly or on a smart card).
     For signing purpose
      - Certificate with private key corresponding to PlatformKey
-     - Certificate with private key corresponding to KeyExchangeKey 
+     - Certificate with private key corresponding to KeyExchangeKey
      For testing purposes, you can use the sample pfx files provided in the sample workspace and install them by double clicking on them.
- 
+
     .PARAMETER CertFile
     Mandatory parameter, specifying the package name, typically of namespace.name format. Wild cards supported.
 
     .PARAMETER CertType
-    Mandatory parameter specifying the cert type. The supported values are 
+    Mandatory parameter specifying the cert type. The supported values are
     for secure boot  : "PlatformKey","KeyExchangeKey","Database"
     for bit locker   : "DataRecoveryAgent"
     for device guard : "Update","User","Kernel"
     See IoTWorkspace.xml for the cert definitions.
-    
+
     .PARAMETER Test
-    Switch parameter specifying if the certificate is test certificate 
-        
-    .EXAMPLE    
+    Switch parameter specifying if the certificate is test certificate
+
+    .EXAMPLE
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-UEFISB.cer KeyExchangeKey
     Imports OEM-UEFISB.cer as a KeyExchangeKey certificate for secure boot policy. The cert is also copied to the workspace certs folder.
 
-    .EXAMPLE    
+    .EXAMPLE
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-PK.cer PlatformKey
     Imports OEM-PK.cer as a Platform key certificate for secure boot policy. The cert is also copied to the workspace certs folder.
 
-    .EXAMPLE    
+    .EXAMPLE
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-DRA.cer DataRecoveryAgent
     Imports OEM-DRA.cer as a DataRecoveryAgent certificate for bitlocker policy. The cert is also copied to the workspace certs folder.
 
@@ -48,7 +48,7 @@ function Import-IoTCertificate {
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-PAUTH.cer Update
     Imports OEM-PAUTH.cer as a update certificate for device guard policy. The cert is also copied to the workspace certs folder.
 
-    .EXAMPLE    
+    .EXAMPLE
     Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-UMCI.cer User
     Imports OEM-UMCI.cer as a user mode code signing certificate for device guard. The cert is also copied to the workspace certs folder.
 
@@ -68,7 +68,7 @@ function Import-IoTCertificate {
         [Switch]$Test
     )
     $IoTWsXml = $env:IOTWSXML
-    if (!$IoTWsXml) { 
+    if (!$IoTWsXml) {
         Publish-Error "IoTWorkspace not opened. Use Open-IoTWorkspace"
         return
     }
@@ -83,11 +83,11 @@ function New-IoTOEMCerts {
        <#
     .SYNOPSIS
     Generates the required OEM certificates.
-    
+
     .DESCRIPTION
     Generates the OEM certificates required for the secure boot, bit locker and the device guard features. This will prompt for the password when creating each certificate.
-      
-    .EXAMPLE    
+
+    .EXAMPLE
     New-IoTOEMCerts
 
     .NOTES
@@ -206,11 +206,11 @@ function Install-IoTOEMCerts {
  <#
  .SYNOPSIS
  Installs the OEM certs (pfx files) in the certs\private folder
- 
+
  .DESCRIPTION
  Installs the OEM certs (pfx files) in the certs\private folder
-   
- .EXAMPLE    
+
+ .EXAMPLE
  Install-IoTOEMCerts
 
  .NOTES

@@ -19,6 +19,7 @@ function New-IoTWindowsImage {
     https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
     #>
     [CmdletBinding()]
+    [OutputType([Boolean])]
     param(
         [string]
         # Specify the product name
@@ -146,9 +147,9 @@ function New-IoTRecoveryImage {
         [string] $product,
         # Config to load ( retail/test )
         [string] $config,
-        # Optional, the mode Import/Export 
+        # Optional, the mode Import/Export
         [string] $wimmode,
-        # The directory for the wim files. Mandatory when wimmode is specified. 
+        # The directory for the wim files. Mandatory when wimmode is specified.
         [string] $wimdir
     )
 
@@ -171,8 +172,8 @@ function New-IoTRecoveryImage {
 
     # If not exist winpe, create winpe
     $winpewim = "$ffudir\winpe.wim"
-    if (!(Test-Path $winpewim)) { 
-        $retval = New-IoTWindowsImage $product $config 
+    if (!(Test-Path $winpewim)) {
+        $retval = New-IoTWindowsImage $product $config
         if (!$retval) {
             Publish-Error "WinPE creation failed."
             return
@@ -189,7 +190,7 @@ function New-IoTRecoveryImage {
 
     # Copy contents to MMOS
     if ($wimmode -ieq "Import") {
-        if (Test-Path $wimdir) { 
+        if (Test-Path $wimdir) {
             Publish-Status "Copying wim files from $wimdir"
             Copy-Item "$wimdir\efiesp.wim" -Destination $mmosdir
             Copy-Item "$wimdir\mainos.wim" -Destination $mmosdir
@@ -243,9 +244,9 @@ function Test-IoTRecoveryImage {
     .EXAMPLE
     Test-IoTRecoveryImage ProductA Test
     .EXAMPLE
-    Test-IoTRecoveryImage ProductA Test 
+    Test-IoTRecoveryImage ProductA Test
     .EXAMPLE
-    Test-IoTRecoveryImage -product ProductA -config Test 
+    Test-IoTRecoveryImage -product ProductA -config Test
     .LINK
     https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
     #>
@@ -267,7 +268,7 @@ function Test-IoTRecoveryImage {
     }
     $ffufile = $iotprod.FFUName
     $ffudir = Split-Path -Path $ffufile -Parent
-    $recoveryffu = "$ffudir\Flash_Recovery.ffu" 
+    $recoveryffu = "$ffudir\Flash_Recovery.ffu"
     if (!(Test-Path $recoveryffu)) {
         Publish-Error "$recoveryffu not found"
         return

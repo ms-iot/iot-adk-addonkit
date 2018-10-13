@@ -97,7 +97,7 @@ class IoTDeviceLayout {
     }
 
     [void] GenerateRecoveryScripts([string] $RecoveryPath) {
-    
+
         New-DirIfNotExist $RecoveryPath
         # Generate required files
         # Define the files/dirs that we will generate

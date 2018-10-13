@@ -38,9 +38,9 @@ class IoTFFU {
         # Check whether the ffu is already mounted
         if ($this.IsMounted()) {
             Publish-Error "Mount failed as another FFU is already mounted."
-            return 
+            return
         }
-        
+
         # Mount the ffu
         Publish-Status "Mounting $($this.FileName)"
         Push-Location $this.FileDir
@@ -85,7 +85,7 @@ class IoTFFU {
     }
 
     [Boolean] IsMounted() {
-        return ![string]::IsNullOrWhiteSpace($this.DiskDrive) 
+        return ![string]::IsNullOrWhiteSpace($this.DiskDrive)
     }
 
     [Boolean] Dismount([string] $filename) {
@@ -188,7 +188,7 @@ class IoTFFU {
 
             #New-CIPolicy -Level Publisher -FilePath $initialPolicy_Pub -fallback Hash -ScanPath "$drive" -PathToCatroot "$drive\Windows\System32\catroot" -UserPEs 3> "$($this.FileDir)\CIPolicyLog.txt"
 
-            #New-CIPolicy -Level LeafCertificate -FilePath $initialPolicy_Leaf -fallback Hash -ScanPath "$drive" -PathToCatroot "$drive\Windows\System32\catroot" -UserPEs 3> "$($this.FileDir)\CIPolicyLog.txt"            
+            #New-CIPolicy -Level LeafCertificate -FilePath $initialPolicy_Leaf -fallback Hash -ScanPath "$drive" -PathToCatroot "$drive\Windows\System32\catroot" -UserPEs 3> "$($this.FileDir)\CIPolicyLog.txt"
 
             $xmldoc = [xml] (Get-Content -Path $initialPolicy)
             $signers = $xmldoc.SiPolicy.Signers.Signer.Name | Sort-Object | Select-Object -Unique
