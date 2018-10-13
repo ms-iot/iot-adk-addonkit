@@ -62,7 +62,7 @@ function New-IoTWindowsImage {
     Write-Debug "Get device layout and validate"
     # Get device layout object
     $devlayout = $iotprod.GetDeviceLayout()
-    if ($devlayout -eq $null) {
+    if ($null -eq $devlayout) {
         Publish-Error "GetDeviceLayout failed"
         return $false
     }
@@ -96,7 +96,7 @@ function New-IoTWindowsImage {
     # Check and add drivers
     if (Test-Path $winpeextdrv ) {
         $inffiles = (Get-ChildItem -Path $winpeextdrv -Filter "*.inf" -Recurse) | foreach-object {$_.FullName}
-        if ($inffiles -ine $null) {
+        if ($null -ne $inffiles) {
             Publish-Status "Adding drivers"
             $name = Split-Path $inf -Leaf
             foreach ($inf in $inffiles) {

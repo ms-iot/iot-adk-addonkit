@@ -65,7 +65,7 @@ function Test-IoTCabSignature {
     $cabcontents = Get-ChildItem -Path $env:TMP -Recurse -Include $files_to_check  | Foreach-Object {$_.FullName}
 
     # Check signature of the binaries
-    if ($cabcontents -ine $null) {
+    if ($null -ne $cabcontents) {
         foreach ($file in $cabcontents) {
             $result = Test-IoTSignature $file $Config
             if (!$result) { $retval = $false }

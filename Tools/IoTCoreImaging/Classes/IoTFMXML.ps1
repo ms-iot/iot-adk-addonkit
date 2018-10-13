@@ -23,7 +23,7 @@ class IoTFMXML {
         }
         $this.XmlDoc = [xml]( Get-Content -Path $fmxml)
         $oemnode = $this.XmlDoc.FeatureManifest.Features.OEM
-        $this.IsOEM = ($oemnode -ne $null )
+        $this.IsOEM = ($null -ne $oemnode)
     }
 
     hidden [void] CreateOEMFM() {
@@ -106,7 +106,7 @@ class IoTFMXML {
     [string[]] GetPackageFullNames() {
         $retval = @()
         $pkglist = $this.XmlDoc.GetElementsByTagName("PackageFile")
-        if ($pkglist -ne $null) {
+        if ($null -ne $pkglist) {
             foreach ($pkg in $pkglist) {
                 $retval += Expand-IoTPath "$($pkg.Path)\$($pkg.Name)"
             }
@@ -117,7 +117,7 @@ class IoTFMXML {
     [Boolean] ValidatePackages([string] $config) {
         $retval = $true
         $pkglist = $this.XmlDoc.GetElementsByTagName("PackageFile")
-        if ($pkglist -ine $null) {
+        if ($null -ne $pkglist) {
             foreach ($pkg in $pkglist) {
                 $fullname = Expand-IoTPath "$($pkg.Path)\$($pkg.Name)"
                 #check if cab file exists
@@ -228,7 +228,7 @@ class IoTFMXML {
 
     [IoTDeviceLayout] GetDeviceLayout([string] $socid) {
         $dlpkgs = $this.XmlDoc.FeatureManifest.DeviceLayoutPackages
-        if ($dlpkgs -eq $null) {
+        if ($null -eq $dlpkgs) {
             Publish-Error "Devicelayouts not found in this fm file"
             return $null
         }
@@ -264,7 +264,7 @@ class IoTFMXML {
             # Expand cab to get required binaries to a temp dir
             cmd /r "expand $dlcab $env:TMP -F:*" | Out-Null
             $dlxml = Get-ChildItem -Path $env:TMP -Recurse -Filter "DeviceLayout.xml"  | Foreach-Object {$_.FullName}
-            if ($dlxml -eq $null) {
+            if ($null -eq $dlxml) {
                 Publish-Error "Devicelayout xml not found in $dlcab"
                 return $null
             }

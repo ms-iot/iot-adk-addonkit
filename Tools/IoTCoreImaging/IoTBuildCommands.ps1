@@ -369,7 +369,7 @@ function New-IoTFIPPackage {
 
     # Check for fm files in the bsp folder and if not found , bail out
     $fmfile = Get-ChildItem -Path $env:BSPSRC_DIR\$BSP\Packages\ -File -Filter *FM.xml -Recurse | Foreach-Object {$_.FullName}
-    if ($fmfile -eq $null) {
+    if ($null -eq $fmfile ) {
         Publish-Error "BSP fm files not found."
         return $false
     }
@@ -794,7 +794,7 @@ function Clear-UserTemp() {
     foreach ($dir in $tempdirs) {
         # No recurse here. Only delete empty dirs in the temp folder
         $files = Get-ChildItem -Path $dir.FullName
-        if ($files -eq $null) {
+        if ($null -eq $files) {
             Write-Debug "Cleaning empty dir: $($dir.Name)"
             Remove-Item $dir.FullName
         }

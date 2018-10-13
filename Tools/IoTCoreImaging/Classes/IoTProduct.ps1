@@ -335,7 +335,7 @@ class IoTProduct {
         # Get the cert files in the source path 
         $this.OEMCerts = @()
         $certs = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -File -Filter *.cer -Recurse | Foreach-Object {$_.FullName}
-        if ($certs -eq $null ) {
+        if ($null -eq $certs) {
             Publish-Status "No certs found."
         }
         $certs = @($certs)

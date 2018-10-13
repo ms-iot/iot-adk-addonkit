@@ -99,8 +99,8 @@ function Add-IoTAppxPackage {
     # Set the provisioning path/rank
     $PROV_PATH = "`$(runtime.windows)\Provisioning\Packages"
     $PROV_RANK = 0
-    if ($env:PROV_PATH -ine $null) { $PROV_PATH = $env:PROV_PATH }
-    if ($env:PROV_RANK -ine $null) { $PROV_RANK = $env:PROV_RANK }
+    if ($null -ne $env:PROV_PATH) { $PROV_PATH = $env:PROV_PATH }
+    if ($null -ne $env:PROV_RANK) { $PROV_RANK = $env:PROV_RANK }
 
     # Get the dependency list
     $deppath = $appxpath

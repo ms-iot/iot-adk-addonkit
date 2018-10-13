@@ -16,13 +16,13 @@ class IoTFFU {
 
     #Constructor
     IoTFFU () {
-        if ([IoTFFU]::FFUObject -ne $null) {
+        if ($null -ne [IoTFFU]::FFUObject) {
             throw "Instance already exists. Use [IoTFFU]::GetInstance"
         }
     }
 
     static [IoTFFU] GetInstance() {
-        if ([IoTFFU]::FFUObject -eq $null) {
+        if ($null -eq [IoTFFU]::FFUObject) {
             [IoTFFU]::FFUObject = [IoTFFU]::new()
         }
         return [IoTFFU]::FFUObject

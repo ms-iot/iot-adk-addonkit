@@ -75,7 +75,7 @@ class IoTProductSettingsXML {
         $xmlwriter.WriteElementString("BaseboardProduct", $baseboardProduct)
         $xmlwriter.WriteEndElement() # SMBIOS element
 
-        if ($pkgDir -eq $null) {
+        if ($null -eq $pkgDir) {
             $pkgDir = ""
         }
         # BuildConfig XML snippet

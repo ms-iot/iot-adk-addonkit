@@ -553,11 +553,11 @@ function Get-IoTProductPackagesForFeature {
         [Parameter(Mandatory = $true)]
         [String]$FeatureID
     )
-    if ($Script:ProdFM -eq $null) { Open-ProductFM }
+    if ($null -eq $Script:ProdFM) { Open-ProductFM }
     if ($Script:ProdFM.IsFeaturePresent($FeatureID)) {
         return $Script:ProdFM.GetPackagesForFeature($FeatureID)
     }
-    if ($Script:NonProdFM -eq $null) { Open-NonProductFM }
+    if ($null -eq $Script:NonProdFM) { Open-NonProductFM }
     if ($Script:NonProdFM.IsFeaturePresent($FeatureID)) {
         return $Script:NonProdFM.GetPackagesForFeature($FeatureID)
     }
