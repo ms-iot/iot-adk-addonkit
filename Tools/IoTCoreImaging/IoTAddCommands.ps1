@@ -543,11 +543,11 @@ function Add-IoTProvisioningPackage {
     .PARAMETER PpkgFile
     Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)).
 
-    .EXAMPLE
+    .EXAMPLE 1
     Add-IoTProvisioningPackage Custom.Settings
     Creates a provisioning package folder Custom.Settings. Launch ICD.exe and open the .icdproj.xml file in this folder to edit the provisioning settings.
 
-    .EXAMPLE
+    .EXAMPLE 2
     Add-IoTProvisioningPackage Custom.Settings "C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)\DisableUpdate\DisableUpdate.ppkg"
     Creates a provisioning package folder Custom.Settings and copies the source files for the ppkg to this directory and renames it to CustomSettings.
 

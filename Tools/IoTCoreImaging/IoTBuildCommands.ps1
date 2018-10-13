@@ -227,7 +227,7 @@ function New-IoTProvisioningPackage {
     Install ADK with Windows Customization Designer tool to use this functionality.
     #>
     [CmdletBinding()]
-    [OutputType([Boolean])]    
+    [OutputType([Boolean])]
     Param
     (
         # Provisioning settings file (customizations.xml)
@@ -301,7 +301,7 @@ function New-IoTFIPPackage {
     All the packages referred in the FM files must be available before running this command. In general there is no need to execute this command stand alone as this is invoked in the New-IoTFFUImage cmdlet.
     #>
     [CmdletBinding()]
-    [OutputType([Boolean])]    
+    [OutputType([Boolean])]
     Param
     (
         # Provisioning settings file (customizations.xml)
@@ -435,7 +435,7 @@ function New-IoTFFUImage {
     This command can take long time to complete in the order of few tens of minutes.
     #>
     [CmdletBinding()]
-    [OutputType([Boolean])]    
+    [OutputType([Boolean])]
     Param
     (
         # Product name to process
