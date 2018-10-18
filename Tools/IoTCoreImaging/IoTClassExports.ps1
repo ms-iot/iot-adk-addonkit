@@ -198,16 +198,16 @@ function New-IoTProductSettingsXML {
     See [IoTProductSettingsXML](.\Classes\IoTProductSettingsXML.md) for more details on the class.
     #>
     [OutputType([IoTProductSettingsXML])]
-    [CmdletBinding(DefaultParametersetName='None')]
+    [CmdletBinding(DefaultParametersetName = 'None')]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String] $InputXML,
-        [Parameter(Position=1, ParameterSetName='ConstructionArgs', Mandatory=$false)][switch] $Create,
-        [Parameter(Position=2, ParameterSetName='ConstructionArgs', Mandatory=$true)][String] $oemName,
-        [Parameter(Position=3, ParameterSetName='ConstructionArgs', Mandatory=$true)][String] $familyName,
-        [Parameter(Position=4, ParameterSetName='ConstructionArgs', Mandatory=$true)][String] $skuNumber,
-        [Parameter(Position=5, ParameterSetName='ConstructionArgs', Mandatory=$true)][String] $baseboardManufacturer,
-        [Parameter(Position=6, ParameterSetName='ConstructionArgs', Mandatory=$true)][String] $baseboardProduct,
-        [Parameter(Position=7, ParameterSetName='ConstructionArgs', Mandatory=$false)][String] $pkgDir = $null
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String] $InputXML,
+        [Parameter(Position = 1, ParameterSetName = 'ConstructionArgs', Mandatory = $false)][switch] $Create,
+        [Parameter(Position = 2, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][String] $oemName,
+        [Parameter(Position = 3, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][String] $familyName,
+        [Parameter(Position = 4, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][String] $skuNumber,
+        [Parameter(Position = 5, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][String] $baseboardManufacturer,
+        [Parameter(Position = 6, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][String] $baseboardProduct,
+        [Parameter(Position = 7, ParameterSetName = 'ConstructionArgs', Mandatory = $false)][String] $pkgDir = $null
     )
 
     $bCreate = $true
@@ -323,7 +323,7 @@ function Mount-IoTFFUImage {
     Param
     (
         # FFU file name to mount
-        [Parameter(Position = 0,Mandatory = $true)]
+        [Parameter(Position = 0, Mandatory = $true)]
         [ValidateScript( { Test-Path $_ -PathType Leaf })]
         [String]$FFUName
     )
@@ -373,7 +373,7 @@ function Dismount-IoTFFUImage {
     Param
     (
         # FFU file name to mount
-        [Parameter(Position = 0,Mandatory = $false)]
+        [Parameter(Position = 0, Mandatory = $false)]
         [String]$FFUName
     )
     $ffuobj = [IoTFFU]::GetInstance()
@@ -455,7 +455,7 @@ function Open-ProductFM {
 
     # Get the feature ids in the FM file.
     Set-Location $env:IOTWKSPACE
-    Remove-Item $env:TMP\* -Recurse | Out-Null
+    Clear-Temp
 }
 
 function Open-NonProductFM {
@@ -598,20 +598,20 @@ function Add-IoTProductFeature {
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$Product,
-        [Parameter(Position=1, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$Config,
-        [Parameter(Position=2, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$FeatureID,
-        [Parameter(Position=3, Mandatory=$false)][Switch]$OEM
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$Product,
+        [Parameter(Position = 1, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$Config,
+        [Parameter(Position = 2, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$FeatureID,
+        [Parameter(Position = 3, Mandatory = $false)][Switch]$OEM
     )
     $ProdConfig = $Config
     $AllConfig = $false
-    if ($Config -ieq "All"){
+    if ($Config -ieq "All") {
         $ProdConfig = "Test"
         $AllConfig = $true
     }
     try {
         $iotprod = New-IoTProduct $Product $ProdConfig
-        $iotprod.AddFeatureID($FeatureID,$OEM,$AllConfig)
+        $iotprod.AddFeatureID($FeatureID, $OEM, $AllConfig)
     }
     catch {
         $msg = $_.Exception.Message
@@ -648,19 +648,19 @@ function Remove-IoTProductFeature {
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$Product,
-        [Parameter(Position=1, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$Config,
-        [Parameter(Position=2, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$FeatureID
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$Product,
+        [Parameter(Position = 1, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$Config,
+        [Parameter(Position = 2, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$FeatureID
     )
     $ProdConfig = $Config
     $AllConfig = $false
-    if ($Config -ieq "All"){
+    if ($Config -ieq "All") {
         $ProdConfig = "Test"
         $AllConfig = $true
     }
     try {
         $iotprod = New-IoTProduct $Product $ProdConfig
-        $iotprod.RemoveFeatureID($FeatureID,$AllConfig)
+        $iotprod.RemoveFeatureID($FeatureID, $AllConfig)
     }
     catch {
         $msg = $_.Exception.Message

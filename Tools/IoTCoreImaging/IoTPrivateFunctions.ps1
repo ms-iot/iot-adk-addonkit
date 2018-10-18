@@ -4,7 +4,7 @@ This contains various helper commands for imaging
 
 # Helper methods - Write Output for piping and Host for the screen
 function Publish-Error([string] $message) {
-    if (($null -ne $host) -and ($null -ne $host.ui)){
+    if (($null -ne $host) -and ($null -ne $host.ui)) {
         Write-Host "Error: $message" -ForegroundColor Red
     }
     else {
@@ -18,7 +18,7 @@ function Publish-Status () {
     Write-Host $args
 }
 function Publish-Warning ([string] $message) {
-    if (($null -ne $host) -and ($null -ne $host.ui)){
+    if (($null -ne $host) -and ($null -ne $host.ui)) {
         Write-Host "Warning: $message" -ForegroundColor Yellow
     }
     else {
@@ -60,5 +60,5 @@ function Clear-Temp() {
     This method is invoked at the end of most of the New commands. You may not need to invoke this explicitly.
     #>
 
-    Remove-Item -Path $env:TMP\* -Recurse -Force
+    Remove-Item -Path $env:TMP\* -Recurse -Force -ErrorAction SilentlyContinue
 }
