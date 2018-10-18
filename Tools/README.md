@@ -2,6 +2,16 @@
 
 Powershell version of the iot-adk-addonkit extends the functionality with further validation / verification steps in the imaging process.
 
+ * [What's new in 6.0](#whats-new-in-60)
+ * [Get started](#get-started)
+ * [Create a basic image](#create-a-basic-image)
+ * [Add your packages to your image](#add-your-packages-to-your-image)
+    - [Adding security packages](#adding-security-packages)
+ * [Building a retail image](#building-a-retail-image)
+ * [Work with existing workspace](#work-with-existing-workspace)
+ * [Work with Device Update Center](#work-with-device-update-center)
+ * [Supported powershell commands](#supported-powershell-commands)
+
 ## What's new in 6.0
 
 * Support of Workspace concept : Workspace is a directory with IoTWorkspace.xml file specifying its attributes. This directory structure is similar to earlier iot-adk-addonkit without the tools and templates directory. You can now have multiple workspaces for building different products and use one common tooling directory.
@@ -206,7 +216,7 @@ You can add an appx, driver, provisioning package, files and registry settings t
 
 6. You can build the above packages using `buildpkg` command discussed earlier and create an FFU using `buildimage` command.
 
-### Adding Security packages
+### Adding security packages
 
 In order to enable security features such as Secure boot, Bitlocker and Device guard, you will require specific certificates to be created and accessible from the machine where the image is built. See [Turnkey Security on IoT Core](https://docs.microsoft.com/windows/iot-core/secure-your-device/securebootandbitlocker#turnkey-security-on-iot-core) for the details on these security features and [Windows Secure Boot Key Creation and Management Guidance](https://docs.microsoft.com/windows-hardware/manufacture/desktop/windows-secure-boot-key-creation-and-management-guidance) for managing certificates.
 
@@ -265,7 +275,7 @@ For testing purposes, following commands are provided to create and install the 
 
 6. You can build the above packages using `buildpkg` command discussed earlier and create an FFU using `buildimage` command.
 
-## Building a Retail FFU
+## Building a retail image
 
 To build an retail image, you will need to retail sign all your packages and then create the FFU image.
 
@@ -322,7 +332,7 @@ To build an retail image, you will need to retail sign all your packages and the
     (or) buildrecovery RPiRecovery Retail
     ```
 
-## Work with Existing Workspace
+## Work with existing workspace
 
 Steps to upgrade your existing iot-adk-addonkit project directory.
 
@@ -390,9 +400,9 @@ Steps to register your device on the device update center and publish updates ar
     This will create a cab file under `$env:BUILD_DIR\<product>\<Config>\$env:BSP_VERSION`
 8. You can upload this cab in the DUC portal.
 
-## Supported Functionality listing
+## Supported powershell commands
 
-The supported functionality are listed below in logical groups.
+The supported commands are listed below in logical groups.
 
 | Function Name | Alias      |  CmdTools  | Remarks |
 | :------------ |:-----------|:----------------|:--------|
