@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version: https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTWindowsImage.md
 schema: 2.0.0
 ---
 
@@ -64,17 +64,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
-### None, function doesnt return anything. Generates product specific wimpe.wim in the build New-IoTProduct.
-
+### System.Boolean
+True if the customised winpe is successfully created.
 ## NOTES
 
 ## RELATED LINKS
 
-[https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery](https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery)
+[Add Recovery](https://docs.microsoft.com/windows-hardware/manufacture/iot/recovery-mechanism)
 

@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Add-IoTProductFeature.md
 schema: 2.0.0
 ---
 
@@ -108,6 +108,9 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 ## OUTPUTS
 
 ## NOTES
-See Remove-IoTProductFeature also.
+See Remove-IoTProductFeature to remove feature.
 
 ## RELATED LINKS
+
+[Remove-IoTProductFeature](Remove-IoTProductFeature.md)
+

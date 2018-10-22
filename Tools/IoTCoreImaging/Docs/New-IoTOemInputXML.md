@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTOemInputXML.md
 schema: 2.0.0
 ---
 
@@ -59,15 +59,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTOemInputXML
-
 ## NOTES
-See [IoTOemInputXML](Classes/IoTOemInputXML.md) for more details on the class.
+See IoTOemInputXML class for more details.
 
 ## RELATED LINKS
+
+[IoTOemInputXML](./Classes/IoTOemInputXML.md)
+

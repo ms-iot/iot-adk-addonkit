@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Get-IoTWorkspaceBSPs.md
 schema: 2.0.0
 ---
 
@@ -49,7 +49,7 @@ Aliases:
 
 Required: False
 Position: 1
-Default value: $env:SAMPLEWKS
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -60,10 +60,14 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### System.String[]
-
+List of BSPs in the workspace for the current architecture.
 ## NOTES
 
 ## RELATED LINKS
+
+[Get-IoTWorkspaceProducts](Get-IoTWorkspaceProducts.md)
+

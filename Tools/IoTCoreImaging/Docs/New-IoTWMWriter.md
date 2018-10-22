@@ -1,14 +1,14 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTWMWriter.md
 schema: 2.0.0
 ---
 
 # New-IoTWMWriter
 
 ## SYNOPSIS
-Factory method, returing the [IoTWMWriter](Classes/IoTWMWriter.md) class object used to write namespace.name.wm.xml file.
+Factory method, returing the IoTWMWriter class object used to write namespace.name.wm.xml file.
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ New-IoTWMWriter [-FileDir] <String> [-Namespace] <String> [[-Name] <String>] [-F
 ```
 
 ## DESCRIPTION
-Factory method, returing the [IoTWMWriter](Classes/IoTWMWriter.md) class object.
+Factory method, returing the IoTWMWriter class object.
 
 ## EXAMPLES
 
@@ -92,21 +92,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTWMWriter
-
 ## NOTES
 This class is used in the Add-IoT* methods.
 
-```powershell
-$wmwriter.Start("MainOS")
-$wmwriter.AddRegKeys("\`$(hklm.software)\Contoso\EmptyKey", $null)
-$wmwriter.Finish()
-```
-
 ## RELATED LINKS
+
+[IoTWMWriter](./Classes/IoTWMWriter.md)
+

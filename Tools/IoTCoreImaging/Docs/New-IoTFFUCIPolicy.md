@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTFFUCIPolicy.md
 schema: 2.0.0
 ---
 
@@ -13,11 +13,13 @@ This function scans the mounted FFU Main OS partition and creates a CI policy.
 ## SYNTAX
 
 ```
-New-IoTFFUCIPolicy [<CommonParameters>]
+New-IoTFFUCIPolicy
 ```
 
 ## DESCRIPTION
-This function scans the mounted FFU Main OS partition and creates a CI policy. The FFU must be mounted before calling this function. This creates an `security\initialpolicy.xml` in the same folder as the FFU.
+This function scans the mounted FFU Main OS partition and creates a CI policy.
+The FFU must be mounted before calling this function.
+This creates an \`security\initialpolicy.xml\` in the same folder as the FFU.
 
 ## EXAMPLES
 
@@ -28,9 +30,6 @@ New-IoTFFUCIPolicy
 
 ## PARAMETERS
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
-
 ## INPUTS
 
 ## OUTPUTS
@@ -39,3 +38,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 See also Mount-IoTFFUImage
 
 ## RELATED LINKS
+
+[Mount-IoTFFUImage](Mount-IoTFFUImage.md)
+

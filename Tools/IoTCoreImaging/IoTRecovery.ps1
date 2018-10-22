@@ -9,14 +9,23 @@ function New-IoTWindowsImage {
     Builds a WinPE image with relevant drivers and recovery files
     .DESCRIPTION
     This function copies the arch specific winpe.wim and adds bsp specific drivers and recovery files and stores them as a product specific winpe.wim file
+
+    .INPUTS
+    None
+
     .OUTPUTS
-    None, function doesnt return anything. Generates product specific wimpe.wim in the build New-IoTProduct.
+    System.Boolean
+    True if the customised winpe is successfully created.
+
     .EXAMPLE
     New-IoTWindowsImage ProductA Test
+
     .EXAMPLE
     New-IoTWindowsImage -product ProductA -config Test
+
     .LINK
-    https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
+    [Add Recovery](https://docs.microsoft.com/windows-hardware/manufacture/iot/recovery-mechanism)
+
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -76,7 +85,7 @@ function New-IoTWindowsImage {
     # Copy the base winPE
     Publish-Status "Copying WinPE"
     $WinPE = "$env:WINPE_ROOT\$env:BSP_ARCH\en-us\winpe.wim"
-    if (Test-Path $WinPE){
+    if (Test-Path $WinPE) {
         Copy-Item $WinPE -Destination $ffudir
     }
     else {
@@ -87,8 +96,7 @@ function New-IoTWindowsImage {
     Publish-Status "Mounting WinPE"
     try {
         $result = Mount-WindowsImage -ImagePath $ffudir\winpe.wim -Index 1 -Path $mountdir
-        if (!$result)
-        {
+        if (!$result) {
             Publish-Error "Mount-WindowsImage failed"
             return $false
         }
@@ -135,8 +143,6 @@ function New-IoTRecoveryImage {
     .DESCRIPTION
     This function mounts the regular ffu, extracts the required wim files and populates the MMOS (recovery )`
     partition with the required files and saves the resultant ffu as Flash_Recovery.ffu
-    .OUTPUTS
-    None, function doesnt return anything. Generates the wim files and ffu file.
     .EXAMPLE
     New-IoTRecoveryImage ProductA Test
     .EXAMPLE
@@ -144,7 +150,7 @@ function New-IoTRecoveryImage {
     .EXAMPLE
     New-IoTRecoveryImage -product ProductA -config Test -wimmode Import -wimdir C:\wimfiles
     .LINK
-    https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism
+    [Add Recovery](https://docs.microsoft.com/windows-hardware/manufacture/iot/recovery-mechanism)
     #>
     [CmdletBinding()]
     param(
@@ -187,7 +193,7 @@ function New-IoTRecoveryImage {
 
     # Mount the ffu
     $retval = Mount-IoTFFUImage $ffufile
-    if (!$retval){
+    if (!$retval) {
         Publish-Error "Mount-IoTFFUImage failed"
         return
     }
@@ -253,16 +259,12 @@ function Test-IoTRecoveryImage {
     Validates if the recovery wim files are proper in the recovery ffu
     .DESCRIPTION
     This function mounts the recovery ffu, uses the wim files in the recovery partition and performs the recovery process on the mounted partitions to validate if the wim files are proper.
-    .OUTPUTS
-    Returns an boolean value
-    .EXAMPLE
-    Test-IoTRecoveryImage ProductA Test
     .EXAMPLE
     Test-IoTRecoveryImage ProductA Test
     .EXAMPLE
     Test-IoTRecoveryImage -product ProductA -config Test
     .LINK
-    https://docs.microsoft.com/windows/iot-core/build-your-image/addrecovery
+    [Add Recovery](https://docs.microsoft.com/windows-hardware/manufacture/iot/recovery-mechanism)
     #>
     [CmdletBinding()]
     param(
@@ -290,7 +292,7 @@ function Test-IoTRecoveryImage {
 
     # Mount the ffu
     $retval = Mount-IoTFFUImage $recoveryffu
-    if (!$retval){
+    if (!$retval) {
         Publish-Error "Mount-IoTFFUImage failed"
         return
     }

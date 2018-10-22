@@ -6,10 +6,10 @@ Build Commands definition
 function New-IoTCabPackage {
     <#
     .SYNOPSIS
-    Creates a Cab package file for the specified wm.xml file or the wm.xml files in the specified directory. Returns a boolean indicating success or failure.
+    Creates a Cab package file for the specified wm.xml file or the wm.xml files in the specified directory.
 
     .DESCRIPTION
-    This command runs the pkggen.exe with the appropriate parameters to generate a .cab file from the given wm.xml file,  or the wm.xml files present in the directory. It also supports special switches to build all packages in the workspace(-All) and to delete all previously built packages (-Clean)
+    This command runs the pkggen.exe with the appropriate parameters to generate a .cab file from the given wm.xml file,  or the wm.xml files present in the directory. It also supports special keywords to build all packages in the workspace(All) and to delete all previously built packages (Clean)
 
     .PARAMETER PkgFile
     Accepts the following inputs
@@ -22,18 +22,42 @@ function New-IoTCabPackage {
     .PARAMETER Product
     Optional parameter specifying the product directory to be used for fetching product specific contents.
 
-    .EXAMPLE 1
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    Returns $true if the cab file is successfully created.
+
+    .EXAMPLE
     $result = New-IoTCabPackage All
-    .EXAMPLE 2
+    Builds all packages.
+
+    .EXAMPLE
     $result = New-IoTCabPackage Clean
-    .EXAMPLE 3
+    Cleans up the build directory and deletes all .cab files.
+
+    .EXAMPLE
     $result = New-IoTCabPackage C:\Sample\abc.wm.xml
-    .EXAMPLE 4
+    Builds abc.wm.xml file.
+
+    .EXAMPLE
     $result = New-IoTCabPackage Registry.Version
-    .EXAMPLE 5
+    Builds wm.xml files in the directory Registry.Version
+
+    .EXAMPLE
     $result = New-IoTCabPackage C:\Sample
-    .EXAMPLE 6
+    Builds wm.xml files in the directory C:\Sample
+
+    .EXAMPLE
     $result = New-IoTCabPackage C:\Sample SampleA
+    Builds wm.xml files in the directory COMMON_DIR\ProdPackages with the Product parameter SampleA.
+
+    .LINK
+    [New-IoTProvisioningPackage](New-IoTProvisioningPackage.md)
+
+    .LINK
+    [New-IoTFFUImage](New-IoTFFUImage.md)
 
     .NOTES
     The generated cab files are available in build directory $env:PKGBLD_DIR
@@ -50,7 +74,7 @@ function New-IoTCabPackage {
         [String] $Product = $null
     )
     New-DirIfNotExist $env:PKGLOG_DIR
-    if ([string]::IsNullOrWhiteSpace($Product)){
+    if ([string]::IsNullOrWhiteSpace($Product)) {
         $Product = "Default"
     }
     $filestoprocess = @()
@@ -161,6 +185,8 @@ function Convert-IoTPkg2Wm {
 
     .NOTES
     Since the pkg.xml files are deleted, recommend to take a backup before proceeding with this function.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -220,11 +246,25 @@ function New-IoTProvisioningPackage {
     .PARAMETER Output
     Output file name, with full path. If path is not included, it creates the ppkg in the same dir as the input xml file.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the cab file is successfully created.
+
     .EXAMPLE
     $result = New-IoTProvisioningPackage C:\Sample\Customizations.xml C:\Build\Myfile.ppkg
 
     .NOTES
     Install ADK with Windows Customization Designer tool to use this functionality.
+
+    .LINK
+    [Add-IoTProvisioningPackage](Add-IoTProvisioningPackage.md)
+
+    .LINK
+    [Add a provisioning package to an image](https://docs.microsoft.com/windows-hardware/manufacture/iot/add-a-provisioning-package-to-an-image)
+
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -264,7 +304,7 @@ function New-IoTProvisioningPackage {
     }
     else {
         # sign the cat file
-        $file = $Output.Replace(".ppkg",".cat")
+        $file = $Output.Replace(".ppkg", ".cat")
         Write-Verbose "Signing $file"
         sign $file | Out-Null
     }
@@ -299,6 +339,8 @@ function New-IoTFIPPackage {
 
     .NOTES
     All the packages referred in the FM files must be available before running this command. In general there is no need to execute this command stand alone as this is invoked in the New-IoTFFUImage cmdlet.
+    .LINK
+    [New-IoTFFUImage](New-IoTFFUImage.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -433,6 +475,12 @@ function New-IoTFFUImage {
 
     .NOTES
     This command can take long time to complete in the order of few tens of minutes.
+
+    .LINK
+    [New-IoTRecoveryImage](New-IoTRecoveryImage.md)
+
+    .LINK
+    [Add-IoTProduct](Add-IoTProduct.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -573,6 +621,9 @@ function Test-IoTPackages {
 
     .NOTES
     This method is also invoked in the New-IoTFFUImage if -Validate switch is specified.
+
+    .LINK
+    [New-IoTFFUImage](New-IoTFFUImage.md)
     #>
     [CmdletBinding()]
     Param
@@ -615,6 +666,9 @@ function Test-IoTFeatures {
 
     .NOTES
     This method is also invoked in the New-IoTFFUImage always.
+
+    .LINK
+    [New-IoTFFUImage](New-IoTFFUImage.md)
     #>
     [CmdletBinding()]
     Param
@@ -657,6 +711,10 @@ function Import-IoTDUCConfig {
 
     .NOTES
     See also Export-IoTDUCCab
+    .LINK
+    [Device Update Center User Guide](https://aka.ms/deviceupdatecenter)
+    .LINK
+    [Export-IoTDUCCab](Export-IoTDUCCab.md)
     #>
     [CmdletBinding()]
     Param
@@ -699,6 +757,10 @@ function Export-IoTDUCCab {
 
     .NOTES
     See also Import-IoTDUCConfig
+    .LINK
+    [Device Update Center User Guide](https://aka.ms/deviceupdatecenter)
+    .LINK
+    [Import-IoTDUCConfig](Import-IoTDUCConfig.md)
     #>
     [CmdletBinding()]
     Param
@@ -738,6 +800,10 @@ function Export-IoTDeviceModel {
 
     .NOTES
     See also Import-IoTDUCConfig
+    .LINK
+    [Device Update Center User Guide](https://aka.ms/deviceupdatecenter)
+    .LINK
+    [Import-IoTDUCConfig](Import-IoTDUCConfig.md)
     #>
     [CmdletBinding()]
     Param
@@ -803,7 +869,7 @@ function Clear-UserTemp() {
 }
 
 function New-IoTInf2Cab {
-        <#
+    <#
     .SYNOPSIS
     Creates a cab file for the given inf.
 
@@ -822,6 +888,9 @@ function New-IoTInf2Cab {
 
     .NOTES
     See Add-IoTDriverPackage to add driver to workspace and New-IoTCabPackage to build a cab file.
+
+    .LINK
+    [Add-IoTDriverPackage](Add-IoTDriverPackage.md)
     #>
     [CmdletBinding()]
     Param

@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTWMXML.md
 schema: 2.0.0
 ---
 
@@ -64,11 +64,14 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTWMXML
-
 ## NOTES
-See \[IoTWMXML\](Classes/IoTWMXML.md) for more details on the class.
+See IoTWMXML class for more details.
 
 ## RELATED LINKS
+
+[IoTWMXML](./Classes/IoTWMXML.md)
+

@@ -14,11 +14,20 @@ function New-IoTDeviceLayout {
     .PARAMETER FilePath
     Mandatory parameter, filename for the devicelayout
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTDeviceLayout
+
     .EXAMPLE
     $obj = New-IoTDeviceLayout "$env:COMMON_DIR\Packages\DeviceLayout.GPT4GB\DeviceLayout.xml"
 
     .NOTES
-    See [IoTDeviceLayout](.\Classes\IoTDeviceLayout.md) for more details on the class.
+    See IoTDeviceLayout class for more details.
+
+    .LINK
+    [IoTDeviceLayout](./Classes/IoTDeviceLayout.md)
     #>
     [OutputType([IoTDeviceLayout])]
     Param
@@ -44,11 +53,20 @@ function New-IoTProduct {
     .PARAMETER Config
     Mandatory parameter, Product configuration supported in the product.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTProduct
+
     .EXAMPLE
     $obj = New-IoTProduct SampleA Test
 
     .NOTES
-    See [IoTProduct](.\Classes\IoTProduct.md) for more details on the class.
+    See IoTProduct class for more details.
+
+    .LINK
+    [IoTProduct](./Classes/IoTProduct.md)
     #>
     [OutputType([IoTProduct])]
     Param
@@ -78,11 +96,20 @@ function New-IoTOemInputXML {
     .PARAMETER Create
     Optional switch parameter, to create the oeminput xml file if not present
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTOemInputXML
+
     .EXAMPLE
     $obj = New-IoTOemInputXML C:\MyDir\TestOEMInput.xml -Create
 
     .NOTES
-    See [IoTOemInputXML](.\Classes\IoTOemInputXML.md) for more details on the class.
+    See IoTOemInputXML class for more details.
+
+    .LINK
+    [IoTOemInputXML](./Classes/IoTOemInputXML.md)
     #>
     [OutputType([IoTOemInputXML])]
     Param
@@ -110,11 +137,20 @@ function New-IoTWMXML {
     .PARAMETER Create
     Optional switch parameter, to create the wm xml file if not present
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTWMXML
+
     .EXAMPLE
     $obj = New-IoTWMXML C:\MyDir\samplewm.xml -Create
 
     .NOTES
-    See [IoTWMXML](.\Classes\IoTWMXML.md) for more details on the class.
+    See IoTWMXML class for more details.
+
+    .LINK
+    [IoTWMXML](./Classes/IoTWMXML.md)
     #>
     [OutputType([IoTWMXML])]
     Param
@@ -141,11 +177,20 @@ function New-IoTProvisioningXML {
     .PARAMETER Create
     Optional switch parameter, to create the Provisioning xml file if not present
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTProvisioningXML
+
     .EXAMPLE
     $obj = New-IoTProvisioningXML C:\MyDir\customizations.xml -Create
 
     .NOTES
-    See [IoTProvisioningXML](.\Classes\IoTProvisioningXML.md) for more details on the class.
+    See IoTProvisioningXML class for more details.
+
+    .LINK
+    [IoTProvisioningXML](./Classes/IoTProvisioningXML.md)
     #>
     [OutputType([IoTProvisioningXML])]
     Param
@@ -174,7 +219,7 @@ function New-IoTProductSettingsXML {
     Optional switch parameter, to create the product settings xml file if not present
 
     .PARAMETER oemName
-    Mandatory parameter, OEM name for the SMBIOS
+    Mandatory parameter, System Manufacturer Name for the SMBIOS
 
     .PARAMETER familyName
     Mandatory parameter, product family name for the SMBIOS
@@ -189,13 +234,22 @@ function New-IoTProductSettingsXML {
     Mandatory parameter, baseboard Product for the SMBIOS
 
     .PARAMETER pkgDir
-    Mandatory parameter, BSP package path for the product build configs
+    Optional parameter, BSP package path for the product build configs
+
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTProductSettingsXML
 
     .EXAMPLE
     $obj = New-IoTProductSettingsXML $env:SRC_DIR\Products\SampleA\SampleASettings.xml -Create:$false OEMName ProdFamily ProdSKU1 Fabrikam RPiCustom2
 
     .NOTES
-    See [IoTProductSettingsXML](.\Classes\IoTProductSettingsXML.md) for more details on the class.
+    See IoTProductSettingsXML class for more details.
+
+    .LINK
+    [IoTProductSettingsXML](./Classes/IoTProductSettingsXML.md)
     #>
     [OutputType([IoTProductSettingsXML])]
     [CmdletBinding(DefaultParametersetName = 'None')]
@@ -233,11 +287,20 @@ function New-IoTFMXML {
     .PARAMETER Create
     Optional switch parameter, to create the feature manifest xml file if not present
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTFMXML
+
     .EXAMPLE
     $obj = New-IoTFMXML $env:COMMON_DIR\Packages\OEMCommonFM.xml
 
     .NOTES
-    See [IoTFMXML](.\Classes\IoTFMXML.md) for more details on the class.
+    See IoTFMXML class for more details.
+
+    .LINK
+    [IoTFMXML](./Classes/IoTFMXML.md)
     #>
     [OutputType([IoTFMXML])]
     Param
@@ -270,16 +333,21 @@ function New-IoTWMWriter {
 
     .PARAMETER Force
     Mandatory parameter, specifying the name.
+
+    .INPUTS
+    None
+
+    .OUTPUTS
+    IoTWMWriter
+
     .EXAMPLE
     $wmwriter = New-IoTWMWriter C:\Test Custom Settings
 
     .NOTES
     This class is used in the Add-IoT* methods.
-    ```
-    $wmwriter.Start("MainOS")
-    $wmwriter.AddRegKeys("`$(hklm.software)\Contoso\EmptyKey", $null)
-    $wmwriter.Finish()
-    ```
+
+    .LINK
+    [IoTWMWriter](./Classes/IoTWMWriter.md)
     #>
     [OutputType([IoTWMWriter])]
     Param
@@ -312,12 +380,22 @@ function Mount-IoTFFUImage {
     .PARAMETER FFUName
     Name of the FFU to be mounted.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the ffu mount is successful.
+
     .EXAMPLE
     Mount-IoTFFUImage c:\MyTestImage.ffu
     Mounts the MyTestImage.ffu and assigns free drive letter.
 
     .NOTES
     See also Unmount-IoTFFUImage
+
+    .LINK
+    [Unmount-IoTFFUImage](Unmount-IoTFFUImage.md)
     #>
     [OutputType([Boolean])]
     Param
@@ -358,6 +436,13 @@ function Dismount-IoTFFUImage {
     .PARAMETER FFUName
     Optional FFU name to save the mounted FFU.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the ffu dismount is successful.
+
     .EXAMPLE
     Dismount-IoTFFUImage
     Dismounts the mounted ffu without saving.
@@ -368,6 +453,9 @@ function Dismount-IoTFFUImage {
 
     .NOTES
     See also Mount-IoTFFUImage
+
+    .LINK
+    [Mount-IoTFFUImage](Mount-IoTFFUImage.md)
     #>
     [OutputType([Boolean])]
     Param
@@ -393,6 +481,9 @@ function Export-IoTFFUAsWims {
 
     .NOTES
     See also Mount-IoTFFUImage
+
+    .LINK
+    [Mount-IoTFFUImage](Mount-IoTFFUImage.md)
     #>
     $ffuobj = [IoTFFU]::GetInstance()
     $ffuobj.ExtractWims()
@@ -411,6 +502,9 @@ function New-IoTFFUCIPolicy {
 
     .NOTES
     See also Mount-IoTFFUImage
+
+    .LINK
+    [Mount-IoTFFUImage](Mount-IoTFFUImage.md)
     #>
     $ffuobj = [IoTFFU]::GetInstance()
     $ffuobj.ScanNewCIPolicy()
@@ -424,11 +518,21 @@ function Get-IoTFFUDrives {
     .DESCRIPTION
     Returns a hashtable of the drive letters of the mounted file partitions of the FFU. The FFU must be mounted before calling this method.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Hashtable
+    Hashtable of drive letters of the mounted partitions.
+
     .EXAMPLE
     Get-IoTFFUDrives
 
     .NOTES
     See also Mount-IoTFFUImage
+
+    .LINK
+    [Mount-IoTFFUImage](Mount-IoTFFUImage.md)
     #>
     [OutputType([hashtable])]
     $ffuobj = [IoTFFU]::GetInstance()
@@ -455,7 +559,7 @@ function Open-ProductFM {
 
     # Get the feature ids in the FM file.
     Set-Location $env:IOTWKSPACE
-    Clear-Temp
+    Remove-Item $env:TMP\* -Recurse | Out-Null
 }
 
 function Open-NonProductFM {
@@ -474,6 +578,13 @@ function Get-IoTProductFeatureIDs {
     .PARAMETER FeatureType
     Optional parameter, with values: "Developer", "Test", "Retail", "Deprecated" and "All". Default is "All" which is equal to Test + Retail features.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.String[]
+    List of FeatureIDs
+
     .EXAMPLE
     Get-IoTProductFeatureIDs
     Returns all feature IDs including Test/Retail..
@@ -484,6 +595,9 @@ function Get-IoTProductFeatureIDs {
 
     .NOTES
     See also Get-IoTProductPackagesForFeature
+
+    .LINK
+    [Get-IoTProductPackagesForFeature](Get-IoTProductPackagesForFeature.md)
     #>
     [OutputType([String[]])]
     Param
@@ -539,12 +653,22 @@ function Get-IoTProductPackagesForFeature {
     .PARAMETER FeatureID
     A Valid Feature ID defined in the Windows 10 IoT Core OS.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.String[]
+    List of packages associated with the FeatureID.
+
     .EXAMPLE
     Get-IoTProductPackagesForFeature IOT_BERTHA
     Returns the list of packages included for IOT_BERTHA feature.
 
     .NOTES
     See also Get-IoTProductFeatureIDs
+
+    .LINK
+    [Get-IoTProductFeatureIDs](Get-IoTProductFeatureIDs.md)
     #>
     [OutputType([String[]])]
     Param
@@ -594,7 +718,11 @@ function Add-IoTProductFeature {
     Adds CUSTOM_CMD feature to the SampleA TestOEMInput.xml and RetailOEMInput.xml files.
 
     .NOTES
-    See Remove-IoTProductFeature also.
+    See Remove-IoTProductFeature to remove feature.
+
+    .LINK
+    [Remove-IoTProductFeature](Remove-IoTProductFeature.md)
+
     #>
     [CmdletBinding()]
     param(
@@ -644,7 +772,11 @@ function Remove-IoTProductFeature {
     Removes CUSTOM_CMD feature to the SampleA TestOEMInput.xml and RetailOEMInput.xml files.
 
     .NOTES
-    See Add-IoTProductFeature also.
+    See Add-IoTProductFeature to add feature.
+
+    .LINK
+    [Add-IoTProductFeature](Add-IoTProductFeature.md)
+
     #>
     [CmdletBinding()]
     param(

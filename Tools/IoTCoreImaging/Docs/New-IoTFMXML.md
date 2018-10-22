@@ -1,14 +1,14 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTFMXML.md
 schema: 2.0.0
 ---
 
 # New-IoTFMXML
 
 ## SYNOPSIS
-Factory method to create a new object of class [IoTFMXML](Classes/IoTFMXML.md).
+Factory method to create a new object of class IoTFMXML
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ New-IoTFMXML [-InputXML] <String> [-Create] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Factory method to create a new object of class [IoTFMXML](Classes/IoTFMXML.md).
+This method creates a object of class IoTFMXML
 
 ## EXAMPLES
 
@@ -61,15 +61,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTFMXML
-
 ## NOTES
-See [IoTFMXML](Classes/IoTFMXML.md) for more details on the class.
+See IoTFMXML class for more details.
 
 ## RELATED LINKS
+
+[IoTFMXML](./Classes/IoTFMXML.md)
+

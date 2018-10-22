@@ -2,15 +2,15 @@
 
 Powershell version of the iot-adk-addonkit extends the functionality with further validation / verification steps in the imaging process.
 
- * [What's new in 6.0](#whats-new-in-60)
- * [Get started](#get-started)
- * [Create a basic image](#create-a-basic-image)
- * [Add your packages to your image](#add-your-packages-to-your-image)
-    - [Adding security packages](#adding-security-packages)
- * [Building a retail image](#building-a-retail-image)
- * [Work with existing workspace](#work-with-existing-workspace)
- * [Work with Device Update Center](#work-with-device-update-center)
- * [Supported powershell commands](#supported-powershell-commands)
+* [What's new in 6.0](#whats-new-in-60)
+* [Get started](#get-started)
+* [Create a basic image](#create-a-basic-image)
+* [Add your packages to your image](#add-your-packages-to-your-image)
+  * [Adding security packages](#adding-security-packages)
+* [Building a retail image](#building-a-retail-image)
+* [Work with existing workspace](#work-with-existing-workspace)
+* [Work with Device Update Center](#work-with-device-update-center)
+* [Supported powershell commands](#supported-powershell-commands)
 
 ## What's new in 6.0
 
@@ -404,9 +404,10 @@ Steps to register your device on the device update center and publish updates ar
 
 The supported commands are listed below in logical groups.
 
+### Workspace commands
+
 | Function Name | Alias      |  CmdTools  | Remarks |
-| :------------ |:-----------|:----------------|:--------|
-| **Workspace Functions** | - | - | - |
+| :------------ |:-----------|:-----------|:--------|
 |[New-IoTWorkspace](IoTCoreImaging/Docs/New-IoTWorkspace.md) | new-ws | new-ws.cmd | Creates new workspace |
 |[Open-IoTWorkspace](IoTCoreImaging/Docs/Open-IoTWorkspace.md) | open-ws | open-ws.cmd | Opens existing workspace |
 |[Redo-IoTWorkspace](IoTCoreImaging/Docs/Redo-IoTWorkspace.md) | migrate | migrate.cmd | Converts legacy iot-adk-addonkit directory into a workspace |
@@ -433,9 +434,11 @@ The supported commands are listed below in logical groups.
 |[Add-IoTBitLocker](IoTCoreImaging/Docs/Add-IoTBitLocker.md) | -  | - | Adds bitlocker package for the product  |
 |[Add-IoTProductFeature](IoTCoreImaging/Docs/Add-IoTProductFeature.md) | addfid  | addfid.cmd | Adds feature id to the product's oeminput xml file  |
 |[Remove-IoTProductFeature](IoTCoreImaging/Docs/Remove-IoTProductFeature.md) | removefid  | removefid.cmd | Removes feature id from the product's oeminput xml file  |
-|[Get-IoTWorkspaceProducts](IoTCoreImaging/Docs/Get-IoTWorkspaceProducts.md) | gwsproducts | gwsproducts.cmd | Gets the list of product names in the workspace |
-|[Get-IoTWorkspaceBSPs](IoTCoreImaging/Docs/Get-IoTWorkspaceBSPs.md) | gwsbsps | gwsbsps.cmd | Gets the list of BSP names in the workspace |
-| **Build Functions** | - | - | - |
+
+### Build commands
+
+| Function Name | Alias      |  CmdTools  | Remarks |
+| :------------ |:-----------|:-----------|:--------|
 |[Set-IoTCabVersion](IoTCoreImaging/Docs/Set-IoTCabVersion.md) | setversion | setversion.cmd | Stores the version in the IoTWorkspace.xml |
 |[New-IoTCabPackage](IoTCoreImaging/Docs/New-IoTCabPackage.md) | buildpkg | buildpkg.cmd | Creates `.cab` files  |
 |[New-IoTProvisioningPackage](IoTCoreImaging/Docs/New-IoTProvisioningPackage.md)| buildppkg | buildppkg.cmd | Creates `.ppkg` files |
@@ -445,22 +448,40 @@ The supported commands are listed below in logical groups.
 |[New-IoTWindowsImage](IoTCoreImaging/Docs/New-IoTWindowsImage.md)| newwinpe | newwinpe.cmd | Creates custom winpe with bsp drivers / recovery scripts |
 |[Test-IoTRecoveryImage](IoTCoreImaging/Docs/Test-IoTRecoveryImage.md)| verifyrecovery | verifyrecovery.cmd | Verifies if the wim files in the recovery ffu are proper |
 |[New-IoTInf2Cab](IoTCoreImaging/Docs/New-IoTInf2Cab.md)| inf2cab | inf2cab.cmd | Creates cab file for the given inf file |
-| **Env Functions** | - | - | - |
+
+### Environment commands
+
+| Function Name | Alias      |  CmdTools  | Remarks |
+| :------------ |:-----------|:-----------|:--------|
 |[Set-IoTEnvironment](IoTCoreImaging/Docs/Set-IoTEnvironment.md) | setenv | setenv.cmd | Sets environment settings based on the config values in IoTWorkspace.xml  |
 |[Convert-IoTPkg2Wm](IoTCoreImaging/Docs/Convert-IoTPkg2Wm.md) | convertpkg | convertpkg.cmd | Converts pkg.xml files to wm.xml files  |
 |[Get-IoTProductFeatureIDs](IoTCoreImaging/Docs/Get-IoTProductFeatureIDs.md)| gpfids | gpfids.cmd | Gets features IDs supported in the IoTCore OS |
 |[Get-IoTProductPackagesForFeature](IoTCoreImaging/Docs/Get-IoTProductPackagesForFeature.md)| gpfidpkgs | gpfidpkgs.cmd | Gets OS packages corresponding to features ID |
-| **DUC Functions** | - | - | - |
+|[Get-IoTWorkspaceProducts](IoTCoreImaging/Docs/Get-IoTWorkspaceProducts.md) | gwsproducts | gwsproducts.cmd | Gets the list of product names in the workspace |
+|[Get-IoTWorkspaceBSPs](IoTCoreImaging/Docs/Get-IoTWorkspaceBSPs.md) | gwsbsps | gwsbsps.cmd | Gets the list of BSP names in the workspace |
+
+### Device Update Center commands
+
+| Function Name | Alias      |  CmdTools  | Remarks |
+| :------------ |:-----------|:-----------|:--------|
 |[Export-IoTDeviceModel](IoTCoreImaging/Docs/Export-IoTDeviceModel.md) | exportidm | exportidm.cmd | Exports the IoT Device Model for DUC registration |
 |[Import-IoTDUCConfig](IoTCoreImaging/Docs/Import-IoTDUCConfig.md) | importcfg | importcfg.cmd | Imports the CUSConfig.zip into the product directory |
 |[Export-IoTDUCCab](IoTCoreImaging/Docs/Export-IoTDUCCab.md) | exportpkgs | exportpkgs.cmd | Exports the update cab for DUC upload |
-| **FFU Functions** | - | - | - |
+
+### FFU commands
+
+| Function Name | Alias      |  CmdTools  | Remarks |
+| :------------ |:-----------|:-----------|:--------|
 |[Mount-IoTFFUImage](IoTCoreImaging/Docs/Mount-IoTFFUImage.md) | ffum | - | Mounts the FFU image |
 |[Dismount-IoTFFUImage](IoTCoreImaging/Docs/Dismount-IoTFFUImage.md) | ffud | - | Dismounts the FFU image  |
 |[Export-IoTFFUAsWims](IoTCoreImaging/Docs/Export-IoTFFUAsWims.md) | ffue | - | Exports the EFIESP/MainOS/Data partitions as Wims  |
 |[New-IoTFFUCIPolicy](IoTCoreImaging/Docs/New-IoTFFUCIPolicy.md) | ffus | - | Scans the MainOS partition and generates CI policy (`initialpolicy.xml`) |
 |[Get-IoTFFUDrives](IoTCoreImaging/Docs/Get-IoTFFUDrives.md) | ffugd | - | Returns a hashtable of the drive letters for the mounted partitions |
-| **Signing/Test Functions** | - | - | - |
+
+### Signing/Test commands
+
+| Function Name | Alias      |  CmdTools  | Remarks |
+| :------------ |:-----------|:-----------|:--------|
 |[Set-IoTSignature](IoTCoreImaging/Docs/Set-IoTSignature.md) | setsignature | setsignature.cmd | Sets the Certificate info used for signing |
 |[Set-IoTRetailSign](IoTCoreImaging/Docs/Set-IoTRetailSign.md)| retailsign | retailsign.cmd | Sets/resets use of the retail code signing certificate |
 |[Test-IoTSignature](IoTCoreImaging/Docs/Test-IoTSignature.md) | - | - | Tests if the file is signed for the given config  |
@@ -470,7 +491,7 @@ The supported commands are listed below in logical groups.
 |[Add-IoTSignature](IoTCoreImaging/Docs/Add-IoTSignature.md) | signbinaries | signbinaries.cmd | Signs files with the cert set via Set-IoTSignature  |
 |[Redo-IoTCabSignature](IoTCoreImaging/Docs/Redo-IoTCabSignature.md) | re-signcabs | re-signcabs.cmd | Resigns cab and its contents using Add-IoTSignature  |
 
-### Class Documentation
+### Class documentation
 
 | Class Name |  Factory Method | Remarks |
 | :------------ |:--------|:--------|

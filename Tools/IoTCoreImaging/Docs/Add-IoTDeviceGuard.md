@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Add-IoTDeviceGuard.md
 schema: 2.0.0
 ---
 
@@ -52,12 +52,18 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### System.Boolean
-
+True if the package is successfully created.
 ## NOTES
 For validating the device guard policy, you can as well scan the built ffu using New-IoTFFUCIPolicy and compare the policy files.
 See Import-IoTCertificate before using this function.
 
 ## RELATED LINKS
+
+[Import-IoTCertificate](Import-IoTCertificate.md)
+
+[New-IoTFFUCIPolicy](New-IoTFFUCIPolicy.md)
+

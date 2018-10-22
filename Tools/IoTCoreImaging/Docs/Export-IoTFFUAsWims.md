@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Export-IoTFFUAsWims.md
 schema: 2.0.0
 ---
 
@@ -13,7 +13,7 @@ Extracts the mounted partitions as wim files
 ## SYNTAX
 
 ```
-Export-IoTFFUAsWims [<CommonParameters>]
+Export-IoTFFUAsWims
 ```
 
 ## DESCRIPTION
@@ -29,9 +29,6 @@ Export-IoTFFUAsWims
 
 ## PARAMETERS
 
-### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
-
 ## INPUTS
 
 ## OUTPUTS
@@ -40,3 +37,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 See also Mount-IoTFFUImage
 
 ## RELATED LINKS
+
+[Mount-IoTFFUImage](Mount-IoTFFUImage.md)
+

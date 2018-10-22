@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version: https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTRecoveryImage.md
 schema: 2.0.0
 ---
 
@@ -102,17 +102,16 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
 ## OUTPUTS
 
-### None, function doesnt return anything. Generates the wim files and ffu file.
-
 ## NOTES
 
 ## RELATED LINKS
 
-[https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism](https://docs.microsoft.com/windows-hardware/service/iot/recovery-mechanism)
+[Add Recovery](https://docs.microsoft.com/windows-hardware/manufacture/iot/recovery-mechanism)
 

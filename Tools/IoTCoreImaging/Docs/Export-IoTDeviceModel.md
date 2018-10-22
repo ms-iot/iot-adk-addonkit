@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Export-IoTDeviceModel.md
 schema: 2.0.0
 ---
 
@@ -18,7 +18,7 @@ Export-IoTDeviceModel [-Product] <String> [<CommonParameters>]
 
 ## DESCRIPTION
 Creates the IoTDeviceModel xml file with the required contents (SMBIOS and shipping versions).
-this file can be found at the product directory with the name `IoTDeviceModel_<productname>.xml`
+this file can be found at the product directory with the name \`IoTDeviceModel_\<productname\>.xml\`
 
 ## EXAMPLES
 
@@ -45,7 +45,8 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -55,3 +56,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 See also Import-IoTDUCConfig
 
 ## RELATED LINKS
+
+[Device Update Center User Guide](https://aka.ms/deviceupdatecenter)
+
+[Import-IoTDUCConfig](Import-IoTDUCConfig.md)
+

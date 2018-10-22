@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Add-IoTSecureBoot.md
 schema: 2.0.0
 ---
 
@@ -59,3 +59,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 See Import-IoTCertificate before using this function.
 
 ## RELATED LINKS
+
+[Import-IoTCertificate](Import-IoTCertificate.md)
+

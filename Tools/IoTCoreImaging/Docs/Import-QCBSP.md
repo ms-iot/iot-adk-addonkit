@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Import-QCBSP.md
 schema: 2.0.0
 ---
 
@@ -85,3 +85,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 You will need to download the QC BSP from the QC website first before using this method
 
 ## RELATED LINKS
+
+[Import-IoTBSP](Import-IoTBSP.md)
+

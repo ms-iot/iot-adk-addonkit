@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Add-IoTProduct.md
 schema: 2.0.0
 ---
 
@@ -163,4 +163,5 @@ See BuildFFU for creating FFU image for a given product.
 
 ## RELATED LINKS
 
-[New-IoTFFUImage](New-IoTFFUImage.md)
+[New-IoTProduct](New-IoTProduct.md)
+

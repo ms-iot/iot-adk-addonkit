@@ -27,6 +27,8 @@ function Add-IoTAppxPackage {
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -50,7 +52,7 @@ function Add-IoTAppxPackage {
     }
 
     $appxinfo = & "$($PSScriptRoot)\..\GetAppxInfo.exe" $AppxFile
-#   $appxinfo | Out-File "$($env:TEMP)\debugoutput.txt -Append -force
+    #   $appxinfo | Out-File "$($env:TEMP)\debugoutput.txt -Append -force
 
     $AppxVersion = "0"
     $AppxName = $fileobj.BaseName
@@ -232,7 +234,7 @@ function Add-IoTDriverPackage {
     Optional parameter specifying the directory name (namespace.name format). Default is Drivers.<InfName>.
 
     .PARAMETER BSPName
-    Optional parameter specifying the BSP.
+    Optional parameter specifying the BSP. If this is specified, the driver directory will be under the BSP folder.
 
     .EXAMPLE
     Add-IoTDriverPackage C:\Test\gpiodrv.inf Drivers.GPIO
@@ -244,6 +246,8 @@ function Add-IoTDriverPackage {
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -332,6 +336,8 @@ function Add-IoTCommonPackage {
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -398,6 +404,8 @@ function Add-IoTFilePackage {
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -431,7 +439,7 @@ function Add-IoTFilePackage {
                     if ([string]::IsNullOrWhiteSpace($File[2])) {
                         $destfile = $srcfile
                     }
-                    $wmwriter.AddFiles($File[0],$srcfile,$destfile)
+                    $wmwriter.AddFiles($File[0], $srcfile, $destfile)
                 }
                 else {
                     Publish-Error "$($File[1]) not found"
@@ -478,6 +486,8 @@ function Add-IoTRegistryPackage {
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
+    .LINK
+    [New-IoTCabPackage](New-IoTCabPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -504,7 +514,7 @@ function Add-IoTRegistryPackage {
         $wmwriter.Start($null)
         if ($null -ine $RegKeys) {
             foreach ($RegKey in $RegKeys) {
-                $wmwriter.AddRegKeyValue($RegKey[0],$RegKey[1],$RegKey[2],$RegKey[3])
+                $wmwriter.AddRegKeyValue($RegKey[0], $RegKey[1], $RegKey[2], $RegKey[3])
             }
         }
         $wmwriter.Finish()
@@ -543,16 +553,18 @@ function Add-IoTProvisioningPackage {
     .PARAMETER PpkgFile
     Optional parameter specifying the ppkg file from the ICD output directory.(C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)).
 
-    .EXAMPLE 1
+    .EXAMPLE
     Add-IoTProvisioningPackage Custom.Settings
     Creates a provisioning package folder Custom.Settings. Launch ICD.exe and open the .icdproj.xml file in this folder to edit the provisioning settings.
 
-    .EXAMPLE 2
+    .EXAMPLE
     Add-IoTProvisioningPackage Custom.Settings "C:\Users\<user>\Documents\Windows Imaging and Configuration Designer (WICD)\DisableUpdate\DisableUpdate.ppkg"
     Creates a provisioning package folder Custom.Settings and copies the source files for the ppkg to this directory and renames it to CustomSettings.
 
     .NOTES
     See New-IoTProvisioningPackage to build a provisioning package.
+    .LINK
+    [New-IoTProvisioningPackage](New-IoTProvisioningPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -564,7 +576,7 @@ function Add-IoTProvisioningPackage {
         [String]$PpkgFile
     )
 
-    if (-not $OutputName.Contains(".")){
+    if (-not $OutputName.Contains(".")) {
         $OutputName = "Prov.$Outputname"
     }
     $filedir = "$env:COMMON_DIR\Packages\$OutputName"
@@ -572,7 +584,7 @@ function Add-IoTProvisioningPackage {
         Publish-Error "$OutputName already exists"
         return
     }
-    if ((-not [string]::IsNullOrEmpty($PpkgFile)) -and (-not (Test-Path -Path $PpkgFile) )){
+    if ((-not [string]::IsNullOrEmpty($PpkgFile)) -and (-not (Test-Path -Path $PpkgFile) )) {
         Publish-Error "$PpkgFile not found"
         return
     }
@@ -585,7 +597,7 @@ function Add-IoTProvisioningPackage {
 
     # Write the wm.xml file
     $names = $OutputName.Split('.')
-    $ProvName = $OutputName.Replace(".","")
+    $ProvName = $OutputName.Replace(".", "")
     try {
         $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1]
         $wmwriter.Start($null)
@@ -599,20 +611,20 @@ function Add-IoTProvisioningPackage {
         Publish-Error "$msg"; return
     }
     $custxml = "$filedir\customizations.xml"
-    if (-not [string]::IsNullOrEmpty($PpkgFile)){
+    if (-not [string]::IsNullOrEmpty($PpkgFile)) {
         $srcpath = Split-Path -Path $PpkgFile -Parent
         Copy-Item "$srcpath\customizations.xml" $custxml
         $provxml = New-IoTProvisioningXML "$custxml"
         $pkgconfig = @{
-            "Name"    = "$ProvName"
+            "Name" = "$ProvName"
         }
     }
     else {
         # create customisations.xml file
         $provxml = New-IoTProvisioningXML "$custxml" -Create
         $pkgconfig = @{
-            "Name"    = "$ProvName"
-            "Rank"    = "$PROV_RANK"
+            "Name" = "$ProvName"
+            "Rank" = "$PROV_RANK"
         }
         $provxml.AddPolicy("ApplicationManagement", "AllowAllTrustedApps", "Yes")
     }
@@ -668,17 +680,19 @@ function Add-IoTProduct {
 
     .NOTES
     See BuildFFU for creating FFU image for a given product.
+    .LINK
+    [New-IoTProduct](New-IoTProduct.md)
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$ProductName,
-        [Parameter(Position=1, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$BSPName,
-        [Parameter(Position=2, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$OemName,
-        [Parameter(Position=3, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$FamilyName,
-        [Parameter(Position=4, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$SkuNumber,
-        [Parameter(Position=5, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$BaseboardManufacturer,
-        [Parameter(Position=6, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$BaseboardProduct,
-        [Parameter(Position=7, Mandatory=$false)][String]$PkgDir = $null
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$ProductName,
+        [Parameter(Position = 1, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$BSPName,
+        [Parameter(Position = 2, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$OemName,
+        [Parameter(Position = 3, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$FamilyName,
+        [Parameter(Position = 4, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$SkuNumber,
+        [Parameter(Position = 5, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$BaseboardManufacturer,
+        [Parameter(Position = 6, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$BaseboardProduct,
+        [Parameter(Position = 7, Mandatory = $false)][String]$PkgDir = $null
     )
     $bspdir = "$env:BSPSRC_DIR\$BSPName"
     $proddir = "$env:SRC_DIR\Products\$ProductName"
@@ -737,6 +751,8 @@ function Add-IoTBSP {
 
     .NOTES
     See Add-IoTProduct for creating new product directory.
+    .LINK
+    [Add-IoTProduct](Add-IoTProduct.md)
     #>
     [CmdletBinding()]
     Param
@@ -788,6 +804,12 @@ function Add-IoTSecurityPackages {
 
     .NOTES
     For validating the device guard policy, you can as well scan the built ffu using New-IoTFFUCIPolicy and compare the policy files.
+    .LINK
+    [Add-IoTDeviceGuard](Add-IoTDeviceGuard.md)
+    .LINK
+    [Add-IoTSecureBoot](Add-IoTSecureBoot.md)
+    .LINK
+    [Add-IoTBitLocker](Add-IoTBitLocker.md)
     #>
     [CmdletBinding()]
     Param
@@ -813,12 +835,23 @@ function Add-IoTDeviceGuard {
     .PARAMETER Test
     Switch parameter, to include test certificates in the device guard package.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the package is successfully created.
+
     .EXAMPLE
     Add-IoTDeviceGuard -Test
 
     .NOTES
     For validating the device guard policy, you can as well scan the built ffu using New-IoTFFUCIPolicy and compare the policy files.
     See Import-IoTCertificate before using this function.
+    .LINK
+    [Import-IoTCertificate](Import-IoTCertificate.md)
+    .LINK
+    [New-IoTFFUCIPolicy](New-IoTFFUCIPolicy.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -843,11 +876,12 @@ function Add-IoTDeviceGuard {
     Publish-Status "Generating Device Guard ..."
     if ($Test) {
         $pkgname = "DeviceGuardTest"
-    } else { $pkgname = "DeviceGuard" }
+    }
+    else { $pkgname = "DeviceGuard" }
 
     $secdir = "$env:COMMON_DIR\Packages\Security.$pkgname"
     $tmpdir = "$env:TMP\security"
-    if (!(Test-Path $secdir)){
+    if (!(Test-Path $secdir)) {
         #Import the package from the sample workspace
         Import-IoTOEMPackage "Security.$pkgname"
     }
@@ -872,7 +906,7 @@ function Add-IoTDeviceGuard {
     Push-Location -path $PSScriptRoot\Certs
     Publish-Status "---Adding Microsoft Certs---"
     # Add 'user' certs
-    $userCerts =@()
+    $userCerts = @()
     $userCerts += ($cfgnode.User.Retail.Cert | Get-Item).FullName
     if ($Test) {
         $userCerts += ($cfgnode.User.Test.Cert | Get-Item).FullName
@@ -911,14 +945,14 @@ function Add-IoTDeviceGuard {
     }
 
     # Add 'user' certs
-    $userCerts =@()
+    $userCerts = @()
     $certs = $sipolicynode.User.Retail.Cert
     if ($certs) {
         $userCerts += ( $certs | Get-Item).FullName
     }
     if ($Test) {
         $certs = $sipolicynode.User.Test.Cert
-        if ($certs){
+        if ($certs) {
             $userCerts += ( $certs | Get-Item).FullName
         }
     }
@@ -935,17 +969,17 @@ function Add-IoTDeviceGuard {
     # Add 'kernel' certs
     $kernelCerts = @()
     $certs = $sipolicynode.Kernel.Retail.Cert
-    if ($certs){
+    if ($certs) {
         $kernelCerts += ( $certs | Get-Item).FullName
     }
     if ($Test) {
         $certs = $sipolicynode.Kernel.Test.Cert
-        if ($certs){
+        if ($certs) {
             $kernelCerts += ( $certs | Get-Item).FullName
         }
     }
 
-    if($kernelCerts){
+    if ($kernelCerts) {
         foreach ($cert in $kernelCerts) {
             Publish-Status "KernelCert : $cert"
             Add-SignerRule -CertificatePath $cert -FilePath $auditPolicy -kernel
@@ -1015,6 +1049,9 @@ function Add-IoTSecureBoot {
 
     .NOTES
     See Import-IoTCertificate before using this function.
+
+    .LINK
+    [Import-IoTCertificate](Import-IoTCertificate.md)
     #>
     [CmdletBinding()]
     Param
@@ -1037,11 +1074,12 @@ function Add-IoTSecureBoot {
     Publish-Status "Generating SecureBoot ..."
     if ($Test) {
         $pkgname = "SecureBootTest"
-    } else { $pkgname = "SecureBoot" }
+    }
+    else { $pkgname = "SecureBoot" }
 
     $secdir = "$env:COMMON_DIR\Packages\Security.$pkgname"
     $tmpdir = "$env:TMP\security"
-    if (!(Test-Path $secdir)){
+    if (!(Test-Path $secdir)) {
         #Import the package from the sample workspace
         Import-IoTOEMPackage "Security.$pkgname"
     }
@@ -1071,13 +1109,13 @@ function Add-IoTSecureBoot {
     # Resolve the various cert to full path
     $pkcert = $securebootnode.PlatformKey.Cert
     $keksigncert = $securebootnode.KeyExchangeKey.Cert
-    if ($pkcert -and $keksigncert){
+    if ($pkcert -and $keksigncert) {
         $pkcert = (Get-Item $securebootnode.PlatformKey.Cert).FullName
         $pksigncerttp = (Get-PfxCertificate -FilePath $pkcert).Thumbprint
         $keksigncert = ($securebootnode.KeyExchangeKey.Cert | Select-Object -first 1 | Get-Item ).FullName
         $keksigncerttp = (Get-PfxCertificate -FilePath $keksigncert).Thumbprint
     }
-    else{
+    else {
         Publish-Error "PlatformKey/KeyExchangeKey not specified in workspace"
         Pop-Location
         return
@@ -1085,7 +1123,7 @@ function Add-IoTSecureBoot {
 
     $kekcert += ($securebootnode.KeyExchangeKey.Cert | Get-Item ).FullName
     $cert = $securebootnode.Database.Retail.Cert
-    if ($cert){
+    if ($cert) {
         $db += ( $cert | Get-Item ).FullName
     }
     else {
@@ -1157,6 +1195,9 @@ function Add-IoTBitLocker {
 
     .NOTES
     See Import-IoTCertificate before using this function.
+
+    .LINK
+    [Import-IoTCertificate](Import-IoTCertificate.md)
     #>
 
     if ($null -eq $env:IoTWsXml) {
@@ -1174,7 +1215,7 @@ function Add-IoTBitLocker {
     Push-Location -path $certdir
 
     $dracer = $bitlockernode.DataRecoveryAgent.Cert
-    if(-not $dracer){
+    if (-not $dracer) {
         Publish-Error "DataRecovery Certificate not defined in workspace"
         Pop-Location
         return
@@ -1184,7 +1225,7 @@ function Add-IoTBitLocker {
 
     Publish-Status "Generating Bitlocker ..."
     $secdir = "$env:COMMON_DIR\Packages\Security.BitLocker"
-    if (!(Test-Path $secdir)){
+    if (!(Test-Path $secdir)) {
         #Import the package from the sample workspace
         Import-IoTOEMPackage Security.BitLocker
     }

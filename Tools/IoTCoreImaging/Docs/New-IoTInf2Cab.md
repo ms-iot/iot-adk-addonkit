@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTInf2Cab.md
 schema: 2.0.0
 ---
 
@@ -75,3 +75,6 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 See Add-IoTDriverPackage to add driver to workspace and New-IoTCabPackage to build a cab file.
 
 ## RELATED LINKS
+
+[Add-IoTDriverPackage](Add-IoTDriverPackage.md)
+

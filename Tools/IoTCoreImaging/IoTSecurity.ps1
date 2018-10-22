@@ -54,6 +54,9 @@ function Import-IoTCertificate {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [New-IoTOEMCerts](New-IoTOEMCerts.md)
     #>
     [CmdletBinding()]
     Param
@@ -62,7 +65,7 @@ function Import-IoTCertificate {
         [ValidateNotNullOrEmpty()]
         [String]$CertFile,
         [Parameter(Position = 1, Mandatory = $true)]
-        [ValidateSet("PlatformKey","KeyExchangeKey","Database","DataRecoveryAgent","Update","User","Kernel")]
+        [ValidateSet("PlatformKey", "KeyExchangeKey", "Database", "DataRecoveryAgent", "Update", "User", "Kernel")]
         [String]$CertType,
         [Parameter(Position = 2, Mandatory = $false)]
         [Switch]$Test
@@ -73,14 +76,14 @@ function Import-IoTCertificate {
         return
     }
     $wsdoc = New-IoTWorkspaceXML $IoTWsXml
-    $retval = $wsdoc.AddCertificate($CertFile,$CertType,$Test)
+    $retval = $wsdoc.AddCertificate($CertFile, $CertType, $Test)
     if (!$retval) {
         Publish-Error "Failed to add certificate $CertFile as $CertType"
     }
 }
 
 function New-IoTOEMCerts {
-       <#
+    <#
     .SYNOPSIS
     Generates the required OEM certificates.
 
@@ -92,13 +95,16 @@ function New-IoTOEMCerts {
 
     .NOTES
     See also Import-IoTCertificate.
+
+    .LINK
+    [Import-IoTCertificate](Import-IoTCertificate.md)
     #>
     [CmdletBinding()]
 
     $paths = (Get-ChildItem $env:WPDKCONTENTROOT\ -Filter "makecert.exe" -Recurse).FullName
-    if ($paths){
-        foreach ($path in $paths){
-            if ($path.contains("x86\makecert.exe")){
+    if ($paths) {
+        foreach ($path in $paths) {
+            if ($path.contains("x86\makecert.exe")) {
                 $ToolsDir = Split-Path $path -Parent
                 break
             }
@@ -108,8 +114,8 @@ function New-IoTOEMCerts {
         Publish-Error "makecert.exe not found. Install Windows 10 SDK for generating certs."
     }
 
-    $MakeCert="$ToolsDir\makecert.exe"
-    $pvkpfx="$ToolsDir\pvk2pfx.exe"
+    $MakeCert = "$ToolsDir\makecert.exe"
+    $pvkpfx = "$ToolsDir\pvk2pfx.exe"
 
     $outputDir = "$env:IOTWKSPACE\Certs"
     New-DirIfNotExist "$outputDir\private"
@@ -133,28 +139,28 @@ function New-IoTOEMCerts {
     $BitlockerDRAPri = "$outputDir\private\$OemName-DRA"
 
     $ReApply = Test-Path "$RootPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $RootPri.pfx"
         & $MakeCert -r -pe -n "CN=$OemName Root" -ss CA -sr CurrentUser -a sha256 -len 4096 -cy authority -sky signature -sv "$RootPri.pvk" "$Root.cer"
         & $pvkpfx -pvk "$RootPri.pvk" -spc "$Root.cer" -pfx "$RootPri.pfx"
     }
 
     $ReApply = Test-Path "$CAPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $CAPri.pfx"
         & $MakeCert -pe -n "CN=$OemName CA" -ss CA -sr CurrentUser -a sha256 -len 4096 -cy authority -sky signature -iv "$RootPri.pvk" -ic "$Root.cer" -sv "$CAPri.pvk" "$CA.cer"
         & $pvkpfx -pvk "$CAPri.pvk" -spc "$CA.cer" -pfx "$CAPri.pfx"
     }
 
     $ReApply = Test-Path "$PCAPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $PCAPri.pfx"
         & $MakeCert -pe -n "CN=$OemName Production PCA 2016" -ss CA -sr CurrentUser -a sha256 -len 4096 -cy authority -sky signature -iv "$CAPri.pvk" -ic "$CA.cer" -sv "$PCAPri.pvk" "$PCA.cer"
         & $pvkpfx -pvk "$PCAPri.pvk" -spc "$PCA.cer" -pfx "$PCAPri.pfx"
     }
 
     $ReApply = Test-Path "$SIPolicySignerPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $SIPolicySignerPri.pfx"
         & $MakeCert -pe -n "CN=$OemName Lockdown Policy Authority, E=Info@$OemName-Name.com" -sr CurrentUser -a sha256 -len 2048 -cy end -sky signature -iv "$PCAPri.pvk" -ic "$PCA.cer" -sv "$SIPolicySignerPri.pvk" "$SIPolicySigner.cer"
         & $pvkpfx -pvk "$SIPolicySignerPri.pvk" -spc "$SIPolicySigner.cer" -pfx "$SIPolicySignerPri.pfx"
@@ -162,7 +168,7 @@ function New-IoTOEMCerts {
     Import-IoTCertificate "$SIPolicySigner.cer" Update
 
     $ReApply = Test-Path "$UMCIPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $UMCIPri.pfx"
         & $MakeCert -pe -n "CN=$OemName UMCI Codesigning, E=Info@$OemName-Name.com" -sr CurrentUser -a sha256 -len 2048 -cy end -eku 1.3.6.1.5.5.7.3.3 -sky signature -iv "$PCAPri.pvk" -ic "$PCA.cer" -sv "$UMCIPri.pvk" "$UMCI.cer"
         & $pvkpfx -pvk "$UMCIPri.pvk" -spc "$UMCI.cer" -pfx "$UMCIPri.pfx"
@@ -170,7 +176,7 @@ function New-IoTOEMCerts {
     Import-IoTCertificate "$UMCI.cer" User
 
     $ReApply = Test-Path "$PKPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $PKPri.pfx"
         & $MakeCert -pe -n "CN=$OemName Platform Key" -sr CurrentUser -a sha256 -len 2048 -cy end -sky signature -iv "$PCAPri.pvk" -ic "$PCA.cer" -sv "$PKPri.pvk"  "$PK.cer"
         & $pvkpfx -pvk "$PKPri.pvk" -spc "$PK.cer" -pfx "$PKPri.pfx"
@@ -178,7 +184,7 @@ function New-IoTOEMCerts {
     Import-IoTCertificate "$PK.cer" PlatformKey
 
     $ReApply = Test-Path "$KEKPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $KEKPri.pfx"
         & $MakeCert -pe -n "CN=$OemName Secure Boot" -sr CurrentUser -a sha256 -len 2048 -cy end -sky signature -iv "$PCAPri.pvk" -ic "$PCA.cer" -sv "$KEKPri.pvk"  "$KEK.cer"
         & $pvkpfx -pvk "$KEKPri.pvk" -spc "$KEK.cer" -pfx "$KEKPri.pfx"
@@ -186,7 +192,7 @@ function New-IoTOEMCerts {
     Import-IoTCertificate "$KEK.cer" KeyExchangeKey
 
     $ReApply = Test-Path "$BitlockerDRAPri.pfx"
-    if ($ReApply -eq $False){
+    if ($ReApply -eq $False) {
         Publish-Status "Creating $BitlockerDRAPri.pfx"
         & $MakeCert -pe -n "CN=$OemName Data Recovery Agent" -sr CurrentUser -a sha256 -len 2048 -cy end -eku 1.3.6.1.4.1.311.67.1.2 -sky exchange -iv "$PCAPri.pvk" -ic "$PCA.cer" -sv "$BitlockerDRAPri.pvk" "$BitlockerDRA.cer"
         & $pvkpfx -pvk "$BitlockerDRAPri.pvk" -spc "$BitlockerDRA.cer" -pfx "$BitlockerDRAPri.pfx"
@@ -194,7 +200,7 @@ function New-IoTOEMCerts {
     Import-IoTCertificate "$BitlockerDRA.cer" DataRecoveryAgent
 
     Remove-Item "$outputDir\private\*.pvk" -Force
-    if ($ReApply){
+    if ($ReApply) {
         Publish-Warning "Certificates already exist. See $outputDir"
     }
     else {
@@ -203,31 +209,36 @@ function New-IoTOEMCerts {
 }
 
 function Install-IoTOEMCerts {
- <#
- .SYNOPSIS
- Installs the OEM certs (pfx files) in the certs\private folder
+    <#
+    .SYNOPSIS
+    Installs the OEM certs (pfx files) in the certs\private folder
 
- .DESCRIPTION
- Installs the OEM certs (pfx files) in the certs\private folder
+    .DESCRIPTION
+    Installs the OEM certs (pfx files) in the certs\private folder
 
- .EXAMPLE
- Install-IoTOEMCerts
+    .EXAMPLE
+    Install-IoTOEMCerts
 
- .NOTES
- See also Import-IoTCertificate and New-IoTOEMCerts.
+    .NOTES
+    See also Import-IoTCertificate and New-IoTOEMCerts.
+
+    .LINK
+    [Import-IoTCertificate](Import-IoTCertificate.md)
+    .LINK
+    [New-IoTOEMCerts](New-IoTOEMCerts.md)
  #>
- [CmdletBinding()]
+    [CmdletBinding()]
 
- $pfxfiles = (Get-ChildItem $env:IOTWKSPACE\Certs\ -Filter "*.pfx" -Recurse).FullName
- if ($pfxfiles){
-     foreach ($pfxfile in $pfxfiles){
-        Publish-Status "Importing $pfxfile"
-        #certutil -user -importpfx $pfxfile NoRoot
-        Import-PfxCertificate -FilePath $pfxfile -CertStoreLocation Cert:\CurrentUser\My
-     }
-     Publish-Success "Importing successful"
- }
- else {
-     Publish-Error "No .pfx files found to install"
- }
+    $pfxfiles = (Get-ChildItem $env:IOTWKSPACE\Certs\ -Filter "*.pfx" -Recurse).FullName
+    if ($pfxfiles) {
+        foreach ($pfxfile in $pfxfiles) {
+            Publish-Status "Importing $pfxfile"
+            #certutil -user -importpfx $pfxfile NoRoot
+            Import-PfxCertificate -FilePath $pfxfile -CertStoreLocation Cert:\CurrentUser\My
+        }
+        Publish-Success "Importing successful"
+    }
+    else {
+        Publish-Error "No .pfx files found to install"
+    }
 }

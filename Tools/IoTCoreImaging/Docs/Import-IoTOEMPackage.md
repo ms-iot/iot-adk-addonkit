@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Import-IoTOEMPackage.md
 schema: 2.0.0
 ---
 
@@ -39,7 +39,8 @@ Imports all the packages in the sample workspace that comes along with tooling.
 ## PARAMETERS
 
 ### -PkgName
-Mandatory parameter, specifying the package name, typically of namespace.name format. Wild cards supported.
+Mandatory parameter, specifying the package name, typically of namespace.name format.
+Wild cards supported.
 
 ```yaml
 Type: String
@@ -63,13 +64,14 @@ Aliases:
 
 Required: False
 Position: 2
-Default value: $env:SAMPLEWKS
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
@@ -79,3 +81,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 See Add-IoT* and Import-IoT* methods.
 
 ## RELATED LINKS
+
+[Import-IoTProduct](Import-IoTProduct.md)
+
+[Import-IoTBSP](Import-IoTBSP.md)
+

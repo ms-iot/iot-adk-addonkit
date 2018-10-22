@@ -24,7 +24,13 @@ function New-IoTWorkspaceXML {
     $mywkspacexml = New-IoTWorkspaceXML C:\iot-adk-addonkit\IoTWorkspace.xml -Create "Contoso"
 
     .NOTES
-    None
+
+    .LINK
+    [IoTWorkspaceXML](./Classes/IoTWorkspaceXML.md)
+
+    .LINK
+    [New-IoTWorkspace](New-IoTWorkspace.md)
+
     #>
     [CmdletBinding(DefaultParametersetName='None')]
     param(
@@ -59,6 +65,8 @@ function New-IoTWorkspace {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+    .LINK
+    [Open-IoTWorkspace](Open-IoTWorkspace.md)
     #>
     [CmdletBinding()]
     param(
@@ -126,6 +134,9 @@ function Open-IoTWorkspace {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [New-IoTWorkspace](New-IoTWorkspace.md)
     #>
     [CmdletBinding()]
     Param
@@ -585,6 +596,10 @@ function Copy-IoTOEMPackage {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [Import-IoTOEMPackage](Import-IoTOEMPackage.md)
+
     #>
     [CmdletBinding()]
     Param
@@ -669,6 +684,12 @@ function Import-IoTOEMPackage {
     Imports all the packages in the sample workspace that comes along with tooling. ($env:SAMPLEWKS)
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [Import-IoTProduct](Import-IoTProduct.md)
+
+    .LINK
+    [Import-IoTBSP](Import-IoTBSP.md)
     #>
     [CmdletBinding()]
     Param
@@ -727,6 +748,10 @@ function Copy-IoTBSP {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [Import-IoTBSP](Import-IoTBSP.md)
+
     #>
     [CmdletBinding()]
     Param
@@ -915,6 +940,12 @@ function Import-IoTBSP {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [Import-IoTProduct](Import-IoTProduct.md)
+
+    .LINK
+    [Import-IoTOEMPackage](Import-IoTOEMPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -1037,6 +1068,12 @@ function Import-IoTProduct {
 
     .NOTES
     See Add-IoT* and Import-IoT* methods.
+
+    .LINK
+    [Import-IoTBSP](Import-IoTBSP.md)
+
+    .LINK
+    [Import-IoTOEMPackage](Import-IoTOEMPackage.md)
     #>
     [CmdletBinding()]
     Param
@@ -1090,7 +1127,12 @@ function Redo-IoTWorkspace {
     Redo-IoTWorkspace C:\iot-adk-addonkit
 
     .NOTES
-    General notes
+
+    .LINK
+    [New-IoTWorkspace](New-IoTWorkspace.md)
+
+    .LINK
+    [Open-IoTWorkspace](Open-IoTWorkspace.md)
     #>
     [CmdletBinding()]
     param(
@@ -1317,6 +1359,13 @@ function Get-IoTWorkspaceProducts {
     .PARAMETER SourceWkspace
     Optional parameter, specifies the workspace to search. Default is from the $env:SAMPLEWKS.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.String[]
+    List of products present in the workspace for the current architecture.
+
     .EXAMPLE
     Get-IoTWorkspaceProducts
     Returns the products from the default workspace.
@@ -1326,6 +1375,9 @@ function Get-IoTWorkspaceProducts {
     Returns the products from the specified workspace
 
     .NOTES
+
+    .LINK
+    [Get-IoTWorkspaceBSPs](Get-IoTWorkspaceBSPs.md)
     #>
     [OutputType([String[]])]
     Param
@@ -1375,6 +1427,13 @@ function Get-IoTWorkspaceBSPs {
     .PARAMETER SourceWkspace
     Optional parameter, specifies the workspace to search. Default is from the $env:SAMPLEWKS.
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.String[]
+    List of BSPs in the workspace for the current architecture.
+
     .EXAMPLE
     Get-IoTWorkspaceBSPs
     Returns the BSPs from the default workspace.
@@ -1384,6 +1443,9 @@ function Get-IoTWorkspaceBSPs {
     Returns the BSPs from the specified workspace
 
     .NOTES
+
+    .LINK
+    [Get-IoTWorkspaceProducts](Get-IoTWorkspaceProducts.md)
     #>
     [OutputType([String[]])]
     Param
@@ -1394,18 +1456,15 @@ function Get-IoTWorkspaceBSPs {
     $retval = @()
 
     if (([String]::IsNullOrWhiteSpace($SourceWkspace)) -or
-        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false))
-    {
-        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS))
-        {
+        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false)) {
+        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS)) {
             Publish-Error "`$env:SAMPLEWKS is missing"
             return $retval
         }
         $SourceWkspace = $env:SAMPLEWKS
     }
 
-    if ([String]::IsNullOrWhiteSpace($env:arch))
-    {
+    if ([String]::IsNullOrWhiteSpace($env:arch)) {
         Publish-Error "`$env:ARCH is missing"
         return $retval
     }
@@ -1443,6 +1502,9 @@ function Import-QCBSP {
 
     .NOTES
     You will need to download the QC BSP from the QC website first before using this method
+
+    .LINK
+    [Import-IoTBSP](Import-IoTBSP.md)
     #>
     Param
     (

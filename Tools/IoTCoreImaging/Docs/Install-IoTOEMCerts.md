@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/Install-IoTOEMCerts.md
 schema: 2.0.0
 ---
 
@@ -36,3 +36,8 @@ Install-IoTOEMCerts
 See also Import-IoTCertificate and New-IoTOEMCerts.
 
 ## RELATED LINKS
+
+[Import-IoTCertificate](Import-IoTCertificate.md)
+
+[New-IoTOEMCerts](New-IoTOEMCerts.md)
+

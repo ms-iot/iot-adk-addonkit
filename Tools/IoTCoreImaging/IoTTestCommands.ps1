@@ -27,11 +27,21 @@ function Test-IoTCabSignature {
     .PARAMETER Config
     Mandatory parameter, specifing the Config. Can be "Retail" or any other ("Test"/"Dev" etc)
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the cab file is signed properly.
+
     .EXAMPLE
     $result = Test-IoTCabSignature C:\myfile.cab Retail
 
     .NOTES
     Uses Test-IoTSignature cmdlet to validate the .cab file, and its contents - .cat. .exe, .dll and .sys
+
+    .LINK
+    [Test-IoTSignature](Test-IoTSignature.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -91,11 +101,21 @@ function Test-IoTSignature {
     .PARAMETER Config
     Mandatory parameter, specifying the Config. Can be "Retail" or any other ("Test"/"Dev" etc)
 
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the file is properly signed.
+
     .EXAMPLE
     $result = Test-IoTSignature C:\myfile.dll Retail
 
     .NOTES
     This verifies using the signtool. [ signtool verify /v /pa FileName ]
+
+    .LINK
+    [Test-IoTCabSignature](Test-IoTCabSignature.md)
     #>
     [CmdletBinding()]
     [OutputType([Boolean])]
@@ -175,6 +195,8 @@ function Add-IoTSignature {
 
     .NOTES
 
+    .LINK
+    [Test-IoTSignature](Test-IoTSignature.md)
     #>
     [CmdletBinding()]
     Param
@@ -236,6 +258,8 @@ function Redo-IoTCabSignature {
 
     .NOTES
 
+    .LINK
+    [Test-IoTSignature](Test-IoTSignature.md)
     #>
     [CmdletBinding()]
     Param

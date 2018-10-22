@@ -1,7 +1,7 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTProductSettingsXML.md
 schema: 2.0.0
 ---
 
@@ -67,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -oemName
-Specify the System Manufacturer Name for the SMBIOS setting
+Mandatory parameter, System Manufacturer Name for the SMBIOS
 
 ```yaml
 Type: String
@@ -82,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -familyName
-Specify the System Family Name for the SMBIOS setting
+Mandatory parameter, product family name for the SMBIOS
 
 ```yaml
 Type: String
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -skuNumber
-Specify the System SKU Number for the SMBIOS setting
+Mandatory parameter, SKU name for the SMBIOS
 
 ```yaml
 Type: String
@@ -112,7 +112,7 @@ Accept wildcard characters: False
 ```
 
 ### -baseboardManufacturer
-Specify the Baseboard Manufacturer Name for the SMBIOS setting
+Mandatory parameter, baseboard Manufacturere for the SMBIOS
 
 ```yaml
 Type: String
@@ -127,7 +127,7 @@ Accept wildcard characters: False
 ```
 
 ### -baseboardProduct
-Specify the Baseboard Product for the SMBIOS setting
+Mandatory parameter, baseboard Product for the SMBIOS
 
 ```yaml
 Type: String
@@ -142,7 +142,7 @@ Accept wildcard characters: False
 ```
 
 ### -pkgDir
-Specify the location where the prebuilt packages for the bsp are available
+Optional parameter, BSP package path for the product build configs
 
 ```yaml
 Type: String
@@ -157,15 +157,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTProductSettingsXML
-
 ## NOTES
-See [IoTProductSettingsXML](Classes/IoTProductSettingsXML.md) for more details on the class.
+See IoTProductSettingsXML class for more details.
 
 ## RELATED LINKS
+
+[IoTProductSettingsXML](./Classes/IoTProductSettingsXML.md)
+

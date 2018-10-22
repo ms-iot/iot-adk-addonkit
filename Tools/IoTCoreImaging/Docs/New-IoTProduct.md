@@ -1,14 +1,14 @@
 ---
 external help file: IoTCoreImaging-help.xml
 Module Name: IoTCoreImaging
-online version:
+online version: https://github.com/ms-iot/iot-adk-addonkit/blob/master/Tools/IoTCoreImaging/Docs/New-IoTProduct.md
 schema: 2.0.0
 ---
 
 # New-IoTProduct
 
 ## SYNOPSIS
-Factory method to create a new object of class [IoTProduct](Classes/IoTProduct.md)
+Factory method to create a new object of class IoTProduct
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ New-IoTProduct [-Product] <String> [-Config] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Factory method to create a new object of class [IoTProduct](Classes/IoTProduct.md)
+This method creates a object of class IoTProduct
 
 ## EXAMPLES
 
@@ -62,15 +62,19 @@ Accept wildcard characters: False
 ```
 
 ### CommonParameters
-This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable.
+For more information, see about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
 ### IoTProduct
-
 ## NOTES
-See [IoTProduct](Classes/IoTProduct.md) for more details on the class.
+See IoTProduct class for more details.
 
 ## RELATED LINKS
+
+[IoTProduct](./Classes/IoTProduct.md)
+
