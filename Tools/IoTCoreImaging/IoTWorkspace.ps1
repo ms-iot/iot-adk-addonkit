@@ -656,8 +656,15 @@ function Copy-IoTOEMPackage {
             else { Write-Verbose "$pkgname is not added to feature manifest"}
         }
     }
-    if ($copydone) {
-        Write-Verbose "Package copy completed"
+
+    # patch to unblock UI waiting on this message
+    if (($null -ne $host) -and ($null -ne $host.ui)) {
+        if ($copydone) {
+            Write-Verbose "Package copy completed"
+        }
+    }
+    else{
+        Publish-Status "Package copy completed"
     }
 }
 
