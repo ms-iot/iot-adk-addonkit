@@ -91,7 +91,7 @@
   <DeviceLayoutPackages>
       <!-- Device Layout with recovery setup -->
     <PackageFile SOC="QC8016_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout-R.cab"/>
-    <PackageFile SOC="QC8016" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.DeviceLayout.cab"/>
+    <PackageFile SOC="QC8016" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout.cab"/>
   </DeviceLayoutPackages>
   <Features>
     <Microsoft />
