@@ -98,7 +98,7 @@ function New-IoTWorkspace {
     Import-IoTOEMPackage Registry.Version
     Import-IoTOEMPackage Custom.Cmd
     Import-IoTOEMPackage Provisioning.Auto
-    Import-IoTOEMPackage AzureDM.Services
+    Import-IoTOEMPackage OEM.Sample
     Import-IoTOEMPackage Device*
     Publish-Success "Workspace ready!"
 }
@@ -108,11 +108,6 @@ function Write-CmdShortcut([string] $dir) {
     Set-Content -Path $CmdFile -Value "@echo off"
     $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $Global:ToolsRoot\Tools\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
     Add-Content -Path $CmdFile -Value "powershell -Command `"$cmdstring`""
-
-    $CmdFile1 = "$dir\IoTCoreShell.cmd"
-    Set-Content -Path $CmdFile1 -Value "@echo off"
-    $cmdstring = "Start-Process 'cmd.exe' -ArgumentList '/k \`"$Global:ToolsRoot\Tools\CmdTools\LaunchTool.cmd\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
-    Add-Content -Path $CmdFile1 -Value "powershell -Command `"$cmdstring`""
 }
 
 function Open-IoTWorkspace {
@@ -392,7 +387,7 @@ function Set-IoTEnvironment {
     [System.Environment]::SetEnvironmentVariable("BSP_VERSION", $wkspaceobj.GetVersion())
     [System.Environment]::SetEnvironmentVariable("SIGN_MODE", "Test")
 
-    if (($null-ne $host) -and ($null -ne $host.ui) -and ($null -ne $host.ui.RawUI) -and ($null -ne $host.ui.RawUI.WindowTitle)) {
+    if (Check-IfFullHost -eq $true) {
         $host.ui.RawUI.WindowTitle = "IoTCorePShellv$env:IOT_ADDON_VERSION $env:BSP_VERSION $env:SIGN_MODE"
     }
 
@@ -407,16 +402,7 @@ function Set-IoTEnvironment {
     # Set the signature to defaults (blank parameters)
     Set-IoTSignature
     Set-Location $env:IOTWKSPACE
-    # Export IoT specific env vars just added
-    $CmdFile = "$iotwsroot\Build\SetEnvVars.cmd"
-    Set-Content -Path $CmdFile -Value "REM Exporting Env vars from Powershell"
-    Add-Content -Path $CmdFile -Value "echo Initializing Env variables"
-    foreach ($envvar in $IoTEnvVars) {
-        $value = [System.Environment]::GetEnvironmentVariable($envvar)
-        Add-Content -Path $CmdFile -Value "set $envvar=$value"
-    }
-    Add-Content -Path $CmdFile -Value "set PROMPT=IoTCoreShell %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%`$_`$P`$G"
-    Add-Content -Path $CmdFile -Value "TITLE IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%"
+
 }
 
 function Set-IoTCabVersion {
@@ -449,12 +435,8 @@ function Set-IoTCabVersion {
         $wkspace = New-IoTWorkspaceXML $env:IoTWsXml
         $wkspace.SetVersion($version)
         [System.Environment]::SetEnvironmentVariable("BSP_VERSION", $version)
-        $CmdFile = "$env:IOTWKSPACE\Build\Version.cmd"
-        Set-Content -Path $CmdFile -Value "set BSP_VERSION=$env:BSP_VERSION"
-        Add-Content -Path $CmdFile -Value "set PROMPT=IoTCoreShell %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%`$_`$P`$G"
-        Add-Content -Path $CmdFile -Value "TITLE IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%"
-        if (($null-ne $host) -and ($null -ne $host.ui) -and ($null -ne $host.ui.RawUI) -and ($null -ne $host.ui.RawUI.WindowTitle)) {
-            $host.ui.RawUI.WindowTitle = "IoTCorePSShellv$env:IOT_ADDON_VERSION $env:BSP_VERSION %SIGN_MODE%"
+        if (Check-IfFullHost -eq $true) {
+            $host.ui.RawUI.WindowTitle = "IoTCorePSShellv$env:IOT_ADDON_VERSION $env:BSP_VERSION $env:SIGN_MODE"
         }
     }
     else { Publish-Error "IoTWorkspace is not opened. Use Open-IoTWorkspace" }
@@ -518,11 +500,7 @@ function Set-IoTRetailSign {
             }
         }
         Set-IoTSignature $signtoolparam
-        $CmdFile = "$env:IOTWKSPACE\Build\SetPrompt.cmd"
-        Set-Content -Path $CmdFile -Value "set SIGN_MODE=$env:SIGN_MODE"
-        Add-Content -Path $CmdFile -Value "set PROMPT=IoTCoreShell %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%`$_`$P`$G"
-        Add-Content -Path $CmdFile -Value "TITLE IoTCoreShellv%IOT_ADDON_VERSION% %BSP_ARCH% %BSP_VERSION% %SIGN_MODE%"
-        if (($null-ne $host) -and ($null -ne $host.ui) -and ($null -ne $host.ui.RawUI) -and ($null -ne $host.ui.RawUI.WindowTitle)) {
+        if (Check-IfFullHost -eq $true) {
             $host.ui.RawUI.WindowTitle = "IoTCorePSShellv$env:IOT_ADDON_VERSION $env:BSP_VERSION $env:SIGN_MODE"
         }
     }
@@ -658,12 +636,12 @@ function Copy-IoTOEMPackage {
     }
 
     # patch to unblock UI waiting on this message
-    if (($null -ne $host) -and ($null -ne $host.ui)) {
+    if (Check-IfFullHost -eq $true) {
         if ($copydone) {
             Write-Verbose "Package copy completed"
         }
     }
-    else{
+    else {
         Publish-Status "Package copy completed"
     }
 }
@@ -1557,7 +1535,7 @@ function Import-QCBSP {
         $filename = Split-Path -Path $_ -Leaf
         if ($pkglist -contains $filename) {
             if ($exceptionlist -contains $filename) {
-                Write-Debug "---> Exception $filename"
+                Write-Verbose "---> Exception $filename"
                 $filepath = Split-Path -Path $_ -Parent
                 $dirname = Split-Path -Path $filepath -Leaf
                 if ($filename -ieq "Qualcomm.QC8916.OEMDevicePlatform.cab") {
@@ -1565,7 +1543,7 @@ function Import-QCBSP {
                         Write-Host "Extracting $_"
                         [System.IO.Compression.ZipFileExtensions]::ExtractToFile($_, "$BSPPkgDir\$filename", $true)
                     }
-                    else { Write-Debug "Skipping $_" }
+                    else { Write-Verbose "Skipping $_" }
                 }
                 else {
                     #For other exception files, take content from MTP directory
@@ -1573,7 +1551,7 @@ function Import-QCBSP {
                         Write-Host "Extracting $_"
                         [System.IO.Compression.ZipFileExtensions]::ExtractToFile($_, "$BSPPkgDir\$filename", $true)
                     }
-                    else { Write-Debug "Skipping $filepath" }
+                    else { Write-Verbose "Skipping $filepath" }
                 }
             }
             else {
@@ -1593,4 +1571,17 @@ function Import-QCBSP {
     Publish-Success "BSP import completed"
 
     $zip.Dispose()
+    # Verify if all cabs are available
+    $cabfiles = Get-ChildItem $BSPPkgDir -Filter *.cab | ForEach-Object { $_.BaseName + $_.Extension }
+    foreach ($pkg in $pkglist) {
+        if ($pkg.Contains("%OEM_NAME%")) {
+            continue
+        }
+        elseif ($cabfiles -contains $pkg) {
+            Write-Verbose "$pkg present"
+        }
+        else {
+            Publish-Error "Missing $pkg"
+        }
+    }
 }

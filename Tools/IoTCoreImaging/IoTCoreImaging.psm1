@@ -10,7 +10,7 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 }
 
 #Set tool version
-if (($null -ne $host) -and ($null -ne $host.ui) -and ($null -ne $host.ui.RawUI) -and ($null -ne $host.ui.RawUI.WindowTitle)) {
+if (Check-IfFullHost -eq $true) {
      $host.ui.RawUI.WindowTitle = "IoTCorePShell"
 }
 $toolsroot = [string] $PSScriptRoot

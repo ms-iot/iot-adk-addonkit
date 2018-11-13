@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<identity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Sample" namespace="OEM" owner="$(OEMNAME)" legacyName="$(OEMNAME).OEM.Sample" xmlns="urn:Microsoft.CompPlat/ManifestSchema.v1.00">
+    <onecorePackageInfo targetPartition="MainOS" releaseType="Production" ownerType="OEM" />
+    <regKeys>
+        <regKey keyName="$(hklm.software)\$(OEMNAME)\Test">
+            <regValue name="StringValue" type="REG_SZ" value="Test string" />
+            <regValue name="DWordValue" type="REG_DWORD" value="0x12AB34CD" />
+        </regKey>
+        <regKey keyName="$(hklm.software)\$(OEMNAME)\EmptyKey" />
+        <!--<files> <file destinationDir="$(runtime.bootDrive)\Myfolder" source="Myfile.txt" />  </files>-->
+    </regKeys>
+</identity>
