@@ -130,8 +130,7 @@ class IoTProvisioningXML {
             $this.XmlDoc.WindowsCustomizations.PackageConfig.Version = $version
             $this.XmlDoc.Save($this.FileName)
         }
-        else
-        {
+        else {
             Publish-Error "Incorrect version format : $version"
         }
     }
@@ -331,9 +330,12 @@ class IoTProvisioningXML {
                 $commonnode.AppendChild($certelement)
             }
         }
-        # Finally, copy the cert to the provxml directory
+        # Finally, copy the cert to the provxml directory if its in different directory
         $provpath = Split-Path $this.FileName -Parent
-        Copy-Item -Path $certfile -Destination $provpath | Out-Null
+        $certpath = Split-Path $certfile -Parent
+        if ($provpath -ine $certpath) {
+            Copy-Item -Path $certfile -Destination $provpath | Out-Null
+        }
         $this.IncrementVersion() # this function saves the xml file
     }
 

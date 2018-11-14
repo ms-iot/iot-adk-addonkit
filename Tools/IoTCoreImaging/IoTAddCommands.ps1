@@ -129,17 +129,17 @@ function Add-IoTAppxPackage {
     }
 
     Publish-Status "Dependencies      : $depfiles"
-    $licensexml = Get-ChildItem $appxpath -Filter *License*.xml -File | foreach-object {$_.FullName}
-    if ($null -ine $licensexml) {
+    $licensexml = Get-ChildItem $appxpath -Filter *License*.xml -File | foreach-object {$_.FullName} | Select-Object -First 1
+    if ($null -ne $licensexml) {
         Copy-Item $licensexml $pkgdir\$licensename
         $liobj = [xml] (Get-Content $licensexml)
         $licenseid = $liobj.License.LicenseID
         Publish-Status "LicenseID      : $licenseid"
     }
     else {
-        $cerfiles = Get-ChildItem $appxpath -Filter *.cer -File | foreach-object {$_.BaseName}
-        foreach ($cer in $cerfiles) {
-            Copy-Item $appxpath\$($cer).cer $pkgdir\$($cer).cer
+        $cer = Get-ChildItem $appxpath -Filter *.cer -File | foreach-object {$_.BaseName} | Select-Object -First 1
+        if ($null -ne $cer) {
+            Copy-Item $appxpath\$($cer).cer $pkgdir\$($AppxName).cer
         }
     }
 
@@ -165,10 +165,8 @@ function Add-IoTAppxPackage {
     $provxml.AddPolicy("ApplicationManagement", "AllowAllTrustedApps", "Yes")
 
     # Check for certificate
-    if (!$SkipCert -and ($null -ne $cerfiles )) {
-        foreach ($cer in $cerfiles) {
-            $provxml.AddRootCertificate("$appxpath\$($cer).cer")
-        }
+    if (!$SkipCert -and ($null -ne $cer )) {
+        $provxml.AddRootCertificate("$pkgdir\$($AppxName).cer")
     }
 
     # Startup app settings
@@ -193,7 +191,7 @@ function Add-IoTAppxPackage {
 
     try {
         $namespart = $OutputName.Split(".")
-        $wmwriter = New-IoTWMWriter $pkgdir $namespart[0] $namespart[1]
+        $wmwriter = New-IoTWMWriter $pkgdir $namespart[0] $namespart[1] -Force
         $wmwriter.Start($null)
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".ppkg", $OutputName + ".ppkg")
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".cat", $OutputName + ".cat")
@@ -296,7 +294,7 @@ function Add-IoTDriverPackage {
     $namespace = $OutputName.Split('.')[0]
     $name = $OutputName.Split('.')[1]
     try {
-        $wmwriter = New-IoTWMWriter $filedir $namespace $name
+        $wmwriter = New-IoTWMWriter $filedir $namespace $name -Force
         $wmwriter.Start($null)
         $wmwriter.AddDriver($fileobj.Name)
         $wmwriter.Finish()
@@ -357,7 +355,7 @@ function Add-IoTCommonPackage {
     # Write the wm.xml file
     $names = $OutputName.Split('.')
     try {
-        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1]
+        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
         $regkeyvals = @(("StringValue", "REG_SZ", "Test string"), ("DWordValue", "REG_DWORD", "0x12AB34CD"))
         $wmwriter.AddRegKeys("`$(hklm.software)\`$(OEMNAME)\Test", $regkeyvals)
@@ -428,7 +426,7 @@ function Add-IoTFilePackage {
     # Write the wm.xml file
     $names = $OutputName.Split('.')
     try {
-        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1]
+        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
         if ($null -ine $Files) {
             foreach ($File in $Files) {
@@ -510,7 +508,7 @@ function Add-IoTRegistryPackage {
     # Write the wm.xml file
     $names = $OutputName.Split('.')
     try {
-        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1]
+        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
         if ($null -ine $RegKeys) {
             foreach ($RegKey in $RegKeys) {
@@ -599,7 +597,7 @@ function Add-IoTProvisioningPackage {
     $names = $OutputName.Split('.')
     $ProvName = $OutputName.Replace(".", "")
     try {
-        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1]
+        $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".ppkg", $OutputName + ".ppkg")
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".cat", $OutputName + ".cat")
