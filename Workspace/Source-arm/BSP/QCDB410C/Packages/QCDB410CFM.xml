@@ -1,11 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<FeatureManifest 
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<FeatureManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" 
-  Revision="1"   
-  SchemaVersion="1.2"   
->  
+  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" Revision="1" SchemaVersion="1.2">
   <BasePackages>
     <!-- System Information package for providing system details , required for DM enrollment etc -->
     <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
@@ -86,10 +82,10 @@
   <OEMDevicePlatformPackages>
     <!-- Device platform with Recovery setup -->
     <PackageFile Device="8016sbc_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DevicePlatform-R.cab"/>
-    <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/> 
+    <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/>
   </OEMDevicePlatformPackages>
   <DeviceLayoutPackages>
-      <!-- Device Layout with recovery setup -->
+    <!-- Device Layout with recovery setup -->
     <PackageFile SOC="QC8016_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout-R.cab"/>
     <PackageFile SOC="QC8016" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout.cab"/>
   </DeviceLayoutPackages>
@@ -97,12 +93,12 @@
     <Microsoft />
     <MSFeatureGroups />
     <OEM>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab" >
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab">
         <FeatureIDs>
           <FeatureID>QC_UEFI_PRODUCTION</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab" >
+      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab">
         <FeatureIDs>
           <FeatureID>SBC</FeatureID>
         </FeatureIDs>
@@ -179,5 +175,9 @@
       </PackageFile>
     </OEM>
     <OEMFeatureGroups />
+    <OEMConditionalFeatures>
+      <ConditionalFeature FeatureID="OEM_CUSTOM_SMBIOS" UpdateAction="NoUpdate" />
+      <ConditionalFeature FeatureID="OEM_SMBIOS_DEFAULT" UpdateAction="NoUpdate" />
+    </OEMConditionalFeatures>
   </Features>
 </FeatureManifest>

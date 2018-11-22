@@ -11,12 +11,8 @@ If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 
 #Set tool version
 if (Check-IfFullHost -eq $true) {
-     $host.ui.RawUI.WindowTitle = "IoTCorePShell"
+    $host.ui.RawUI.WindowTitle = "IoTCorePShell"
 }
-$toolsroot = [string] $PSScriptRoot
-$Global:ToolsRoot = $toolsroot.Replace("\Tools\IoTCoreImaging", "")
-$Global:OrigPath = $env:Path
-Write-Debug "Orig Path : $($Global:OrigPath)"
 
 # dot source all the classes here. The order is important to ensure the dependency
 
@@ -39,6 +35,10 @@ Write-Debug "Orig Path : $($Global:OrigPath)"
 . $PSScriptRoot\IoTSecurity.ps1
 . $PSScriptRoot\IoTWorkspace.ps1
 . $PSScriptRoot\IoTClassExports.ps1
+
+Set-ToolsRoot $PSScriptRoot.Replace("\Tools\IoTCoreImaging", "")
+Set-OriginalPath $env:Path
+Write-Debug "Orig Path : $($env:Path)"
 
 ############ IoTBuildCommands Exports ##############
 New-Alias -Name 'buildfm' -Value 'New-IoTFIPPackage'

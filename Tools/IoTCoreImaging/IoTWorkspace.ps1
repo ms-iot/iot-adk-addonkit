@@ -3,6 +3,20 @@ This contains Workspace related functions
 #>
 . $PSScriptRoot\IoTPrivateFunctions.ps1
 
+#Store the tools root
+[string] $ToolsRoot = $null
+
+function Set-ToolsRoot([string] $root) {
+    $Script:ToolsRoot = $root
+}
+
+#Store the tools root
+[string] $OriginalPath = $null
+
+function Set-OriginalPath([string] $path) {
+    $Script:OriginalPath = $path
+}
+
 function New-IoTWorkspaceXML {
     <#
     .SYNOPSIS
@@ -32,11 +46,11 @@ function New-IoTWorkspaceXML {
     [New-IoTWorkspace](New-IoTWorkspace.md)
 
     #>
-    [CmdletBinding(DefaultParametersetName='None')]
+    [CmdletBinding(DefaultParametersetName = 'None')]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String] $File,
-        [Parameter(Position=1, ParameterSetName='ConstructionArgs',Mandatory=$false)][switch] $Create,
-        [Parameter(Position=2, ParameterSetName='ConstructionArgs',Mandatory=$true)][string] $OemName
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String] $File,
+        [Parameter(Position = 1, ParameterSetName = 'ConstructionArgs', Mandatory = $false)][switch] $Create,
+        [Parameter(Position = 2, ParameterSetName = 'ConstructionArgs', Mandatory = $true)][string] $OemName
     )
     # We always have to pass this argument, but it's unneeded unless we're constructing a new XML.
     if (-not $Create) { $OemName = $null }
@@ -70,9 +84,9 @@ function New-IoTWorkspace {
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$DirName,
-        [Parameter(Position=1, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$OemName,
-        [Parameter(Position=2, Mandatory=$true)][String]$Arch
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$DirName,
+        [Parameter(Position = 1, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$OemName,
+        [Parameter(Position = 2, Mandatory = $true)][String]$Arch
     )
     if (-not (Test-Path $DirName -PathType Container)) {
         # Create directory if doesnt exist. Used in the powershell / cmd scripts
@@ -106,7 +120,7 @@ function New-IoTWorkspace {
 function Write-CmdShortcut([string] $dir) {
     $CmdFile = "$dir\IoTCorePShell.cmd"
     Set-Content -Path $CmdFile -Value "@echo off"
-    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $Global:ToolsRoot\Tools\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
+    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $Script:ToolsRoot\Tools\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
     Add-Content -Path $CmdFile -Value "powershell -Command `"$cmdstring`""
 }
 
@@ -137,20 +151,20 @@ function Open-IoTWorkspace {
     Param
     (
         [Parameter(Position = 0, Mandatory = $true)]
-		[ValidateNotNullOrEmpty()]
+        [ValidateNotNullOrEmpty()]
         [String]$WsXML
     )
-    if (Test-Path $WsXML -PathType Leaf){
+    if (Test-Path $WsXML -PathType Leaf) {
         $filename = Split-Path -Path $WsXML -Leaf
-        if ($filename -ine "IoTWorkspace.xml"){
+        if ($filename -ine "IoTWorkspace.xml") {
             Publish-Error "Invalid input file"
             return
         }
     }
-    else{
+    else {
         $WsXML = Join-Path -Path $WsXML -ChildPath "\IoTWorkspace.xml"
         #if its a directory check if it is workspace and open
-        if (-not (Test-Path $WsXML -PathType Leaf)){
+        if (-not (Test-Path $WsXML -PathType Leaf)) {
             Publish-Error "Invalid input directory"
             return
         }
@@ -184,7 +198,7 @@ function Add-IoTEnvironment {
     Param
     (
         [Parameter(Position = 0, Mandatory = $true)]
-		[ValidateNotNullOrEmpty()]
+        [ValidateNotNullOrEmpty()]
         [String]$Arch
     )
     $IoTWsXml = $env:IOTWSXML
@@ -237,8 +251,8 @@ function Set-IoTEnvironment {
 
     $IoTEnvVars += @("IOT_ADDON_VERSION", "TOOLS_DIR", "TEMPLATES_DIR", "SAMPLEWKS")
     [System.Environment]::SetEnvironmentVariable("IOT_ADDON_VERSION", "$($MyInvocation.MyCommand.Module.Version)")
-    [System.Environment]::SetEnvironmentVariable("SAMPLEWKS", "$Global:ToolsRoot\Workspace")
-    [System.Environment]::SetEnvironmentVariable("TOOLS_DIR", "$Global:ToolsRoot\Tools")
+    [System.Environment]::SetEnvironmentVariable("SAMPLEWKS", "$Script:ToolsRoot\Workspace")
+    [System.Environment]::SetEnvironmentVariable("TOOLS_DIR", "$Script:ToolsRoot\Tools")
     [System.Environment]::SetEnvironmentVariable("TEMPLATES_DIR", "$env:TOOLS_DIR\Templates")
 
     if ($arch -ieq "default") {
@@ -305,7 +319,6 @@ function Set-IoTEnvironment {
         $adkver = (Get-ItemProperty -Path $key).Version
         $adkver = $adkver.Replace("10.1.", "10.0.")
         [System.Environment]::SetEnvironmentVariable("ADK_VERSION", $adkver)
-        Publish-Status "ADK_VERSION :", $adkver
     }
     else { Publish-Error "ADK ver not found in registry" }
 
@@ -315,7 +328,6 @@ function Set-IoTEnvironment {
         $corekitver = (Get-ItemProperty -Path $key).Version
         $corekitver = $corekitver.Replace("10.1.", "10.0.")
         [System.Environment]::SetEnvironmentVariable("IOTCORE_VER", $corekitver)
-        Publish-Status "IOTCORE_VER :", $corekitver
     }
     else { Publish-Error "IoT Core kit ver not found in registry" }
 
@@ -354,7 +366,7 @@ function Set-IoTEnvironment {
     #set the tools directory
     $IoTEnvVars += @("Path", "SDK_VERSION", "DUCSIGNPARAM")
     if ($env:Path -notcontains $env:TOOLS_DIR) {
-        [System.Environment]::SetEnvironmentVariable("Path", "$env:TOOLS_DIR;$Win10KitsRootBinPath;$icdroot;$Global:OrigPath")
+        [System.Environment]::SetEnvironmentVariable("Path", "$env:TOOLS_DIR;$Win10KitsRootBinPath;$icdroot;$Script:OriginalPath")
     }
 
     #check if test certs are installed and if not, installoemcerts
@@ -392,10 +404,10 @@ function Set-IoTEnvironment {
     }
 
     function Global:prompt { "IoTCorePShell $env:BSP_ARCH $env:BSP_VERSION $env:SIGN_MODE`nPS $pwd>" }
+    Write-IoTVersions
     Publish-Status "IOTWKSPACE  : $env:IOTWKSPACE"
     Publish-Status "OEM_NAME    : $env:OEM_NAME"
     Publish-Status "BSP_ARCH    : $env:BSP_ARCH"
-    Publish-Status "BSP_VERSION : $env:BSP_VERSION"
     Publish-Status "BSPPKG_DIR  : $env:BSPPKG_DIR"
     Publish-Status "MSPKG_DIR   : $env:MSPKG_DIR"
 
@@ -458,6 +470,7 @@ function Write-IoTVersions {
     Publish-Status "ADK_VERSION : $env:ADK_VERSION"
     Publish-Status "IOTCORE_VER : $env:IOTCORE_VER"
     Publish-Status "BSP_VERSION : $env:BSP_VERSION"
+    Publish-Status "ADDONKITVER : $env:IOT_ADDON_VERSION"
     #Get Host Information
     $pOS = Get-CimInstance Win32_OperatingSystem
 
@@ -687,18 +700,15 @@ function Import-IoTOEMPackage {
     )
 
     if (([String]::IsNullOrWhiteSpace($SourceWkspace)) -or
-        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false))
-    {
-        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS))
-        {
+        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false)) {
+        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS)) {
             Publish-Error "`$env:SAMPLEWKS is missing"
             return
         }
         $SourceWkspace = $env:SAMPLEWKS
     }
 
-    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE))
-    {
+    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE)) {
         Publish-Error "`$env:IOTWKSPACE is missing"
         return
     }
@@ -763,14 +773,14 @@ function Copy-IoTBSP {
         [System.IO.Compression.ZipFileExtensions]::ExtractToDirectory($zip, "$tempdir")
         $zip.Dispose()
         $fmfiles = (Get-ChildItem -Path "$tempdir" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
-        if (!$fmfiles){
+        if (!$fmfiles) {
             Publish-Error "No FM files found in $Source."
             return
         }
         #if more than one fm file, picking up first.
         #TODO relook as this logic again
-        if ($fmfiles.Count -gt 1){
-            $fmfilepath  = Split-Path -Path $fmfiles[0] -Parent
+        if ($fmfiles.Count -gt 1) {
+            $fmfilepath = Split-Path -Path $fmfiles[0] -Parent
         }
         else {
             $fmfilepath = Split-Path -Path $fmfiles -Parent
@@ -778,7 +788,7 @@ function Copy-IoTBSP {
         $bspdir = Split-Path -Path $fmfilepath -Parent
         $srcdir = Split-Path -Path $bspdir -Parent
     }
-    elseif (Test-Path $Source\IoTWorkspace.xml -PathType Leaf){
+    elseif (Test-Path $Source\IoTWorkspace.xml -PathType Leaf) {
         $srcdir = "$Source\Source-$($env:arch)\BSP"
     }
     else {
@@ -800,27 +810,27 @@ function Copy-IoTBSP {
         }
         # validate if the folder is a BSP folder
         $fmfiles = (Get-ChildItem -Path "$srcdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
-        if (!$fmfiles){
+        if (!$fmfiles) {
             Publish-Error "No FM files found. $srcdir\$bsp is not a valid BSP directory"
             continue
         }
-        if (!(Test-Path "$srcdir\$bsp\OEMInputSamples\TestOEMInput.xml")){
+        if (!(Test-Path "$srcdir\$bsp\OEMInputSamples\TestOEMInput.xml")) {
             Publish-Error "$srcdir\$bsp\OEMInputSamples\TestOEMInput.xml not found. $srcdir\$bsp is not a valid BSP directory"
             continue
         }
-        if (!(Test-Path "$srcdir\$bsp\Packages\$($bsp)FMFileList.xml")){
+        if (!(Test-Path "$srcdir\$bsp\Packages\$($bsp)FMFileList.xml")) {
             Publish-Error "$($bsp)FMFileList.xml not found. $srcdir\$bsp is not a valid BSP directory"
             continue
         }
         $xmldoc = [xml] (Get-Content -Path "$srcdir\$bsp\Packages\$($bsp)FMFileList.xml")
         $arch = $xmldoc.FMCollectionManifest.FMs.FM.CPUType
-	if ($arch.Count -gt 1) {
-	    $xmlarch = $arch[0].ToLower()
-	}
-	else {
-	    $xmlarch = $arch.ToLower()
-	}
-        if($env:BSP_ARCH -ne $xmlarch){
+        if ($arch.Count -gt 1) {
+            $xmlarch = $arch[0].ToLower()
+        }
+        else {
+            $xmlarch = $arch.ToLower()
+        }
+        if ($env:BSP_ARCH -ne $xmlarch) {
             Publish-Error "Incorrect BSP arch. Found $xmlarch, expected $env:BSP_ARCH"
             continue
         }
@@ -832,29 +842,29 @@ function Copy-IoTBSP {
         $copydone = Convert-IoTPkg2Wm $destdir\$bsp
         # get rid of the FeatureIdentifierPackage flag in the FM file
         $fmfiles = (Get-ChildItem -Path "$destdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
-        if (!$fmfiles){
+        if (!$fmfiles) {
             # should not occur if the copy succeeded.
             Publish-Error "BSP copy failed"
             continue
         }
         # replace the absolute path of the bspFM files to the mergedfm directory , also fixing any naming inconsistencies
-        foreach($fmfile in $fmfiles){
+        foreach ($fmfile in $fmfiles) {
             Write-Verbose "Updating $fmfile.."
             (Get-Content $fmfile) -replace "FeatureIdentifierPackage=`"true`"", "" | Out-File $fmfile -Encoding utf8
             #TODO Get rid of the System Information cab as SMBIOS will fill those values.
             #Get all package names in the directory
             $list = Get-ChildItem -Path $destdir\$bsp -Recurse -Include *.xml | Select-String "legacyName"
-            $pkgnames = $list | ForEach-Object { $_.Line.Replace("`$(OEMNAME)","%OEM_NAME%").Split('"')[1] + ".cab"}
+            $pkgnames = $list | ForEach-Object { $_.Line.Replace("`$(OEMNAME)", "%OEM_NAME%").Split('"')[1] + ".cab"}
             $fmxml = New-IoTFMXML $fmfile
             $definedpkgs = $fmxml.GetPackageNames()
-            foreach($definedpkg in $definedpkgs){
+            foreach ($definedpkg in $definedpkgs) {
                 if (-not $pkgnames.contains($definedpkg)) {
                     $subcomponentname = $definedpkg.Split(".")[2]
-                    foreach($pkgname in $pkgnames) {
-	                $pkgsubcomponentname = $pkgname.Split(".")[2]
-                        if ($pkgsubcomponentname -ieq $subcomponentname){
-                            $pkgname= $pkgname.Replace(".cab","")
-                            $definedpkg = $definedpkg.Replace(".cab","")
+                    foreach ($pkgname in $pkgnames) {
+                        $pkgsubcomponentname = $pkgname.Split(".")[2]
+                        if ($pkgsubcomponentname -ieq $subcomponentname) {
+                            $pkgname = $pkgname.Replace(".cab", "")
+                            $definedpkg = $definedpkg.Replace(".cab", "")
                             Publish-Warning "  Replacing $definedpkg with $pkgname"
                             (Get-Content $fmfile) -replace $definedpkg, $pkgname | Out-File $fmfile -Encoding utf8
                         }
@@ -864,13 +874,13 @@ function Copy-IoTBSP {
         }
 
         $oeminputs = (Get-ChildItem -Path "$destdir\$bsp" -Filter *OEMInput.xml -Recurse) | foreach-object {$_.FullName}
-        if (!$oeminputs){
+        if (!$oeminputs) {
             # should not occur if the copy succeeded.
             Publish-Error "BSP copy failed"
             continue
         }
         # replace the absolute path of the bspFM files to the mergedfm directory
-        foreach($oeminput in $oeminputs){
+        foreach ($oeminput in $oeminputs) {
             Write-Verbose "Updating $oeminput.."
             (Get-Content $oeminput) -replace "%BSPSRC_DIR%\\$($BSPName)\\Packages", "%BLD_DIR%\MergedFMs" | Out-File $oeminput -Encoding utf8
         }
@@ -880,7 +890,7 @@ function Copy-IoTBSP {
         # Clean out the temporary folder silently
         Remove-Item -Recurse -ErrorAction SilentlyContinue -Force $tempdir
     }
-    if ($copydone){
+    if ($copydone) {
         Publish-Success "BSP copy completed"
     }
 }
@@ -942,23 +952,20 @@ function Import-IoTBSP {
         [String]$Source
     )
 
-    if ([String]::IsNullOrWhiteSpace($Source))
-    {
-        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS))
-        {
+    if ([String]::IsNullOrWhiteSpace($Source)) {
+        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS)) {
             Publish-Error "`$env:SAMPLEWKS is missing"
             return
         }
         $Source = $env:SAMPLEWKS
     }
 
-    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE))
-    {
+    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE)) {
         Publish-Error "`$env:IOTWKSPACE is missing"
         return
     }
 
-    if ($BSPName -ieq "QCDB410C"){
+    if ($BSPName -ieq "QCDB410C") {
         Import-QCBSP $Source "$env:IOTWKSPACE\Prebuilt" -ImportBSP
     }
     else {
@@ -1072,18 +1079,15 @@ function Import-IoTProduct {
     )
 
     if (([String]::IsNullOrWhiteSpace($SourceWkspace)) -or
-        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false))
-    {
-        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS))
-        {
+        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false)) {
+        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS)) {
             Publish-Error "`$env:SAMPLEWKS is missing"
             return
         }
         $SourceWkspace = $env:SAMPLEWKS
     }
 
-    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE))
-    {
+    if ([String]::IsNullOrWhiteSpace($env:IOTWKSPACE)) {
         Publish-Error "`$env:IOTWKSPACE is missing"
         return
     }
@@ -1121,7 +1125,7 @@ function Redo-IoTWorkspace {
     #>
     [CmdletBinding()]
     param(
-        [Parameter(Position=0, Mandatory=$true)][ValidateNotNullOrEmpty()][String]$DirName
+        [Parameter(Position = 0, Mandatory = $true)][ValidateNotNullOrEmpty()][String]$DirName
     )
     if (-not (Test-Path $DirName -PathType Container)) {
         throw "$DirName is not an existing directory"
@@ -1183,7 +1187,7 @@ function Redo-IoTWorkspace {
             }
         }
     }
-    if ($retailsign -ne "Undefined"){
+    if ($retailsign -ne "Undefined") {
         $config = @{
             "RetailSignToolParam" = "$retailsign"
         }
@@ -1225,7 +1229,7 @@ function Redo-IoTWorkspace {
                 $smbios = Get-SMBIOSData $smbioscfg
                 $settingsxml.SetSMBIOS($smbios)
             }
-         }
+        }
     }
 
     # Process the ppkg files
@@ -1237,7 +1241,8 @@ function Redo-IoTWorkspace {
         $OutputName = Split-Path -Path $pkgdir -Leaf
         if ($OutputName -ieq "Templates") {
             continue
-        } elseif ($OutputName -ieq "prov") {
+        }
+        elseif ($OutputName -ieq "prov") {
             Write-Verbose "   Creating ICD project file"
             $provxml = New-IoTProvisioningXML $custfile
             $provxml.CreateICDProject()
@@ -1310,7 +1315,7 @@ function Get-SMBIOSData ( [ValidateNotNullOrEmpty()][string] $file ) {
                 }
                 '05' {
                     $ProductName = $parts[3] -replace '"', ""
-                    $smbios.Add("ProductName",$ProductName)
+                    $smbios.Add("ProductName", $ProductName)
                     Publish-Status "Product Name : $ProductName"
                     break
                 }
@@ -1373,18 +1378,15 @@ function Get-IoTWorkspaceProducts {
     $retval = @()
 
     if (([String]::IsNullOrWhiteSpace($SourceWkspace)) -or
-        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false))
-    {
-        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS))
-        {
+        ((Test-Path $SourceWkspace\IoTWorkspace.xml -PathType Leaf) -eq $false)) {
+        if ([String]::IsNullOrWhiteSpace($env:SAMPLEWKS)) {
             Publish-Error "`$env:SAMPLEWKS is missing"
             return $retval
         }
         $SourceWkspace = $env:SAMPLEWKS
     }
 
-    if ([String]::IsNullOrWhiteSpace($env:arch))
-    {
+    if ([String]::IsNullOrWhiteSpace($env:arch)) {
         Publish-Error "`$env:ARCH is missing"
         return $retval
     }
@@ -1508,7 +1510,7 @@ function Import-QCBSP {
         Write-Error "Incorrect architecture. setenv arm"
         return
     }
-    if ($ImportBSP){
+    if ($ImportBSP) {
         Copy-IoTBSP $env:SAMPLEWKS $env:IOTWKSPACE QCDB410C
     }
     $qcfmxml = "$env:BSPSRC_DIR\QCDB410C\Packages\QCDB410CFM.xml"

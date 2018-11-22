@@ -1,6 +1,6 @@
 param([string] $workspacedir)
 
-if([string]::IsNullOrWhiteSpace($workspacedir)) { $workspacedir ="$env:USERPROFILE\TestWkspace" }
+if ([string]::IsNullOrWhiteSpace($workspacedir)) { $workspacedir = "$env:USERPROFILE\TestWkspace" }
 if (Test-Path $workspacedir) {
     Remove-Item -Path $workspacedir -Recurse -Force | Out-Null
 }
@@ -9,7 +9,14 @@ new-ws $workspacedir Contoso arm
 
 # import packages from the sample workspace (same as the tools dir path currently)
 importpkg *
-importbsp RPi2
+$RPIBSPURL = "https://github.com/ms-iot/iot-adk-addonkit/releases/download/17134_v5.3/RPi_BSP.zip" 
+$outputLocation = "$env:TMP\RPI_BSP.zip" 
+Write-Host "Downloading Windows Production cert..." 
+Invoke-WebRequest -Uri $RPIBSPURL -OutFile $outputLocation 
+if (-not (Test-Path $outputLocation)) { 
+    Write-Error "Failed to download RPi BSP. Check network connection and try again." 
+} 
+importbsp RPi2 $outputLocation
 importproduct RPiRecovery
 
 # Import required certificates
@@ -20,6 +27,9 @@ Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-DRA.cer DataRecoveryAgent
 # Update mandatory for Device Guard
 Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-PAUTH.cer Update
 Import-IoTCertificate $env:SAMPLEWKS\Certs\OEM-UMCI.cer User
+
+Install-IoTOEMCerts
+
 Add-IoTSecurityPackages -Test
 # generate the retail versions (excluding Test certs)
 Add-IoTSecureBoot

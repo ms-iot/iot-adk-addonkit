@@ -84,8 +84,7 @@ function Check-IfFullHost() {
     if (($null -ne $host) -and ($null -ne $host.ui) -and ($null -ne $host.ui.RawUI) -and ($null -ne $host.ui.RawUI.WindowTitle)) {
         return $true
     }
-    else
-    {
+    else {
         return $false
     }
 }
