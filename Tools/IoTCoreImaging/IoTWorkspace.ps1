@@ -3,20 +3,76 @@ This contains Workspace related functions
 #>
 . $PSScriptRoot\IoTPrivateFunctions.ps1
 
-#Store the tools root
-[string] $ToolsRoot = $null
+function Init-IoTWorkspace {
 
-function Set-ToolsRoot([string] $root) {
-    $Script:ToolsRoot = $root
+    $ToolsRoot = $PSScriptRoot.Replace("\Tools\IoTCoreImaging", "")
+    $module = Get-Module -ListAvailable -Name IoTCoreImaging
+    [System.Environment]::SetEnvironmentVariable("IOT_ADDON_VERSION", "$($module.Version)")
+    #[System.Environment]::SetEnvironmentVariable("IOT_ADDON_VERSION", "$($MyInvocation.MyCommand.Module.Version)")
+    [System.Environment]::SetEnvironmentVariable("SAMPLEWKS", "$ToolsRoot\Workspace")
+    [System.Environment]::SetEnvironmentVariable("TOOLS_DIR", "$ToolsRoot\Tools")
+    [System.Environment]::SetEnvironmentVariable("TEMPLATES_DIR", "$env:TOOLS_DIR\Templates")
+
+    $key = "Registry::HKLM\Software\Wow6432Node\Microsoft\Windows Kits\Installed Roots"
+    $key2 = "HKLM\Software\Microsoft\Windows Kits\Installed Roots"
+    $Win10KitsRoot = (Get-ItemProperty -Path $key).KitsRoot10
+    if ([string]::IsNullOrWhiteSpace($Win10KitsRoot)) {
+        $Win10KitsRoot = (Get-ItemProperty -Path $key2).KitsRoot10
+        if ([string]::IsNullOrWhiteSpace($Win10KitsRoot)) {
+            Publish-Error "ADK not found"
+        }
+    }
+
+    $Win10KitsRoot = $Win10KitsRoot.Substring(0, $Win10KitsRoot.Length - 1)
+
+    [System.Environment]::SetEnvironmentVariable("KITSROOT", $Win10KitsRoot)
+
+    $Win10KitsRootBinPath = "$Win10KitsRoot\Tools\bin\i386"
+    $icdroot = "$Win10KitsRoot\Assessment and Deployment Kit\Imaging and Configuration Designer\x86"
+    [System.Environment]::SetEnvironmentVariable("ICDRoot", $icdroot)
+    [System.Environment]::SetEnvironmentVariable("PKG_CONFIG_XML", "$Win10KitsRootBinPath\pkggen.cfg.xml")
+    [System.Environment]::SetEnvironmentVariable("WINPE_ROOT", "$Win10KitsRoot\Assessment and Deployment Kit\Windows Preinstallation Environment")
+    [System.Environment]::SetEnvironmentVariable("SIGN_OEM", 1)
+    [System.Environment]::SetEnvironmentVariable("SIGN_WITH_TIMESTAMP", 0)
+
+    [System.Environment]::SetEnvironmentVariable("WPDKCONTENTROOT", $Win10KitsRoot)
+
+    $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.WindowsDeploymentTools.x86.10"
+    if (Test-Path $key) {
+        $adkver = (Get-ItemProperty -Path $key).Version
+        $adkver = $adkver.Replace("10.1.", "10.0.")
+        [System.Environment]::SetEnvironmentVariable("ADK_VERSION", $adkver)
+    }
+    else { Publish-Error "ADK not found." }
+
+    $archs = @("arm", "x86", "x64", "arm64")
+    foreach ($arch in $archs) {
+        $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_$($arch)_Packages.x86.10"
+        if (Test-Path $key) {
+            $corekitver = (Get-ItemProperty -Path $key).Version
+            $corekitver = $corekitver.Replace("10.1.", "10.0.")
+            [System.Environment]::SetEnvironmentVariable("IOTCORE_VER", $corekitver)
+            Publish-Success "$arch IoT Core kit found."
+        }
+        else { Publish-Warning "$arch IoT Core kit not found." }
+    }
+
+    #set the tools directory
+    if ($env:Path -notcontains $env:TOOLS_DIR) {
+        [System.Environment]::SetEnvironmentVariable("Path", "$env:TOOLS_DIR;$Win10KitsRootBinPath;$icdroot;$env:Path")
+    }
+
+    #check if test certs are installed and if not, installoemcerts
+    #Thumbprint                                Subject
+    #----------                                -------
+    #5D7630097BE5BDB731FC40CD4998B69914D82EAD  CN=Windows OEM Test Cert 2017 (TEST ONLY), O=Microsoft Partner, OU=Windows, L=Redmond, S=Washington, C=US
+    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object {$_.Thumbprint -ieq "5D7630097BE5BDB731FC40CD4998B69914D82EAD"}
+    # Install the certs if no signcerts found.
+    if ($null -eq $signcerts) {
+        InstallOemCerts
+    }
+    else { Publish-Success "Test certs installed" }
 }
-
-#Store the tools root
-[string] $OriginalPath = $null
-
-function Set-OriginalPath([string] $path) {
-    $Script:OriginalPath = $path
-}
-
 function New-IoTWorkspaceXML {
     <#
     .SYNOPSIS
@@ -120,7 +176,7 @@ function New-IoTWorkspace {
 function Write-CmdShortcut([string] $dir) {
     $CmdFile = "$dir\IoTCorePShell.cmd"
     Set-Content -Path $CmdFile -Value "@echo off"
-    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $Script:ToolsRoot\Tools\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
+    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $env:TOOLS_DIR\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
     Add-Content -Path $CmdFile -Value "powershell -Command `"$cmdstring`""
 }
 
@@ -247,13 +303,6 @@ function Set-IoTEnvironment {
     $wkscfg = $wkspaceobj.GetConfig()
     #Establish the workspace root
     $iotwsroot = Split-Path -Path $IoTWsXml -Parent
-    $IoTEnvVars = @("IOTWSXML")
-
-    $IoTEnvVars += @("IOT_ADDON_VERSION", "TOOLS_DIR", "TEMPLATES_DIR", "SAMPLEWKS")
-    [System.Environment]::SetEnvironmentVariable("IOT_ADDON_VERSION", "$($MyInvocation.MyCommand.Module.Version)")
-    [System.Environment]::SetEnvironmentVariable("SAMPLEWKS", "$Script:ToolsRoot\Workspace")
-    [System.Environment]::SetEnvironmentVariable("TOOLS_DIR", "$Script:ToolsRoot\Tools")
-    [System.Environment]::SetEnvironmentVariable("TEMPLATES_DIR", "$env:TOOLS_DIR\Templates")
 
     if ($arch -ieq "default") {
         $arch = $wkspaceobj.GetCurrentEnv()
@@ -271,40 +320,12 @@ function Set-IoTEnvironment {
         $OemName = "Contoso"
     }
 
-    $IoTEnvVars += @("OEM_NAME", "ARCH", "BSP_ARCH")
     [System.Environment]::SetEnvironmentVariable("OEM_NAME", $OemName)
     [System.Environment]::SetEnvironmentVariable("ARCH", $arch)
     [System.Environment]::SetEnvironmentVariable("BSP_ARCH", $arch.Replace("x64", "amd64"))
 
-    $key = "Registry::HKLM\Software\Wow6432Node\Microsoft\Windows Kits\Installed Roots"
-    $key2 = "HKLM\Software\Microsoft\Windows Kits\Installed Roots"
-    $Win10KitsRoot = (Get-ItemProperty -Path $key).KitsRoot10
-    if ([string]::IsNullOrWhiteSpace($Win10KitsRoot)) {
-        $Win10KitsRoot = (Get-ItemProperty -Path $key2).KitsRoot10
-        if ([string]::IsNullOrWhiteSpace($Win10KitsRoot)) {
-            Publish-Error "ADK not found"
-        }
-    }
-
-    $Win10KitsRoot = $Win10KitsRoot.Substring(0, $Win10KitsRoot.Length - 1)
-
-    $IoTEnvVars += @("KITSROOT", "ICDRoot", "PKG_CONFIG_XML", "WINPE_ROOT", "SIGN_OEM", "SIGN_WITH_TIMESTAMP", "SIGNTOOL_OEM_SIGN")
-    [System.Environment]::SetEnvironmentVariable("KITSROOT", $Win10KitsRoot)
-
-    $Win10KitsRootBinPath = "$Win10KitsRoot\Tools\bin\i386"
-    $icdroot = "$Win10KitsRoot\Assessment and Deployment Kit\Imaging and Configuration Designer\x86"
-    [System.Environment]::SetEnvironmentVariable("ICDRoot", $icdroot)
-    [System.Environment]::SetEnvironmentVariable("PKG_CONFIG_XML", "$Win10KitsRootBinPath\pkggen.cfg.xml")
-    [System.Environment]::SetEnvironmentVariable("WINPE_ROOT", "$Win10KitsRoot\Assessment and Deployment Kit\Windows Preinstallation Environment")
-    [System.Environment]::SetEnvironmentVariable("SIGN_OEM", 1)
-    [System.Environment]::SetEnvironmentVariable("SIGN_WITH_TIMESTAMP", 0)
-
-    # $IoTEnvVars += @("WPDKCONTENTROOT") - Not added as this is not required anywhere else.
-    [System.Environment]::SetEnvironmentVariable("WPDKCONTENTROOT", $Win10KitsRoot)
-
     #initialize the source related env vars
     $iotwsroot = Split-Path -Path $IoTWsXml -Parent
-    $IoTEnvVars += @("IOTADK_ROOT", "IOTWKSPACE", "COMMON_DIR", "SRC_DIR", "PKGSRC_DIR", "BSPSRC_DIR", "PKGUPD_DIR")
     [System.Environment]::SetEnvironmentVariable("IOTADK_ROOT", $iotwsroot)  #to be deprecated
     [System.Environment]::SetEnvironmentVariable("IOTWKSPACE", $iotwsroot)
     [System.Environment]::SetEnvironmentVariable("COMMON_DIR", "$iotwsroot\Common")
@@ -313,15 +334,6 @@ function Set-IoTEnvironment {
     [System.Environment]::SetEnvironmentVariable("BSPSRC_DIR", "$env:SRC_DIR\BSP")
     [System.Environment]::SetEnvironmentVariable("PKGUPD_DIR", "$env:SRC_DIR\Updates")
 
-    $IoTEnvVars += @("ADK_VERSION", "IOTCORE_VER")
-    $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.WindowsDeploymentTools.x86.10"
-    if (Test-Path $key) {
-        $adkver = (Get-ItemProperty -Path $key).Version
-        $adkver = $adkver.Replace("10.1.", "10.0.")
-        [System.Environment]::SetEnvironmentVariable("ADK_VERSION", $adkver)
-    }
-    else { Publish-Error "ADK ver not found in registry" }
-
     #TODO: Should these early exit if problems are found?
     $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.Windows_10_IoT_Core_$($arch)_Packages.x86.10"
     if (Test-Path $key) {
@@ -329,19 +341,19 @@ function Set-IoTEnvironment {
         $corekitver = $corekitver.Replace("10.1.", "10.0.")
         [System.Environment]::SetEnvironmentVariable("IOTCORE_VER", $corekitver)
     }
-    else { Publish-Error "IoT Core kit ver not found in registry" }
+    else { Publish-Error "$arch IoT Core kit not found." }
 
     $mspkgroot = $wkscfg.MSPkgRoot
     $mspkg = $mspkgroot + "\MSPackages"
     if ([string]::IsNullOrWhiteSpace($mspkgroot)) {
-        $mspkgroot = $Win10KitsRoot
-        $mspkg = $Win10KitsRoot + "\MSPackages"
+        $mspkgroot = $env:KITSROOT
+        $mspkg = $env:KITSROOT + "\MSPackages"
     }
     $mspkgdir = $mspkg + "\Retail\" + $env:BSP_ARCH + "\fre"
     if (Test-Path $mspkgdir) {
         Publish-Success "Corekit found OK"
     }
-    $IoTEnvVars += @("AKROOT", "MSPACKAGE", "MSPKG_DIR")
+
     [System.Environment]::SetEnvironmentVariable("AKROOT", $mspkgroot)
     [System.Environment]::SetEnvironmentVariable("MSPACKAGE", $mspkg)
     [System.Environment]::SetEnvironmentVariable("MSPKG_DIR", $mspkgdir)
@@ -355,30 +367,13 @@ function Set-IoTEnvironment {
     else {
         $blddir = Expand-IoTPath($blddir)
     }
-    $IoTEnvVars += @("BLD_DIR", "TMP", "PKGBLD_DIR", "PPKGBLD_DIR", "PKGLOG_DIR")
+
     [System.Environment]::SetEnvironmentVariable("BLD_DIR", $blddir)
     [System.Environment]::SetEnvironmentVariable("TMP", "$env:BLD_DIR\Temp")
     [System.Environment]::SetEnvironmentVariable("PKGBLD_DIR", "$env:BLD_DIR\pkgs")
     [System.Environment]::SetEnvironmentVariable("PPKGBLD_DIR", "$env:BLD_DIR\ppkgs")
     [System.Environment]::SetEnvironmentVariable("PKGLOG_DIR", "$env:BLD_DIR\pkgs\logs")
     New-DirIfNotExist $env:TMP
-
-    #set the tools directory
-    $IoTEnvVars += @("Path", "SDK_VERSION", "DUCSIGNPARAM")
-    if ($env:Path -notcontains $env:TOOLS_DIR) {
-        [System.Environment]::SetEnvironmentVariable("Path", "$env:TOOLS_DIR;$Win10KitsRootBinPath;$icdroot;$Script:OriginalPath")
-    }
-
-    #check if test certs are installed and if not, installoemcerts
-    #Thumbprint                                Subject
-    #----------                                -------
-    #5D7630097BE5BDB731FC40CD4998B69914D82EAD  CN=Windows OEM Test Cert 2017 (TEST ONLY), O=Microsoft Partner, OU=Windows, L=Redmond, S=Washington, C=US
-    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object {$_.Thumbprint -ieq "5D7630097BE5BDB731FC40CD4998B69914D82EAD"}
-    # Install the certs if no signcerts found.
-    if ($null -eq $signcerts) {
-        InstallOemCerts
-    }
-    else { Publish-Success "Test certs installed" }
 
     [System.Environment]::SetEnvironmentVariable("SDK_VERSION", $wkscfg.WindowsSDKVersion)
     [System.Environment]::SetEnvironmentVariable("DUCSIGNPARAM", $wkscfg.EVSignToolParam)
@@ -394,7 +389,7 @@ function Set-IoTEnvironment {
             $bsppkgdir = $env:PKGBLD_DIR
         }
     }
-    $IoTEnvVars += @("BSPPKG_DIR", "BSP_VERSION", "SIGN_MODE")
+
     [System.Environment]::SetEnvironmentVariable("BSPPKG_DIR", $bsppkgdir)
     [System.Environment]::SetEnvironmentVariable("BSP_VERSION", $wkspaceobj.GetVersion())
     [System.Environment]::SetEnvironmentVariable("SIGN_MODE", "Test")

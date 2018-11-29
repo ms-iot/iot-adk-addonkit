@@ -36,9 +36,7 @@ if (Check-IfFullHost -eq $true) {
 . $PSScriptRoot\IoTWorkspace.ps1
 . $PSScriptRoot\IoTClassExports.ps1
 
-Set-ToolsRoot $PSScriptRoot.Replace("\Tools\IoTCoreImaging", "")
-Set-OriginalPath $env:Path
-Write-Debug "Orig Path : $($env:Path)"
+Init-IoTWorkspace
 
 ############ IoTBuildCommands Exports ##############
 New-Alias -Name 'buildfm' -Value 'New-IoTFIPPackage'
