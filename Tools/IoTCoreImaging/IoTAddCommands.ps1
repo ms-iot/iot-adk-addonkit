@@ -207,8 +207,11 @@ function Add-IoTAppxPackage {
     try {
         $fmxml = "$env:PKGSRC_DIR\OEMFM.xml"
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) # use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
@@ -308,8 +311,11 @@ function Add-IoTDriverPackage {
     # Update the feature manifest with this package entry
     try {
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) #use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
@@ -373,8 +379,11 @@ function Add-IoTCommonPackage {
     try {
         $fmxml = "$env:COMMON_DIR\Packages\OEMCOMMONFM.xml"
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) # use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
@@ -455,8 +464,11 @@ function Add-IoTFilePackage {
     try {
         $fmxml = "$env:COMMON_DIR\Packages\OEMCOMMONFM.xml"
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) # use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
@@ -527,8 +539,11 @@ function Add-IoTRegistryPackage {
     try {
         $fmxml = "$env:COMMON_DIR\Packages\OEMCOMMONFM.xml"
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) # use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
@@ -632,8 +647,11 @@ function Add-IoTProvisioningPackage {
     try {
         $fmxml = "$env:COMMON_DIR\Packages\OEMCOMMONFM.xml"
         $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
+        $feature = $OutputName.ToUpper()
+        $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $null) # use default feature id
+        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        Publish-Success "Feature ID : $feature"
     }
     catch {
         $msg = $_.Exception.Message
