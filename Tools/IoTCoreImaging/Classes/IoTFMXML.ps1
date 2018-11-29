@@ -157,7 +157,12 @@ class IoTFMXML {
         $pkgsNode = ($this.XmlDoc.FeatureManifest.Features | Select-Object -exp $fidKind).PackageFile
 
         # For each package, find the ones associated with this feature. Then return the package names.
-        $retval = $pkgsNode | Where-Object { @($_.FeatureIDs.FeatureID) -contains $fid } | ForEach-Object { $_.Name }
+        if ($this.IsOEM) {
+            $retval = $pkgsNode | Where-Object { @($_.FeatureIDs.FeatureID) -contains $fid } | ForEach-Object { $_.Name }
+        }
+        else {
+            $retval = $pkgsNode | Where-Object { @($_.FeatureIDs.FeatureID) -contains $fid } | ForEach-Object { $_.ID }
+        }
 
         if ($retval.Count -eq 0) { Publish-Error "$fid not found" }
         return $retval
