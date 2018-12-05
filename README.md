@@ -1,6 +1,6 @@
 # iot-adk-addonkit
 
-This project contains powershell/command line scripts for package creation and image creation process. Users are expected to have ADK and Windows 10 IoT Core OS packages installed to make use of this. To be able to create images, Users should also get the BSPs corresponding to the hardware. Target audience is OEM’s and Maker Pro’s who want to manage multiple images and updates.
+This project contains powershell scripts for package creation and image creation process. Users are expected to have ADK and Windows 10 IoT Core OS packages installed to make use of this. To be able to create images, Users should also get the BSPs corresponding to the hardware. Target audience is OEM’s and Maker Pro’s who want to manage multiple images and updates.
 
 This project has adopted the [Microsoft Open Source Code of Conduct](http://microsoft.github.io/codeofconduct). For more information see the [Code of Conduct FAQ](http://microsoft.github.io/codeofconduct/faq.md) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
@@ -11,15 +11,12 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 This branch supports the lastest Windows 10 IoT Core release available ( currently **1809**, version number **10.0.17763.x** ).
 The iot-adk-addonkit is now in Powershell and supports additional features including multiple workspaces. See **[Powershell documentation](./Tools/README.md)** for detailed instructions.
 
-### Develop Branch
-
-This branch contains the active development contents, mostly addressing the upcoming release features.
 
 ### Older Versions
 
 For older releases, please use the corresponding ADK tools and iot-adk-addonkit releases.
 
-* [17134_v5.3 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/17134_v5.3) for Windows 10 IoT Core Release 1803 (version 10.0.17134.x).
+* [17134_v5.3 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/17134_v5.3) for [Windows 10 IoT Core Release 1803 (version 10.0.17134.x)](https://software-download.microsoft.com/download/pr/17134.1.180410-1804.rs4_release_amd64fre_IOTCORE_PACKAGES.iso).
 * [16299_v4.4 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v4.4) for [Windows 10 IoT Core Release 1709 (version 10.0.16299.x)](https://software-download.microsoft.com/download/pr/16299.15.170928-1534.rs3_release_amd64fre_IOTCORE_PACKAGES.iso).
 * [15063_v3.2 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v3.2) for [Windows 10 IoT Core Release 1703 (version 10.0.15063.x)](https://www.microsoft.com/en-us/download/details.aspx?id=55031).
 * [14393_v2.0 release](https://github.com/ms-iot/iot-adk-addonkit/releases/tag/v2.0) for [Windows 10 IoT Core Release 1607 (version 10.0.14393.x)](https://www.microsoft.com/en-us/download/details.aspx?id=53898).
@@ -50,12 +47,12 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 
 ### Source Links
 
+* Appx.IoTCoreDefaultAppUnderTest (SmartDisplayApp)
+  * Source : [Windows-iotcore-samples/samples/IoTCoreDefaultApp](https://github.com/Microsoft/Windows-iotcore-samples/tree/develop/Samples/IoTCoreDefaultApp)
+  * Documentation : [IoTCoreDefaultApp](https://docs.microsoft.com/windows/iot-core/develop-your-app/iotcoredefaultapp)
 * Appx.IoTCoreDefaultApp
   * Source : [ms-iot/samples/IoTCoreDefaultApp](https://github.com/ms-iot/samples/tree/develop/IoTCoreDefaultApp)
-  * Documentation : [IoTCoreDefaultApp](https://developer.microsoft.com/windows/iot/samples/iotdefaultapp)
 * Appx.DigitalSign
   * Source : [ms-iot/samples/DigitalSign](https://github.com/ms-iot/samples/tree/develop/DigitalSign)
-  * Documentation : [DigitalSign](https://developer.microsoft.com/windows/iot/samples/digitalsign)
 * Appx.IoTCoreOnboardingTask
   * Source : [ms-iot/samples/IoTOnBoarding](https://github.com/ms-iot/samples/tree/develop/IotOnboarding)
-  * Documentation : [IoTOnBoarding](https://developer.microsoft.com/windows/iot/samples/iotonboarding)

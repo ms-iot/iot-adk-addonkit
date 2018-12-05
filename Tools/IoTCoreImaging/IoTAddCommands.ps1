@@ -165,30 +165,39 @@ function Add-IoTAppxPackage {
 
     # Check for certificate
     if (!$SkipCert -and ($null -ne $cer )) {
-        $provxml.AddRootCertificate("$pkgdir\$($AppxName).cer")
+        $cerpkgdir = "$env:PKGSRC_DIR\Appx.Certs"
+        #$provxml.AddRootCertificate("$pkgdir\$($AppxName).cer")
+        $custxml_cer = "$cerpkgdir\customizations.xml"
+        if (Test-Path $custxml_cer) {
+            $provxml_cer = New-IoTProvisioningXML "$custxml_cer"
+            $addcertfid = $false
+        }
+        else {
+            # Appx.Certs doesnt exist. Create the package here.
+            $addcertfid = $true
+            New-DirIfNotExist $cerpkgdir
+            $wmwriter = New-IoTWMWriter $cerpkgdir "Appx" "Certs" -Force
+            $wmwriter.Start($null)
+            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\Appx.Certs.ppkg", "Appx.Certs.ppkg")
+            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\Appx.Certs.cat", "Appx.Certs.cat")
+            $wmwriter.Finish()
+            
+            $guid = [System.Guid]::NewGuid().toString()
+            $provxml_cer = New-IoTProvisioningXML "$custxml_cer" -Create
+            $pkgconfig = @{
+                "ID"      = "$guid"
+                "Name"    = "AppxCertsProv"
+                "Version" = "1.0.0.0"
+                "Rank"    = "0"
+            }
+            $provxml_cer.SetPackageConfig($pkgconfig)
+        }
+        $provxml_cer.AddRootCertificate("$pkgdir\$($AppxName).cer")
     }
 
     # Startup app settings
     if ($StartupType -ine "None") {
-        #$provxml.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
-        $custxml_startup = "$pkgdir\customizations_startup.xml"
-        $guid = $null
-        if (Test-Path $custxml_startup) {
-            $olddoc = [xml] (Get-Content $custxml_startup)
-            $guid = $olddoc.WindowsCustomizations.PackageConfig.ID
-            Publish-Status "Reusing guid : $guid"
-            Remove-Item -Path $custxml_startup
-        }
-        else { $guid = [System.Guid]::NewGuid().toString() }
-        $provxml_startup = New-IoTProvisioningXML "$custxml_startup" -Create
-        $pkgconfig = @{
-            "ID"      = "$guid"
-            "Name"    = "$($AppxName)StartupProv"
-            "Version" = "$AppxVersion"
-            "Rank"    = "$PROV_RANK"
-        }
-        $provxml_startup.SetPackageConfig($pkgconfig)
-        $provxml_startup.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
+        $provxml.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
     }
 
     $depnames = @()
@@ -212,10 +221,6 @@ function Add-IoTAppxPackage {
         $wmwriter.Start($null)
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".ppkg", $OutputName + ".ppkg")
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".cat", $OutputName + ".cat")
-        if ($StartupType -ine "None") {
-            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + "Startup.ppkg", $OutputName + "Startup.ppkg")
-            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + "Startup.cat", $OutputName + "Startup.cat")
-        }
         $wmwriter.Finish()
         Publish-Success "New Appx created at $pkgdir"
     }
@@ -232,6 +237,9 @@ function Add-IoTAppxPackage {
         $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
         $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
+        if ($addcertfid){
+            $fm.AddOEMPackage("%PKGBLD_DIR%", "%OEM_NAME%.Appx.Certs.cab", "Base")
+        }
         Publish-Success "Feature ID : $feature"
     }
     catch {

@@ -148,10 +148,6 @@ function New-IoTCabPackage {
             if (Test-Path -Path $filedir\customizations.xml) {
                 $ppkgname = "$env:BLD_DIR\ppkgs\$name" + ".ppkg"
                 $retval = New-IoTProvisioningPackage $filedir\customizations.xml $ppkgname
-                if (Test-Path -Path $filedir\customizations_startup.xml) {
-                    $ppkgname = "$env:BLD_DIR\ppkgs\$name" + "Startup.ppkg"
-                    $retval = New-IoTProvisioningPackage $filedir\customizations_startup.xml $ppkgname
-                }
             }
             if ($retval) {
                 if ($VerbosePreference -ieq "Continue") {

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>a52ab856-fcec-43e8-883f-7bcf6fa0bd28</ID>
+    <Name>IoTCoreDefaultAppStartupProv</Name>
+    <Version>1.1.0.0</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <!--Common settings here-->
+        <StartupApp>
+          <Default>IoTCoreDefaultApp_1w720vyc4ccym!App</Default>
+        </StartupApp>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>
