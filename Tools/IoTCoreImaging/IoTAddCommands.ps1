@@ -107,7 +107,6 @@ function Add-IoTAppxPackage {
     # Get the dependency list
     $deppath = $appxpath
     $depfiles = @()
-    $cerfiles = @()
     $licenseid = ""
     $licensename = "$AppxName" + "_License.ms-windows-store-license"
     if (Test-Path "$appxpath\Dependencies\$env:ARCH") {
@@ -171,7 +170,25 @@ function Add-IoTAppxPackage {
 
     # Startup app settings
     if ($StartupType -ine "None") {
-        $provxml.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
+        #$provxml.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
+        $custxml_startup = "$pkgdir\customizations_startup.xml"
+        $guid = $null
+        if (Test-Path $custxml_startup) {
+            $olddoc = [xml] (Get-Content $custxml_startup)
+            $guid = $olddoc.WindowsCustomizations.PackageConfig.ID
+            Publish-Status "Reusing guid : $guid"
+            Remove-Item -Path $custxml_startup
+        }
+        else { $guid = [System.Guid]::NewGuid().toString() }
+        $provxml_startup = New-IoTProvisioningXML "$custxml_startup" -Create
+        $pkgconfig = @{
+            "ID"      = "$guid"
+            "Name"    = "$($AppxName)StartupProv"
+            "Version" = "$AppxVersion"
+            "Rank"    = "$PROV_RANK"
+        }
+        $provxml_startup.SetPackageConfig($pkgconfig)
+        $provxml_startup.AddStartupSettings("$($pkgfamname)!$($entry)", $StartupType)
     }
 
     $depnames = @()
@@ -195,6 +212,10 @@ function Add-IoTAppxPackage {
         $wmwriter.Start($null)
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".ppkg", $OutputName + ".ppkg")
         $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + ".cat", $OutputName + ".cat")
+        if ($StartupType -ine "None") {
+            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + "Startup.ppkg", $OutputName + "Startup.ppkg")
+            $wmwriter.AddFiles($PROV_PATH, "`$(BLDDIR)\ppkgs\" + $OutputName + "Startup.cat", $OutputName + "Startup.cat")
+        }
         $wmwriter.Finish()
         Publish-Success "New Appx created at $pkgdir"
     }

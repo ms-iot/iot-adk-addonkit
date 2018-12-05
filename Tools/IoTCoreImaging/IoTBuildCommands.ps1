@@ -90,6 +90,9 @@ function New-IoTCabPackage {
     }
     elseif ($PkgFile -ieq "Clean") {
         # Process Clean keyword - Delete all generated cab files.
+        if (Test-Path -Path "$env:BLD_DIR\ppkgs") {
+            Remove-Item -Path "$env:BLD_DIR\ppkgs" -Recurse | Out-Null
+        }
         if (Test-Path -Path "$env:PKGBLD_DIR") {
             Remove-Item -Path "$env:PKGBLD_DIR" -Recurse | Out-Null
             Publish-Success "Package build directory cleaned."
@@ -145,6 +148,10 @@ function New-IoTCabPackage {
             if (Test-Path -Path $filedir\customizations.xml) {
                 $ppkgname = "$env:BLD_DIR\ppkgs\$name" + ".ppkg"
                 $retval = New-IoTProvisioningPackage $filedir\customizations.xml $ppkgname
+                if (Test-Path -Path $filedir\customizations_startup.xml) {
+                    $ppkgname = "$env:BLD_DIR\ppkgs\$name" + "Startup.ppkg"
+                    $retval = New-IoTProvisioningPackage $filedir\customizations_startup.xml $ppkgname
+                }
             }
             if ($retval) {
                 if ($VerbosePreference -ieq "Continue") {
