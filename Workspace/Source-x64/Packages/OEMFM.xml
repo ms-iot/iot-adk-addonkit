@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FeatureManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
-  <BasePackages />
+  <BasePackages>
+    <!--Base packages goes here-->
+    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Appx.Certs.cab" />
+  </BasePackages>
   <Features>
     <OEM>
       <!-- Feature definitions below -->
@@ -26,11 +29,6 @@
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.OEM.Sample.cab">
         <FeatureIDs>
           <FeatureID>OEM_SAMPLE</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Appx.IoTCoreDefaultAppUnderTest.cab">
-        <FeatureIDs>
-          <FeatureID>APPX_IOTCOREDEFAULTAPPUNDERTEST</FeatureID>
         </FeatureIDs>
       </PackageFile>
     </OEM>

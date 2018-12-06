@@ -1,41 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WindowsCustomizations>
-    <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
-        <ID>{c3b3273a-1aef-4367-a8d9-228fe15cce83}</ID>
-        <Name>IoTCoreDefaultAppProv</Name>
-        <Version>1.1.0.0</Version>
-        <OwnerType>OEM</OwnerType>
-        <Rank>0</Rank>
-    </PackageConfig>
-    <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
-        <Customizations>
-            <Common>
-                <!--Common settings here-->
-                <Policies>
-                    <ApplicationManagement>
-                        <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
-                    </ApplicationManagement>
-                </Policies>
-                <Certificates>
-                    <RootCertificates>
-                        <RootCertificate CertificateName="06DF401B31F9C61DAB1B62EA9B4546571F60DC9E" Name="IoTCoreDefaultApp.cer">
-                            <CertificatePath>IoTCoreDefaultApp.cer</CertificatePath>
-                        </RootCertificate>
-                    </RootCertificates>
-                </Certificates>
-                <UniversalAppInstall>
-                    <UserContextApp>
-                        <Application PackageFamilyName="IoTCoreDefaultApp_1w720vyc4ccym" Name="IoTCoreDefaultApp">
-                            <ApplicationFile>IoTCoreDefaultApp.appx</ApplicationFile>
-                            <DependencyAppxFiles>
-                                <Dependency Name="Microsoft.NET.Native.Framework.1.3">Microsoft.NET.Native.Framework.1.3.appx</Dependency>
-                                <Dependency Name="Microsoft.NET.Native.Runtime.1.4">Microsoft.NET.Native.Runtime.1.4.appx</Dependency>
-                                <Dependency Name="Microsoft.VCLibs.x64.14.00">Microsoft.VCLibs.x64.14.00.appx</Dependency>
-                            </DependencyAppxFiles>
-                        </Application>
-                    </UserContextApp>
-                </UniversalAppInstall>
-            </Common>
-        </Customizations>
-    </Settings>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>d3a71c9e-adc0-4cfc-81f4-8f37e7b9c89b</ID>
+    <Name>SmartDisplayProv</Name>
+    <Version>3.2.0.0</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <!--Common settings here-->
+        <Policies>
+          <ApplicationManagement>
+            <AllowAllTrustedApps>Yes</AllowAllTrustedApps>
+          </ApplicationManagement>
+        </Policies>
+        <StartupApp>
+          <Default>IoTCoreDefaultAppUnderTest_1w720vyc4ccym!App</Default>
+        </StartupApp>
+        <UniversalAppInstall>
+          <UserContextApp>
+            <Application PackageFamilyName="IoTCoreDefaultAppUnderTest_1w720vyc4ccym" Name="SmartDisplay">
+              <ApplicationFile>SmartDisplay.appx</ApplicationFile>
+              <DependencyAppxFiles>
+                <Dependency Name="Microsoft.NET.Native.Framework.2.1">Microsoft.NET.Native.Framework.2.1.appx</Dependency>
+                <Dependency Name="Microsoft.NET.Native.Runtime.2.1">Microsoft.NET.Native.Runtime.2.1.appx</Dependency>
+                <Dependency Name="Microsoft.VCLibs.x64.14.00">Microsoft.VCLibs.x64.14.00.appx</Dependency>
+              </DependencyAppxFiles>
+            </Application>
+          </UserContextApp>
+        </UniversalAppInstall>
+      </Common>
+    </Customizations>
+  </Settings>
 </WindowsCustomizations>
