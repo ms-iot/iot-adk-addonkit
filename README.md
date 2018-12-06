@@ -47,11 +47,9 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 
 ### Source Links
 
-* Appx.IoTCoreDefaultAppUnderTest (SmartDisplayApp)
+* Appx.IoTCoreDefaultApp (SmartDisplay.appx, shows up as IoTCoreDefaultAppUnderTest)
   * Source : [Windows-iotcore-samples/samples/IoTCoreDefaultApp](https://github.com/Microsoft/Windows-iotcore-samples/tree/develop/Samples/IoTCoreDefaultApp)
   * Documentation : [IoTCoreDefaultApp](https://docs.microsoft.com/windows/iot-core/develop-your-app/iotcoredefaultapp)
-* Appx.IoTCoreDefaultApp
-  * Source : [ms-iot/samples/IoTCoreDefaultApp](https://github.com/ms-iot/samples/tree/develop/IoTCoreDefaultApp)
 * Appx.DigitalSign
   * Source : [ms-iot/samples/DigitalSign](https://github.com/ms-iot/samples/tree/develop/DigitalSign)
 * Appx.IoTCoreOnboardingTask
