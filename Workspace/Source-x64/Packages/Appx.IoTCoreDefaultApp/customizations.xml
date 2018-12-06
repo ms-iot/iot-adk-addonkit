@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WindowsCustomizations>
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
-    <ID>d3a71c9e-adc0-4cfc-81f4-8f37e7b9c89b</ID>
+    <ID>c0289ca8-4818-4430-9b08-8880ff5829ff</ID>
     <Name>SmartDisplayProv</Name>
     <Version>3.2.0.0</Version>
     <OwnerType>OEM</OwnerType>
@@ -17,11 +17,11 @@
           </ApplicationManagement>
         </Policies>
         <StartupApp>
-          <Default>IoTCoreDefaultAppUnderTest_1w720vyc4ccym!App</Default>
+          <Default>IoTCoreDefaultAppUnderTest_xt56s901y70eg!App</Default>
         </StartupApp>
         <UniversalAppInstall>
           <UserContextApp>
-            <Application PackageFamilyName="IoTCoreDefaultAppUnderTest_1w720vyc4ccym" Name="SmartDisplay">
+            <Application PackageFamilyName="IoTCoreDefaultAppUnderTest_xt56s901y70eg" Name="SmartDisplay">
               <ApplicationFile>SmartDisplay.appx</ApplicationFile>
               <DependencyAppxFiles>
                 <Dependency Name="Microsoft.NET.Native.Framework.2.1">Microsoft.NET.Native.Framework.2.1.appx</Dependency>

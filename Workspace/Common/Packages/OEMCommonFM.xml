@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FeatureManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<FeatureManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate">
   <!-- Packages defined under BasePackages are always included when this feature manifest is included in the OEMInput file -->
   <BasePackages>
     <!-- This package defines in the OEM Package Version  -->
-    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Registry.Version.cab"/>
+    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Registry.Version.cab" />
+    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Appx.Certs.cab" />
   </BasePackages>
   <Features>
     <OEM>

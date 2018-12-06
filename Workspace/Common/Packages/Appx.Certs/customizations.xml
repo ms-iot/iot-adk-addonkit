@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<WindowsCustomizations>
+  <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
+    <ID>fd231401-5ad4-401f-b2dd-653aa1c1b55d</ID>
+    <Name>AppxCertsProv</Name>
+    <Version>1.0.0.1</Version>
+    <OwnerType>OEM</OwnerType>
+    <Rank>0</Rank>
+  </PackageConfig>
+  <Settings xmlns="urn:schemas-microsoft-com:windows-provisioning">
+    <Customizations>
+      <Common>
+        <!--Common settings here-->
+        <Certificates>
+          <RootCertificates>
+            <RootCertificate CertificateName="61F42C6B764B24917A91B6C090BF9F98B3410F26" Name="SmartDisplay.cer">
+              <CertificatePath>SmartDisplay.cer</CertificatePath>
+            </RootCertificate>
+          </RootCertificates>
+        </Certificates>
+      </Common>
+    </Customizations>
+  </Settings>
+</WindowsCustomizations>

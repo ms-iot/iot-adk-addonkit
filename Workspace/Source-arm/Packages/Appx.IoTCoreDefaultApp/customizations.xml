@@ -17,11 +17,11 @@
           </ApplicationManagement>
         </Policies>
         <StartupApp>
-          <Default>IoTCoreDefaultAppUnderTest_1w720vyc4ccym!App</Default>
+          <Default>IoTCoreDefaultAppUnderTest_xt56s901y70eg!App</Default>
         </StartupApp>
         <UniversalAppInstall>
           <UserContextApp>
-            <Application PackageFamilyName="IoTCoreDefaultAppUnderTest_1w720vyc4ccym" Name="SmartDisplay">
+            <Application PackageFamilyName="IoTCoreDefaultAppUnderTest_xt56s901y70eg" Name="SmartDisplay">
               <ApplicationFile>SmartDisplay.appx</ApplicationFile>
               <DependencyAppxFiles>
                 <Dependency Name="Microsoft.NET.Native.Framework.2.1">Microsoft.NET.Native.Framework.2.1.appx</Dependency>
