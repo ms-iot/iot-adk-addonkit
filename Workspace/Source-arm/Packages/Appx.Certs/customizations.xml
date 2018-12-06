@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <WindowsCustomizations>
   <PackageConfig xmlns="urn:schemas-Microsoft-com:Windows-ICD-Package-Config.v1.0">
-    <ID>fdef00ff-63aa-4890-ba04-687f54ce9e01</ID>
-    <Name>SmartDisplayStartupProv</Name>
-    <Version>3.2.0.0</Version>
+    <ID>3fba0945-0b89-4b2b-beba-c4f8dc2bfb57</ID>
+    <Name>AppxCertsProv</Name>
+    <Version>1.0.0.1</Version>
     <OwnerType>OEM</OwnerType>
     <Rank>0</Rank>
   </PackageConfig>
@@ -11,9 +11,13 @@
     <Customizations>
       <Common>
         <!--Common settings here-->
-        <StartupApp>
-          <Default>IoTCoreDefaultAppUnderTest_1w720vyc4ccym!App</Default>
-        </StartupApp>
+        <Certificates>
+          <RootCertificates>
+            <RootCertificate CertificateName="FE8BD26C71E9340CA518C963E340B7380859EE70" Name="SmartDisplay.cer">
+              <CertificatePath>SmartDisplay.cer</CertificatePath>
+            </RootCertificate>
+          </RootCertificates>
+        </Certificates>
       </Common>
     </Customizations>
   </Settings>
