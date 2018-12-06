@@ -165,16 +165,13 @@ function Add-IoTAppxPackage {
 
     # Check for certificate
     if (!$SkipCert -and ($null -ne $cer )) {
-        $cerpkgdir = "$env:PKGSRC_DIR\Appx.Certs"
-        #$provxml.AddRootCertificate("$pkgdir\$($AppxName).cer")
+        $cerpkgdir = "$env:COMMON_DIR\Packages\Appx.Certs"
         $custxml_cer = "$cerpkgdir\customizations.xml"
         if (Test-Path $custxml_cer) {
             $provxml_cer = New-IoTProvisioningXML "$custxml_cer"
-            $addcertfid = $false
         }
         else {
             # Appx.Certs doesnt exist. Create the package here.
-            $addcertfid = $true
             New-DirIfNotExist $cerpkgdir
             $wmwriter = New-IoTWMWriter $cerpkgdir "Appx" "Certs" -Force
             $wmwriter.Start($null)
@@ -191,6 +188,15 @@ function Add-IoTAppxPackage {
                 "Rank"    = "0"
             }
             $provxml_cer.SetPackageConfig($pkgconfig)
+            try {
+                $fmcommonxml = "$env:COMMON_DIR\Packages\OEMCommonFM.xml"
+                $fmcommon = New-IoTFMXML $fmcommonxml
+                $fmcommon.AddOEMPackage("%PKGBLD_DIR%", "%OEM_NAME%.Appx.Certs.cab", "Base")
+            }
+            catch {
+                $msg = $_.Exception.Message
+                Publish-Error "$msg"
+            }            
         }
         $provxml_cer.AddRootCertificate("$pkgdir\$($AppxName).cer")
     }
@@ -237,9 +243,6 @@ function Add-IoTAppxPackage {
         $feature = $feature.Replace(".", "_")
         $fm = New-IoTFMXML $fmxml
         $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
-        if ($addcertfid){
-            $fm.AddOEMPackage("%PKGBLD_DIR%", "%OEM_NAME%.Appx.Certs.cab", "Base")
-        }
         Publish-Success "Feature ID : $feature"
     }
     catch {

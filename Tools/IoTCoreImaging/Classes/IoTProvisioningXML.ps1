@@ -283,6 +283,10 @@ class IoTProvisioningXML {
         # Imports the certificate from file to x509Certificate object
         $certobj.Import($certfile)
         Publish-Status "Processing $certname with thumbprint $($certobj.Thumbprint)"
+        if ($($certobj.Thumbprint) -ieq "FE8BD26C71E9340CA518C963E340B7380859EE70") {
+            Publish-Error "Using MSFT cert is blocked as this will cause provisioning failure. Use different certificate"
+            return
+        }
 
         # Check if rootcerts are present and if so does it contain this thumbprint
         $rootcertlist = $this.XmlDoc.GetElementsByTagName("RootCertificate") | Where-Object { $_.CertificateName -eq $certobj.Thumbprint }

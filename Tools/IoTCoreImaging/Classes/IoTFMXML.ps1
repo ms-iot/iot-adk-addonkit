@@ -254,7 +254,7 @@ class IoTFMXML {
             $dlfile = $dlfile.Replace("%OEM_NAME%.", "")
             $dlfile = $dlfile.Replace(".cab", "")
             $dldir = (Get-ChildItem $env:BSPSRC_DIR, $env:COMMON_DIR -Filter $dlfile -Directory -Recurse) | foreach-object {$_.FullName}
-            if ($dldir -eq $null) {
+            if ($null -eq $dldir) {
                 Publish-Error "Device layout $dlfile not found"
                 return $null
             }
