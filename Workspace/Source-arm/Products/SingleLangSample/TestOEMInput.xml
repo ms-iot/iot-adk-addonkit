@@ -41,15 +41,12 @@
       <Feature>IOT_EFIESP</Feature>
       <Feature>IOT_UAP_OOBE</Feature>
       <Feature>IOT_CRT140</Feature>
-      <Feature>IOT_UNIFIED_WRITE_FILTER</Feature>
-      <Feature>IOT_USBFN_CLASS_EXTENSION</Feature>
       <Feature>IOT_POWERSHELL</Feature>
       <!--Feature>IOT_ALLJOYN_APP</Feature-->
       <Feature>IOT_ONBOARDING_APP</Feature>
       <!--Feature>IOT_FONTS_CHINESE_EXTENDED</Feature-->
       <Feature>IOT_APP_TOOLKIT</Feature>
       <!--Feature>IOT_FFU_FLASHMODE</Feature-->
-      <Feature>IOT_MTP</Feature>
       <Feature>IOT_MIRACAST_RX_APP</Feature>
       <Feature>IOT_WEBB_EXTN</Feature>
       <Feature>IOT_BLUETOOTH_A2DP_SINK</Feature>
@@ -65,9 +62,6 @@
       <Feature>IOT_EFIESP_BCD_MBR</Feature>
       <Feature>IOT_SHELL_HOTKEY_SUPPORT</Feature>
       <Feature>IOT_SHELL_ONSCREEN_KEYBOARD</Feature>
-      <Feature>IOT_SHELL_ONSCREEN_KEYBOARD_FOLLOWFOCUS</Feature>
-      <Feature>IOT_DISABLEBASICDISPLAYFALLBACK</Feature>
-      <Feature>IOT_CRASHCONTROL_SETTINGS</Feature>
       <Feature>IOT_SSH</Feature>
 
       <!-- Developer Tools -->
