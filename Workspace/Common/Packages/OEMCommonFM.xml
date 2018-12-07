@@ -16,13 +16,6 @@
           <FeatureID>SETTINGS_HOTKEY</FeatureID>
         </FeatureIDs>
       </PackageFile>
-      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Provisioning.Enroll.cab">
-        <FeatureIDs>
-          <!-- This feature id brings in Enrollment provisioning package  -->
-          <FeatureID>OEM_ProvEnroll</FeatureID>
-          <FeatureID>PROV_ENROLL</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
       <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Security.BitLocker.cab">
         <FeatureIDs>
           <FeatureID>SEC_BITLOCKER</FeatureID>
