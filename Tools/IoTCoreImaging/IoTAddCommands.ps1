@@ -47,8 +47,8 @@ function Add-IoTAppxPackage {
 
     $appxpath = Split-Path $AppxFile -Parent
     $fileobj = Get-Item $AppxFile
-    if (($fileobj.Extension -ine ".appx" ) -and ($fileobj.Extension -ine ".appxbundle" )) {
-        Publish-Error "$AppxFile is not an appx/appxbundle" ; return
+    if (($fileobj.Extension -ine ".appx" ) -and ($fileobj.Extension -ine ".appxbundle" ) -and ($fileobj.Extension -ine ".msix" ) -and ($fileobj.Extension -ine ".msixbundle" )) {
+        Publish-Error "$AppxFile is not an appx/appxbundle/msix/msixbundle" ; return
     }
 
     $appxinfo = & "$($PSScriptRoot)\..\GetAppxInfo.exe" $AppxFile

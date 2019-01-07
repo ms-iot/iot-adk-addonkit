@@ -176,7 +176,7 @@ function New-IoTWorkspace {
 function Write-CmdShortcut([string] $dir) {
     $CmdFile = "$dir\IoTCorePShell.cmd"
     Set-Content -Path $CmdFile -Value "@echo off"
-    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Unrestricted -Command \`". $env:TOOLS_DIR\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
+    $cmdstring = "Start-Process 'powershell.exe' -ArgumentList '-noexit -ExecutionPolicy Bypass -Command \`". $env:TOOLS_DIR\Launchshell.ps1\`" %~dp0\IoTWorkspace.xml' -Verb runAs"
     Add-Content -Path $CmdFile -Value "powershell -Command `"$cmdstring`""
 }
 

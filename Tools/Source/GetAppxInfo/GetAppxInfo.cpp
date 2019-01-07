@@ -273,11 +273,11 @@ int wmain(int argc, wchar_t *argv[])
     transform(fileExtension.begin(), fileExtension.end(), fileExtension.begin(), ::towlower);
 
     HRESULT hr = S_OK;
-    if (fileExtension == L".appx")
+    if ( (fileExtension == L".appx") || (fileExtension == L".msix") )
     {
         hr = GetPackageIdFromAppxInternal(argv[1]);
     }
-    else if (fileExtension == L".appxbundle")
+    else if ( (fileExtension == L".appxbundle") || (fileExtension == L".msixbundle") )
     {
         hr = GetPackageIdFromAppxBundleInternal(argv[1]);
     }
