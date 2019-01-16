@@ -877,7 +877,12 @@ function Copy-IoTBSP {
         # replace the absolute path of the bspFM files to the mergedfm directory
         foreach ($oeminput in $oeminputs) {
             Write-Verbose "Updating $oeminput.."
+            # FMFile names are not consistent always, so just find replace the path
             (Get-Content $oeminput) -replace "%BSPSRC_DIR%\\$($BSPName)\\Packages", "%BLD_DIR%\MergedFMs" | Out-File $oeminput -Encoding utf8
+            # Add the OEMCommonFM and OEMFM always. if already present, there will be no duplication as it will be skipped
+            $oemfile = New-IoTOemInputXML $oeminput
+            $oemfile.AddAdditionalFM("%BLD_DIR%\MergedFMs\OEMCommonFM.xml")
+            $oemfile.AddAdditionalFM("%BLD_DIR%\MergedFMs\OEMFM.xml")
         }
         $copydone = $true
     }
