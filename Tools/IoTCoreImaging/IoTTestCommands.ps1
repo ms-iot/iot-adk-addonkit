@@ -173,6 +173,59 @@ function Test-IoTSignature {
     return $retval
 }
 
+function Test-IoTCerts {
+    <#
+    .SYNOPSIS
+    Checks if the certs in the workspace folder are all valid.
+
+    .DESCRIPTION
+    Checks if the certs in the workspace folder are all valid.
+
+    .INPUTS
+    None
+
+    .OUTPUTS
+    System.Boolean
+    True if the file is properly signed.
+
+    .EXAMPLE
+    $result = Test-IoTCerts
+
+    .NOTES
+    This verifies using the Test-Certificate.
+
+    .LINK
+    [Test-Certificate](https://docs.microsoft.com/powershell/module/pkiclient/test-certificate?view=win10-ps)
+    #>
+    [CmdletBinding()]
+    [OutputType([Boolean])]
+    Param
+    (
+
+    )
+    $retval = $true
+    $certs = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -File -Filter *.cer -Recurse | Foreach-Object {$_.FullName}
+    if ($null -eq $certs) {
+        Publish-Status "No certs found."
+    }
+    $certs = @($certs)
+
+    foreach ($cert in $certs) {
+        # X509Certificate2 object that will represent the certificate
+        $certobj = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+
+        # Imports the certificate from file to x509Certificate object
+        $certobj.Import($cert)
+        $ret = Test-Certificate $certobj -AllowUntrustedRoot
+        if (!$ret) {
+            $retval = $false
+            Publish-Error "$cert is invalid"
+        }
+    }
+
+    return $retval
+}
+
 function Add-IoTSignature {
     <#
     .SYNOPSIS
