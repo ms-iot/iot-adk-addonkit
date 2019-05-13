@@ -1,183 +1,182 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <FeatureManifest xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" Revision="1" SchemaVersion="1.2">
-  <BasePackages>
-    <!-- System Information package for providing system details , required for DM enrollment etc -->
-    <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
-    <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" /-->
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcUrsFilter.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QHEE.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSEE.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.RPM.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.SBL1.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WINSECAPP.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TZAPPS.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.DPP.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="OEM.HalExtensions.UpdateOS.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcEhciFilter.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UsbFnFilter.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.hwnhaptics.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.hwnled.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ABD.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ADCM.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.AudioDeviceDriver.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.bam_dmux.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.BCryptCipher_KM.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.HalExtQCTimer.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ipc_router.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.pil.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcadc.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcListenSoundModel.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcBattMiniclass.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcBattMngr.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcbluetooth.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qccdi.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QCCI.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdxdriver.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcfmminiport.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcfmtransport.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcgnss.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcgpio.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qci2c.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcKmdBam.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmic.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmicApps.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmicGpio.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcspmi.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncmftH263.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncmftH264.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncMftMPEG4.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QC_PEP.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qmux.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qualcomm_uart.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.remotefs.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.RPEN.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.scm.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smd.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smmu.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ssd.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ssm.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan_caps.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QCSI.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.direct3dum11.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdx11compiler.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcvidencum.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcspi.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.subsys.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WCNSSPeriImage.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcimssink.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcimssrc.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcvss.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qccomposite.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.HalExtQCWdogTimer.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.PhoneRadioRevision_8916.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmic3P.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSOCKET.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TouchDetectionDriver.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TrEE.cab" />
-    <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcLTECoexMgr.cab" />
-  </BasePackages>
-  <OEMDevicePlatformPackages>
-    <!-- Device platform with Recovery setup -->
-    <PackageFile Device="8016sbc_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DevicePlatform-R.cab"/>
-    <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/>
-  </OEMDevicePlatformPackages>
-  <DeviceLayoutPackages>
-    <!-- Device Layout with recovery setup -->
-    <PackageFile SOC="QC8016_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout-R.cab"/>
-    <PackageFile SOC="QC8016" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout.cab"/>
-  </DeviceLayoutPackages>
-  <Features>
-    <Microsoft />
-    <MSFeatureGroups />
-    <OEM>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab">
-        <FeatureIDs>
-          <FeatureID>QC_UEFI_PRODUCTION</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smbios_cfg.cab">
-        <FeatureIDs>
-          <FeatureID>SMBIOS_DEFAULT</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.SMBIOS.cab">
-        <FeatureIDs>
-          <FeatureID>CUSTOM_SMBIOS</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.MemRes_ModemLite.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916_SBC.ACSP.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916_SBC.qcaud.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.M8016SOC_SBC.acpi.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAccGyroMPU6050.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAlsCalibrationMTP.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAlsPrxAPDS9900.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcMagAKM8963.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcSynapticsTouch.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcFocalTechTouch.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcTouchScreenRegsitry1080p.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-      <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8016.AMSSPeriImage.cab">
-        <FeatureIDs>
-          <FeatureID>SBC</FeatureID>
-        </FeatureIDs>
-      </PackageFile>
-    </OEM>
-    <OEMFeatureGroups />
-    <OEMConditionalFeatures>
-      <ConditionalFeature FeatureID="OEM_CUSTOM_SMBIOS" UpdateAction="NoUpdate" />
-      <ConditionalFeature FeatureID="OEM_SMBIOS_DEFAULT" UpdateAction="NoUpdate" />
-    </OEMConditionalFeatures>
-  </Features>
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+    xmlns="http://schemas.microsoft.com/embedded/2004/10/ImageUpdate" Revision="1" SchemaVersion="1.2">
+    <BasePackages>
+        <!-- System Information package for providing system details , required for DM enrollment etc -->
+        <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Device.SystemInformation.cab"/>
+        <!--PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QCDB410C.SystemInformation.cab" /-->
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcUrsFilter.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QHEE.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSEE.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.RPM.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.SBL1.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WINSECAPP.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TZAPPS.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.DPP.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="OEM.HalExtensions.UpdateOS.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcEhciFilter.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UsbFnFilter.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.hwnhaptics.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.hwnled.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ABD.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ADCM.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.AudioDeviceDriver.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.bam_dmux.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.BCryptCipher_KM.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.HalExtQCTimer.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ipc_router.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.pil.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcadc.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcListenSoundModel.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcBattMiniclass.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcBattMngr.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcbluetooth.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qccdi.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QCCI.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdxdriver.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcfmminiport.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcfmtransport.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcgnss.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcgpio.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qci2c.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcKmdBam.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmic.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmicApps.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmicGpio.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcspmi.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncmftH263.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncmftH264.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcVidEncMftMPEG4.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QC_PEP.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qmux.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qualcomm_uart.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.remotefs.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.RPEN.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.scm.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smd.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smmu.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ssd.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.ssm.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.wlan_caps.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QCSI.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.direct3dum11.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcdx11compiler.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcvidencum.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcspi.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.subsys.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.WCNSSPeriImage.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcimssink.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcimssrc.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcvss.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qccomposite.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.HalExtQCWdogTimer.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.PhoneRadioRevision_8916.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcPmic3P.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QSOCKET.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TouchDetectionDriver.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.TrEE.cab" />
+        <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.QcLTECoexMgr.cab" />
+    </BasePackages>
+    <OEMDevicePlatformPackages>
+        <!-- Device platform with Recovery setup -->
+        <PackageFile Device="8016sbc_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DevicePlatform-R.cab"/>
+        <PackageFile Device="8016sbc" Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMDevicePlatform.cab"/>
+    </OEMDevicePlatformPackages>
+    <DeviceLayoutPackages>
+        <!-- Device Layout with recovery setup -->
+        <PackageFile SOC="QC8016_R" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout-R.cab"/>
+        <PackageFile SOC="QC8016" Path="%PKGBLD_DIR%" Name="%OEM_NAME%.QCDB410C.DeviceLayout.cab"/>
+    </DeviceLayoutPackages>
+    <Features>
+        <Microsoft />
+        <MSFeatureGroups />
+        <OEM>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.UEFI_PRODUCTION.cab">
+                <FeatureIDs>
+                    <FeatureID>QC_UEFI_PRODUCTION</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.OEMAutobrightness.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.smbios_cfg.cab">
+                <FeatureIDs>
+                    <FeatureID>SMBIOS_DEFAULT</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%PKGBLD_DIR%" Name="%OEM_NAME%.Custom.SMBIOS.cab">
+                <FeatureIDs>
+                    <FeatureID>CUSTOM_SMBIOS</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.MemRes_ModemLite.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916_SBC.ACSP.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916_SBC.qcaud.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.M8016SOC_SBC.acpi.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAccGyroMPU6050.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAlsCalibrationMTP.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcAlsPrxAPDS9900.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcMagAKM8963.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcSynapticsTouch.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcFocalTechTouch.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8916.qcTouchScreenRegsitry1080p.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+            <PackageFile Path="%BSPPKG_DIR%" Name="Qualcomm.QC8016.AMSSPeriImage.cab">
+                <FeatureIDs>
+                    <FeatureID>SBC</FeatureID>
+                </FeatureIDs>
+            </PackageFile>
+        </OEM>
+        <OEMFeatureGroups />
+        <OEMConditionalFeatures>
+            <ConditionalFeature FeatureID="OEM_CUSTOM_SMBIOS" UpdateAction="NoUpdate" />
+        </OEMConditionalFeatures>
+    </Features>
 </FeatureManifest>
