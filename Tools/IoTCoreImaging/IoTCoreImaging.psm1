@@ -35,6 +35,7 @@ if (Check-IfFullHost -eq $true) {
 . $PSScriptRoot\IoTSecurity.ps1
 . $PSScriptRoot\IoTWorkspace.ps1
 . $PSScriptRoot\IoTClassExports.ps1
+. $PSScriptRoot\IoTCEPALCommands.ps1
 
 Init-IoTWorkspace
 

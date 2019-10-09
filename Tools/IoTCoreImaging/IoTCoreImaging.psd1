@@ -98,7 +98,7 @@ FunctionsToExport = 'New-IoTFIPPackage', 'New-IoTFFUImage', 'New-IoTCabPackage',
                'Import-IoTCertificate', 'Add-IoTDeviceGuard', 'Add-IoTSecureBoot', 
                'Add-IoTBitLocker', 'New-IoTOEMCerts', 'Install-IoTOEMCerts', 
                'Add-IoTProductFeature', 'Remove-IoTProductFeature', 'Import-QCBSP', 
-               'New-IoTInf2Cab', 'Test-IoTCerts'
+               'New-IoTInf2Cab', 'Test-IoTCerts', 'Import-IoTCEPAL', 'Add-IoTCEPAL'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

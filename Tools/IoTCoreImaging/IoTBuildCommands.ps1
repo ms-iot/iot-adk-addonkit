@@ -80,8 +80,8 @@ function New-IoTCabPackage {
     $filestoprocess = @()
     # Process special keywords first
     if ($PkgFile -ieq "All") {
-        # Process All keyword - Get all wm.xml files in three directories PKGSRC_DIR,BSPSRC_DIR and COMMON_DIR
-        $filename = Get-ChildItem -Path "$env:COMMON_DIR\Packages", $env:PKGSRC_DIR, $env:BSPSRC_DIR -File -Filter *.wm.xml -Recurse | Foreach-Object {$_.FullName}
+        # Process All keyword - Get all wm.xml files in three directories PKGSRC_DIR,BSPSRC_DIR, COMMON_DIR, and the CEPAL dir
+        $filename = Get-ChildItem -Path "$env:COMMON_DIR\Packages", $env:PKGSRC_DIR, $env:BSPSRC_DIR, "$env:SRC_DIR\CEPAL" -File -Filter *.wm.xml -Recurse | Foreach-Object {$_.FullName}
         if (!$filename) {
             Publish-Error "No .wm.xml files found in the workspace."
             return $false
@@ -317,6 +317,46 @@ function New-IoTProvisioningPackage {
     return $retval
 }
 
+function Call-FeatureMerger {
+    <#
+    .SYNOPSIS
+    Wrapper around calling FeatureMerger.exe
+
+    .DESCRIPTION
+    This command invokes FeatureMerger.exe, optionally logs output to a file.
+    
+    .Parameter FMFileList
+    The input FMFileList XML for FeatureMerger
+
+    .Parameter LogFileName
+    File to store FeatureMerger.exe log, if $VerbosePreference is set correctly
+    #>
+
+    Param
+    (
+        [Parameter(Position = 0, Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [String] $FMFileList,
+
+        [Parameter(Position = 1, Mandatory = $false)]
+        [String] $LogFileName
+    )
+
+    if ($VerbosePreference -ieq "Continue") {
+        FeatureMerger $FMFileList $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production"
+    }
+    else {
+        FeatureMerger $FMFileList $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $LogFileName -Encoding utf8
+    }
+
+    if (!($?)) {
+        Publish-Error "FeatureMerger failed to process $FMListFile. See $LogFileName"
+        return $false
+    }
+
+    return $true
+}
+
 function New-IoTFIPPackage {
     <#
     .SYNOPSIS
@@ -368,14 +408,7 @@ function New-IoTFIPPackage {
 
     # Running feature merger for OEMFMList
     Publish-Status "Processing OEMFMList.."
-    if ($VerbosePreference -ieq "Continue") {
-        FeatureMerger $env:BLD_DIR\InputFMs\OEMFMFileList.xml $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production"
-    }
-    else {
-        FeatureMerger $env:BLD_DIR\InputFMs\OEMFMFileList.xml $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $env:BLD_DIR\FIPPackage_oem.log -Encoding utf8
-    }
-    if (!($?)) {
-        Publish-Error "New-IoTFIPPackage failed to process OEMFMList. See $env:BLD_DIR\FIPPackage_oem.log"
+    if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OEMFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_oem.log)) {
         $retval = $false
     }
     if ($IncludeOCP) {
@@ -384,18 +417,23 @@ function New-IoTFIPPackage {
         [string]$cputype = [string]($env:BSP_ARCH).ToUpper()
         (Get-Content -Path "$env:TEMPLATES_DIR\ocpupdate\OCPUpdateFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME -replace "CPU_TYPE", $cputype | Out-File $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml -Encoding utf8
         Publish-Status "Processing OCPFMList"
-        if ($VerbosePreference -ieq "Continue") {
-            FeatureMerger $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production"
-        }
-        else {
-            FeatureMerger $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $env:BLD_DIR\FIPPackage_ocp.log -Encoding utf8
-        }
-        if (!($?)) {
-            Publish-Error "New-IoTFIPPackage failed to process OCPFMList. See $env:BLD_DIR\FIPPackage_ocp.log"
+        if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_ocp.log)) {
             $retval = $false
         }
     }
     else { Write-Verbose "Skipping OCP FM files" }
+
+    # Handle CEPAL
+    if ((Test-Path "$env:SRC_DIR\CEPAL\CEPALFM.xml" -PathType Leaf) -And (Test-Path "$env:SRC_DIR\CEPAL\CEPALFMFileList.xml" -PathType Leaf)) {
+        Publish-Status "Exporting CEPAL FM files.."
+        (Get-Content -Path "$env:SRC_DIR\CEPAL\CEPALFM.xml") -replace "%PKGBLD_DIR%", $env:PKGBLD_DIR -replace "%OEM_NAME%", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\CEPALFM.xml -Encoding utf8
+        (Get-Content -Path "$env:SRC_DIR\CEPAL\CEPALFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\CEPALFMFileList.xml -Encoding utf8
+
+        Publish-Status "Processing CEPALFMList.."
+        if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\CEPALFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_cepal.log)) {
+            $retval = $false
+        }
+    }
 
     # Cleanup the files here.
     Remove-Item -Path $env:PKGBLD_DIR\*.spkg
@@ -435,14 +473,7 @@ function New-IoTFIPPackage {
 
     (Get-Content -Path "$env:BSPSRC_DIR\$BSP\Packages\$bspfmlist") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\$bspfmlist -Encoding utf8
     Publish-Status "Processing $bspfmlist"
-    if ($VerbosePreference -ieq "Continue") {
-        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production"
-    }
-    else {
-        FeatureMerger $env:BLD_DIR\InputFMs\$bspfmlist $env:PKGBLD_DIR $env:BSP_VERSION $env:BLD_DIR\MergedFMs /InputFMDir:$env:BLD_DIR\InputFMs /Languages:en-us /Resolutions:1024x768 /ConvertToCBS /variables:"_cputype=$env:BSP_ARCH;buildtype=fre;releasetype=production" | Out-File $env:BLD_DIR\FIPPackage_$BSP.log -Encoding utf8
-    }
-    if (!($?)) {
-        Publish-Error "New-IoTFIPPackage failed to process BSPFMList. See $env:BLD_DIR\FIPPackage_$BSP.log"
+    if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\$bspfmlist -LogFileName $env:BLD_DIR\FIPPackage_$BSP.log)) {
         $retval = $false
     }
 
