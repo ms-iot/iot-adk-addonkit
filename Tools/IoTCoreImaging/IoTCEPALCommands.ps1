@@ -33,7 +33,7 @@ function Import-IoTCEPAL {
     }
 
     # mkdir $destinationDir
-    New-Item -ItemType Directory -Path $destinationDir
+    New-Item -ItemType Directory -Path $destinationDir | Out-Null
 
     $cepalPkgDir = "$FlatReleaseDirectory\CEPAL_PKG"
 
