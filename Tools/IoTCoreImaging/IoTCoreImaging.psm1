@@ -96,3 +96,6 @@ New-Alias -Name 'setsignature' -Value 'Set-IoTSignature'
 New-Alias -Name 'retailsign' -Value 'Set-IoTRetailSign'
 New-Alias -Name 'gwsproducts' -Value 'Get-IoTWorkspaceProducts'
 New-Alias -Name 'gwsbsps' -Value 'Get-IoTWorkspaceBSPs'
+############ CEPAL Exports 
+New-Alias -Name 'importcepal' -Value 'Import-IoTCEPAL'
+New-Alias -Name 'addcepal' -Value 'Add-IoTCEPAL'

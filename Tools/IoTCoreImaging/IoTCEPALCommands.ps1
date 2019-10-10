@@ -9,7 +9,7 @@ function Import-IoTCEPAL {
     Import a flat release directory and prepare for packaging into IoT Core
 
     .DESCRIPTION
-    This command copies %_FLATRELEASEDIR%\CEPAL_PKG into the workspace.
+    This command copies $FlatReleaseDirectory\CEPAL_PKG into the workspace and generates CEPALFMFileList.xml.
 
     .PARAMETER FlatReleaseDirectory
     The flat release directory where to source CEPAL.
@@ -57,7 +57,7 @@ function Add-IoTCEPAL {
     Chain CEPALFM.xml into the IoT Core packaging process for a specific product
 
     .DESCRIPTION
-    Update OEMFMFILELIST.xml to refer to the CEPALFM.xml represented by $Name
+    Adds CEPALFM.xml into the Test and Retail OEMInput.xml files for product $Product.
     
     .PARAMETER Product
     A Name that uniquely identifies a product.
