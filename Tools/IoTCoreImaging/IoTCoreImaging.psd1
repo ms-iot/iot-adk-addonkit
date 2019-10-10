@@ -107,10 +107,10 @@ CmdletsToExport = @()
 # VariablesToExport = @()
 
 # Aliases to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no aliases to export.
-AliasesToExport = 'addenv', 'buildfm', 'buildimage', 'buildpkg', 'buildppkg', 'buildrecovery', 
+AliasesToExport = 'addcepal', 'addenv', 'buildfm', 'buildimage', 'buildpkg', 'buildppkg', 'buildrecovery', 
                'checkcab', 'checksign', 'convertpkg', 'copybsp', 'copypkg', 'copyproduct', 
                'newwinpe', 'exportidm', 'exportpkgs', 'ffud', 'ffue', 'ffugd', 'ffum', 'ffus', 
-               'gpfidpkgs', 'gpfids', 'importbsp', 'importcfg', 'importpkg', 
+               'gpfidpkgs', 'gpfids', 'importbsp', 'importcepal', 'importcfg', 'importpkg', 
                'importproduct', 'migrate', 'new-ws', 'newappxpkg', 'newbsp', 
                'newcommonpkg', 'newdrvpkg', 'newproduct', 'open-ws', 're-signcabs', 
                'retailsign', 'setenv', 'setsignature', 'setversion', 'signbinaries', 
