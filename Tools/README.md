@@ -434,6 +434,9 @@ The supported commands are listed below in logical groups.
 |[Add-IoTBitLocker](IoTCoreImaging/Docs/Add-IoTBitLocker.md) | -  | Adds bitlocker package for the product  |
 |[Add-IoTProductFeature](IoTCoreImaging/Docs/Add-IoTProductFeature.md) | addfid  | Adds feature id to the product's oeminput xml file  |
 |[Remove-IoTProductFeature](IoTCoreImaging/Docs/Remove-IoTProductFeature.md) | removefid  | Removes feature id from the product's oeminput xml file  |
+|[Add-IoTCEPAL](IoTCoreImaging/Docs/Add-IoTCEPAL.md) | addcepal  | **Preview:** Adds CEPALFM.xml into the Test and Retail OEMInput.xml files for product. See [CE Migration](https://aka.ms/cemigration) for more details |
+|[Import-IoTCEPAL](IoTCoreImaging/Docs/Import-IoTCEPAL.md) | importcepal  | **Preview:** This command copies $FlatReleaseDirectory\CEPAL_PKG into the workspace and generates CEPALFMFileList.xml. See [CE Migration](https://aka.ms/cemigration) for more details |
+
 
 ### Build commands
 
@@ -486,10 +489,11 @@ The supported commands are listed below in logical groups.
 |[Set-IoTRetailSign](IoTCoreImaging/Docs/Set-IoTRetailSign.md)| retailsign | Sets/resets use of the retail code signing certificate |
 |[Test-IoTSignature](IoTCoreImaging/Docs/Test-IoTSignature.md) | - | Tests if the file is signed for the given config  |
 |[Test-IoTCabSignature](IoTCoreImaging/Docs/Test-IoTCabSignature.md) | - | Tests if the Cab package and its contents are signed for the given config  |
-|[Test-IoTPackages](IoTCoreImaging/Docs/Test-IoTPackages.md) | - | Tests all packages and its contents are signed, for the given product / config  |
-|[Test-IoTFeatures](IoTCoreImaging/Docs/Test-IoTFeatures.md) | - | Tests if all feature ids are defined, for the given product / config  |
+|[Test-IoTPackages](IoTCoreImaging/Docs/Test-IoTPackages.md) | tpkgs | Tests all packages and its contents are signed, for the given product / config  |
+|[Test-IoTFeatures](IoTCoreImaging/Docs/Test-IoTFeatures.md) | tfids | Tests if all feature ids are defined, for the given product / config  |
 |[Add-IoTSignature](IoTCoreImaging/Docs/Add-IoTSignature.md) | signbinaries | Signs files with the cert set via Set-IoTSignature  |
 |[Redo-IoTCabSignature](IoTCoreImaging/Docs/Redo-IoTCabSignature.md) | re-signcabs | Resigns cab and its contents using Add-IoTSignature  |
+|[Test-IoTCerts](IoTCoreImaging/Docs/Test-IoTCerts.md) | tcerts | Checks if the certs in the workspace folder are all valid  |
 
 ### Class documentation
 
