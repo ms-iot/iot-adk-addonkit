@@ -37,7 +37,7 @@ For older releases, please use the corresponding ADK tools and iot-adk-addonkit 
 ### Downloads
 
 * [Windows 10 IoT Core Packages](https://www.microsoft.com/en-us/software-download/windows10iotcore)
-* [Windows Assessment and Deployment Kit](https://developer.microsoft.com/windows/hardware/windows-assessment-deployment-kit) including Windows PE add-on for the adk
+* [Windows Assessment and Deployment Kit](https://go.microsoft.com/fwlink/?linkid=2026036) including [Windows PE add-on for the adk](https://go.microsoft.com/fwlink/?linkid=2022233)
 * [Windows Driver Kit - WDK](https://developer.microsoft.com/en-us/windows/hardware/windows-driver-kit)
 * [Windows 10 IoT Core Dashboard](https://developer.microsoft.com/windows/iot/docs/iotdashboard)
 
