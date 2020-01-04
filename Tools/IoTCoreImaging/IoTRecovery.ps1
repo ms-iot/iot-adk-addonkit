@@ -111,8 +111,8 @@ function New-IoTWindowsImage {
         $inffiles = (Get-ChildItem -Path $winpeextdrv -Filter "*.inf" -Recurse) | foreach-object {$_.FullName}
         if ($null -ne $inffiles) {
             Publish-Status "Adding drivers"
-            $name = Split-Path $inf -Leaf
             foreach ($inf in $inffiles) {
+                $name = Split-Path $inf -Leaf
                 Write-Verbose "  Adding $name"
                 dism /image:$mountdir /add-driver /driver:$inf
             }
