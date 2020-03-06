@@ -42,8 +42,12 @@ function Init-IoTWorkspace {
         $adkver = (Get-ItemProperty -Path $key).Version
         $adkver = $adkver.Replace("10.1.", "10.0.")
         [System.Environment]::SetEnvironmentVariable("ADK_VERSION", $adkver)
+        if ($adkver.Contains('17763')) {
+            Publish-Success "ADK version $adkver found"
+        }
+        else { Publish-Error "$adkver is not supported. Please install 1809 version (10.0.17763.1)" }
     }
-    else { Publish-Error "ADK not found." }
+    else { Publish-Error "ADK not found" }
 
     $archs = @("arm", "x86", "x64", "arm64")
     foreach ($arch in $archs) {
@@ -52,9 +56,12 @@ function Init-IoTWorkspace {
             $corekitver = (Get-ItemProperty -Path $key).Version
             $corekitver = $corekitver.Replace("10.1.", "10.0.")
             [System.Environment]::SetEnvironmentVariable("IOTCORE_VER", $corekitver)
-            Publish-Success "$arch IoT Core kit found."
+            if ($corekitver.Contains('17763')) {
+                Publish-Success "$arch IoT Core kit version $corekitver found"
+            }
+            else { Publish-Error "$corekitver IoT Core kit is not supported. Please install 1809 version (10.0.17763.x)" }
         }
-        else { Publish-Warning "$arch IoT Core kit not found." }
+        else { Publish-Warning "$arch IoT Core kit not found" }
     }
 
     #set the tools directory
@@ -66,7 +73,7 @@ function Init-IoTWorkspace {
     #Thumbprint                                Subject
     #----------                                -------
     #5D7630097BE5BDB731FC40CD4998B69914D82EAD  CN=Windows OEM Test Cert 2017 (TEST ONLY), O=Microsoft Partner, OU=Windows, L=Redmond, S=Washington, C=US
-    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object {$_.Thumbprint -ieq "5D7630097BE5BDB731FC40CD4998B69914D82EAD"}
+    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object { $_.Thumbprint -ieq "5D7630097BE5BDB731FC40CD4998B69914D82EAD" }
     # Install the certs if no signcerts found.
     if ($null -eq $signcerts) {
         InstallOemCerts
@@ -340,6 +347,10 @@ function Set-IoTEnvironment {
         $corekitver = (Get-ItemProperty -Path $key).Version
         $corekitver = $corekitver.Replace("10.1.", "10.0.")
         [System.Environment]::SetEnvironmentVariable("IOTCORE_VER", $corekitver)
+        if ($corekitver.Contains('17763')) {
+            Publish-Success "$arch IoT Core kit version $corekitver found"
+        }
+        else { Publish-Error "$corekitver IoT Core kit is not supported. Please install 1809 version (10.0.17763.x)" }
     }
     else { Publish-Error "$arch IoT Core kit not found." }
 
@@ -351,7 +362,7 @@ function Set-IoTEnvironment {
     }
     $mspkgdir = $mspkg + "\Retail\" + $env:BSP_ARCH + "\fre"
     if (Test-Path $mspkgdir) {
-        Publish-Success "Corekit found OK"
+        Publish-Success "Corekit install path found OK"
     }
 
     [System.Environment]::SetEnvironmentVariable("AKROOT", $mspkgroot)
@@ -609,7 +620,7 @@ function Copy-IoTOEMPackage {
     $sourcedir = "$Source\Source-$($env:arch)\Packages"
     $sourcefm = New-IoTFMXML "$sourcedir\OEMFM.xml"
     $destoemfm = New-IoTFMXML "$Destination\Source-$($env:arch)\Packages\OEMFM.xml"
-    $pkgs = (Get-ChildItem -Path $commondir, $sourcedir, $commonprod -Directory -Filter $filter ) | ForEach-Object {$_.FullName}
+    $pkgs = (Get-ChildItem -Path $commondir, $sourcedir, $commonprod -Directory -Filter $filter ) | ForEach-Object { $_.FullName }
     if (!$pkgs) {
         Publish-Error "No packages found matching $PkgName"
         return
@@ -639,7 +650,7 @@ function Copy-IoTOEMPackage {
                 Write-Verbose "Adding $($fids -join ",") for $pkgname"
                 $dstfm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $fids)
             }
-            else { Write-Verbose "$pkgname is not added to feature manifest"}
+            else { Write-Verbose "$pkgname is not added to feature manifest" }
         }
     }
 
@@ -767,7 +778,7 @@ function Copy-IoTBSP {
         Write-Host "Extracting BSP zip into the temporary directory $tempdir"
         [System.IO.Compression.ZipFileExtensions]::ExtractToDirectory($zip, "$tempdir")
         $zip.Dispose()
-        $fmfiles = (Get-ChildItem -Path "$tempdir" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
+        $fmfiles = (Get-ChildItem -Path "$tempdir" -Filter *FM.xml -Recurse) | foreach-object { $_.FullName }
         if (!$fmfiles) {
             Publish-Error "No FM files found in $Source."
             return
@@ -804,7 +815,7 @@ function Copy-IoTBSP {
             continue
         }
         # validate if the folder is a BSP folder
-        $fmfiles = (Get-ChildItem -Path "$srcdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
+        $fmfiles = (Get-ChildItem -Path "$srcdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object { $_.FullName }
         if (!$fmfiles) {
             Publish-Error "No FM files found. $srcdir\$bsp is not a valid BSP directory"
             continue
@@ -836,7 +847,7 @@ function Copy-IoTBSP {
         Write-Verbose "Converting pkg.xml files"
         $copydone = Convert-IoTPkg2Wm $destdir\$bsp
         # get rid of the FeatureIdentifierPackage flag in the FM file
-        $fmfiles = (Get-ChildItem -Path "$destdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object {$_.FullName}
+        $fmfiles = (Get-ChildItem -Path "$destdir\$bsp" -Filter *FM.xml -Recurse) | foreach-object { $_.FullName }
         if (!$fmfiles) {
             # should not occur if the copy succeeded.
             Publish-Error "BSP copy failed"
@@ -849,7 +860,7 @@ function Copy-IoTBSP {
             #TODO Get rid of the System Information cab as SMBIOS will fill those values.
             #Get all package names in the directory
             $list = Get-ChildItem -Path $destdir\$bsp -Recurse -Include *.xml | Select-String "legacyName"
-            $pkgnames = $list | ForEach-Object { $_.Line.Replace("`$(OEMNAME)", "%OEM_NAME%").Split('"')[1] + ".cab"}
+            $pkgnames = $list | ForEach-Object { $_.Line.Replace("`$(OEMNAME)", "%OEM_NAME%").Split('"')[1] + ".cab" }
             $fmxml = New-IoTFMXML $fmfile
             $definedpkgs = $fmxml.GetPackageNames()
             foreach ($definedpkg in $definedpkgs) {
@@ -868,7 +879,7 @@ function Copy-IoTBSP {
             }
         }
 
-        $oeminputs = (Get-ChildItem -Path "$destdir\$bsp" -Filter *OEMInput.xml -Recurse) | foreach-object {$_.FullName}
+        $oeminputs = (Get-ChildItem -Path "$destdir\$bsp" -Filter *OEMInput.xml -Recurse) | foreach-object { $_.FullName }
         if (!$oeminputs) {
             # should not occur if the copy succeeded.
             Publish-Error "BSP copy failed"
@@ -1234,7 +1245,7 @@ function Redo-IoTWorkspace {
 
     # Process the ppkg files
     Publish-Status "Processing provisioning packages"
-    $custfiles = (Get-ChildItem -Path "$DirName" -Filter customizations.xml -Recurse ) | ForEach-Object {$_.FullName}
+    $custfiles = (Get-ChildItem -Path "$DirName" -Filter customizations.xml -Recurse ) | ForEach-Object { $_.FullName }
     foreach ($custfile in $custfiles) {
         Write-Verbose " Processing $custfile"
         $pkgdir = Split-Path -Path $custfile -Parent
@@ -1267,7 +1278,7 @@ function Redo-IoTWorkspace {
 
     # process all driver files
     Publish-Status "Processing driver packages"
-    $drvfiles = (Get-ChildItem -Path "$DirName" -Filter *.inf -Recurse ) | ForEach-Object {$_.FullName}
+    $drvfiles = (Get-ChildItem -Path "$DirName" -Filter *.inf -Recurse ) | ForEach-Object { $_.FullName }
     foreach ($drvfile in $drvfiles) {
         if ($drvfile.Contains("WinPEExt")) { continue }
         Write-Verbose " Recreating wm.xml for $drvfile"
@@ -1300,7 +1311,7 @@ function Redo-IoTWorkspace {
 }
 
 function Get-SMBIOSData ( [ValidateNotNullOrEmpty()][string] $file ) {
-    $smbios = @{}
+    $smbios = @{ }
     Publish-Status "Parsing $file to get SMBIOS information"
     $doc = Get-Content $file
     foreach ($line in $doc) {
@@ -1533,7 +1544,7 @@ function Import-QCBSP {
     #Expand-Archive -Path $BSPZipFile -DestinationPath $BSPPkgDir
     Add-Type -Assembly System.IO.Compression.FileSystem
     $zip = [IO.Compression.ZipFile]::OpenRead($BSPZipFile)
-    $zip.Entries | Where-Object {$_.Name -like '*.cab'} | ForEach-Object {
+    $zip.Entries | Where-Object { $_.Name -like '*.cab' } | ForEach-Object {
         $filename = Split-Path -Path $_ -Leaf
         if ($pkglist -contains $filename) {
             if ($exceptionlist -contains $filename) {
