@@ -436,6 +436,8 @@ The supported commands are listed below in logical groups.
 |[Remove-IoTProductFeature](IoTCoreImaging/Docs/Remove-IoTProductFeature.md) | removefid  | Removes feature id from the product's oeminput xml file  |
 |[Add-IoTCEPAL](IoTCoreImaging/Docs/Add-IoTCEPAL.md) | addcepal  | **Preview:** Adds CEPALFM.xml into the Test and Retail OEMInput.xml files for product. See [CE Migration](https://aka.ms/cemigration) for more details |
 |[Import-IoTCEPAL](IoTCoreImaging/Docs/Import-IoTCEPAL.md) | importcepal  | **Preview:** This command copies $FlatReleaseDirectory\CEPAL_PKG into the workspace and generates CEPALFMFileList.xml. See [CE Migration](https://aka.ms/cemigration) for more details |
+|[Import-PSCoreRelease](IoTCoreImaging/Docs/Import-PSCoreRelease.md) | importps  | This command imports Open source Powershell release from github into the workspace |
+|[Import-IoTZipFile](IoTCoreImaging/Docs/Import-IoTZipFile.md) | importzip  | This command imports all file contents in the zip file into the workspace |
 
 
 ### Build commands

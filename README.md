@@ -12,7 +12,7 @@ This branch supports the lastest Windows 10 IoT Core release available ( current
 The iot-adk-addonkit is now in Powershell and supports additional features including multiple workspaces. See **[Powershell documentation](./Tools/README.md)** for detailed instructions.
 
 
-### Older Versions
+### Older Versions: **Not Supported**
 
 For older releases, please use the corresponding ADK tools and iot-adk-addonkit releases.
 

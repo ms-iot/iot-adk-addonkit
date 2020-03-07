@@ -188,7 +188,7 @@ class IoTFMXML {
 
     [void] AddOEMPackage([string] $pkgpath, [string] $pkgname, [string[]] $featureid) {
         if ($this.IsPackagePresent($pkgname)) {
-            Publish-Error "$pkgname already defined in FM file"
+            Publish-Warning "$pkgname already defined in FM file"
             return
         }
         $newpkg = $this.XmlDoc.CreateElement("PackageFile", [IoTFMXML]::xmlns)

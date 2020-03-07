@@ -120,6 +120,45 @@ class IoTWMWriter {
         $this.WmWriter.WriteEndElement() # file element
     }
 
+    [void] AddFilesinZip([string] $destinationDir, [string] $source, [string] $zipfile) {
+        if (!$this.IsWritingStarted) {
+            Publish-Error "AddFiles:Writer not started. Call Start()"
+            return
+        }
+
+        # Check for mandatory attributes
+        if ([string]::IsNullOrWhiteSpace($destinationDir)) {
+            Publish-Error "AddFiles:destinationDir required"
+            return
+        }
+        if ([string]::IsNullOrWhiteSpace($source)) {
+            Publish-Error "AddFiles:source required"
+            return
+        }
+
+        if (!(Test-Path $zipfile -PathType Leaf -Filter "*.zip")) {
+            Publish-Error "AddFiles:Zip file required"
+            return
+        }
+
+        if ($this.NestedSection -ine "files") {
+            # Close the previous nested section
+            if ($null -ine $this.NestedSection) { $this.WmWriter.WriteEndElement() }
+            $this.WmWriter.WriteStartElement("files")
+            $this.NestedSection = "files"
+        }
+
+        $zip = [IO.Compression.ZipFile]::OpenRead($zipfile)
+        $zip.Entries | Where-Object { -not $_.FullName.EndsWith("\") } | ForEach-Object {
+            $destdir = Split-Path ($destinationDir + "\$_") -Parent
+            $this.WmWriter.WriteStartElement("file")
+            $this.WmWriter.WriteAttributeString("destinationDir", $destdir)
+            $this.WmWriter.WriteAttributeString("source", ($source + "\$_"))
+            $this.WmWriter.WriteEndElement() # file element
+        }
+        $zip.Dispose()
+    }
+
     [void] AddRegKeys([string] $keyName, [string[][]] $regvalue) {
         if (!$this.IsWritingStarted) {
             Publish-Error "Writer not started. Call Start()"

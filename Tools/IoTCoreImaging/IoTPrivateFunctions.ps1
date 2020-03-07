@@ -3,6 +3,10 @@ This contains various helper commands for imaging
 #>
 
 # Helper methods - Write Output for piping and Host for the screen
+
+# The below load is a workaround to enable access to these in Classes
+Add-Type -AssemblyName System.IO.Compression.FileSystem
+
 function Publish-Error([string] $message) {
     if (Check-IfFullHost -eq $true) {
         Write-Host "Error: $message" -ForegroundColor Red
