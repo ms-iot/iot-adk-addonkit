@@ -17,7 +17,15 @@ Import-PSCoreRelease [[-Version] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Import Powershell Core Release into your workspace and update the wm xml files.
+Import Powershell Core Release into your workspace and update the wm xml files. To register this new powershell for remoting, you will need to update the oemcustomizations.cmd file with the following lines for the first boot(run once).
+
+```cmd
+REM Register Powershell Remoting, when using Open Source Powershell
+set PSPATH=C:\windows\system32\Powershell
+if exist %PSPATH%\Install-PowerShellRemoting.ps1 (
+    %PSPATH%\pwsh.exe -Command "Start-Process 'pwsh.exe' -ArgumentList '-ExecutionPolicy Unrestricted -File %PSPATH%\Install-PowerShellRemoting.ps1 -Verb runAs"
+)
+```
 
 ## EXAMPLES
 

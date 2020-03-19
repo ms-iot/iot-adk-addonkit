@@ -125,12 +125,18 @@ class IoTProduct {
         }
         # 17763 is the major release version for RS5 - October 2018 release. 
         $iotcorever = [convert]::ToInt32($env:IOTCORE_VER.Split(".")[2])
-        if ($iotcorever -lt 17763){
+        if ($iotcorever -lt 17763) {
             if (!($cusconfigFound -xor $dpopFound)) {
                 Publish-Error "Images with Windows 10 IoT Core versions prior to 1809 must include either IOT_GENERIC_POP or CUS_DEVICE_INFO."
                 $retval = $false
             }
         }
+        #Check for Powershell feature
+        $isIoTPS = $msfids -contains "IOT_POWERSHELL"
+        $isOEMPS = $oemfids -contains "OPENSRC_POWERSHELL"
+        if ($isIoTPS -and !$isOEMPS) { Publish-Warning "Recommend to use latest opensource powershell version. See Import-PSCoreRelease" }
+        if (!$isIoTPS -and $isOEMPS) { Publish-Warning "IOT_POWERSHELL is required to enable remote access via powershell (WinRM)" }
+        
         return $retval
     }
 
@@ -334,7 +340,7 @@ class IoTProduct {
     [void] PopulateCerts() {
         # Get the cert files in the source path 
         $this.OEMCerts = @()
-        $certs = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -File -Filter *.cer -Recurse | Foreach-Object {$_.FullName}
+        $certs = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -File -Filter *.cer -Recurse | Foreach-Object { $_.FullName }
         if ($null -eq $certs) {
             Publish-Status "No certs found."
         }

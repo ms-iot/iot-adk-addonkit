@@ -122,22 +122,22 @@ class IoTWMWriter {
 
     [void] AddFilesinZip([string] $destinationDir, [string] $source, [string] $zipfile) {
         if (!$this.IsWritingStarted) {
-            Publish-Error "AddFiles:Writer not started. Call Start()"
+            Publish-Error "AddFilesinZip:Writer not started. Call Start()"
             return
         }
 
         # Check for mandatory attributes
         if ([string]::IsNullOrWhiteSpace($destinationDir)) {
-            Publish-Error "AddFiles:destinationDir required"
+            Publish-Error "AddFilesinZip:destinationDir required"
             return
         }
         if ([string]::IsNullOrWhiteSpace($source)) {
-            Publish-Error "AddFiles:source required"
+            Publish-Error "AddFilesinZip:source required"
             return
         }
 
         if (!(Test-Path $zipfile -PathType Leaf -Filter "*.zip")) {
-            Publish-Error "AddFiles:Zip file required"
+            Publish-Error "AddFilesinZip:Zip file required"
             return
         }
 

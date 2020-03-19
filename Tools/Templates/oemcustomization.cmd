@@ -22,9 +22,9 @@ REM    call c:\IoTSec\setup.bitlocker.cmd
 REM )
 
 REM Register Powershell Remoting, when using Open Source Powershell
-if exist C:\windows\system32\Powershell\Install-PowerShellRemoting.ps1 (
-    set PATH=%PATH%;C:\windows\system32\Powershell;
-    pwsh.exe -ExecutionPolicy Bypass -File "C:\windows\system32\Powershell\Install-PowerShellRemoting.ps1" -Verb runAs
+set PSPATH=C:\windows\system32\Powershell
+if exist %PSPATH%\Install-PowerShellRemoting.ps1 (
+    %PSPATH%\pwsh.exe -Command "Start-Process 'pwsh.exe' -ArgumentList '-ExecutionPolicy Unrestricted -File %PSPATH%\Install-PowerShellRemoting.ps1 -Verb runAs"
 )
 
     reg add HKLM\Software\IoT /v FirstBootDone /t REG_DWORD /d 1 /f >nul 2>&1
