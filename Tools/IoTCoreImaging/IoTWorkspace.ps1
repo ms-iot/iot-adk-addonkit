@@ -3,7 +3,7 @@ This contains Workspace related functions
 #>
 . $PSScriptRoot\IoTPrivateFunctions.ps1
 
-function Init-IoTWorkspace {
+function Invoke-IoTWorkspace {
 
     $ToolsRoot = $PSScriptRoot.Replace("\Tools\IoTCoreImaging", "")
     $module = Get-Module -ListAvailable -Name IoTCoreImaging

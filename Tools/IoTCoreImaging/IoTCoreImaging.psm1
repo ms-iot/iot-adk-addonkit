@@ -37,7 +37,7 @@ if (Check-IfFullHost -eq $true) {
 . $PSScriptRoot\IoTClassExports.ps1
 . $PSScriptRoot\IoTCEPALCommands.ps1
 
-Init-IoTWorkspace
+Invoke-IoTWorkspace
 
 ############ IoTBuildCommands Exports ##############
 New-Alias -Name 'buildfm' -Value 'New-IoTFIPPackage'
