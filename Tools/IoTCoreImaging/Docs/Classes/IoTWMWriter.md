@@ -132,6 +132,17 @@ Static: False
 Definition: Void AddFiles(String destinationDir, String source, String name)
 ```
 
+## AddFilesinDir(String destinationDir, String source, String inputDir)
+Adds all files in the directory with its source and destination values.
+
+```yaml
+Name: AddFilesinDir
+Return Type: Void
+Hidden: False
+Static: False
+Definition: Void AddFilesinDir(String destinationDir, String source, String inputDir)
+```
+
 ## AddFilesinZip(String destinationDir, String source, String zipfile)
 Adds all files in the zip with its source and destination values.
 

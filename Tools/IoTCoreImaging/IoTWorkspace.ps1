@@ -1625,9 +1625,9 @@ function Import-PSCoreRelease {
         [Parameter(Position = 0, Mandatory = $false)]
         [String]$Version
     )
-    if ([String]::IsNullOrWhiteSpace($Version)){
+    if ([String]::IsNullOrWhiteSpace($Version)) {
         #defaulting to latest available GA release
-        $Version ="7.0.0"
+        $Version = "7.0.0"
     }
     $ReleaseFile = "PowerShell-$Version-win-$env:arch.zip"
 
@@ -1635,9 +1635,10 @@ function Import-PSCoreRelease {
     $ZipFile = "$env:TMP\$ReleaseFile"
     if (Test-Path $ZipFile) {
         Publish-Status "$ZipFile found. Using the same file.."
-    } else {
+    }
+    else {
         Publish-Status "Downloading $url"
-        try{
+        try {
             (New-Object System.Net.WebClient).DownloadFile($url, $ZipFile)
         }
         catch {
@@ -1647,95 +1648,10 @@ function Import-PSCoreRelease {
         }
     }
 
-    Import-IoTZipFile $ZipFile "`$(runtime.system32)\Powershell" "OpenSrc.Powershell"
+    Add-IoTZipPackage $ZipFile "`$(runtime.system32)\Powershell" "OpenSrc.Powershell"
     # Apply a patch
     $filename = "$env:PKGSRC_DIR\OpenSrc.Powershell\Source\Install-PowerShellRemoting.ps1"
     (Get-Content $filename) -replace 'Register-WinRmPlugin \$pluginPath \$pluginEndpointName', "Register-WinRmPlugin `$pluginPath `$pluginEndpointName `n    Register-WinRmPlugin `$pluginPath Microsoft.PowerShell" | Out-File $filename -Encoding utf8
 
 }
 
-function Import-IoTZipFile {
-    <#
-    .SYNOPSIS
-    Imports the zip file contents into a IoT Package definition.
-
-    .DESCRIPTION
-    Imports the zip file contents into a IoT Package definition.
-
-    .PARAMETER ZipFile
-    Mandatory parameter, specifying the zipfile to be imported.
-
-    .PARAMETER TargetDir
-    Mandatory parameter specifying the directory name on the target device relative to the rood dir(C:\). 
-
-    .PARAMETER OutputName
-    Mandatory parameter specifying the directory name (namespace.name format) for importing. 
-
-    .PARAMETER Common
-    Optional switch parameter, if defined the package is created in the common folder.
-
-    .EXAMPLE
-    Import-IoTZipFile  C:\Temp\MyFiles.zip \MyFiles Files.MyFiles
-
-    .NOTES
-    Enables easy import of opensource packages that are delivered in zip formats.
-
-    #>
-    Param
-    (
-        [Parameter(Position = 0, Mandatory = $true)]
-        [String]$ZipFile,
-        [Parameter(Position = 1, Mandatory = $true)]
-        [String]$TargetDir,
-        [Parameter(Position = 2, Mandatory = $true)]
-        [String]$OutputName,
-        [Parameter(Position = 3, Mandatory = $false)]
-        [Switch]$Common
-    )
-    if (!(Test-Path $ZipFile -PathType Leaf -Filter "*.zip")) {
-        Publish-Error "$ZipFile is not a zip file."
-        return
-    }
-    if ($TargetDir.Contains("runtime.")) {
-        # Explicit path specified. Use as is.
-        $destpath = $TargetDir
-    } else {
-        # relative path specified. Add prefix.
-        if (!($TargetDir.StartsWith("\"))) {
-            $TargetDir = "\" + $TargetDir
-        }
-        $destpath = "`$(runtime.bootDrive)$TargetDir"
-    }
-    if ($Common){
-        $pkgdir = "$env:COMMON_DIR\Packages\$OutputName"  
-        $fmxml = "$env:COMMON_DIR\Packages\OEMCOMMONFM.xml"     
-    } else {
-        $pkgdir = "$env:PKGSRC_DIR\$OutputName"
-        $fmxml = "$env:PKGSRC_DIR\OEMFM.xml"
-    }
-
-    New-DirIfNotExist $pkgdir
-    Publish-Status "Writing package manifest (wm.xml) file..."
-    $namespart = $OutputName.Split(".")
-    $wmwriter = New-IoTWMWriter $pkgdir $namespart[0] $namespart[1] -Force
-
-    $wmwriter.Start($null)
-    $wmwriter.AddFilesInZip($destpath, ".\Source", $ZipFile)
-    $wmwriter.Finish()
-
-    Publish-Status "Extracting $ZipFile..."
-    Expand-Archive -Path $ZipFile -DestinationPath ($pkgdir + "\Source") -Force
-    # Update the feature manifest with this package entry
-    try {
-        $pkgname = "%OEM_NAME%." + $OutputName + ".cab"
-        $feature = $OutputName.ToUpper()
-        $feature = $feature.Replace(".", "_")
-        $fm = New-IoTFMXML $fmxml
-        $fm.AddOEMPackage("%PKGBLD_DIR%", $pkgname, $feature)
-        Publish-Success "Feature ID : $feature"
-    }
-    catch {
-        $msg = $_.Exception.Message
-        Publish-Error "$msg"
-    }
-}
