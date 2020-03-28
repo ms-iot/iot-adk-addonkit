@@ -469,16 +469,25 @@ function Add-IoTFilePackage {
     try {
         $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
+        $FilesArray = @()
         if ($null -ine $Files) {
-            foreach ($File in $Files) {
+            if (($Files.Count -eq 3) -and ($Files[0].Count -eq 1)) {
+                # Single entry - so add padding to make it nested array
+                $FilesArray = @(($Files), ($null, $null, $null))
+            }
+            else {
+                $FilesArray = $Files
+            }
+            foreach ($File in $FilesArray) {
+                if ([string]::IsNullOrEmpty($File[1])) { break; }
+                $srcfile = Split-Path $File[1] -Leaf
+                $destfile = $File[2]
+                if ([string]::IsNullOrWhiteSpace($File[2])) {
+                    $destfile = $srcfile
+                }
+                $wmwriter.AddFiles($File[0], $srcfile, $destfile)
                 if (Test-Path -Path $File[1] -PathType Leaf) {
                     Copy-Item -Path $File[1] -Destination $filedir -Force | Out-Null
-                    $srcfile = Split-Path $File[1] -Leaf
-                    $destfile = $File[2]
-                    if ([string]::IsNullOrWhiteSpace($File[2])) {
-                        $destfile = $srcfile
-                    }
-                    $wmwriter.AddFiles($File[0], $srcfile, $destfile)
                 }
                 else {
                     Publish-Error "$($File[1]) not found"
@@ -555,8 +564,15 @@ function Add-IoTRegistryPackage {
         $wmwriter = New-IoTWMWriter $filedir $names[0] $names[1] -Force
         $wmwriter.Start($null)
         if ($null -ine $RegKeys) {
-            foreach ($RegKey in $RegKeys) {
-                $wmwriter.AddRegKeyValue($RegKey[0], $RegKey[1], $RegKey[2], $RegKey[3])
+            if (($RegKeys.Count -eq 4) -and ($RegKeys[0].Count -eq 1)) {
+                # Single entry
+                $wmwriter.AddRegKeyValue($RegKeys[0], $RegKeys[1], $RegKeys[2], $RegKeys[3])
+            }
+            else {
+                # Multiple Entries
+                foreach ($RegKey in $RegKeys) {
+                    $wmwriter.AddRegKeyValue($RegKey[0], $RegKey[1], $RegKey[2], $RegKey[3])
+                }
             }
         }
         $wmwriter.Finish()

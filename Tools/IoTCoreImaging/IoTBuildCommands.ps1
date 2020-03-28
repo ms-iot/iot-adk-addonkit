@@ -81,7 +81,7 @@ function New-IoTCabPackage {
     # Process special keywords first
     if ($PkgFile -ieq "All") {
         # Process All keyword - Get all wm.xml files in three directories PKGSRC_DIR,BSPSRC_DIR, COMMON_DIR, and the CEPAL dir
-        $filename = Get-ChildItem -Path "$env:COMMON_DIR\Packages", $env:PKGSRC_DIR, $env:BSPSRC_DIR, "$env:SRC_DIR\CEPAL" -File -Filter *.wm.xml -Recurse | Foreach-Object {$_.FullName}
+        $filename = Get-ChildItem -Path "$env:COMMON_DIR\Packages", $env:PKGSRC_DIR, $env:BSPSRC_DIR, "$env:SRC_DIR\CEPAL" -File -Filter *.wm.xml -Recurse | Foreach-Object { $_.FullName }
         if (!$filename) {
             Publish-Error "No .wm.xml files found in the workspace."
             return $false
@@ -110,7 +110,7 @@ function New-IoTCabPackage {
     }
     elseif (Test-Path $PkgFile -PathType Container) {
         # input is a fully qualified directory - Get all wm.xml files in the directory
-        $filename = Get-ChildItem -Path $PkgFile -File -Filter *.wm.xml -Recurse | Foreach-Object {$_.FullName}
+        $filename = Get-ChildItem -Path $PkgFile -File -Filter *.wm.xml -Recurse | Foreach-Object { $_.FullName }
         if (!$filename) {
             Publish-Error "No .wm.xml files found in $PkgFile."
             return $false
@@ -119,12 +119,12 @@ function New-IoTCabPackage {
     }
     else {
         # input is not a fully qualified directory. Check for the directory in the workspace
-        $filedir = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -Directory -Filter $PkgFile -Recurse | Foreach-Object {$_.FullName}
+        $filedir = Get-ChildItem -Path $env:SRC_DIR, $env:COMMON_DIR -Directory -Filter $PkgFile -Recurse | Foreach-Object { $_.FullName }
         if (!$filedir) {
             Publish-Error "$PkgFile not found in the workspace."
             return $false
         }
-        $filename = Get-ChildItem -Path $filedir -File -Filter *.wm.xml -Recurse | Foreach-Object {$_.FullName}
+        $filename = Get-ChildItem -Path $filedir -File -Filter *.wm.xml -Recurse | Foreach-Object { $_.FullName }
         if (!$filename) {
             Publish-Error "No wm xml files found in $filedir"
             return $false
@@ -205,7 +205,7 @@ function Convert-IoTPkg2Wm {
         return $false
     }
     # input is a fully qualified directory - Get all pkg.xml files in the directory
-    $filestoprocess = Get-ChildItem -Path $Path -File -Filter *.pkg.xml -Recurse | Foreach-Object {$_.FullName}
+    $filestoprocess = Get-ChildItem -Path $Path -File -Filter *.pkg.xml -Recurse | Foreach-Object { $_.FullName }
     if (!$filestoprocess) {
         Publish-Status "No .pkg.xml files found in $Path."
         return $true
@@ -317,7 +317,7 @@ function New-IoTProvisioningPackage {
     return $retval
 }
 
-function Call-FeatureMerger {
+function Invoke-FeatureMerger {
     <#
     .SYNOPSIS
     Wrapper around calling FeatureMerger.exe
@@ -404,11 +404,11 @@ function New-IoTFIPPackage {
     Publish-Status "Exporting OEM FM files.."
     (Get-Content -Path "$env:PKGSRC_DIR\OEMFM.xml") -replace "%PKGBLD_DIR%", $env:PKGBLD_DIR -replace "%OEM_NAME%", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\OEMFM.xml -Encoding utf8
     (Get-Content -Path "$env:COMMON_DIR\Packages\OEMCommonFM.xml") -replace "%PKGBLD_DIR%", $env:PKGBLD_DIR -replace "%OEM_NAME%", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\OEMCommonFM.xml -Encoding utf8
-    (Get-Content -Path "$env:PKGSRC_DIR\OEMFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME  | Out-File $env:BLD_DIR\InputFMs\OEMFMFileList.xml -Encoding utf8
+    (Get-Content -Path "$env:PKGSRC_DIR\OEMFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\OEMFMFileList.xml -Encoding utf8
 
     # Running feature merger for OEMFMList
     Publish-Status "Processing OEMFMList.."
-    if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OEMFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_oem.log)) {
+    if (-Not (Invoke-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OEMFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_oem.log)) {
         $retval = $false
     }
     if ($IncludeOCP) {
@@ -417,7 +417,7 @@ function New-IoTFIPPackage {
         [string]$cputype = [string]($env:BSP_ARCH).ToUpper()
         (Get-Content -Path "$env:TEMPLATES_DIR\ocpupdate\OCPUpdateFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME -replace "CPU_TYPE", $cputype | Out-File $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml -Encoding utf8
         Publish-Status "Processing OCPFMList"
-        if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_ocp.log)) {
+        if (-Not (Invoke-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\OCPUpdateFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_ocp.log)) {
             $retval = $false
         }
     }
@@ -430,7 +430,7 @@ function New-IoTFIPPackage {
         (Get-Content -Path "$env:SRC_DIR\CEPAL\CEPALFMFileList.xml") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\CEPALFMFileList.xml -Encoding utf8
 
         Publish-Status "Processing CEPALFMList.."
-        if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\CEPALFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_cepal.log)) {
+        if (-Not (Invoke-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\CEPALFMFileList.xml -LogFileName $env:BLD_DIR\FIPPackage_cepal.log)) {
             $retval = $false
         }
     }
@@ -451,7 +451,7 @@ function New-IoTFIPPackage {
     }
 
     # Check for fm files in the bsp folder and if not found , bail out
-    $fmfile = Get-ChildItem -Path $env:BSPSRC_DIR\$BSP\Packages\ -File -Filter *FM.xml -Recurse | Foreach-Object {$_.FullName}
+    $fmfile = Get-ChildItem -Path $env:BSPSRC_DIR\$BSP\Packages\ -File -Filter *FM.xml -Recurse | Foreach-Object { $_.FullName }
     if ($null -eq $fmfile ) {
         Publish-Error "BSP fm files not found."
         return $false
@@ -473,7 +473,7 @@ function New-IoTFIPPackage {
 
     (Get-Content -Path "$env:BSPSRC_DIR\$BSP\Packages\$bspfmlist") -replace "OEM_NAME", $env:OEM_NAME | Out-File $env:BLD_DIR\InputFMs\$bspfmlist -Encoding utf8
     Publish-Status "Processing $bspfmlist"
-    if (-Not (Call-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\$bspfmlist -LogFileName $env:BLD_DIR\FIPPackage_$BSP.log)) {
+    if (-Not (Invoke-FeatureMerger -FMFileList $env:BLD_DIR\InputFMs\$bspfmlist -LogFileName $env:BLD_DIR\FIPPackage_$BSP.log)) {
         $retval = $false
     }
 
