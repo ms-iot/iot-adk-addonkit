@@ -1,4 +1,5 @@
 @echo off
+
 REM OEM Customization Script file
 REM This script if included in the image, is called everytime the system boots.
 
@@ -21,12 +22,11 @@ REM if exist c:\IoTSec\setup.bitlocker.cmd  (
 REM    call c:\IoTSec\setup.bitlocker.cmd
 REM )
 
-REM Register Powershell Remoting, when using Open Source Powershell
-set PSPATH=C:\windows\system32\Powershell
-if exist %PSPATH%\Install-PowerShellRemoting.ps1 (
-    %PSPATH%\pwsh.exe -Command "Start-Process 'pwsh.exe' -ArgumentList '-ExecutionPolicy Unrestricted -File %PSPATH%\Install-PowerShellRemoting.ps1 -Verb runAs"
-)
-
+    REM Register Powershell Remoting, when using Open Source Powershell
+    if exist C:\windows\system32\Powershell\Install-PowerShellRemoting.ps1 (
+        set PATH=C:\windows\system32\Powershell;%PATH%
+        C:\windows\system32\Powershell\pwsh.exe -ExecutionPolicy Unrestricted -File C:\windows\system32\Powershell\Install-PowerShellRemoting.ps1 >> C:\windows\System32\Winevt\logs\pwsh.txt
+    )
     reg add HKLM\Software\IoT /v FirstBootDone /t REG_DWORD /d 1 /f >nul 2>&1
 )
 
