@@ -439,7 +439,10 @@ function Add-IoTFilePackage {
     Mandatory parameter specifying the list of files to be added to the package (array of arrays). Each entry is an 3 element array containing destinationdir, source file and destination filename in that order.
 
     .EXAMPLE
-    Add-IoTFilePackage Files.Templates
+    ```powershell
+    $Files = @(("\OEM","C:\MyFiles\File.txt","MyFile.txt"))
+    Add-IoTFilePackage Files.Templates $Files
+    ```
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
@@ -485,7 +488,18 @@ function Add-IoTFilePackage {
                 if ([string]::IsNullOrWhiteSpace($File[2])) {
                     $destfile = $srcfile
                 }
-                $wmwriter.AddFiles($File[0], $srcfile, $destfile)
+                if ($File[0].Contains("runtime.")) {
+                    # Explicit path specified. Use as is.
+                    $destpath = $File[0]
+                }
+                else {
+                    # relative path specified. Add prefix.
+                    if (!($File[0].StartsWith("\"))) {
+                        $File[0] = "\" + $File[0]
+                    }
+                    $destpath = "`$(runtime.bootDrive)$($File[0])"
+                }
+                $wmwriter.AddFiles($destpath, $srcfile, $destfile)
                 if (Test-Path -Path $File[1] -PathType Leaf) {
                     Copy-Item -Path $File[1] -Destination $filedir -Force | Out-Null
                 }
@@ -533,7 +547,12 @@ function Add-IoTRegistryPackage {
     Mandatory parameter specifying the reg keys to be specified (array of arrays). Each element should contain reg key, reg value , reg value type and reg value data in that order. For just the keys with no value, the remaining fields can be $null.
 
     .EXAMPLE
-    Add-IoTRegistryPackage Registry.Settings
+    ```powershell
+    $myregkeys = @(
+        ("`$(hklm.software)\`$(OEMNAME)\Test","StringValue", "REG_SZ", "Test string"),
+        ("`$(hklm.software)\`$(OEMNAME)\Test","DWordValue", "REG_DWORD", "0x12AB34CD"))
+    Add-IoTRegistryPackage Reg.Settings $myregkeys
+    ```
 
     .NOTES
     See New-IoTCabPackage to build a cab file.
@@ -1351,7 +1370,7 @@ function Add-IoTZipPackage {
     Mandatory parameter, specifying the zipfile to be imported.
 
     .PARAMETER TargetDir
-    Mandatory parameter specifying the directory name on the target device relative to the rood dir(C:\). 
+    Mandatory parameter specifying the directory name on the target device relative to the root dir(C:\). 
 
     .PARAMETER OutputName
     Mandatory parameter specifying the directory name (namespace.name format) for importing. 

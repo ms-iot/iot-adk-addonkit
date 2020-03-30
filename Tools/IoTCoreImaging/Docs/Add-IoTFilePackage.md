@@ -23,8 +23,18 @@ In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.x
 ## EXAMPLES
 
 ### EXAMPLE 1
+```powershell
+$Files = @(("\OEM","C:\MyFiles\File.txt","MyFile.txt"))
+Add-IoTFilePackage Files.Templates $Files
 ```
-Add-IoTFilePackage Files.Templates
+
+### EXAMPLE 2
+```powershell
+$myfiles = @(
+    ("`$(runtime.system32)","C:\Temp\TestFile1.txt", ""),
+    ("\OEMInstall","C:\Temp\TestFile2.txt", "TestFile2.txt")
+    )
+Add-IoTFilePackage Files.Configs $myfiles
 ```
 
 ## PARAMETERS
@@ -73,5 +83,7 @@ See New-IoTCabPackage to build a cab file.
 
 ## RELATED LINKS
 
-[New-IoTCabPackage](New-IoTCabPackage.md)
+* [Add-IoTDirPackage](Add-IoTDirPackage.md)
+* [Add-IoTZipPackage](Add-IoTZipPackage.md)
+* [New-IoTCabPackage](New-IoTCabPackage.md)
 

@@ -17,7 +17,7 @@ Import-PSCoreRelease [[-Version] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Import Powershell Core Release into your workspace and update the wm xml files. To register this new powershell for remoting, you will need to update the oemcustomizations.cmd file with the following lines for the first boot(run once).
+Import Powershell Core Release into your workspace and update the wm xml files. To register this new powershell for remoting, you will need to update the oemcustomization.cmd file with the following lines for the first boot(run once).
 
 ```cmd
     REM Register Powershell Remoting, when using Open Source Powershell
@@ -63,3 +63,5 @@ For more information, see about_CommonParameters (http://go.microsoft.com/fwlink
 See https://github.com/PowerShell/PowerShell/releases for powershell releases
 
 ## RELATED LINKS
+
+[Add-IoTZipPackage](Add-IoTZipPackage.md)

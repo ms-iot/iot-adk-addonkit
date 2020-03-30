@@ -23,8 +23,11 @@ In addition to that, it also adds a feature id (OutputName) in the OEMCommonFM.x
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Add-IoTRegistryPackage Registry.Settings
+```powershell
+$myregkeys = @(
+    ("`$(hklm.software)\`$(OEMNAME)\Test","StringValue", "REG_SZ", "Test string"),
+    ("`$(hklm.software)\`$(OEMNAME)\Test","DWordValue", "REG_DWORD", "0x12AB34CD"))
+Add-IoTRegistryPackage Reg.Settings $myregkeys
 ```
 
 ## PARAMETERS
