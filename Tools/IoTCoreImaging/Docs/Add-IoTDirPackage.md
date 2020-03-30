@@ -100,3 +100,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Enables easy add multiple files with their folder structure.
 
 ## RELATED LINKS
+
+* [Add-IoTFilePackage](Add-IoTFilePackage.md)
+* [Add-IoTZipPackage](Add-IoTZipPackage.md)
+* [New-IoTCabPackage](New-IoTCabPackage.md)

@@ -100,3 +100,7 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 Enables easy import of opensource packages that are delivered in zip formats.
 
 ## RELATED LINKS
+
+* [Add-IoTDirPackage](Add-IoTDirPackage.md)
+* [Add-IoTFilePackage](Add-IoTFilePackage.md)
+* [New-IoTCabPackage](New-IoTCabPackage.md)
