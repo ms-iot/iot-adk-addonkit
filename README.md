@@ -9,7 +9,10 @@ This project has adopted the [Microsoft Open Source Code of Conduct](http://micr
 ### Master Branch
 
 This branch supports the lastest Windows 10 IoT Core release available ( currently **1809**, version number **10.0.17763.x** ).
-The iot-adk-addonkit is now in Powershell and supports additional features including multiple workspaces. See **[Powershell documentation](./Tools/README.md)** for detailed instructions.
+The iot-adk-addonkit is now in Powershell and supports additional features including multiple workspaces. For more details see
+
+* [IoTCoreImaging Command Listing](./Tools/CommandListing.md)
+* [IoTCoreImaging User Manual](./Tools/README.md)
 
 
 ### Older Versions: **Not Supported**
@@ -50,7 +53,5 @@ See [Windows 10 IoT Core BSPs](https://docs.microsoft.com/windows/iot-core/build
 * Appx.IoTCoreDefaultApp (SmartDisplay.appx, shows up as IoTCoreDefaultAppUnderTest)
   * Source : [Windows-iotcore-samples/samples/IoTCoreDefaultApp](https://github.com/Microsoft/Windows-iotcore-samples/tree/develop/Samples/IoTCoreDefaultApp)
   * Documentation : [IoTCoreDefaultApp](https://docs.microsoft.com/windows/iot-core/develop-your-app/iotcoredefaultapp)
-* Appx.DigitalSign
-  * Source : [ms-iot/samples/DigitalSign](https://github.com/ms-iot/samples/tree/develop/DigitalSign)
 * Appx.IoTCoreOnboardingTask
   * Source : [ms-iot/samples/IoTOnBoarding](https://github.com/ms-iot/samples/tree/develop/IotOnboarding)
