@@ -6,6 +6,7 @@ Powershell version of the iot-adk-addonkit extends the functionality with furthe
 * [Get started](#get-started)
 * [Create a basic image](#create-a-basic-image)
 * [Add your packages to your image](#add-your-packages-to-your-image)
+  * [Adding open source Powershell](#adding-open-source-powershell)
   * [Adding security packages](#adding-security-packages)
 * [Building a retail image](#building-a-retail-image)
 * [Work with existing workspace](#work-with-existing-workspace)
@@ -220,20 +221,19 @@ You can add an appx, driver, provisioning package, files and registry settings t
 
 If you require Powershell, it is recommended to add the latest [Powershell](https://github.com/PowerShell/PowerShell#-powershell) available in the github in your images and you can do this easily with [Import-PSCoreRelease](IoTCoreImaging/Docs/Import-PSCoreRelease.md).
 
-    ```powershell
+```powershell
     Import-PSCoreRelease 7.0.0
-    ```
+```
 
-    This will download the powershell zip from the github and import the files into the workspace. It will also add a feature id `OPENSRC_POWERSHELL` in the OEMFM.xml.
-    You can add this feature to MyProduct using
+This will download the powershell zip from the github and import the files into the workspace. It will also add a feature id `OPENSRC_POWERSHELL` in the OEMFM.xml. You can add this feature to MyProduct using
 
-    ```powershell
+```powershell
     # Add IOT_POWERSHELL for WinRM
     Add-IoTProductFeature MyProduct All IOT_POWERSHELL
     # Add Open source Powershell
     Add-IoTProductFeature MyProduct All OPENSRC_POWERSHELL -OEM
     (or) addfid MyProduct All OPENSRC_POWERSHELL -OEM
-    ```
+```
 
 ### Adding security packages
 
