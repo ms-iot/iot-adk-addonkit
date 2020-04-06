@@ -216,6 +216,25 @@ You can add an appx, driver, provisioning package, files and registry settings t
 
 6. You can build the above packages using `buildpkg` command discussed earlier and create an FFU using `buildimage` command.
 
+### Adding open source Powershell
+
+If you require Powershell, it is recommended to add the latest [Powershell](https://github.com/PowerShell/PowerShell#-powershell) available in the github in your images and you can do this easily with [Import-PSCoreRelease](IoTCoreImaging/Docs/Import-PSCoreRelease.md).
+
+    ```powershell
+    Import-PSCoreRelease 7.0.0
+    ```
+
+    This will download the powershell zip from the github and import the files into the workspace. It will also add a feature id `OPENSRC_POWERSHELL` in the OEMFM.xml.
+    You can add this feature to MyProduct using
+
+    ```powershell
+    # Add IOT_POWERSHELL for WinRM
+    Add-IoTProductFeature MyProduct All IOT_POWERSHELL
+    # Add Open source Powershell
+    Add-IoTProductFeature MyProduct All OPENSRC_POWERSHELL -OEM
+    (or) addfid MyProduct All OPENSRC_POWERSHELL -OEM
+    ```
+
 ### Adding security packages
 
 In order to enable security features such as Secure boot, Bitlocker and Device guard, you will require specific certificates to be created and accessible from the machine where the image is built. See [Turnkey Security on IoT Core](https://docs.microsoft.com/windows/iot-core/secure-your-device/securebootandbitlocker#turnkey-security-on-iot-core) for the details on these security features and [Windows Secure Boot Key Creation and Management Guidance](https://docs.microsoft.com/windows-hardware/manufacture/desktop/windows-secure-boot-key-creation-and-management-guidance) for managing certificates.

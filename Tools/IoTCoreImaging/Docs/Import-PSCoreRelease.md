@@ -17,7 +17,7 @@ Import-PSCoreRelease [[-Version] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Import Powershell Core Release into your workspace and update the wm xml files. To register this new powershell for remoting, you will need to update the oemcustomization.cmd file with the following lines for the first boot(run once).
+Import Powershell Core Release into your workspace and update the wm xml files.It also adds *OPENSRC_POWERSHELL* feature to the OEMFM.xml file. Add this *OPENSRC_POWERSHELL* to your product OEMInput.xml file. To register this new Powershell for remoting, you will need to update the oemcustomization.cmd file with the following lines for the first boot(run once).
 
 ```cmd
     REM Register Powershell Remoting, when using Open Source Powershell
@@ -30,9 +30,14 @@ Import Powershell Core Release into your workspace and update the wm xml files. 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Import-PSCoreRelease  7.0.0
-```
+    ```powershell
+    Import-PSCoreRelease 7.0.0
+    # Add IOT_POWERSHELL for WinRM
+    Add-IoTProductFeature MyProduct All IOT_POWERSHELL
+    # Add Open source Powershell
+    Add-IoTProductFeature MyProduct All OPENSRC_POWERSHELL -OEM
+    (or) addfid MyProduct All OPENSRC_POWERSHELL -OEM
+    ```
 
 ## PARAMETERS
 
