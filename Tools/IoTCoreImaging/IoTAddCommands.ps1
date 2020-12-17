@@ -975,43 +975,13 @@ function Add-IoTDeviceGuard {
     # Policy filenames
     $auditPolicy = "$secdir\AuditPolicy.xml"
     $auditPolicyBin = "$tmpdir\AuditPolicy.bin"
-    $auditPolicyP7b = "$secdir\SIPolicyAudit.p7b"
+    $auditPolicyP7b = "$secdir\SIPolicyAudit"
     $enforcedPolicy = "$secdir\EnforcedPolicy.xml"
     $enforcedPolicyBin = "$tmpdir\enforcedPolicy.bin"
-    $enforcedPolicyP7b = "$secdir\SIPolicyEnforce.p7b"
+    $enforcedPolicyP7b = "$secdir\SIPolicyEnforce"
     $certdir = "$env:IOTWKSPACE\Certs"
     Copy-Item -Path $initialPolicy -Destination $auditPolicy -Force
 
-    # First add the microsoft
-    $ConfigFile = "$PSScriptRoot\IoTEnvSettings.xml"
-    [xml] $Config = Get-Content -Path $ConfigFile
-    $cfgnode = $Config.IoTEnvironment.Security.SIPolicy
-    Push-Location -path $PSScriptRoot\Certs
-    Publish-Status "---Adding Microsoft Certs---"
-    # Add 'user' certs
-    $userCerts = @()
-    $userCerts += ($cfgnode.User.Retail.Cert | Get-Item).FullName
-    if ($Test) {
-        $userCerts += ($cfgnode.User.Test.Cert | Get-Item).FullName
-    }
-    foreach ($cert in $userCerts) {
-        Publish-Status "UserCert : $cert"
-        Add-SignerRule -CertificatePath $cert -FilePath $auditPolicy -user
-    }
-
-    # Add 'kernel' certs
-    $kernelCerts = @()
-    $kernelCerts += ($cfgnode.Kernel.Retail.Cert | Get-Item).FullName
-    if ($Test) {
-        $kernelCerts += ($cfgnode.Kernel.Test.Cert | Get-Item).FullName
-    }
-
-    foreach ($cert in $kernelCerts) {
-        Publish-Status "KernelCert : $cert"
-        # Add kernel certs for kernel and user mode
-        Add-SignerRule -CertificatePath $cert -FilePath $auditPolicy -kernel -user
-    }
-    Pop-Location
     # Add OEM Certificates
     Publish-Status "---Adding OEM Certs---"
     Push-Location -path $certdir
@@ -1076,19 +1046,7 @@ function Add-IoTDeviceGuard {
     }
 
     ConvertFrom-CIPolicy -XmlFilePath $auditPolicy -BinaryFilePath $auditPolicyBin
-    #$SignTool = (get-item -path "$env:KITSROOT\bin\$env:SDK_VERSION\x86\signtool.exe").FullName
-    #& $SignTool sign -v /f $updatePfx /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $auditPolicyBin
-
-    # Use the first update cert to sign
-    $signcertfile = ($sipolicynode.Update.Cert | Select-Object -first 1 | Get-Item ).FullName
-    # Use sha1 thumbprint to identify the cert for signing. Cert must be available in CurrentUser store (from smartcard or local machine)
-    $signcerttp = (Get-PfxCertificate -FilePath $signcertfile).Thumbprint
-
-    signtool sign -v /s my /sha1 $signcerttp /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $auditPolicyBin
-
-    Copy-Item -Path "$auditPolicyBin.p7" -Destination $auditPolicyP7b
     Copy-Item -Path $auditPolicy -Destination $enforcedPolicy -Force
-
     # Disable Audit Mode
     Set-RuleOption -FilePath $enforcedPolicy -Option 3 -Delete
 
@@ -1099,9 +1057,22 @@ function Add-IoTDeviceGuard {
     Set-RuleOption -FilePath $enforcedPolicy -Option 9 -Delete
 
     ConvertFrom-CIPolicy -XmlFilePath $enforcedPolicy -BinaryFilePath $enforcedPolicyBin
-    #& $SignTool sign -v /f $updatePfx /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $enforcedPolicyBin
-    signtool sign -v /s my /sha1 $signcerttp /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $enforcedPolicyBin
-    Copy-Item -Path "$enforcedPolicyBin.p7" -Destination $enforcedPolicyP7b -Force
+
+    # Use the first update cert to sign the policy that gets included by default
+    $signcertfiles = @()
+    $signcertfiles += ($sipolicynode.Update.Cert | Get-Item ).FullName
+    $suffix=""
+    foreach ($signcertfile in $signcertfiles){
+        # Use sha1 thumbprint to identify the cert for signing. Cert must be available in CurrentUser store (from smartcard or local machine)
+        $signcerttp = (Get-PfxCertificate -FilePath $signcertfile).Thumbprint
+
+        signtool sign -v /s my /sha1 $signcerttp /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $auditPolicyBin
+        Copy-Item -Path "$auditPolicyBin.p7" -Destination "$auditPolicyP7b$suffix.p7b"
+
+        signtool sign -v /s my /sha1 $signcerttp /p7 $tmpdir /p7co 1.3.6.1.4.1.311.79.1 /fd sha256 $enforcedPolicyBin
+        Copy-Item -Path "$enforcedPolicyBin.p7" -Destination "$enforcedPolicyP7b$suffix.p7b" -Force
+        $suffix = "-Old"
+    }
 
     try {
         $wmwriter = New-IoTWMWriter $secdir Security $pkgname -Force
