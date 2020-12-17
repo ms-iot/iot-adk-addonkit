@@ -58,14 +58,15 @@
                 <Cert>Contoso-RootPK.cer</Cert>
             </Root>
             <Update>
+                <!-- New Update Signer used as default-->
                 <Cert>Contoso-KEK.cer</Cert>
+                <!-- Old Update Signer used to create SIPolicy**-Old.p7b-->
                 <Cert>OEM-PAUTH.cer</Cert>
             </Update>
             <User>
                 <Test/>
                 <Retail>
                     <Cert>OEM-UMCI.cer</Cert>
-                    <Cert>MicrosoftCrossCert2019.cer</Cert>
                     <Cert>Contoso-UMCI.cer</Cert>
                 </Retail>
             </User>
