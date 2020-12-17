@@ -64,34 +64,5 @@
               </Retail>
           </Database>
       </SecureBoot>
-      <SIPolicy>
-          <User>
-              <!--Automatically inherits Kernel mode certs-->
-              <Test>
-                  <!-- Microsoft OEM App Test Cert 2017 (TEST ONLY) -->
-                  <Cert>Test\OEM_App_Test_Cert_2017.cer</Cert>
-              </Test>
-              <Retail>
-                  <!-- Microsoft MarketPlace PCA 2011 -->
-                  <Cert>Retail\MicrosoftMarketPlacePCA2011.cer</Cert>
-              </Retail>
-          </User>
-          <Kernel>
-              <Test>
-                  <!-- Windows OEM HAL Extension Test Cert 2017 (TEST ONLY) -->
-                  <Cert>Test\OEM_HAL_Extension_Test_Cert_2017.cer</Cert>
-                  <!-- Microsoft Windows PCA 2010 -->
-                  <Cert>Test\MicrosoftWindowsPCA2010.cer</Cert>
-                  <!-- Microsoft Development PCA 2014 -->
-                  <Cert>Test\MicrosoftDevelopmentPCA2014.cer</Cert>
-                  <!-- Microsoft Testing Root Certificate Authority 2010 -->
-                  <Cert>Test\MicrosoftTestingRootCA2010.cer</Cert>
-              </Test>
-              <Retail>
-                  <!-- Microsoft Windows Production PCA 2011 -->
-                  <Cert>Retail\MicWinProPCA2011_2011-10-19.cer</Cert>
-              </Retail>
-          </Kernel>
-      </SIPolicy>
   </Security>
 </IoTEnvironment>
