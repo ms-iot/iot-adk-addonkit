@@ -55,32 +55,16 @@
       <CertRoot Type="Wellknown" Value="04" />
       <CertEKU ID="ID_EKU_WHQL" />
     </Signer>
-    <Signer ID="ID_SIGNER_WINDOWS_FLIGHT_ROOT_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 Windows EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WINDOWS" />
-    </Signer>
-    <Signer ID="ID_SIGNER_ELAM_FLIGHT_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 ELAM EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_ELAM" />
-    </Signer>
-    <Signer ID="ID_SIGNER_HAL_FLIGHT_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 HAL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_HAL_EXT" />
-    </Signer>
-    <Signer ID="ID_SIGNER_WHQL_FLIGHT_SHA2_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 WHQL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WHQL" />
-    </Signer>
     <Signer ID="ID_SIGNER_TEST2010_0_0_0_0_0_0" Name="MincryptKnownRootMicrosoftTestRoot2010">
       <CertRoot Type="Wellknown" Value="0A" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_E_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
+    <Signer ID="ID_SIGNER_S_2_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
       <CertRoot Type="TBS" Value="FF777A73025DD0D1E095F06441916FE06E0228EBA8C354F2FE1C644F65BCCD21" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_11_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
+    <Signer ID="ID_SIGNER_S_5_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
       <CertRoot Type="TBS" Value="02672F1DC52A4293C9ABB81312B3A89401AFF7DBE2627468A9C3ADB5B80A5AE7" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_16_1_0" Name="Microsoft">
+    <Signer ID="ID_SIGNER_S_A_1_0" Name="Microsoft">
       <CertRoot Type="TBS" Value="E8B04503A31F690B791FBBB4863F91CD816ECADD92C568F84F320B88D26749E3" />
     </Signer>
     <Signer ID="ID_SIGNER_WINDOWS_PRODUCTION_USER_0_0_0_0_0_0" Name="Microsoft Product Root 2010 Windows EKU">
@@ -107,22 +91,6 @@
       <CertRoot Type="Wellknown" Value="04" />
       <CertEKU ID="ID_EKU_WHQL" />
     </Signer>
-    <Signer ID="ID_SIGNER_WINDOWS_FLIGHT_ROOT_USER_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 Windows EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WINDOWS" />
-    </Signer>
-    <Signer ID="ID_SIGNER_ELAM_FLIGHT_USER_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 ELAM EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_ELAM" />
-    </Signer>
-    <Signer ID="ID_SIGNER_HAL_FLIGHT_USER_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 HAL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_HAL_EXT" />
-    </Signer>
-    <Signer ID="ID_SIGNER_WHQL_FLIGHT_SHA2_USER_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 WHQL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WHQL" />
-    </Signer>
     <Signer ID="ID_SIGNER_STORE_0_0_0_0_0_0" Name="Microsoft MarketPlace PCA 2011">
       <CertRoot Type="TBS" Value="FC9EDE3DCCA09186B2D3BF9B738A2050CB1A554DA2DCADB55F3F72EE17721378" />
       <CertEKU ID="ID_EKU_STORE" />
@@ -142,10 +110,6 @@
       <CertRoot Type="Wellknown" Value="07" />
       <CertEKU ID="ID_EKU_AM" />
     </Signer>
-    <Signer ID="ID_SIGNER_RT_FLIGHT_0_0_0_0_0_0" Name="Microsoft Flighting Root 2014 RT EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_RT_EXT" />
-    </Signer>
     <Signer ID="ID_SIGNER_RT_STANDARD_0_0_0_0_0_0" Name="Microsoft Standard Root 2001 RT EUK">
       <CertRoot Type="Wellknown" Value="07" />
       <CertEKU ID="ID_EKU_RT_EXT" />
@@ -153,37 +117,37 @@
     <Signer ID="ID_SIGNER_TEST2010_USER_0_0_0_0_0_0" Name="MincryptKnownRootMicrosoftTestRoot2010">
       <CertRoot Type="Wellknown" Value="0A" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_D_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
+    <Signer ID="ID_SIGNER_S_1_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
       <CertRoot Type="TBS" Value="FF777A73025DD0D1E095F06441916FE06E0228EBA8C354F2FE1C644F65BCCD21" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_10_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
+    <Signer ID="ID_SIGNER_S_4_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
       <CertRoot Type="TBS" Value="02672F1DC52A4293C9ABB81312B3A89401AFF7DBE2627468A9C3ADB5B80A5AE7" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_13_1_0_0_0" Name="OEM UMCI Codesigning">
+    <Signer ID="ID_SIGNER_S_7_1_0_0_0" Name="OEM UMCI Codesigning">
       <CertRoot Type="TBS" Value="A792DC8F67816E98F2C2CADED4ECEAB1D223800405BBDC7A22576752C137E797" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_14_1_0_0" Name="Contoso UMCI Codesigning">
+    <Signer ID="ID_SIGNER_S_8_1_0_0" Name="Contoso UMCI Codesigning">
       <CertRoot Type="TBS" Value="041F6C7A516FB47774F44D0B11E5CEFB36A02F5BB100CF8F283B93CFA617CF3A" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_15_1_0" Name="Microsoft">
+    <Signer ID="ID_SIGNER_S_9_1_0" Name="Microsoft">
       <CertRoot Type="TBS" Value="E8B04503A31F690B791FBBB4863F91CD816ECADD92C568F84F320B88D26749E3" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_F_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
+    <Signer ID="ID_SIGNER_S_3_1_0_0_0_0_0" Name="Contoso KEK Secure Boot">
       <CertRoot Type="TBS" Value="FF777A73025DD0D1E095F06441916FE06E0228EBA8C354F2FE1C644F65BCCD21" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_12_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
+    <Signer ID="ID_SIGNER_S_6_1_0_0_0_0" Name="OEM Lockdown Policy Authority">
       <CertRoot Type="TBS" Value="02672F1DC52A4293C9ABB81312B3A89401AFF7DBE2627468A9C3ADB5B80A5AE7" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_17_1" Name="Contoso KMCI Codesigning">
+    <Signer ID="ID_SIGNER_S_B_1" Name="Contoso KMCI Codesigning">
       <CertRoot Type="TBS" Value="AA11259414904C19C488755C62581B44FA508EA3DF7EF167B72E529AF55E0904" />
     </Signer>
-    <Signer ID="ID_SIGNER_S_18_1" Name="Contoso KMCI Codesigning">
+    <Signer ID="ID_SIGNER_S_C_1" Name="Contoso KMCI Codesigning">
       <CertRoot Type="TBS" Value="AA11259414904C19C488755C62581B44FA508EA3DF7EF167B72E529AF55E0904" />
     </Signer>
   </Signers>
   <!--Driver Signing Scenarios-->
   <SigningScenarios>
-    <SigningScenario Value="131" ID="ID_SIGNINGSCENARIO_DRIVERS_1" FriendlyName="Auto generated policy on 12-16-2020">
+    <SigningScenario Value="131" ID="ID_SIGNINGSCENARIO_DRIVERS_1" FriendlyName="Auto generated policy on 12-18-2020">
       <ProductSigners>
         <AllowedSigners>
           <AllowedSigner SignerId="ID_SIGNER_WINDOWS_PRODUCTION_0_0_0_0_0_0" />
@@ -192,19 +156,15 @@
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA2_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA1_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_MD5_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_WINDOWS_FLIGHT_ROOT_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_ELAM_FLIGHT_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_HAL_FLIGHT_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_WHQL_FLIGHT_SHA2_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_TEST2010_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_E_1_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_11_1_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_16_1_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_18_1" />
+          <AllowedSigner SignerId="ID_SIGNER_S_2_1_0_0_0_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_5_1_0_0_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_A_1_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_C_1" />
         </AllowedSigners>
       </ProductSigners>
     </SigningScenario>
-    <SigningScenario Value="12" ID="ID_SIGNINGSCENARIO_WINDOWS" FriendlyName="Auto generated policy on 12-16-2020">
+    <SigningScenario Value="12" ID="ID_SIGNINGSCENARIO_WINDOWS" FriendlyName="Auto generated policy on 12-18-2020">
       <ProductSigners>
         <AllowedSigners>
           <AllowedSigner SignerId="ID_SIGNER_WINDOWS_PRODUCTION_USER_0_0_0_0_0_0" />
@@ -213,40 +173,35 @@
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA2_USER_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA1_USER_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_MD5_USER_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_WINDOWS_FLIGHT_ROOT_USER_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_ELAM_FLIGHT_USER_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_HAL_FLIGHT_USER_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_WHQL_FLIGHT_SHA2_USER_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_STORE_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_RT_PRODUCTION_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_DRM_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_DCODEGEN_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_AM_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_RT_FLIGHT_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_RT_STANDARD_0_0_0_0_0_0" />
           <AllowedSigner SignerId="ID_SIGNER_TEST2010_USER_0_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_D_1_0_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_10_1_0_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_13_1_0_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_14_1_0_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_15_1_0" />
-          <AllowedSigner SignerId="ID_SIGNER_S_17_1" />
+          <AllowedSigner SignerId="ID_SIGNER_S_1_1_0_0_0_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_4_1_0_0_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_7_1_0_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_8_1_0_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_9_1_0" />
+          <AllowedSigner SignerId="ID_SIGNER_S_B_1" />
         </AllowedSigners>
       </ProductSigners>
     </SigningScenario>
   </SigningScenarios>
   <UpdatePolicySigners>
-    <UpdatePolicySigner SignerId="ID_SIGNER_S_F_1_0_0_0_0_0" />
-    <UpdatePolicySigner SignerId="ID_SIGNER_S_12_1_0_0_0_0" />
+    <UpdatePolicySigner SignerId="ID_SIGNER_S_3_1_0_0_0_0_0" />
+    <UpdatePolicySigner SignerId="ID_SIGNER_S_6_1_0_0_0_0" />
   </UpdatePolicySigners>
   <CiSigners>
     <CiSigner SignerId="ID_SIGNER_STORE_0_0_0_0_0_0" />
-    <CiSigner SignerId="ID_SIGNER_S_D_1_0_0_0_0_0" />
-    <CiSigner SignerId="ID_SIGNER_S_10_1_0_0_0_0" />
-    <CiSigner SignerId="ID_SIGNER_S_13_1_0_0_0" />
-    <CiSigner SignerId="ID_SIGNER_S_14_1_0_0" />
-    <CiSigner SignerId="ID_SIGNER_S_15_1_0" />
-    <CiSigner SignerId="ID_SIGNER_S_17_1" />
+    <CiSigner SignerId="ID_SIGNER_S_1_1_0_0_0_0_0" />
+    <CiSigner SignerId="ID_SIGNER_S_4_1_0_0_0_0" />
+    <CiSigner SignerId="ID_SIGNER_S_7_1_0_0_0" />
+    <CiSigner SignerId="ID_SIGNER_S_8_1_0_0" />
+    <CiSigner SignerId="ID_SIGNER_S_9_1_0" />
+    <CiSigner SignerId="ID_SIGNER_S_B_1" />
   </CiSigners>
   <HvciOptions>0</HvciOptions>
   <PolicyTypeID>{A244370E-44C9-4C06-B551-F6016E563076}</PolicyTypeID>

@@ -95,47 +95,6 @@
       <CertEKU ID="ID_EKU_WHQL" />
     </Signer>
     
-    <!-- Flighting related signers -->
-    <Signer ID="ID_SIGNER_WINDOWS_FLIGHT_ROOT" Name="Microsoft Flighting Root 2014 Windows EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WINDOWS" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_ELAM_FLIGHT" Name="Microsoft Flighting Root 2014 ELAM EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_ELAM" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_HAL_FLIGHT" Name="Microsoft Flighting Root 2014 HAL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_HAL_EXT" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_WHQL_FLIGHT_SHA2" Name="Microsoft Flighting Root 2014 WHQL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WHQL" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_WINDOWS_FLIGHT_ROOT_USER" Name="Microsoft Flighting Root 2014 Windows EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WINDOWS" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_ELAM_FLIGHT_USER" Name="Microsoft Flighting Root 2014 ELAM EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_ELAM" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_HAL_FLIGHT_USER" Name="Microsoft Flighting Root 2014 HAL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_HAL_EXT" />
-    </Signer>
-    
-    <Signer ID="ID_SIGNER_WHQL_FLIGHT_SHA2_USER" Name="Microsoft Flighting Root 2014 WHQL EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_WHQL" />
-    </Signer>
-    
     <Signer ID="ID_SIGNER_WHQL_MD5_USER" Name="Microsoft Product Root WHQL EKU MD5">
       <CertRoot Type="Wellknown" Value="04" />
       <CertEKU ID="ID_EKU_WHQL" />
@@ -151,10 +110,6 @@
       <CertEKU ID="ID_EKU_RT_EXT" />
     </Signer>
     
-    <Signer ID="ID_SIGNER_RT_FLIGHT" Name="Microsoft Flighting Root 2014 RT EKU">
-      <CertRoot Type="Wellknown" Value="0E" />
-      <CertEKU ID="ID_EKU_RT_EXT" />
-    </Signer>
     
     <Signer ID="ID_SIGNER_RT_STANDARD" Name="Microsoft Standard Root 2001 RT EUK">
       <CertRoot Type="Wellknown" Value="07" />
@@ -195,10 +150,6 @@
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA2" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA1" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_MD5" />
-          <AllowedSigner SignerId="ID_SIGNER_WINDOWS_FLIGHT_ROOT" />
-          <AllowedSigner SignerId="ID_SIGNER_ELAM_FLIGHT" />
-          <AllowedSigner SignerId="ID_SIGNER_HAL_FLIGHT" />
-          <AllowedSigner SignerId="ID_SIGNER_WHQL_FLIGHT_SHA2" />
           <!-- Test signer is trusted by ConfigCI, however, it will not be trusted by CI unless testsigning BCD is set -->
           <AllowedSigner SignerId="ID_SIGNER_TEST2010" />
         </AllowedSigners>
@@ -215,16 +166,11 @@
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA2_USER" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA1_USER" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_MD5_USER" />
-          <AllowedSigner SignerId="ID_SIGNER_WINDOWS_FLIGHT_ROOT_USER" />
-          <AllowedSigner SignerId="ID_SIGNER_ELAM_FLIGHT_USER" />
-          <AllowedSigner SignerId="ID_SIGNER_HAL_FLIGHT_USER" />
-          <AllowedSigner SignerId="ID_SIGNER_WHQL_FLIGHT_SHA2_USER" />
           <AllowedSigner SignerId="ID_SIGNER_STORE" />
           <AllowedSigner SignerId="ID_SIGNER_RT_PRODUCTION" />
           <AllowedSigner SignerId="ID_SIGNER_DRM" />
           <AllowedSigner SignerId="ID_SIGNER_DCODEGEN" />
           <AllowedSigner SignerId="ID_SIGNER_AM" />
-          <AllowedSigner SignerId="ID_SIGNER_RT_FLIGHT" />
           <AllowedSigner SignerId="ID_SIGNER_RT_STANDARD" />
           <!-- Test signer is trusted by ConfigCI, however, it will not be trusted by CI unless testsigning BCD is set -->
           <AllowedSigner SignerId="ID_SIGNER_TEST2010_USER" />
