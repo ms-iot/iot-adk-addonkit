@@ -153,7 +153,7 @@ goto :SIGNLOOP
 
 :FILELISTCOMPLETE
 
-if "%SIGN_WITH_TIMESTAMP%"=="1" set TIMESERVER=/t http://timestamp.verisign.com/scripts/timestamp.dll
+if "%SIGN_WITH_TIMESTAMP%"=="1" set TIMESERVER=/t http://timestamp.digicert.com/scripts/timestamp.dll
 set SIGNTOOL_EXE=signtool.exe
 
 echo %SIGNTOOL_EXE% sign /v %Certificate% %PAGE_HASH% %TIMESERVER% %TESTFILEIDARG% %FILELIST%
