@@ -137,6 +137,15 @@
       <CertRoot Type="Wellknown" Value="07" />
       <CertEKU ID="ID_EKU_AM" />
     </Signer>
+
+    <Signer ID="ID_SIGNER_CAB" Name="Microsoft Code Signing PCA 2011">
+      <CertRoot Type="TBS" Value="F6F717A43AD9ABDDC8CEFDDE1C505462535E7D1307E630F9544A2D14FE8BF26E" />
+    </Signer>
+
+    <Signer ID="ID_SIGNER_CAB1" Name="Microsoft Code Signing PCA 2011">
+      <CertRoot Type="TBS" Value="F6F717A43AD9ABDDC8CEFDDE1C505462535E7D1307E630F9544A2D14FE8BF26E" />
+    </Signer>
+
   </Signers>
   
   <SigningScenarios>
@@ -150,6 +159,7 @@
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA2" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_SHA1" />
           <AllowedSigner SignerId="ID_SIGNER_WHQL_MD5" />
+          <AllowedSigner SignerId="ID_SIGNER_CAB" />
           <!-- Test signer is trusted by ConfigCI, however, it will not be trusted by CI unless testsigning BCD is set -->
           <AllowedSigner SignerId="ID_SIGNER_TEST2010" />
         </AllowedSigners>
@@ -172,6 +182,7 @@
           <AllowedSigner SignerId="ID_SIGNER_DCODEGEN" />
           <AllowedSigner SignerId="ID_SIGNER_AM" />
           <AllowedSigner SignerId="ID_SIGNER_RT_STANDARD" />
+          <AllowedSigner SignerId="ID_SIGNER_CAB1" />
           <!-- Test signer is trusted by ConfigCI, however, it will not be trusted by CI unless testsigning BCD is set -->
           <AllowedSigner SignerId="ID_SIGNER_TEST2010_USER" />
         </AllowedSigners>
@@ -196,18 +207,19 @@
       We need to allow enterprise signing scenario to trust store certificate.
     -->
     <CiSigner SignerId="ID_SIGNER_STORE" />
+    <CiSigner SignerId="ID_SIGNER_CAB1" />
   </CiSigners>
 
   <HvciOptions>0</HvciOptions>
   <Settings>
     <Setting Provider="PolicyInfo" Key="Information" ValueName="Name">
       <Value>
-        <String>DefaultWindowsEnforced</String>
+        <String>IoTCorePolicy</String>
       </Value>
     </Setting>
     <Setting Provider="PolicyInfo" Key="Information" ValueName="Id">
       <Value>
-        <String>031017</String>
+        <String>{DATE}</String>
       </Value>
     </Setting>
   </Settings>

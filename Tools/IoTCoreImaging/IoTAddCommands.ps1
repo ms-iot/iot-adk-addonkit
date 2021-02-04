@@ -980,8 +980,9 @@ function Add-IoTDeviceGuard {
     $enforcedPolicyBin = "$tmpdir\enforcedPolicy.bin"
     $enforcedPolicyP7b = "$secdir\SIPolicyEnforce"
     $certdir = "$env:IOTWKSPACE\Certs"
-    Copy-Item -Path $initialPolicy -Destination $auditPolicy -Force
-
+    # Copy-Item -Path $initialPolicy -Destination $auditPolicy -Force
+    $bldtime = Get-Date -Format "yyMMdd-HHmm"
+    (Get-Content $initialPolicy) -replace "{DATE}", $bldtime | Out-File $auditPolicy -Encoding utf8 -Force
     # Add OEM Certificates
     Publish-Status "---Adding OEM Certs---"
     Push-Location -path $certdir
