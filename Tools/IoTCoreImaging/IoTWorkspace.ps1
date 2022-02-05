@@ -36,6 +36,7 @@ function Invoke-IoTWorkspace {
     [System.Environment]::SetEnvironmentVariable("SIGN_WITH_TIMESTAMP", 0)
 
     [System.Environment]::SetEnvironmentVariable("WPDKCONTENTROOT", $Win10KitsRoot)
+    [System.Environment]::SetEnvironmentVariable("REPO_TEST_CERTS_PATH", "$env:TOOLS_DIR\TestCerts")
 
     $key = "Registry::HKEY_CLASSES_ROOT\Installer\Dependencies\Microsoft.Windows.WindowsDeploymentTools.x86.10"
     if (Test-Path $key) {
@@ -73,13 +74,14 @@ function Invoke-IoTWorkspace {
     #check if test certs are installed and if not, installoemcerts
     #Thumbprint                                Subject
     #----------                                -------
-    #5D7630097BE5BDB731FC40CD4998B69914D82EAD  CN=Windows OEM Test Cert 2017 (TEST ONLY), O=Microsoft Partner, OU=Windows, L=Redmond, S=Washington, C=US
-    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object { $_.Thumbprint -ieq "5D7630097BE5BDB731FC40CD4998B69914D82EAD" }
+    #3ec2a996bd5319d0f6137917a1678e785e69e350  CN=Windows OEM Test Cert 2017 (TEST ONLY), O=Microsoft Partner, OU=Windows, L=Redmond, S=Washington, C=US
+    $signcerts = Get-ChildItem -Path cert: -CodeSigningCert -Recurse | where-object { $_.Thumbprint -ieq "3ec2a996bd5319d0f6137917a1678e785e69e350" }
     # Install the certs if no signcerts found.
     if ($null -eq $signcerts) {
         InstallOemCerts
+        Publish-Success "Installing Test certs"
     }
-    else { Publish-Success "Test certs installed" }
+    else { Publish-Success "Test certs already installed" }
 }
 function New-IoTWorkspaceXML {
     <#
