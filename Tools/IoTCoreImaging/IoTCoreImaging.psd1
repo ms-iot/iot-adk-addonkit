@@ -12,7 +12,7 @@
 RootModule = 'IoTCoreImaging.psm1'
 
 # Version number of this module.
-ModuleVersion = '7.0.210203.1200'
+ModuleVersion = '7.0.220217.0848'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
