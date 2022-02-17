@@ -484,7 +484,7 @@ function Write-IoTVersions {
     $pOS = Get-CimInstance Win32_OperatingSystem
 
     Publish-Status "HostOS Info : $($pOS.Caption) - $($pOS.Version) - $($pOS.MUILanguages)"
-    if (-not $pOS.Caption.Contains("Enterprise")) {
+    if (-not ($pOS.Caption.Contains("Enterprise") -or $pOS.Caption.Contains("LTSC"))) {
         Publish-Error "Host OS Enterprise Edition required for using Security functions such as Device Guard"
     }
 }
